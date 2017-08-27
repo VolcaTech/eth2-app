@@ -1,0 +1,51 @@
+{
+  "contract_name": "DirectProxy",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "depositVal",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "deposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "payable": true,
+      "type": "fallback"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b600080555b5b60c9806100246000396000f3006060604052361560465763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663612d809e8114604e578063d0e30db0146070575b5b600080fd5b005b3415605857600080fd5b605e6088565b60405190815260200160405180910390f35b605e608e565b60405190815260200160405180910390f35b60005481565b60008054349081019091555b905600a165627a7a72305820c6f7b71758e2f306617a1a51a2798f503a5a295a52131572aa5f91a3a24f7e360029",
+  "networks": {
+    "1503841901239": {
+      "events": {},
+      "links": {},
+      "address": "0x3cbdf0f018ba488c20de443f5ee8a401ca6e04c3",
+      "updated_at": 1503843889509
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1503843889509
+}
