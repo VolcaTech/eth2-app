@@ -116,18 +116,13 @@ contract VerifiedProxy {
     return true;
   }
 
-  function verifySignature(bytes32 to, uint8 v, bytes32 r, bytes32 s)
+  function verifySignature(address to, uint8 v, bytes32 r, bytes32 s)
     constant returns(address retAddr) {
-    //bytes32 prefixedHash = sha3(to);
-    retAddr = ecrecover(to, v, r, s);
-  }
+    bytes32 prefixedHash = sha3(to);
+    retAddr = ecrecover(prefixedHash, v, r, s);
+  }  
 
-  function getSha3(address to) constant returns(bytes32) {
-    return sha3(to);
-  }
-  
-
-    function withdrawThroughVerifier
+    function withdraw
       (address pubKey, address to, uint8 v, bytes32 r, bytes32 s)
       returns (bool) {
       Transfer storage transferOrder = transferDct[pubKeyDct[pubKey]];
@@ -135,7 +130,7 @@ contract VerifiedProxy {
       // checks
       require(msg.sender == verifier); // only through verifier can withdraw transfer;
       require(transferOrder.status == 0); // only pending transfers can be withdrawn;
-      //require(verifySignature(to, v, r, s ) == pubKey);
+      require(verifySignature(to, v, r, s ) == pubKey);
       transferOrder.status = 1; // closed
 
       // transfer ether back to sender
