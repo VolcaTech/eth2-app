@@ -10,7 +10,8 @@ function parseTransfer(result) {
 	status: result[1].toNumber(),
 	from: result[2].toString('hex'),
 	to: result[3].toString('hex'),
-	amount: result[4].toNumber()
+	amount: result[4].toNumber(),
+	blocknumber: result[5].toNumber()
     };
 }
 
@@ -195,7 +196,7 @@ contract('DirectProxy', function(accounts) {
 
 
 	it("can be canceled by sender", function(done) {	    
-	    getIncomingTransfer()
+	    getSentTransfer()
 		.then(function(transfer) {
 		    //console.log("transfer id: ", transfer);
 		    return {tx: directProxyInstance.cancelTransfer(transfer.id, {from: aliceAddress, gas: 3000000}), transferId: transfer.id};
@@ -208,13 +209,13 @@ contract('DirectProxy', function(accounts) {
 		}).catch(done);
 	});
 
-	it("cannot be canceled by sender", function(done) {
+	it("cannot be canceled by receiver", function(done) {
 	    var transferId;
-	    getSentTransfer()
+	    getIncomingTransfer()
 		.then(function(transfer) {
 		    ////console.log("transfer id: ", transfer);
 		    transferId = transfer.id;
-		    return directProxyInstance.withdraw(transfer.id, {from: aliceAddress, gas: 3000000});
+		    return directProxyInstance.cancelTransfer(transfer.id, {from: bobAddress, gas: 3000000});
 		}).catch(function(err) {
 		    // passing error from smart contract
 		}).then(function() {
@@ -222,7 +223,7 @@ contract('DirectProxy', function(accounts) {
 		    return directProxyInstance.getTransfer.call(transferId,{from: aliceAddress});
 		}).then(parseTransfer).then(function(transfer) {
 		    //console.log("checking statas");
-		    assert.equal(transfer.status, 0, "status is updated to cancelled.");		    		    		    
+		    assert.equal(transfer.status, 0, "status is not updated to cancelled.");		    		    		    
 		    done();
 		}).catch(done);
 	});

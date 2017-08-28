@@ -1,13 +1,15 @@
 pragma solidity 0.4.15;
 
-contract DirectProxy {
+contract VerifiedProxy {
 
   uint private counter; // for setting transfer id
+  address public verifier; // address of the verification server
+  uint public commission; // in wei
+
   struct Transfer {
     uint id;
     uint status; // 0 - pending, 1 - closed, 2 - cancelled;
     address from;
-    address to;
     uint amount;
     uint blocknumber;
   }
@@ -15,15 +17,18 @@ contract DirectProxy {
   // key value mappings
   mapping (uint => Transfer) transferDct;
   mapping (address => uint[]) senderDct;
-  mapping (address => uint[]) receiverDct;
+  mapping (address => uint) pubKeyDct;
 
-  function DirectProxy() {
+  function VerifiedProxy(address _verifier, uint _comission) {
     counter = 0;
+    verifier = _verifier;
+    commission = _comission;
   }
 
   // deposit ether to smart contract
-  function deposit(address receiver) payable returns(uint id) {
+  function deposit(address pubKey) payable returns(uint id) {
     require(msg.value > 0); // throw if no value sent
+    require(msg.value > commission);
     counter += 1;
 
     // saving transfer details
@@ -31,14 +36,16 @@ contract DirectProxy {
 				    counter,
 				    0, // pending status
 				    msg.sender,
-				    receiver,
-				    msg.value,
-				    block.number
+				    (msg.value - commission), // minus verification fee
+				        block.number
 				    );
 
     // add transfer to mappings
     senderDct[msg.sender].push(counter);
-    receiverDct[receiver].push(counter);
+    pubKeyDct[pubKey] = counter;
+
+    // send fee to verification server
+    verifier.transfer(commission);
 
     return counter;
   }
@@ -48,15 +55,10 @@ contract DirectProxy {
     return senderDct[msg.sender].length;
   }
 
-  function getIncomingTransfersCount() constant returns(uint count) {
-    return receiverDct[msg.sender].length;
-  }
-
   // get transfer from sender list by index
   function getSentTransfer(uint transferIndex) constant returns (uint id,
 								 uint status, // 0 - pending, 1 - closed, 2 - cancelled;
 								 address from,
-								 address to,
 								 uint amount,
 								 uint blocknumer) {
     uint transferId = senderDct[msg.sender][transferIndex];
@@ -65,35 +67,30 @@ contract DirectProxy {
 	    transfer.id,
 	    transfer.status,
 	    transfer.from,
-	    transfer.to,
 	    transfer.amount,
-	    transfer.blocknumber
+	            transfer.blocknumber
 	    );
   }
 
   // get transfer from sender list by index
-  function getIncomingTransfer(uint transferIndex) constant returns (uint id,
-								     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
-								     address from,
-								     address to,
-								     uint amount,
-								     uint blocknumber) {
-    uint transferId = receiverDct[msg.sender][transferIndex];
-    Transfer memory transfer = transferDct[transferId];
+  function getTransferByPubKey(address pubKey) constant returns (uint id,
+								 uint status, // 0 - pending, 1 - closed, 2 - cancelled;
+								 address from,
+								 uint amount,
+								 uint blocknumber) {
+    Transfer memory transfer = transferDct[pubKeyDct[pubKey]];
     return (
 	    transfer.id,
 	    transfer.status,
 	    transfer.from,
-	    transfer.to,
 	    transfer.amount,
-	    transfer.blocknumber
+	            transfer.blocknumber
 	    );
   }
 
   function getTransfer(uint transferId) constant returns (uint id,
-							     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
-							     address from,
-							     address to,
+							  uint status, // 0 - pending, 1 - closed, 2 - cancelled;
+							  address from,
 							  uint amount,
 							  uint blocknumber) {
     Transfer memory transfer = transferDct[transferId];
@@ -101,13 +98,12 @@ contract DirectProxy {
 	    transfer.id,
 	    transfer.status,
 	    transfer.from,
-	    transfer.to,
 	    transfer.amount,
-	    transfer.blocknumber
+	            transfer.blocknumber
 	    );
   }
 
-  
+
   function cancelTransfer(uint transferId) returns (bool) {
     Transfer storage transferOrder = transferDct[transferId];
     // checks
@@ -120,23 +116,37 @@ contract DirectProxy {
     return true;
   }
 
-  function withdraw(uint transferId) returns (bool) {
-    Transfer storage transferOrder = transferDct[transferId];
-
-    // checks
-    require(msg.sender == transferOrder.to); // only receiver can withdraw transfer;
-    require(transferOrder.status == 0); // only pending transfers can be withdrawn;
-    transferOrder.status = 1; // closed
-
-    // transfer ether back to sender
-    transferOrder.to.transfer(transferOrder.amount);
-    return true;
+  function verifySignature(bytes32 to, uint8 v, bytes32 r, bytes32 s)
+    constant returns(address retAddr) {
+    //bytes32 prefixedHash = sha3(to);
+    retAddr = ecrecover(to, v, r, s);
   }
 
-  // fallback function
-  function() payable {
-    // do not receive ether by default
-    revert();
+  function getSha3(address to) constant returns(bytes32) {
+    return sha3(to);
   }
+  
+
+    function withdrawThroughVerifier
+      (address pubKey, address to, uint8 v, bytes32 r, bytes32 s)
+      returns (bool) {
+      Transfer storage transferOrder = transferDct[pubKeyDct[pubKey]];
+
+      // checks
+      require(msg.sender == verifier); // only through verifier can withdraw transfer;
+      require(transferOrder.status == 0); // only pending transfers can be withdrawn;
+      //require(verifySignature(to, v, r, s ) == pubKey);
+      transferOrder.status = 1; // closed
+
+      // transfer ether back to sender
+      to.transfer(transferOrder.amount);
+
+      return true;
+    }
+
+    // fallback function
+    function() payable {
+      // do not receive ether by default
+      revert();
+    }
 }
-
