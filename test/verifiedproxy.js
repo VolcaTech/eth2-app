@@ -142,9 +142,17 @@ contract('VerifiedProxy', function(accounts) {
 
     describe("signature verification", function() {
 
-	it("can correctly recognize address for signature", function(done) {	    
+	it("can correctly recognize address for signature", function(done) {
+	    console.log(receiverAddress);
+	    console.log({v});
+	    console.log({r});
+	    console.log({s});
 	    verifiedproxyInstance.verifySignature.call(receiverAddress, v, r, s, {from: verifierAddress})
+	    
+
+	    
 		.then(function(result) {
+		    console.log(result);
 		    assert.equal(result.toLowerCase(), verificationPublicKey.toLowerCase(), "it didn't correctly recognized signature");
 		    done();
 		}).catch(done);
@@ -274,7 +282,7 @@ contract('VerifiedProxy', function(accounts) {
 	});
 	    
 
-	it("can be canceled by sender", function(done) {	    
+	it("can be cancelled by sender", function(done) {	    
 	    getSentTransfer()
 		.then(function(transfer) {
 		    //console.log("transfer id: ", transfer);

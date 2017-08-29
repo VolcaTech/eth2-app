@@ -27,7 +27,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
       results = {
         web3: web3
       }
-
+      
       console.log('No web3 instance injected, using Local web3.');
 
       resolve(results)
