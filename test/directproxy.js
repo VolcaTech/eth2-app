@@ -28,8 +28,8 @@ contract('DirectProxy', function(accounts) {
 
     function initBalances() {
 	//console.log("initing balances");
-	aliceAddress = accounts[1];
-	bobAddress = accounts[2];
+	aliceAddress = accounts[0];
+	bobAddress = accounts[1];
 	web3.eth.getBalancePromise(aliceAddress).then(function(result) {
 	    ////console.log("got alice balance: ", result.toString());
 	    initialBalances.alice = result;
@@ -59,7 +59,7 @@ contract('DirectProxy', function(accounts) {
 	    initBalances();
 	});
 
-	it("contract should not accept ether to address", function() {
+	xit("contract should not accept ether to address", function() {
 	    web3.eth.sendTransactionPromise({to: directProxyInstance.address, from: aliceAddress, value: oneEth}).catch(function() {
 		    // passing error
 		})
@@ -78,7 +78,7 @@ contract('DirectProxy', function(accounts) {
 	    initBalances();
 	});
 	
-    	it("ether is correctly transfered to smart contract", function(done) {
+    	xit("ether is correctly transfered to smart contract", function(done) {
 	    directProxyInstance.deposit(bobAddress, {from: aliceAddress, value: oneEth})	    
 		.then(function(txId) {
     		    return web3.eth.getBalancePromise(directProxyInstance.address)})
@@ -134,7 +134,7 @@ contract('DirectProxy', function(accounts) {
 	    });
 	}
 	
-    	it("can be fetched by sender", function(done) {
+    	xit("can be fetched by sender", function(done) {
 	    getSentTransfer()
 		.then(function(transfer) {
 		    assert.equal(transfer.id, beforeSentCount+1, "count is correct.");
@@ -147,7 +147,7 @@ contract('DirectProxy', function(accounts) {
 		.catch(done);	    
 	});
 	    
-	    it("can be fetched by receiver", function(done) {
+	    xit("can be fetched by receiver", function(done) {
 		getIncomingTransfer()
 		    .then(function(transfer) {
 			assert.equal(transfer.id, beforeIncomingCount+1, "count is correct.");
@@ -164,7 +164,7 @@ contract('DirectProxy', function(accounts) {
 	    getIncomingTransfer()
 		.then(function(transfer) {
 		    //console.log("transfer id: ", transfer);
-		    return {tx: directProxyInstance.withdraw(transfer.id, {from: bobAddress, gas: 3000000}), transferId: transfer.id};
+		    return {tx: directProxyInstance.withdraw(transfer.id, {from: bobAddress, gas: 1000000}), transferId: transfer.id};
 		}).then(function({tx, transferId}) {
 		    //console.log(transferId);
 		    return directProxyInstance.getTransfer.call(transferId, {from: bobAddress});
@@ -174,7 +174,7 @@ contract('DirectProxy', function(accounts) {
 		}).catch(done);
 	});
     
-	it("cannot be withdrawn by sender", function(done) {
+	xit("cannot be withdrawn by sender", function(done) {
 	    var transferId;
 	    getSentTransfer()
 		.then(function(transfer) {
@@ -195,7 +195,7 @@ contract('DirectProxy', function(accounts) {
 	    
 
 
-	it("can be canceled by sender", function(done) {	    
+	xit("can be canceled by sender", function(done) {	    
 	    getSentTransfer()
 		.then(function(transfer) {
 		    //console.log("transfer id: ", transfer);
@@ -209,7 +209,7 @@ contract('DirectProxy', function(accounts) {
 		}).catch(done);
 	});
 
-	it("cannot be canceled by receiver", function(done) {
+	xit("cannot be canceled by receiver", function(done) {
 	    var transferId;
 	    getIncomingTransfer()
 		.then(function(transfer) {

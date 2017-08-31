@@ -132,10 +132,10 @@ contract VerifiedProxy {
       require(transferOrder.status == 0); // only pending transfers can be withdrawn;
       require(verifySignature(to, v, r, s ) == pubKey);
       transferOrder.status = 1; // closed
-
+      
       // transfer ether back to sender
       to.transfer(transferOrder.amount);
-
+      
       return true;
     }
 

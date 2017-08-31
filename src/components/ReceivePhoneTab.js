@@ -4,7 +4,7 @@ import serverApi from "../quid-server-api"
 //import ReceivePhoneVerify from "./ReceivePhoneVerify"
 import ksHelper from'../keystoreHelper';
 import sha3 from 'solidity-sha3';
-
+const util = require("ethereumjs-util");
 
 export default class ReceivePhoneTab extends Component {
 
@@ -43,12 +43,27 @@ export default class ReceivePhoneTab extends Component {
         }).then(function(result) {
             console.log(result);
             const msg = sha3(component.state.to);
+	    
             const signature = ksHelper.signTx(result.transfer.verificationKeystoreData, component.state.code, msg);
+	    console.log("signature: ", signature);
 
-            return serverApi.confirmTx(component.state.phone, 
+	    const v = signature.v;
+	    const r =  '0x' + signature.r.toString("hex");
+	    const s =  '0x' + signature.s.toString("hex");	    	    
+	    const sigParams = `"${component.state.to}",${v},"${r}","${s}"`;
+	    console.log({sigParams});
+	    
+	    // TESTING SIG
+	    const pub = util.ecrecover(util.toBuffer(msg), signature.v, signature.r, signature.s);
+	    const adr = '0x' + util.pubToAddress(pub).toString('hex');
+	    console.log({adr});
+	    // /TESTING SIG
+	    
+            return serverApi.confirmTx(
+		component.state.phone, 
                 component.state.code,  
                 component.state.smsCode, 
-                component.state.to, signature.v, signature.r, signature.s);
+                component.state.to, v, r, s);
         }).then(function(result) {
             console.log({result})
             alert("Success!")

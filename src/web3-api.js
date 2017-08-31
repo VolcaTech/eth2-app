@@ -50,22 +50,23 @@ const api = {
             {
                 success: true,
                 result: "0x54668hvr6"
-            }
-        )
+		  }
+        );
     },
 
     sendVerificationProxyTransfer:function(pubkey, amount, phone, verificationCode){
         const weiAmount = amount * 1000000000000000000;
-        console.log("sending verified proxy", pubkey)
-        const contract = require('truffle-contract')
-        const verifiedProxy = contract(VerifiedProxy)
-        verifiedProxy.setProvider(api.web3.currentProvider)
+        console.log("sending verified proxy", pubkey);
+        const contract = require('truffle-contract');
+        const verifiedProxy = contract(VerifiedProxy);
+        verifiedProxy.setProvider(api.web3.currentProvider);
         return verifiedProxy.deployed().then((instance) => {
-            console.log("got instance: ", instance, api.web3.eth.accounts[0], pubkey)
-            return instance.deposit(api.web3.toHex(pubkey), {from: api.web3.eth.accounts[0], value: weiAmount, nonce: Date.now()})
+            console.log("got instance: ", instance, api.web3.eth.accounts[0], pubkey);
+	    console.log("from: ", api.web3.eth.accounts[0]);
+            return instance.deposit(api.web3.toHex(pubkey), {from: api.web3.eth.accounts[0], value: weiAmount, nonce: Date.now()});
         }).then(function(result)  { 
-            return (api.web3.eth.accounts[0])
-        })
+            return (api.web3.eth.accounts[0]);
+        });
     },
 
     cancelSimpleProxyTransfer:function(txHash){
@@ -74,7 +75,7 @@ const api = {
                 success: true,
                 result: "0x54668hvr6"
             }
-        )
+        );
     },
 
     cancelVerificationProxyTransfer:function(txHash){
@@ -83,7 +84,7 @@ const api = {
                 success: true,
                 result: "0x54668hvr6"
             }
-        )
+        );
     },
 
     //receiverApi

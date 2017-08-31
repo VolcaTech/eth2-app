@@ -123,7 +123,7 @@ contract DirectProxy {
   function withdraw(uint transferId) returns (bool) {
     Transfer storage transferOrder = transferDct[transferId];
 
-    // checks
+    /* // checks */
     require(msg.sender == transferOrder.to); // only receiver can withdraw transfer;
     require(transferOrder.status == 0); // only pending transfers can be withdrawn;
     transferOrder.status = 1; // closed
