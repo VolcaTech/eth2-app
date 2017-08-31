@@ -1,5 +1,5 @@
-import Promise from "bluebird"
-import VerifiedProxy from './../build/contracts/VerifiedProxy.json'
+import Promise from "bluebird";
+import VerifiedProxy from './../../build/contracts/VerifiedProxy.json';
 
 
 function stubPromise(returnData) {
@@ -117,22 +117,15 @@ const api = {
                     }
                 ]
             }
-        )
+        );
     },
-
-    getBalance:function(){
-        return stubPromise(
-            "15.6"
-        )
-    },
-
     isConnected:function(){
         if (api.web3 === undefined) {
             console.log("web3 is undefined")
             return false
         }
-        console.log(api.web3)
-        return api.web3.isConnected()
+        console.log(api.web3);
+        return api.web3.isConnected();
     },
 
     getBalance:function(){
@@ -140,14 +133,14 @@ const api = {
             console.log("web3 is undefined")
             return 0
         }
-        const address = api.getAddress()
+        const address = api.getAddress();
         return api.web3.eth.getBalancePromise(address)
-        .then(function(bal) { return api.web3.fromWei(bal, "ether").toString() })
+            .then(function(bal) { return api.web3.fromWei(bal, "ether").toString(); });
     },
 
     getAddress:function(){
         if (api.web3 === undefined) {
-            console.log("web3 is undefined")
+            console.log("web3 is undefined");
             return "no address"
         }
         return api.web3.eth.accounts[0]
