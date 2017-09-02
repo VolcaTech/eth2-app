@@ -17,7 +17,8 @@ export default class ReceivePhoneTab extends Component {
             phone: "",
             code: "",
             smsCode: "",
-            to: ""
+            to: "",
+	    txId: ""
         };
     }
 
@@ -38,9 +39,10 @@ export default class ReceivePhoneTab extends Component {
     }
 
     
-    onConfirmSuccess() {
+    onConfirmSuccess(txId) {
         this.setState({
-	    stepId:3
+	    stepId:3,
+	    txId
         });
     };
 
@@ -72,11 +74,22 @@ export default class ReceivePhoneTab extends Component {
 	    break;
 	case 2:
 	    stepComponent = (
-		    <ConfirmForm onSuccess={() => component.onConfirmSuccess() }
-		phone={this.state.phone} code={this.state.code}
+		    <ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId) }
+		phone={this.state.phone} code={this.state.code} to={this.state.to}
 		    />
 	    );
 	    break;
+	case 3:
+	    stepComponent = (
+		    <div>
+		    Success! Transfer is succesfully received!
+                    <div>
+		      Tx Id: {this.state.txId}
+		    </div>
+		    </div>
+	    );
+	    break;
+	    
 	default:
 	    stepComponent = (
 		    <div>
@@ -92,7 +105,10 @@ export default class ReceivePhoneTab extends Component {
             <div>
 		{ ( this.state.stepId !== 0)  ?
 		  <div className="m-b">
-		     Address: {this.state.to } 
+		  <label> Receiver Address: </label>
+		  <div>
+		  {this.state.to }
+		  </div>
 		  </div>: ""
 		}
                 { this._stepComponent() }

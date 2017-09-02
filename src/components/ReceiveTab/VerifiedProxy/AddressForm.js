@@ -3,6 +3,9 @@ import web3Api from "../../../utils/web3-common-api";
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import AddressRadioSelect from './AddressRadioSelect';
 import ksHelper from'../../../utils/keystoreHelper';
+
+const fileDownload = require('react-file-download');
+
 //import ksHelper from'../../../utils/keystoreHelper';
 //const util = require("ethereumjs-util");
 
@@ -60,6 +63,14 @@ export default class AddressForm extends Component {
 	    this.setState({address, keystoreData});
 	}
     }
+
+    downloadKeystoreData() {
+	if (!this.state.keystoreData) {
+	    this.setState({error: "Generate wallet first!"});
+	} else {
+	    fileDownload(this.state.keystoreData, `keystore-${Date.now()}.json`);	    
+	}
+    }
     
     
     render() {
@@ -82,7 +93,7 @@ export default class AddressForm extends Component {
 	);
 
 	const generateWallet = (
-		<div class="m--t-mg m--b">
+		<div className="m--t-mg m--b">
 		<div>
   	        <label> Password</label>
 		<div className="row">
@@ -90,15 +101,24 @@ export default class AddressForm extends Component {
                    <input placeholder="Password" className="form-control" type="text" onChange={(event)=>this.setState({password:event.target.value})} />
 		</div>
 		<div className="col-sm-6">
-		   <a className="btn btn-md btn-accent" onClick={()=>this.generateWallet()}> Generate </a>
+		   <a className="btn btn-md btn-default" onClick={()=>this.generateWallet()}> Generate </a>
 		</div>
 		</div>
 		</div>
 		<div>
 		<label> Address: </label>
+		<div className="row">
+		 <div className="col-sm-6">		
 		<p className="form-control">
 		{ this.state.address }
 	    </p>
+		</div>
+		<div className="col-sm-6">
+		<a className="btn btn-md btn-default" onClick={()=>this.downloadKeystoreData()}> Download Keystore </a>
+		</div>
+		</div>
+
+		
 	  	</div>
 		<div>
 		<label> Kestore Data: (copy this content to secure location) </label>

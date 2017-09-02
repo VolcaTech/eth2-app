@@ -9,7 +9,8 @@ export default class ReceivePhoneTab extends Component {
         this.state = {
             phone: "",
             code: "",
-	    error: ""
+	    error: "",
+	    isFetching: false
         };
     }
 
@@ -17,16 +18,19 @@ export default class ReceivePhoneTab extends Component {
     submit() {
         const component = this;
         console.log(this.state);
+	this.setState({isFetching: true});
         serverApi.claimPhone(this.state.phone, this.state.code).then(function(result) {
             console.log({result});
 	    if (!result.success) {
 		throw new Error((result.errorMessage || "Server error"));
 	    }
+	    component.setState({isFetching: false});	    
 	    component.props.onSuccess(component.state.phone, component.state.code);
         }).catch(function(err) {
 	    console.log({err});
 	    component.setState({
-		error: err.message
+		error: err.message,
+		isFetching: false
 	    });
 	});
     }
@@ -58,6 +62,8 @@ export default class ReceivePhoneTab extends Component {
                     </div>
                     <br />
                 <div>
+                {this.state.isFetching ? <div className="loader-spin"></div> : ""}
+		
                 <a className="btn btn-md btn-default" onClick={()=>component.goBack()}> Go Back </a>		
                 <a className="btn btn-md btn-accent" onClick={()=>component.submit()}> Submit </a>
 		
