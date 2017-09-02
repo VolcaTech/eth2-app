@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SendTab from './SendTab/SendTab';
-import ReceiveTab from  './SendTab/SendTab';
+import ReceiveTab from  './ReceiveTab/ReceiveTab';
 
 export default class Tab extends Component {
     constructor(props) {

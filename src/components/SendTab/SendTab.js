@@ -16,13 +16,15 @@ export default class Tab extends Component {
         this.setState({activeTab: tabName});
     }
 
+
+    
     render() {
+     //<li className={("DirectProxy" === this.state.activeTab) ? "active" : ""}><a data-toggle="tab" href="#tab-6" onClick={() => this.changeTab("DirectProxy")}>Address</a></li>	
         return (
             <div className="tabs-container">
                 <div className="tabs-left">
                     <ul className="nav nav-tabs">
-                        <li className={("verifiedProxy" === this.state.activeTab) ? "active" : ""}><a data-toggle="tab" href="#tab-6" onClick={() => this.changeTab("verifiedProxy")}>Phone</a></li>
-                       <li className={("DirectProxy" === this.state.activeTab) ? "active" : ""}><a data-toggle="tab" href="#tab-6" onClick={() => this.changeTab("DirectProxy")}>Address</a></li>
+                        <li className={("verifiedProxy" === this.state.activeTab) ? "active" : ""}><a data-toggle="tab" href="#tab-6" onClick={() => this.changeTab("verifiedProxy")}>Verified Proxy</a></li>
                     </ul>
                     <div className="tab-content">
                         <div id="tab-6" className="tab-pane active">
