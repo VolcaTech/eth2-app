@@ -1,5 +1,6 @@
 import Promise from "bluebird";
 import getWeb3 from './getWeb3';
+import verifiedProxyContractApi from "./verified-proxy-contract-api";
 
 function detectNetwork(networkId) {
     var networkName;
@@ -38,9 +39,11 @@ function generateWeb3Api() {
     let _loaded = false;
     
     function fetchBalance(addr) {
+	if (!addr) {
+	    return 0;
+	}
 	return web3.eth.getBalancePromise(addr);
     }
-
     
     function setup(){
 	// Get network provider and web3 instance.
@@ -48,7 +51,6 @@ function generateWeb3Api() {
 	return getWeb3 
 	    .then(results => {		
 		web3 = results.web3;
-
 		Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 		return web3.eth.accounts[0];
 	    })
@@ -58,9 +60,16 @@ function generateWeb3Api() {
 		_loaded = true;				
 		_balance = web3.fromWei(bal, "ether").toString();
 		_connected = web3.isConnected();
-		_networkId = web3.version.network;
+		try {
+		    _networkId = web3 && web3.version && web3.version.network;
+		} catch (err) {
+		    console.log("error: ", err);
+		    _networkId = -1;
+		}
 		_networkName = detectNetwork(_networkId);
-		return true;
+	    }).then(() => {
+		verifiedProxyContractApi.setup(web3);
+		return _networkId !== -1;
 	    });
     }
 
@@ -72,6 +81,7 @@ function generateWeb3Api() {
 	isLoaded: () => _loaded,
 	getNetworkId: () => _networkId,
 	getNetworkName: () => _networkName,
+	web3: web3,
 	setup
     };
 }

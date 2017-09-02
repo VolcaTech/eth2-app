@@ -3,28 +3,40 @@ import VerifiedProxy from './../../build/contracts/VerifiedProxy.json';
 const contract = require('truffle-contract');
 
 
-const api = {
-    sendTransfer: function(pubkey, amount, phone, verificationCode){
-        const weiAmount = amount * 1000000000000000000;
-        console.log("sending verified proxy", pubkey);
-        const verifiedProxy = contract(VerifiedProxy);
-        verifiedProxy.setProvider(api.web3.currentProvider);
-        return verifiedProxy.deployed().then((instance) => {
-            console.log("got instance: ", instance, api.web3.eth.accounts[0], pubkey);
-	    console.log("from: ", api.web3.eth.accounts[0]);
-            return instance.deposit(api.web3.toHex(pubkey), {from: api.web3.eth.accounts[0], value: weiAmount, nonce: Date.now()});
-        }).then(function(result)  { 
-            return (api.web3.eth.accounts[0]);
-        });
-    },    
-    cancelTransfer:function(txHash){
-        return stubPromise(
-            {
-                success: true,
-                result: "0x54668hvr6"
-            }
-        );
+function generateVerifiedProxyApi() {
+    
+
+    var web3, contractInstance, deployed;
+    
+    function setup(_web3) {
+	web3 = _web3;
+	const verifiedProxy = contract(VerifiedProxy);
+        verifiedProxy.setProvider(web3.currentProvider);
+        return verifiedProxy.deployed().then(function(instance) {
+	    if (instance) {
+		contractInstance = instance;
+		deployed = true;
+	    }
+	    console.log(" verified contract proxy is set up!");
+	    return true;	    
+	});
     }
+    
+    function sendTransfer(pubkey, amount, phone, verificationCode){
+	if (! deployed) {
+	    alert("Verified Proxy Contract Is not deployed to selected network!");
+	    return null;
+	}	
+        const weiAmount = web3.toWei(amount, "ether");
+	return contractInstance.deposit(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount});
+    }
+
+    // api
+    return {
+	sendTransfer,
+	setup
+    };
+    
 }
 
-export default api;
+export default generateVerifiedProxyApi();

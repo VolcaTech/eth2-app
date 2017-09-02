@@ -61,7 +61,12 @@ const Web3StatusContent = ({web3Loaded, noWeb3}) => {
 };
 
 
-const Web3StatusBar = (props) => {
+class Web3StatusBar extends React.Component {
+
+
+    render() {
+	//console.log(this.props);
+	const props = this.props;
     return (
 
 <div className="row m-t-sm">
@@ -81,6 +86,6 @@ const Web3StatusBar = (props) => {
 	    </div>
     );
 }
-
+}
 
 export default Web3StatusBar;

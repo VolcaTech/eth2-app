@@ -1,18 +1,17 @@
-import React, { Component } from 'react'
-import SendTab from './SendTab'
-import ReceiveTab from './ReceiveTab'
+import React, { Component } from 'react';
+import SendTab from './SendTab/SendTab';
+import ReceiveTab from  './SendTab/SendTab';
 
 export default class Tab extends Component {
     constructor(props) {
-        super(props)
-
+        super(props);
         this.state = {
             activeTab: "sendTab"
-        }
+        };
     }
 
     changeTab(tabName){
-        this.setState({activeTab: tabName})
+        this.setState({activeTab: tabName});
     }
 
     render() {
@@ -25,10 +24,9 @@ export default class Tab extends Component {
                 <div className="tab-content">
                     <div id="tab-1" className="tab-pane active">
                         <div className="panel-body">
-                        {("sendTab" === this.state.activeTab) ? <SendTab/> : <ReceiveTab/>}
+                          {("sendTab" === this.state.activeTab) ? <SendTab/> : <ReceiveTab/>}
                         </div>
                     </div>
-                    
                 </div>
             </div>
         )
