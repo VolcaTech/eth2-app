@@ -50,14 +50,14 @@ export default class ReceivePhoneTab extends Component {
                     <div>
                         <label>
                             Verification code
-                </label>
+                        </label>
                     </div>
                     <div>
                         <input className="form-control" type="text"  onChange={(event)=>this.setState({code:event.target.value})} />
                     </div>
                     <br />
                 <div>
-                <a className="btn btn-md btn-accent" onClick={()=>component.submit()}>Send</a>
+                <a className="btn btn-md btn-accent" onClick={()=>component.submit()}> Submit </a>
 		
 		<span style={ {color: "red"}} > {component.state.error }</span>
 
