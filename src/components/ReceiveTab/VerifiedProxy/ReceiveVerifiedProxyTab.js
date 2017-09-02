@@ -6,13 +6,14 @@ import sha3 from 'solidity-sha3';
 const util = require("ethereumjs-util");
 
 import PhoneForm from './PhoneForm';
+import AddressForm from './AddressForm';
 import ConfirmForm from './ConfirmForm';
 
 export default class ReceivePhoneTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stepId: 1,
+            stepId: 0,
             phone: "",
             code: "",
             smsCode: "",
@@ -27,6 +28,15 @@ export default class ReceivePhoneTab extends Component {
 	    phone
         });
     }
+
+
+    onAddressChosen(address) {
+        this.setState({
+	    stepId:1,
+	    to: address
+        });
+    }
+
     
     onConfirmSuccess() {
         this.setState({
@@ -34,14 +44,30 @@ export default class ReceivePhoneTab extends Component {
         });
     };
 
+    goTo(stepId) {
+        this.setState({
+	    stepId
+        });
+    };
+
+    
 
     _stepComponent() {
 	const component = this;
 	let stepComponent = null;
 	switch (this.state.stepId) {
+	case 0: 
+	    stepComponent = (
+		    <AddressForm onSuccess={(address) => component.onAddressChosen(address)}/>
+	    );
+	    break;
+	    
 	case 1: 
 	    stepComponent = (
-		    <PhoneForm onSuccess={(phone, code) => component.onPhoneSuccess(phone, code)}/>
+		    <PhoneForm
+		      onSuccess={(phone, code) => component.onPhoneSuccess(phone, code)}
+                goBack={() => this.goTo(0)}
+		    />
 	    );
 	    break;
 	case 2:
@@ -64,6 +90,11 @@ export default class ReceivePhoneTab extends Component {
     render() {	
         return (
             <div>
+		{ ( this.state.stepId !== 0)  ?
+		  <div className="m-b">
+		     Address: {this.state.to } 
+		  </div>: ""
+		}
                 { this._stepComponent() }
             </div>
         );

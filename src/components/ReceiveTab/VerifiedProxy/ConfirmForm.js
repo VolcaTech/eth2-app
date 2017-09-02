@@ -15,18 +15,12 @@ export default class ReceivePhoneTab extends Component {
         };
     }
 
-    componentDidMount() {
-	const address = web3Api.getAddress();	
-        this.setState({to: address });
-    }
-
     submit() {
         const component = this;
         console.log(this.state);
         serverApi.verifyPhone(this.props.phone, this.props.code, this.state.smsCode)
 	    .then(function(result) {
 		console.log({result});
-		component.setState({buttonIsPressed:true});
 		return result;
             }).then(function(result) {
 		console.log(result);
@@ -67,9 +61,6 @@ export default class ReceivePhoneTab extends Component {
             
         <div className="radio radio-warning">
           
-            <label>
-		Connected Address: { component.state.to }
-	    </label>
 
             <div>
                 <input type="text" onChange={(event)=>this.setState({smsCode:event.target.value})} />

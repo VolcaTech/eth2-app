@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import serverApi from "../../../utils/quid-server-api";
-//import web3Api from "../../../utils/web3-common-api";
-//import ksHelper from'../../../utils/keystoreHelper';
 import sha3 from 'solidity-sha3';
 const util = require("ethereumjs-util");
 
@@ -33,6 +31,9 @@ export default class ReceivePhoneTab extends Component {
 	});
     }
 
+    goBack() {
+	this.props.goBack();
+    }
     
     render() {
         const component = this;
@@ -57,13 +58,13 @@ export default class ReceivePhoneTab extends Component {
                     </div>
                     <br />
                 <div>
+                <a className="btn btn-md btn-default" onClick={()=>component.goBack()}> Go Back </a>		
                 <a className="btn btn-md btn-accent" onClick={()=>component.submit()}> Submit </a>
 		
 		<span style={ {color: "red"}} > {component.state.error }</span>
 
                 </div>
-
-            </form>
+		</form>
         );
     }
 }
