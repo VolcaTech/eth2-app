@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-//import VerificationCode from "./VerificationCode";
+import Phone from 'react-phone-number-input';
+import rrui from 'react-phone-number-input/rrui.css';
+import rpni from 'react-phone-number-input/style.css';
+
 import Modal from "./modal";
 
 import serverApi from "../../../utils/quid-server-api";
@@ -8,6 +11,8 @@ import sha3 from 'solidity-sha3';
 import ksHelper from '../../../utils/keystoreHelper';
 import verifiedProxyContractApi from "../../..//utils/verified-proxy-contract-api";
 import History from "./History";
+
+
 
 export default class Form extends Component {
     
@@ -96,7 +101,9 @@ export default class Form extends Component {
 	    <label>
 		Phone number
   	    </label>
-	    <input className="form-control" type="text" value={component.state.phone} onChange={(event) => component.setState({ phone: event.target.value })} />		
+	    <Phone placeholder="Enter phone number"
+	    value={ this.state.phone }
+	    onChange={ phone => this.setState({ phone }) } />
 	</div>
 	<div className="m-t">
 		<label>
