@@ -42,11 +42,11 @@ export default class Form extends Component {
     }
     showModal() {
 	this.setState({showModal: true });
-    }
-
+    }    
     
     handleSubmit() {
 	const component = this;
+	let transferId;
 	if (this.state.phone.length > 0 && this.state.amount.length > 0) {
 	    const secretCode = this.generateCode();
 	    const {address, ksData} = this.generateWallet(secretCode);
@@ -57,26 +57,22 @@ export default class Form extends Component {
 		sendingTx: true,
 		errorMsg: ""
 	    });
-	    verifiedProxyContractApi.sendTransfer(address, this.state.amount, this.state.phone, secretCode)
-		.then(function(_from) {
-		    // secret code is never pushed to server
-		    // only hashed code
-	    	    const hashedCode = sha3(component.state.phone, secretCode);
-		    console.log("params send to server: ", hashedCode);
-		    const from = web3Api.getAddress();
-	    	    return serverApi.sendTransfer(component.state.phone, component.state.amount, ksData, address, hashedCode, from);
-		}).then((result) => {
-		    console.log({result});
-		    let error = false;
+
+	    transferId = sha3(component.state.phone + secretCode);
+	    console.log({transferId});
+	    serverApi.sendTransferKeystore(transferId, component.state.phone, ksData)
+		.then(function(result) {
 		    let errorMsg = "";		    
 		    if (!result || !result.success) {
-			error = true;
-			errorMsg = result.errorMsg || "Server error!";			
+		    	errorMsg = result.errorMsg || "Server error!";
+			throw new Error(errorMsg);
 		    }
+		    
+	    	    return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
+		}).then((result) => {
+		    console.log({result});		    
 	    	    component.setState({
 			sendingTx: false,
-			error,
-			errorMsg,
 			historyUpdateCounter: 1
 	    	    });
 		}).catch((err) => {
@@ -84,7 +80,7 @@ export default class Form extends Component {
 	    	    component.setState({
 			sendingTx: false,
 			error: true,
-			errorMsg: err
+			errorMsg: (err.msg || err)
 	    	    });		    
 		});
 	}

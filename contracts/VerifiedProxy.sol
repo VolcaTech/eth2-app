@@ -66,7 +66,7 @@ contract VerifiedProxy {
 	    transfer.status,
 	    transfer.from,
 	    transfer.amount,
-	                transfer.blocknumber
+	    transfer.blocknumber
 	    );
   }
 
