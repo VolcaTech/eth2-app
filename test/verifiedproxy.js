@@ -25,6 +25,11 @@ signature = sign(verificationPrivateKey, verificationHash.toString("hex"));
 
 
 
+function generateTransferId() {
+    const PHONE = "123456789";    
+    return sha3(PHONE + Math.random().toString(32).slice(5).toUpperCase());
+}
+
 v = signature.v;
 r =  '0x' + signature.r.toString("hex");
 s =  '0x' + signature.s.toString("hex");	    
@@ -33,11 +38,11 @@ const sigParams = `"${receiverAddress}",${v},"${r}","${s}"`;
 
 function parseTransfer(result) {
     return {
-	id: result[0].toNumber(),
+	id: result[0].toString(),
 	status: result[1].toNumber(),
 	from: result[2].toString('hex'),
 	amount: result[3].toNumber(),
-	blocknumber: result[4].toNumber()	
+	blocknumber: result[4].toNumber()
     };
 }
 
@@ -121,7 +126,7 @@ contract('VerifiedProxy', function(accounts) {
 	});
 	
     	it(" is correct for contract", function(done) {
-	    verifiedproxyInstance.deposit(verificationPublicKey, {from: senderAddress, value: oneEth})	    
+	    verifiedproxyInstance.deposit(verificationPublicKey, generateTransferId(), {from: senderAddress, value: oneEth})	    
 		.then(function(txId) {
     		    return web3.eth.getBalancePromise(verifiedproxyInstance.address)})
 
@@ -133,7 +138,7 @@ contract('VerifiedProxy', function(accounts) {
 	});
 
     	it(" is correct for verifier", function(done) {
-	    verifiedproxyInstance.deposit(verificationPublicKey, {from: senderAddress, value: oneEth})	    
+	    verifiedproxyInstance.deposit(verificationPublicKey, generateTransferId(), {from: senderAddress, value: oneEth})	    
 		.then(function(txId) {
     		    return web3.eth.getBalancePromise(verifierAddress);})
 		.then(function(verifierBalanceAfterTx) {
@@ -150,18 +155,18 @@ contract('VerifiedProxy', function(accounts) {
 	    // console.log({v});
 	    // console.log({r});
 	    // console.log({s});
-	    verifiedproxyInstance.verifySignature.call(receiverAddress, v, r, s, {from: verifierAddress})	    
+	    verifiedproxyInstance.verifySignature.call(verificationPublicKey, receiverAddress, v, r, s, {from: verifierAddress})	    
 		.then(function(result) {
 		    // console.log(result);
-		    assert.equal(result.toLowerCase(), verificationPublicKey.toLowerCase(), "it didn't correctly recognized signature");
+		    assert.equal(result, true, "it didn't correctly recognized signature");
 		    done();
 		}).catch(done);
 	});
 	
 	it("returns different address for antother receiver", function(done) {
-	    verifiedproxyInstance.verifySignature.call(senderAddress, v, r, s, {from: verifierAddress})
+	    verifiedproxyInstance.verifySignature.call(verificationPublicKey, senderAddress, v, r, s, {from: verifierAddress})
 		.then(function(result) {
-		    assert.notEqual(result.toLowerCase(), verificationPublicKey.toLowerCase(), "it didn't correctly recognized signature");
+		    assert.equal(result, false, "it didn't correctly recognized signature");
 		    done();
 		}).catch(done);
 
@@ -176,7 +181,7 @@ contract('VerifiedProxy', function(accounts) {
 		.then(function(count) {
 		    beforeSentCount = count.toNumber();
 		}).then(function() {
-		    return verifiedproxyInstance.deposit(verificationPublicKey, {from: senderAddress, value: oneEth});
+		    return verifiedproxyInstance.deposit(verificationPublicKey, generateTransferId(), {from: senderAddress, value: oneEth});
 		}).catch(function(err) {
 		    // console.log("err: ", err);
 		});
@@ -193,11 +198,11 @@ contract('VerifiedProxy', function(accounts) {
 	    });
 	}
 
-	function getTransferByPubKey() {
-	    return makeTransfer().then(function() {
-		return verifiedproxyInstance.getTransferByPubKey.call(verificationPublicKey,{from: verifierAddress})	    
-	    }).then(parseTransfer);
-	}
+	// function getTransferByPubKey() {
+	//     return makeTransfer().then(function() {
+	// 	return verifiedproxyInstance.getTransferByPubKey.call(verificationPublicKey,{from: verifierAddress})	    
+	//     }).then(parseTransfer);
+	// }
 
 	
     	it("can be fetched by sender", function(done) {
@@ -212,27 +217,27 @@ contract('VerifiedProxy', function(accounts) {
 		.catch(done);	    
 	});
 	    
-	it("can be fetched by pub key", function(done) {
-	    getTransferByPubKey()
-		.then(function(transfer) {
-			//assert.equal(transfer.id, beforeIncomingCount+1, "count is correct.");
-			assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
-			assert.equal(transfer.from, senderAddress, "sender is correct.");
-			assert.equal(transfer.status, 0, "status is correct.");		    		    		    
-			done();
-		    })
-		    .catch(done);	    
-	    });
+	// it("can be fetched by pub key", function(done) {
+	//     getTransferByPubKey()
+	// 	.then(function(transfer) {
+	// 		//assert.equal(transfer.id, beforeIncomingCount+1, "count is correct.");
+	// 		assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
+	// 		assert.equal(transfer.from, senderAddress, "sender is correct.");
+	// 		assert.equal(transfer.status, 0, "status is correct.");		    		    		    
+	// 		done();
+	// 	    })
+	// 	    .catch(done);	    
+	//     });
 
 	
     	it("can be withdrawn with correct signature and through verifier", function(done) {
 	    var transfer;
-	    getTransferByPubKey()
+	    getSentTransfer()
 		.then(function(_transfer) {
 		    transfer = _transfer;
-		    return verifiedproxyInstance.withdraw(verificationPublicKey, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
+		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
 		}).then(function() {
-		    return verifiedproxyInstance.getTransferByPubKey.call(verificationPublicKey, {from: verifierAddress});
+		    return verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
 		}).then(parseTransfer).then(function(_transfer) {
 		    transfer = _transfer;
 		    assert.equal(transfer.status, 1, "status is updated to withdrawn (1).");
@@ -249,7 +254,7 @@ contract('VerifiedProxy', function(accounts) {
 		.then(function(transfer) {
 		    ////// console.log("transfer id: ", transfer);
 		    transferId = transfer.id;
-		    return verifiedproxyInstance.withdraw(verificationPublicKey, receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});
+		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});
 		}).catch(function(err) {
 		    // passing error from smart contract
 		}).then(function() {
@@ -266,14 +271,14 @@ contract('VerifiedProxy', function(accounts) {
 
 	it("cannot be withdrawn through verifier without correct signature", function(done) {
 	    var transfer;
-	    getTransferByPubKey()
+	    getSentTransfer()
 		.then(function(_transfer) {
 		    transfer = _transfer;
-		    return verifiedproxyInstance.withdraw(verificationPublicKey, senderAddress, v, r, s, {from: verifierAddress, gas: 3000000});
+		    return verifiedproxyInstance.withdraw(transfer.id, senderAddress, v, r, s, {from: verifierAddress, gas: 3000000});
 		}).catch(function() {
 		    // passing error
 		}).then(function() {
-		    return verifiedproxyInstance.getTransferByPubKey.call(verificationPublicKey, {from: verifierAddress});
+		    return verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
 		}).then(parseTransfer).then(function(_transfer) {
 		    transfer = _transfer;
 		    assert.equal(transfer.status, 0, "status is incorrectly updated to withdrawn 0.");
@@ -298,7 +303,7 @@ contract('VerifiedProxy', function(accounts) {
 
 	it("cannot be canceled by verifier", function(done) {
 	    var transferId;
-	    getTransferByPubKey()
+	    getSentTransfer()
 		.then(function(transfer) {
 		    ////// console.log("transfer id: ", transfer);
 		    transferId = transfer.id;
