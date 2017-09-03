@@ -1,7 +1,8 @@
 import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
 
-const SERVER_URL =  'http://localhost:8000';
+//const SERVER_URL =  'http://localhost:8000';
+const SERVER_URL =  'http://165.227.188.60:8000';
 
 const api = {
     sendTransferKeystore:function(transferId, phone,  ksData) {

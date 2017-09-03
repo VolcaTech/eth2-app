@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import Phone from 'react-phone-number-input';
+import Phone, {
+    formatPhoneNumber,
+    parsePhoneNumber,
+}from 'react-phone-number-input';
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 
@@ -90,7 +93,13 @@ export default class Form extends Component {
 		});
 	}
     }
-
+	    // <Phone placeholder="Enter phone number"
+	    // value={ this.state.phone }
+	    // onChange={ value  => {
+	    // 	const phone = formatPhoneNumber( parsePhoneNumber( value ), 'National' );
+	    // 	console.log({phone});		
+	    // 	this.setState({ phone })} } />
+    
     render() {
 	const component = this;
 
@@ -101,9 +110,8 @@ export default class Form extends Component {
 	    <label>
 		Phone number
   	    </label>
-	    <Phone placeholder="Enter phone number"
-	    value={ this.state.phone }
-	    onChange={ phone => this.setState({ phone }) } />
+
+	    <input className="form-control" type="text" value={component.state.phone} onChange={(event) => component.setState({ phone: event.target.value })} />				
 	</div>
 	<div className="m-t">
 		<label>
@@ -142,8 +150,6 @@ export default class Form extends Component {
     <div className="col-sm-12">
 
 		{!this.state.confirmPressed ?  form : txDetails }
-
-
                 <History updateCounter={this.state.historyUpdateCounter} />	    
 		<Modal sendingTx={component.state.sendingTx}
 	    code={component.state.code}
