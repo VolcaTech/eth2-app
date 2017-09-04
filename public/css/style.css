@@ -31,6 +31,8 @@
   color: #949ba2;
   background-color: transparent;
   border-color: #f6a821;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 .btn-accent:focus,
 .btn-accent.focus {

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Phone, {
-    formatPhoneNumber,
-    parsePhoneNumber,
-}from 'react-phone-number-input';
+import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from 'react-phone-number-input';
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
+import { parse, format, asYouType } from 'libphonenumber-js';
 
 import Modal from "./modal";
 
@@ -15,156 +13,169 @@ import ksHelper from '../../../utils/keystoreHelper';
 import verifiedProxyContractApi from "../../..//utils/verified-proxy-contract-api";
 import History from "./History";
 
-
-
 export default class Form extends Component {
-    
-    constructor(props) {
-	console.log("constructor");
-	super(props);
-	this.state = {
-	    phone: '',
-	    amount: '',
-	    code: '',
-	    confirmPressed: false,
-	    showModal: false,
-	    sendingTx: false,
-	    error: false,
-	    errorMsg: "",
-	    historyUpdateCounter: 0 // counter is updated in order to <History /> to fetch new transfer
-	};
-    }
 
-    generateCode() {
-	const random = Math.random().toString(32).slice(5).toUpperCase();
-	return random;
-    }
-    
-    generateWallet(secretCode) {
-	const {address, keystoreData } = ksHelper.create(secretCode);
-	return {address, ksData: keystoreData};
-    }        
+	constructor(props) {
+		console.log("constructor");
+		super(props);
+		this.state = {
+			phone: '1',
+			phoneCode: '',
+			amount: '',
+			code: '',
+			confirmPressed: false,
+			showModal: false,
+			sendingTx: false,
+			error: false,
+			errorMsg: "",
+			phoneIsValid: false,
+			historyUpdateCounter: 0 // counter is updated in order to <History /> to fetch new transfer
+		};
+	}
 
-    closeModal() {
-	this.setState({showModal: false });
-    }
-    showModal() {
-	this.setState({showModal: true });
-    }    
-    
-    handleSubmit() {
-	const component = this;
-	let transferId;
-	if (this.state.phone.length > 0 && this.state.amount.length > 0) {
+	generateCode() {
+		const random = Math.random().toString(32).slice(5).toUpperCase();
+		return random;
+	}
+
+	generateWallet(secretCode) {
+		const { address, keystoreData } = ksHelper.create(secretCode);
+		return { address, ksData: keystoreData };
+	}
+
+	closeModal() {
+		this.setState({ showModal: false });
+	}
+	showModal() {
+		this.setState({ showModal: true });
+	}
+
+	handleSubmit() {
+	    this.setState({ errorMsg: "", error: false });
+	    const component = this;
+	    let transferId;
+	    if (this.state.phoneIsValid === false) {
+		this.setState({ errorMsg: "Invalid phone number", error: true });
+		return null;
+	    }
+	    if (this.state.amount.length === 0) {
+		this.setState({ errorMsg: "Wrong amount", error: true });
+		return null;
+	    }
 	    const secretCode = this.generateCode();
-	    const {address, ksData} = this.generateWallet(secretCode);
+	    const { address, ksData } = this.generateWallet(secretCode);
 	    component.setState({
-	    	confirmPressed : true,
-	    	code: secretCode,
+		confirmPressed: true,
+		code: secretCode,
 		showModal: true,
 		sendingTx: true,
 		errorMsg: ""
 	    });
-
+	    
 	    transferId = sha3(component.state.phone + secretCode);
-	    console.log({transferId});
+	    console.log({ transferId });
 	    serverApi.sendTransferKeystore(transferId, component.state.phone, ksData)
-		.then(function(result) {
-		    let errorMsg = "";		    
+		.then(function (result) {
+		    let errorMsg = "";
 		    if (!result || !result.success) {
-		    	errorMsg = result.errorMsg || "Server error!";
+			errorMsg = result.errorMsg || "Server error!";
 			throw new Error(errorMsg);
 		    }
 		    
-	    	    return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
+		    return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
 		}).then((result) => {
-		    console.log({result});		    
-	    	    component.setState({
+		    console.log({ result });
+		    component.setState({
 			sendingTx: false,
 			historyUpdateCounter: 1
-	    	    });
+		    });
 		}).catch((err) => {
-		    console.log({err});
-	    	    component.setState({
+				console.log({ err });
+		    component.setState({
 			sendingTx: false,
-			error: true,
+					error: true,
 			errorMsg: (err.msg || err)
-	    	    });		    
+		    });
 		});
 	}
-    }
-	    // <Phone placeholder="Enter phone number"
-	    // value={ this.state.phone }
-	    // onChange={ value  => {
-	    // 	const phone = formatPhoneNumber( parsePhoneNumber( value ), 'National' );
-	    // 	console.log({phone});		
-	    // 	this.setState({ phone })} } />
-    
-    render() {
-	const component = this;
 
+        render() {
+		const component = this;
 
-	const form = (
-		<div>
-	<div>
-	    <label>
-		Phone number
+		const ReactTelInput = require('react-telephone-input');
+		const form = (
+			<div>
+				<div>
+					<label>
+						Phone number
   	    </label>
 
-	    <input className="form-control" type="text" value={component.state.phone} onChange={(event) => component.setState({ phone: event.target.value })} />				
-	</div>
-	<div className="m-t">
-		<label>
-		Amount
+			<Phone
+		    value={component.state.phone} onChange={phone => {
+			const phoneIsValid = isValidPhoneNumber(phone);
+			const formatter = new asYouType();
+			this.setState({ phone, phoneIsValid });
+			formatter.input(phone);
+			console.log(formatter.country_phone_code);
+			this.setState({ phoneCode: formatter.country_phone_code });
+		    }
+							   } />
+				</div>
+				<div className="m-t">
+					<label>
+						Amount
 	    </label>
-	    <input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />		
-		</div>
-		<div  className="m-t">		
-		<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>
-
-		</div>
-		</div>
-	)
-	const txDetails = (
-		<div>
-		<div>
-		<label>
-		Phone number
+					<div>
+						<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
+					</div>
+				</div>
+				<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>
+				<span style={{ color: "red" }} > {component.state.errorMsg}</span>
+				<div className="m-t">
+				</div>
+			</div>
+		);
+		const txDetails = (
+			<div>
+				<div>
+					<label>
+						Phone number
   	    </label>
-	    <p className="form-control" type="text"> {component.state.phone } </p> 
-	</div>
-	<div className="m-t">
-	    <label>
-		Amount
+					<div>{this.state.phoneCode}</div>
+					<p className="form-control"> {component.state.phone} </p>
+				</div>
+				<div className="m-t">
+					<label>
+						Amount
 	    </label>
-	    <p className="form-control" type="text"> {component.state.amount } </p> 
-		</div>
-		<div  className="m-t">
-		<a className="btn btn-md btn-accent" onClick={() => component.showModal()}>Show code</a>		
-	     </div>
-	</div>
-		    
-		)
-	
-	return (
-    <div className="col-sm-12">
+					<p className="form-control"> {component.state.amount} </p>
+				</div>
+				<div className="m-t">
+			<a className="btn btn-md btn-accent" onClick={() => component.showModal()}>Show code</a>
+			</div>
+			</div>
 
-		{!this.state.confirmPressed ?  form : txDetails }
-                <History updateCounter={this.state.historyUpdateCounter} />	    
-		<Modal sendingTx={component.state.sendingTx}
-	    code={component.state.code}
-	    showModal={component.state.showModal}
-	    error={component.state.error}
-	    errorMsg={component.state.errorMsg}
-	    closeModal={() => component.closeModal()}  /> 
+		);
+	    
+	    return (
+			<div className="col-sm-12">
 
-            
-    </div>
+				{!this.state.confirmPressed ? form : txDetails}
 
 
-	);
+				<History updateCounter={this.state.historyUpdateCounter} />
+				<Modal sendingTx={component.state.sendingTx}
+					code={component.state.code}
+					showModal={component.state.showModal}
+					error={component.state.error}
+					errorMsg={component.state.errorMsg}
+					closeModal={() => component.closeModal()} />
+			</div>
 
 
-    }
+		);
+
+
+	}
 }
 
