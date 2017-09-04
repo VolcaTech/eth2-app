@@ -3,15 +3,14 @@ import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from '
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType } from 'libphonenumber-js';
-
 import Modal from "./modal";
-
 import serverApi from "../../../utils/quid-server-api";
 import web3Api from "../../../utils/web3-common-api";
 import sha3 from 'solidity-sha3';
 import ksHelper from '../../../utils/keystoreHelper';
 import verifiedProxyContractApi from "../../..//utils/verified-proxy-contract-api";
 import History from "./History";
+
 
 export default class Form extends Component {
 
@@ -72,9 +71,9 @@ export default class Form extends Component {
 		errorMsg: ""
 	    });
 	    
-	    transferId = sha3(component.state.phone + secretCode);
-	    console.log({ transferId });
-	    serverApi.sendTransferKeystore(transferId, component.state.phone, ksData)
+	    transferId = sha3(component.state.phoneCode + component.state.phone + secretCode);
+	    console.log({ transferId, phone: component.state.phone, phoneCode: component.state.phoneCode });
+	    serverApi.sendTransferKeystore(transferId, component.state.phone, component.state.phoneCode, ksData)
 		.then(function (result) {
 		    let errorMsg = "";
 		    if (!result || !result.success) {
@@ -114,12 +113,10 @@ export default class Form extends Component {
 		    value={component.state.phone} onChange={phone => {
 			const phoneIsValid = isValidPhoneNumber(phone);
 			const formatter = new asYouType();
-			this.setState({ phone, phoneIsValid });
 			formatter.input(phone);
 			console.log(formatter.country_phone_code);
-			this.setState({ phoneCode: formatter.country_phone_code });
-		    }
-							   } />
+			this.setState({ phoneCode: formatter.country_phone_code, phone, phoneIsValid  });
+		    }} />
 				</div>
 				<div className="m-t">
 					<label>

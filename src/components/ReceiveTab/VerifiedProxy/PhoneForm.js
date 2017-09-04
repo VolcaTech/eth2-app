@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from 'react-phone-number-input';
+import rrui from 'react-phone-number-input/rrui.css';
+import rpni from 'react-phone-number-input/style.css';
+import { parse, format, asYouType } from 'libphonenumber-js';
 import serverApi from "../../../utils/quid-server-api";
 import sha3 from 'solidity-sha3';
 const util = require("ethereumjs-util");
@@ -8,24 +12,25 @@ export default class ReceivePhoneTab extends Component {
         super(props);
         this.state = {
             phone: "",
+	    phoneCode: '',	    
             code: "",
 	    error: "",
 	    isFetching: false
         };
     }
-
     
     submit() {
         const component = this;
         console.log(this.state);
 	this.setState({isFetching: true});
-        serverApi.claimPhone(this.state.phone, this.state.code).then(function(result) {
+	const transferId = sha3(component.state.phoneCode + component.state.phone + component.state.code);
+        serverApi.claimPhone(transferId).then(function(result) {
             console.log({result});
 	    if (!result.success) {
 		throw new Error((result.errorMessage || "Server error"));
 	    }
 	    component.setState({isFetching: false});	    
-	    component.props.onSuccess(component.state.phone, component.state.code);
+	    component.props.onSuccess(transferId, component.state.phone, component.state.code);
         }).catch(function(err) {
 	    console.log({err});
 	    component.setState({
@@ -49,7 +54,16 @@ export default class ReceivePhoneTab extends Component {
                 </label>
                     </div>
                     <div>
-                    <input className="form-control" type="text" onChange={(event)=>this.setState({phone:event.target.value})} />
+			<Phone
+		    value={component.state.phone} onChange={phone => {
+			const phoneIsValid = isValidPhoneNumber(phone);
+			const formatter = new asYouType();
+			formatter.input(phone);
+			console.log(formatter.country_phone_code);
+			this.setState({ phoneCode: formatter.country_phone_code, phone, phoneIsValid  });
+		    }
+							   } />
+
                     </div>
                     <br />
                     <div>

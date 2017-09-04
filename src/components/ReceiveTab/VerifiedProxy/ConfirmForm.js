@@ -19,7 +19,7 @@ export default class ReceivePhoneTab extends Component {
         const component = this;
         console.log(this.state);
 	this.setState({isFetching: true});
-        serverApi.verifyPhone(this.props.phone, this.props.code, this.state.smsCode)
+        serverApi.verifyPhone(this.props.transferId, this.props.phone, this.state.smsCode)
 	    .then(function(result) {
 		console.log({result});
 		return result;
@@ -33,18 +33,10 @@ export default class ReceivePhoneTab extends Component {
 		const v = signature.v;
 		const r =  '0x' + signature.r.toString("hex");
 		const s =  '0x' + signature.s.toString("hex");	    	    
-		// const sigParams = `"${component.props.to}",${v},"${r}","${s}"`;
-		// console.log({sigParams});
-		
-		// TESTING SIG
-		// const pub = util.ecrecover(util.toBuffer(msg), signature.v, signature.r, signature.s);
-		// const adr = '0x' + util.pubToAddress(pub).toString('hex');
-		// console.log({adr});
-		// /TESTING SIG
 		
 		return serverApi.confirmTx(
+		    component.props.transferId,
 		    component.props.phone, 
-                    component.props.code,  
                     component.state.smsCode, 
                     component.props.to, v, r, s);
             }).then(function(result) {
