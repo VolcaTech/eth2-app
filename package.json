@@ -59,7 +59,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-file-download": "^0.3.4",
-    "react-phone-number-input": "^0.12.9",
+    "react-phone-number-input": "https://github.com/sashamihaha/react-phone-number-input.git",
     "react-radio-buttons": "^1.1.1",
     "react-telephone-input": "^4.1.2",
     "solidity-sha3": "^0.4.1"
