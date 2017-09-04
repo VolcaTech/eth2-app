@@ -22,6 +22,9 @@ export default class ReceivePhoneTab extends Component {
         serverApi.verifyPhone(this.props.transferId, this.props.phone, this.state.smsCode)
 	    .then(function(result) {
 		console.log({result});
+		if (!result || !result.success) {
+		    throw new Error((result.errorMessage || "Server error!"));
+		}
 		return result;
             }).then(function(result) {
 		console.log(result);
