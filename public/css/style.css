@@ -2859,3 +2859,14 @@ fieldset[disabled] .form-control {
 .btn-xs {
   margin: 2px;
 }
+
+.green-tick {
+  color: green;
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.input-container {
+  width: "100%";
+  margin-bottom: 60px;
+}
