@@ -98,7 +98,7 @@ export default class AddressForm extends Component {
   	        <label> Password</label>
 		<div className="row">
 		 <div className="col-sm-6">
-                   <input placeholder="Password" className="form-control" type="text" onChange={(event)=>this.setState({password:event.target.value})} />
+                   <input placeholder="Password" className="form-control crop-text" type="text" onChange={(event)=>this.setState({password:event.target.value})} />
 		</div>
 		<div className="col-sm-6">
 		   <a className="btn btn-md btn-default" onClick={()=>this.generateWallet()}> Generate </a>
@@ -109,7 +109,7 @@ export default class AddressForm extends Component {
 		<label> Address: </label>
 		<div className="row">
 		 <div className="col-sm-6">		
-		<p className="form-control">
+		<p className="form-control crop-text">
 		{ this.state.address }
 	    </p>
 		</div>
@@ -122,7 +122,7 @@ export default class AddressForm extends Component {
 	  	</div>
 		<div>
 		<label> Kestore Data: (copy this content to secure location) </label>
-		<div>
+		<div className="form-control crop-text keystore-field" type="textarea">
 	 	  { this.state.keystoreData }
 	       </div>
 	  	  </div>

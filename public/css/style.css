@@ -2890,6 +2890,8 @@ fieldset[disabled] .form-control {
   white-space: nowrap;
   overflow: hidden;
 }
-.label-receiver-address {
-  margin-left: -4px;
+.keystore-field {
+  width: 68% !important;
+  height: 160px;
+  white-space: normal !important;
 }
