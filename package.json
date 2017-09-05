@@ -2,7 +2,7 @@
   "name": "react-box",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dobrokhvalov.github.io/eth2phone/",
+  "homepage": "https://eth2phone.github.io/",
   "devDependencies": {
     "autoprefixer": "6.5.1",
     "babel-core": "6.17.0",
