@@ -33,7 +33,11 @@
   background-color: transparent;
   border-color: #f6a821;
   margin-top: 10px;
-  margin-right: 10px;
+  margin-right: 10px;;
+}
+.btn-margin-left{
+  margin-left: 10px;
+  margin-top: 0px !important;
 }
 .btn-accent:focus,
 .btn-accent.focus {
@@ -2885,4 +2889,7 @@ fieldset[disabled] .form-control {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.label-receiver-address {
+  margin-left: -4px;
 }

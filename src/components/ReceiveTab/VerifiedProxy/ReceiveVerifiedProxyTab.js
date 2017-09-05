@@ -108,7 +108,8 @@ export default class ReceivePhoneTab extends Component {
             <div>
 		{ ( this.state.stepId !== 0)  ?
 		  <div className="m-b">
-		  <label> Receiver Address: </label>
+			  <br/>
+		  <label style={{marginLeft:"-4px"}}>Receiver Address:</label>
 		  <div>
 		  {this.state.to }
 		  </div>
