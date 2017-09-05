@@ -11,6 +11,7 @@
 }
 .btn-default {
   border-color: #585d6e;
+  
 }
 .btn.btn-w-sm {
   min-width: 80px;
@@ -659,6 +660,7 @@ fieldset[disabled] .btn-danger.focus {
 }
 .m-t-lg {
   margin-top: 30px;
+  margin-left: -15px;
 }
 .m-t-xl {
   margin-top: 40px;
@@ -884,7 +886,7 @@ body.blank .content {
   margin: 0;
 }
 .container-center {
-  max-width: 80%;
+  max-width: 95%;
   margin: 2% auto 0;
   padding: 20px;
 }
@@ -935,6 +937,7 @@ mark {
 label {
   color: #ffffff;
   font-weight: 500;
+  margin-top: 8px;
 }
 sup {
   font-size: 12px;
@@ -1241,6 +1244,7 @@ img.image-xl {
 }
 .panel.panel-filled .panel-body {
   padding-top: 10px;
+  margin-left: 10px;
 }
 .panel .panel-footer {
   background-color: transparent;
@@ -2440,6 +2444,7 @@ div.dt-button-info h2 {
   -o-transition: none;
   transition: none;
   background-color: #ddd;
+  margin-bottom: 10px;
 }
 .form-control:focus {
   -webkit-box-shadow: none;
@@ -2869,4 +2874,8 @@ fieldset[disabled] .form-control {
 .input-container {
   width: "100%";
   margin-bottom: 60px;
+}
+
+.th-no-padding {
+  padding-left: 0px !important;
 }
