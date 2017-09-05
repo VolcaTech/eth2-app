@@ -3,6 +3,14 @@ import React, { Component } from 'react';
 //import SendToPhone from './SendToPhone';
 import VerifiedProxyTab from './VerifiedProxy/VerifiedProxyTab';
 import DirectProxyTab from './VerifiedProxy/VerifiedProxyTab';
+import web3Api from "../../utils/web3-common-api";
+
+function WrongNetworkMessage(){
+
+    return(
+        <div>At this stage of the project we only support Ropsten network. Please switch to Ropsten in your web3 network provider.</div>
+    )
+}
 
 export default class Tab extends Component {
     constructor(props) {
@@ -29,7 +37,7 @@ export default class Tab extends Component {
                     <div className="tab-content">
                         <div id="tab-6" className="tab-pane active">
                             <div className="panel-body">
-                                 {("verifiedProxy" === this.state.activeTab) ? <VerifiedProxyTab /> : <DirectProxyTab /> }
+                                {web3Api.getNetworkId() === "3" ? <VerifiedProxyTab /> : <WrongNetworkMessage/> }
                             </div>
                        </div>
                     </div>

@@ -32,6 +32,12 @@ export default class Form extends Component {
 		};
 	}
 
+	greenTick() {
+		return (
+			<div className="green-tick" >&#10003;</div>
+		)
+	}
+
 	generateCode() {
 		const random = Math.random().toString(32).slice(5).toUpperCase();
 		return random;
@@ -50,55 +56,55 @@ export default class Form extends Component {
 	}
 
 	handleSubmit() {
-	    this.setState({ errorMsg: "", error: false });
-	    const component = this;
-	    let transferId;
-	    if (this.state.phoneIsValid === false) {
-		this.setState({ errorMsg: "Invalid phone number", error: true });
-		return null;
-	    }
-	    if (this.state.amount.length === 0) {
-		this.setState({ errorMsg: "Wrong amount", error: true });
-		return null;
-	    }
-	    const secretCode = this.generateCode();
-	    const { address, ksData } = this.generateWallet(secretCode);
-	    component.setState({
-		confirmPressed: true,
-		code: secretCode,
-		showModal: true,
-		sendingTx: true,
-		errorMsg: ""
-	    });
-	    
-	    transferId = sha3(component.state.phoneCode + component.state.phone + secretCode);
-	    console.log({ transferId, phone: component.state.phone, phoneCode: component.state.phoneCode });
-	    serverApi.sendTransferKeystore(transferId, component.state.phone, component.state.phoneCode, ksData)
-		.then(function (result) {
-		    let errorMsg = "";
-		    if (!result || !result.success) {
-			errorMsg = result.errorMsg || "Server error!";
-			throw new Error(errorMsg);
-		    }
-		    
-		    return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
-		}).then((result) => {
-		    console.log({ result });
-		    component.setState({
-			sendingTx: false,
-			historyUpdateCounter: 1
-		    });
-		}).catch((err) => {
-				console.log({ err });
-		    component.setState({
-			sendingTx: false,
-					error: true,
-			errorMsg: (err.msg || err)
-		    });
+		this.setState({ errorMsg: "", error: false });
+		const component = this;
+		let transferId;
+		if (this.state.phoneIsValid === false) {
+			this.setState({ errorMsg: "Invalid phone number", error: true });
+			return null;
+		}
+		if (this.state.amount.length === 0) {
+			this.setState({ errorMsg: "Wrong amount", error: true });
+			return null;
+		}
+		const secretCode = this.generateCode();
+		const { address, ksData } = this.generateWallet(secretCode);
+		component.setState({
+			confirmPressed: true,
+			code: secretCode,
+			showModal: true,
+			sendingTx: true,
+			errorMsg: ""
 		});
+
+		transferId = sha3(component.state.phoneCode + component.state.phone + secretCode);
+		console.log({ transferId, phone: component.state.phone, phoneCode: component.state.phoneCode });
+		serverApi.sendTransferKeystore(transferId, component.state.phone, component.state.phoneCode, ksData)
+			.then(function (result) {
+				let errorMsg = "";
+				if (!result || !result.success) {
+					errorMsg = result.errorMsg || "Server error!";
+					throw new Error(errorMsg);
+				}
+
+				return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
+			}).then((result) => {
+				console.log({ result });
+				component.setState({
+					sendingTx: false,
+					historyUpdateCounter: 1
+				});
+			}).catch((err) => {
+				console.log({ err });
+				component.setState({
+					sendingTx: false,
+					error: true,
+					errorMsg: (err.msg || err)
+				});
+			});
 	}
 
-        render() {
+	render() {
 		const component = this;
 
 		const ReactTelInput = require('react-telephone-input');
@@ -108,23 +114,24 @@ export default class Form extends Component {
 					<label>
 						Phone number
   	    </label>
-
-			<Phone
-		    value={component.state.phone} onChange={phone => {
-			const phoneIsValid = isValidPhoneNumber(phone);
-			const formatter = new asYouType();
-			formatter.input(phone);
-			console.log(formatter.country_phone_code);
-			this.setState({ phoneCode: formatter.country_phone_code, phone, phoneIsValid  });
-		    }} />
+					<div className="input-container">
+						<div style={{ width: "90%", float: "left" }}>
+							<Phone
+								value={component.state.phone} onChange={phone => {
+									const phoneIsValid = isValidPhoneNumber(phone);
+									const formatter = new asYouType();
+									formatter.input(phone);
+									this.setState({ phoneCode: formatter.country_phone_code, phone, phoneIsValid });
+								}} /></div><div style={{ width: "10%", float: "right" }}>{this.state.phoneIsValid ? this.greenTick() : ""}</div></div>
 				</div>
 				<div className="m-t">
 					<label>
 						Amount
 	    </label>
-					<div>
-						<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
-					</div>
+					<div className="input-container">
+						<div style={{ width: "90%", float: "left" }}>
+							<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
+						</div><div style={{ width: "10%", float: "right" }}>{this.state.amount > 0 ? this.greenTick() : ""}</div></div>
 				</div>
 				<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>
 				<span style={{ color: "red" }} > {component.state.errorMsg}</span>
@@ -148,13 +155,13 @@ export default class Form extends Component {
 					<p className="form-control"> {component.state.amount} </p>
 				</div>
 				<div className="m-t">
-			<a className="btn btn-md btn-accent" onClick={() => component.showModal()}>Show code</a>
-			</div>
+					<a className="btn btn-md btn-accent" onClick={() => component.showModal()}>Show code</a>
+				</div>
 			</div>
 
 		);
-	    
-	    return (
+
+		return (
 			<div className="col-sm-12">
 
 				{!this.state.confirmPressed ? form : txDetails}

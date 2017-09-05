@@ -107,7 +107,7 @@ export default class History extends Component {
                     <table className="table table-hover table-striped">
                         <thead>
                             <tr>
-                <th>
+                <th style={{paddingLeft:"0px"}}>
                 Transaction hash
             </th>
 		<th>
