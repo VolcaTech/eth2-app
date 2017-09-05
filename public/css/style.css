@@ -2879,3 +2879,10 @@ fieldset[disabled] .form-control {
 .th-no-padding {
   padding-left: 0px !important;
 }
+
+.crop-text {
+  width: 90%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

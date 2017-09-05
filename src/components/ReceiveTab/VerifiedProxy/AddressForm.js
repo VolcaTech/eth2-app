@@ -77,7 +77,7 @@ export default class AddressForm extends Component {
 	const connectedAddress = (
 		<div>
 		<label> Address </label>		
-		<p className="form-control">
+		<p className="form-control crop-text">
 		{ this.state.address }
 	    </p>
 		</div>
@@ -86,7 +86,7 @@ export default class AddressForm extends Component {
 	const addressInput = (
 		<div>
 		<label> Address </label>			    
-		<input placeholder="0x000.." className="form-control" type="text" onChange={(event)=>this.setState({address:event.target.value})} />
+		<input placeholder="0x000.." className="form-control crop-text" type="text" onChange={(event)=>this.setState({address:event.target.value})} />
 
 		</div>
 		
