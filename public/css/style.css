@@ -2895,3 +2895,7 @@ fieldset[disabled] .form-control {
   height: 160px;
   white-space: normal !important;
 }
+.radio input[type="radio"]{
+  width: 130px;
+  height: 22px;
+}
