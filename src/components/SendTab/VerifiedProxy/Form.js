@@ -145,7 +145,6 @@ export default class Form extends Component {
 					<label>
 						Phone number
   	    </label>
-					<div>{this.state.phoneCode}</div>
 					<p className="form-control"> {component.state.phone} </p>
 				</div>
 				<div className="m-t">

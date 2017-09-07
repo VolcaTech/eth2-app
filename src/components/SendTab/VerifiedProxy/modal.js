@@ -13,7 +13,7 @@ export default function Modal(props) {
 	    <div className="modal-footer">
 	    { !props.sendingTx ? 
 	      <button type="button" className="btn btn-default" onClick={() => props.closeModal()} >Close</button>
-	      : 		<small> Please don't close the window, while transaction is not completed.</small> }
+	      : 		<div className="small-margin"> Please don't close this window before the transaction is completed.</div> }
                    </div>
 	        </div>	    
 	    </div>

@@ -2899,3 +2899,8 @@ fieldset[disabled] .form-control {
   width: 130px;
   height: 22px;
 }
+
+.small-margin {
+  font-size: 85%;
+  margin-right: 115px !important;
+}
