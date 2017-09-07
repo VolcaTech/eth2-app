@@ -18,17 +18,18 @@ export default class Form extends Component {
 		console.log("constructor");
 		super(props);
 		this.state = {
-			phone: '1',
-			phoneCode: '',
-			amount: '',
-			code: '',
-			confirmPressed: false,
-			showModal: false,
-			sendingTx: false,
-			error: false,
-			errorMsg: "",
-			phoneIsValid: false,
-			historyUpdateCounter: 0 // counter is updated in order to <History /> to fetch new transfer
+		    phone: '1',
+		    phoneCode: '',
+		    amount: '',
+		    code: '',
+		    confirmPressed: false,
+		    showModal: false,
+		    sendingTx: false,
+		    isMining: true,
+		    error: false,
+		    errorMsg: "",
+		    phoneIsValid: false,
+		    historyUpdateCounter: 0 // counter is updated in order to <History /> to fetch new transfer
 		};
 	}
 
@@ -88,12 +89,18 @@ export default class Form extends Component {
 				}
 
 				return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
-			}).then((result) => {
-				console.log({ result });
-				component.setState({
-					sendingTx: false,
-					historyUpdateCounter: 1
-				});
+			}).then((txHash) => {
+			    // tx is pending (not mined yet)
+			    console.log({ txHash });
+			    component.setState({
+				sendingTx: false,
+				historyUpdateCounter: 1
+			    });
+			    return web3Api.getTransactionReceiptMined(txHash.tx);
+			}).then((txReceipt) => {
+			    // tx is mined
+			    alert("tx is mined!");
+			    console.log({txReceipt});
 			}).catch((err) => {
 				console.log({ err });
 				component.setState({

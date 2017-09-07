@@ -44,9 +44,14 @@ export default class ReceivePhoneTab extends Component {
                     component.props.to, v, r, s);
             }).then(function(result) {
 		console.log({result});
-		component.setState({isFetching: false});		
 		component.props.onSuccess(result.pendingTxHash);
-            }).catch(function(err) {
+		// tx is pending (not mined yet)
+		return web3Api.getTransactionReceiptMined(result.pendingTxHash);
+            }).then((txReceipt) => {
+		console.log("Tx mined!");
+		alert("Tx mined!");		
+		component.setState({isFetching: false});		
+	    }).catch(function(err) {
 		console.log({err});
 		component.setState({
 		    error: (err.message || err.errorMessage || "Server error!") ,
