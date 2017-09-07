@@ -125,13 +125,21 @@ export default class Form extends Component {
 								}} /></div><div style={{ width: "10%", float: "right" }}>{this.state.phoneIsValid ? this.greenTick() : ""}</div></div>
 				</div>
 				<div className="m-t">
-					<label>
-						Amount
+					<div className="row">
+						<div className="col-sm-6"><label>
+							Amount to send, eth.
 	    </label>
-					<div className="input-container">
-						<div style={{ width: "90%", float: "left" }}>
-							<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
-						</div><div style={{ width: "10%", float: "right" }}>{this.state.amount > 0 ? this.greenTick() : ""}</div></div>
+							<div className="input-container">
+								<div style={{ width: "80%", float: "left" }}>
+									<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
+								</div><div style={{ width: "20%", float: "right" }}>{this.state.amount > 0 ? this.greenTick() : ""}</div></div></div>
+
+						<div className="col-sm-6"><label>
+							Amount to pay*, eth.
+	    </label>				<div className="input-container">
+								<div style={{ width: "80%", float: "left" }}>
+									<input className="form-control" style={{background: "white"}} value={this.state.amount > 0 ? parseFloat(this.state.amount) + 0.01 : ""} disabled type="text" onChange={(event) => component.setState({ amount: event.target.value })} />
+								</div><label style={{ width: "80%" }}>*The amount to be withdrawn including fixed commission of 0.01 ether. We only charge it to cover the SMS provider expense and server maintenance, plus a two cheap meals a day for our small team to keep going.</label></div></div></div>
 				</div>
 				<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>
 				<span style={{ color: "red" }} > {component.state.errorMsg}</span>
