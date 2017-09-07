@@ -2904,3 +2904,7 @@ fieldset[disabled] .form-control {
   font-size: 85%;
   margin-right: 115px !important;
 }
+
+.td {
+  padding: 10px !important;
+}

@@ -27,9 +27,9 @@ class HistoryRow extends Component {
 	const component = this;
         return (
             <tr>
-                <td><span className="c-accent">{this.props.data.id}</span></td>
-                <td><span className="c-accent">{this.props.data.amount}</span></td>
-                <td>
+                <td style={{padding: "10px"}}><span className="c-accent">{this.props.data.id}</span></td>
+                <td style={{padding: "10px"}}><span className="c-accent">{this.props.data.amount}</span></td>
+                <td style={{padding: "10px"}}>
 		{(this.props.data.status === 0 && !this.state.pendingCancel && !this.state.cancelled) ?
                  <a className="btn btn-xs btn-default active" onClick={()=>this.cancel(this.props.data.id)}>Cancel</a>
 		 : ""
@@ -100,17 +100,17 @@ export default class History extends Component {
             <div className="m-t-lg col-sm-12">
                 <div>
                     <strong className="c-white"> Sent Transfers </strong>
-                    <a className={component.state.showstatus === 0 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(0)}>Pending</a> 
+                    <a className={component.state.showstatus === 0 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(0)}>Awaiting receiving</a> 
                     <a className={component.state.showstatus === 1 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(1)}>Completed</a> 
                     <a className={component.state.showstatus === 2 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(2)}>Cancelled</a></div>
                 <div>
-                    <table className="table table-hover table-striped">
+                    <div className="table-responsive table-hover table-striped">
                         <thead>
                             <tr>
-                <th style={{paddingLeft:"0px"}}>
+                <th style={{padding: "10px"}}>
                 Transfer id
             </th>
-		<th>
+		<th style={{padding: "10px"}}>
 		                Amount
                               </th>
 
@@ -119,7 +119,7 @@ export default class History extends Component {
                         <tbody>
                             {rows}
                         </tbody>
-                    </table>
+                    </div>
                    {this.state.isLoading ? loaderHtml : ""}
             {(!this.state.isLoading && rows.length === 0 )  ? "No transfers yet" : ""}
                 </div>
