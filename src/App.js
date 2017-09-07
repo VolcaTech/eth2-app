@@ -22,9 +22,10 @@ class App extends Component {
 		console.log("trying web3...");		
 		web3Api.setup() 
 		    .then(isWeb3Set => {
+	            
 		    if (!isWeb3Set) {
 			console.log("web3 is not set", isWeb3Set);
-			setTimeout(poll, 3000);
+			setTimeout(poll, 500);
 		    } else {
 			console.log("web3 is set", isWeb3Set);			
 			resolve();
