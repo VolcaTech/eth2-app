@@ -3,7 +3,7 @@ import './Owned.sol';
 import './SafeMath.sol';
 
 
-contract VerifiedProxyTransfer is Ownable, SafeMath {
+contract VerifiedProxy is Ownable, SafeMath {
 
   // Status codes
   enum Statuses {
@@ -54,7 +54,7 @@ contract VerifiedProxyTransfer is Ownable, SafeMath {
 
 
   // CONSTRUCTOR
-  function VerifiedProxyTransfer(uint _commission) {
+  function VerifiedProxy(uint _commission) {
     commission = _commission;
   }
 
