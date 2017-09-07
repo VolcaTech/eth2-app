@@ -1,137 +1,182 @@
 pragma solidity 0.4.15;
+import './Owned.sol';
+import './SafeMath.sol';
 
-contract VerifiedProxy {
 
-  //uint private counter; // for setting transfer id
-  address public verifier; // address of the verification server
+contract VerifiedProxyTransfer is Ownable, SafeMath {
+
+  // Status codes
+  enum Statuses {
+    ACTIVE, // awaiting withdrawal
+    COMPLETED, // recepient have withdrawn the transfer
+    CANCELLED  // sender has cancelled the transfer
+  }
+
   uint public commission; // in wei
 
+  /*
+   * EVENTS
+   */
+  event LogDeposit(
+		   address indexed from,
+		   bytes32 indexed transferId,
+		         uint amount
+		   );
+
+
+  event LogCancel(
+		  address indexed from,
+		  bytes32 indexed transferId,
+		        uint amount
+		  );
+
+
+  event LogWithdraw(
+		    bytes32 indexed transferId,
+		    address indexed sender,
+		    address indexed recipient,
+		          uint amount
+		    );
+  event LogChangeCommission(
+			    uint oldCommission,
+			          uint newCommission
+			    );
+
   struct Transfer {
-    bytes32 id;
-    uint status; // 0 - pending, 1 - closed, 2 - cancelled;
+    uint8 status; // 0 - active, 1 - completed, 2 - cancelled;
     address from;
-    uint amount;
-    uint blocknumber;
+    uint amount; // in wei
     address verificationPubKey;
   }
 
-  // key value mappings
+  // Mappings of TransferId => Transfer Struct
   mapping (bytes32 => Transfer) transferDct;
-  mapping (address => bytes32[]) senderDct;
 
-  function VerifiedProxy(address _verifier, uint _comission) {
-    verifier = _verifier;
-    commission = _comission;
+
+  // CONSTRUCTOR
+  function VerifiedProxyTransfer(uint _commission) {
+    commission = _commission;
   }
 
+
   // deposit ether to smart contract
-  function deposit(address pubKey, bytes32 transferHash) payable returns(bool) {
-    require(msg.value > 0); // throw if no value sent
+  function deposit(address _verPubKey, bytes32 _transferId)
+        payable
+    returns(bool)
+  {
     require(msg.value > commission);
 
     // saving transfer details
-    transferDct[transferHash] = Transfer(
-					 transferHash,
-					 0, // pending status
-					 msg.sender,
-					 (msg.value - commission), // minus verification fee
-					 block.number,
-					     pubKey
-					 );
-
-    // add transfer to mappings
-    senderDct[msg.sender].push(transferHash);
+    transferDct[_transferId] = Transfer(
+					uint8(Statuses.ACTIVE),
+					msg.sender,
+					safeSub(msg.value, commission), // excluding comission
+					 _verPubKey
+					);
 
     // send fee to verification server
-    verifier.transfer(commission);
-
+    owner.transfer(commission);
+    LogDeposit(msg.sender, _transferId, msg.value);
     return true;
   }
 
 
-  function getSentTransfersCount() constant returns(uint count) {
-    return senderDct[msg.sender].length;
+  function changeCommission(uint _newCommission)
+      onlyOwner
+    returns(bool)
+  {
+    uint oldCommission = commission;
+    commission = _newCommission;
+    LogChangeCommission(oldCommission, commission);
+    return true;
   }
 
-  // get transfer from sender list by index
-  function getSentTransfer(uint transferIndex) constant returns (bytes32 id,
-								 uint status, // 0 - pending, 1 - closed, 2 - cancelled;
-								 address from,
-								 uint amount,
-								 uint blocknumer) {
-    bytes32 transferId = senderDct[msg.sender][transferIndex];
-    Transfer memory transfer = transferDct[transferId];
+
+  function getTransfer(bytes32 _transferId)
+        constant
+    returns (
+	     bytes32 id,
+	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
+	     address from,
+	     uint amount)
+  {
+    Transfer memory transfer = transferDct[_transferId];
     return (
-	    transfer.id,
+	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	    transfer.amount,
-	    transfer.blocknumber
+	        transfer.amount
 	    );
   }
 
 
-  function getTransfer(bytes32 transferId) constant returns (bytes32 id,
-							     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
-							     address from,
-							     uint amount,
-							     uint blocknumber) {
-    Transfer memory transfer = transferDct[transferId];
-    return (
-	    transfer.id,
-	    transfer.status,
-	    transfer.from,
-	    transfer.amount,
-	        transfer.blocknumber
-	    );
-  }
-
-
-  function cancelTransfer(bytes32 transferId) returns (bool) {
-    Transfer storage transferOrder = transferDct[transferId];
+  function cancelTransfer(bytes32 _transferId) returns (bool) {
+    Transfer storage transferOrder = transferDct[_transferId];
     // checks
     require(msg.sender == transferOrder.from); // only sender can cancel transfer;
-    require(transferOrder.status == 0); // only pending transfers can be cancelled;
-    transferOrder.status = 2; // cancelled
+    require(transferOrder.status == uint8(Statuses.ACTIVE)); // only pending transfers can be cancelled;
+    transferOrder.status = uint8(Statuses.CANCELLED);
 
     // transfer ether back to sender
     transferOrder.from.transfer(transferOrder.amount);
+    LogCancel(msg.sender, _transferId, transferOrder.amount);
     return true;
   }
 
-  function verifySignature(address verPubKey, address to, uint8 v, bytes32 r, bytes32 s)
-    constant returns(bool) {
-    bytes32 prefixedHash = sha3(to);
-    address retAddr = ecrecover(prefixedHash, v, r, s);
-    return retAddr == verPubKey;
+
+  function verifySignature(
+			   address _verPubKey,
+			   address _recipient,
+			   uint8 _v,
+			   bytes32 _r,
+			   bytes32 _s)
+    constant returns(bool)
+  {
+    bytes32 prefixedHash = sha3(_recipient);
+    address retAddr = ecrecover(prefixedHash, _v, _r, _s);
+    return retAddr == _verPubKey;
   }
 
-  function verifyTransferSignature(bytes32 transferId, address to, uint8 v, bytes32 r, bytes32 s)
-    constant returns(bool) {
-    Transfer memory transferOrder = transferDct[transferId];
-    return (verifySignature(transferOrder.verificationPubKey, to, v, r, s ));
+
+  function verifyTransferSignature(
+				   bytes32 _transferId,
+				   address _to,
+				   uint8 _v,
+				   bytes32 _r,
+				   bytes32 _s)
+    constant returns(bool)
+  {
+    Transfer memory transferOrder = transferDct[_transferId];
+    return (verifySignature(transferOrder.verificationPubKey, _to, _v, _r, _s));
   }
 
-      function withdraw
-	(bytes32 transferId, address to, uint8 v, bytes32 r, bytes32 s)
-	returns (bool) {
-	Transfer storage transferOrder = transferDct[transferId];
 
-	// checks
-	require(msg.sender == verifier); // only through verifier can withdraw transfer;
-	require(transferOrder.status == 0); // only pending transfers can be withdrawn;
-	require(verifySignature(transferOrder.verificationPubKey, to, v, r, s )); //
-	transferOrder.status = 1; // closed
+  function withdraw(
+		    bytes32 _transferId,
+		    address _recipient,
+		    uint8 _v,
+		    bytes32 _r,
+		    bytes32 _s)
+    onlyOwner // only through verifier can withdraw transfer;
+    returns (bool)
+  {
+    Transfer storage transferOrder = transferDct[_transferId];
 
-	// transfer ether back to sender
-	to.transfer(transferOrder.amount);
+    // checks
+    require(transferOrder.status == uint8(Statuses.ACTIVE)); // only active transfers can be withdrawn;
+    require(verifySignature(transferOrder.verificationPubKey, _recipient, _v, _r, _s )); // verifying signature
 
-	return true;
-      }
+    transferOrder.status = uint8(Statuses.COMPLETED);
 
-      // fallback function
-      function() payable {
-	// do not receive ether by default
-	revert();
-      }
+    // transfer ether back to sender
+    _recipient.transfer(transferOrder.amount);
+    LogWithdraw(_transferId, transferOrder.from, _recipient, transferOrder.amount);
+    return true;
+  }
+
+
+  // fallback function - do not receive ether by default
+  function() payable {
+    revert();
+  }
 }
