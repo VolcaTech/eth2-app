@@ -1,6 +1,7 @@
 import Promise from "bluebird";
 import getWeb3 from './getWeb3';
 import verifiedProxyContractApi from "./verified-proxy-contract-api";
+const getTransactionReceiptMined = require("./getTransactionReceiptMined.js");
 
 function detectNetwork(networkId) {
     var networkName;
@@ -49,10 +50,11 @@ function generateWeb3Api() {
 	// Get network provider and web3 instance.
 	// See utils/getWeb3 for more info.	
 	return getWeb3 
-	    .then(results => {		
+	    .then(results => {
+		console.log({results});
 		web3 = results.web3;
 		Promise.promisifyAll(web3.eth, { suffix: "Promise" });
-		web3.eth.getTransactionReceiptMined = require("./getTransactionReceiptMined.js");		
+		web3.eth.getTransactionReceiptMined = getTransactionReceiptMined;		
 		return web3.eth.accounts[0];
 	    })
 	    .then(fetchBalance)
@@ -70,7 +72,7 @@ function generateWeb3Api() {
 		_networkName = detectNetwork(_networkId);
 	    }).then(() => {
 		verifiedProxyContractApi.setup(web3);
-		return _networkId !== -1;
+		return _networkId !== -1 && web3.eth.accounts.length > 0;
 	    });
     }
 
