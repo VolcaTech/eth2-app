@@ -52,6 +52,7 @@ function generateWeb3Api() {
 	    .then(results => {		
 		web3 = results.web3;
 		Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+		web3.eth.getTransactionReceiptMined = require("./getTransactionReceiptMined.js");		
 		return web3.eth.accounts[0];
 	    })
 	    .then(fetchBalance)
@@ -82,6 +83,7 @@ function generateWeb3Api() {
 	getNetworkId: () => _networkId,
 	getNetworkName: () => _networkName,
 	web3: web3,
+	getTransactionReceiptMined: (txHash) => web3.eth.getTransactionReceiptMined(txHash, 500),
 	setup
     };
 }
