@@ -108,7 +108,7 @@ export default class History extends Component {
                         <thead>
                             <tr>
                 <th style={{paddingLeft:"0px"}}>
-                Transaction hash
+                Transfer id
             </th>
 		<th>
 		                Amount

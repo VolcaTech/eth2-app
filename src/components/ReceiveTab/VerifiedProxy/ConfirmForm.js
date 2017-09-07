@@ -62,10 +62,10 @@ export default class ReceivePhoneTab extends Component {
         return (
            <div>
             
-        <div className="radio radio-warning">          
+        <div>          
 
             <div>
-                <input className="form-control" type="text" onChange={(event)=>this.setState({smsCode:event.target.value})} />
+                <input className="form-control" type="text" onChange={(event)=>this.setState({smsCode:event.target.value})} placeholder="Enter SMS code you've received"/>
             </div>
         </div>
                 {this.state.isFetching ? <div className="loader-spin"></div> : ""}		

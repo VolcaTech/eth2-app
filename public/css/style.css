@@ -33,7 +33,11 @@
   background-color: transparent;
   border-color: #f6a821;
   margin-top: 10px;
-  margin-right: 10px;
+  margin-right: 10px;;
+}
+.btn-margin-left{
+  margin-left: 10px;
+  margin-top: 0px !important;
 }
 .btn-accent:focus,
 .btn-accent.focus {
@@ -2878,4 +2882,25 @@ fieldset[disabled] .form-control {
 
 .th-no-padding {
   padding-left: 0px !important;
+}
+
+.crop-text {
+  width: 90%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.keystore-field {
+  width: 68% !important;
+  height: 160px;
+  white-space: normal !important;
+}
+.radio input[type="radio"]{
+  width: 130px;
+  height: 22px;
+}
+
+.small-margin {
+  font-size: 85%;
+  margin-right: 115px !important;
 }
