@@ -1,25 +1,33 @@
-var VerifiedProxy = artifacts.require("./VerifiedProxy.sol");
-var Promise = require('bluebird');
+const VerifiedProxy = artifacts.require("./VerifiedProxy.sol"); 
+const Promise = require('bluebird');
+
+// for soliditySha3
+const Web3_1 = require('web3');
+const web3_1 = new Web3_1(new Web3_1.providers.HttpProvider('http://localhost:8545'));
 
 Promise.promisifyAll(web3.eth, {suffix: "Promise"});
-var oneEth = web3.toWei(1,  "ether");
-var _commission = web3.toWei(0.01,  "ether");
+const oneEth = web3.toWei(1,  "ether");
+const _commission = web3.toWei(0.01,  "ether");
 
 // verification constatns
-var verificationPublicKey = "0xD2657dBf4900A59e6125a83aA46388730a9f7753";
-var verificationPrivateKey = "c1d65fc0afe6afe5318d400d93de5057c16f3e1b2715d5072f64cf4b1d4ab493";
-var receiverAddress = "0x1b019c6f52c39e07e6c396ee1d0f957d3832d92a";
+const verificationPublicKey = "0xD2657dBf4900A59e6125a83aA46388730a9f7753";
+const verificationPrivateKey = "c1d65fc0afe6afe5318d400d93de5057c16f3e1b2715d5072f64cf4b1d4ab493";
+const receiverAddress = "0x1b019c6f52c39e07e6c396ee1d0f957d3832d92a";
 const sha3 = require('solidity-sha3').default;
+const sha3withsize = require('solidity-sha3').sha3withsize;
 const util = require("ethereumjs-util");
 
 var signature, v, r, s;
-var verificationHash = sha3(receiverAddress);
+const prefix = "\x19Ethereum Signed Message:\n32";
+var verificationHash = web3_1.utils.soliditySha3(prefix, {type: 'address', value: receiverAddress});
+
 
 function sign(privateKey, msgHash) {
-    const signature = util.ecsign(new Buffer(util.stripHexPrefix(msgHash), 'hex'), new Buffer(privateKey, 'hex'));
-    return signature;
+    //return util.ecsign(new Buffer(util.stripHexPrefix(msgHash), 'hex'), new Buffer(privateKey, 'hex'));
+    return util.ecsign(new Buffer(util.stripHexPrefix(msgHash), 'hex'), new Buffer(privateKey, 'hex'));
 }
-signature = sign(verificationPrivateKey, verificationHash.toString("hex"));
+
+signature = sign(verificationPrivateKey, verificationHash);
 
 function generateTransferId() {
     const PHONE = "123456789";    
@@ -161,7 +169,6 @@ contract('VerifiedProxy', function(accounts) {
 	function getSentTransfer() {
 	    const transferId = generateTransferId();
 	    return makeTransfer(transferId).then(function(txData) {
-		console.log({transferId});
 		return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress})
 		    .then(parseTransfer);
 	    });

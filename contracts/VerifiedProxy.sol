@@ -132,7 +132,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 			   bytes32 _s)
     constant returns(bool)
   {
-    bytes32 prefixedHash = sha3(_recipient);
+    bytes32 prefixedHash = sha3("\x19Ethereum Signed Message:\n32", _recipient);
     address retAddr = ecrecover(prefixedHash, _v, _r, _s);
     return retAddr == _verPubKey;
   }
