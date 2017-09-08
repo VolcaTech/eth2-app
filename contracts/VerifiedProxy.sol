@@ -65,7 +65,9 @@ contract VerifiedProxy is Ownable, SafeMath {
     returns(bool)
   {
     require(msg.value > commission);
-
+    // can not override old transfer
+    require(transferDct[_transferId].verificationPubKey == 0);
+    
     // saving transfer details
     transferDct[_transferId] = Transfer(
 					uint8(Statuses.ACTIVE),
