@@ -145,7 +145,7 @@ export default class Form extends Component {
 							Amount to pay*, eth.
 	    </label>				<div className="input-container">
 								<div style={{ width: "80%", float: "left" }}>
-									<input className="form-control" style={{background: "white"}} value={this.state.amount > 0 ? parseFloat(this.state.amount) + 0.01 : ""} disabled type="text" onChange={(event) => component.setState({ amount: event.target.value })} />
+									<input className="form-control" style={{background: "lightslategrey"}} value={this.state.amount > 0 ? parseFloat(this.state.amount) + 0.01 : ""} disabled type="text" onChange={(event) => component.setState({ amount: event.target.value })} />
 								</div><label style={{ width: "80%" }}>*The amount to be withdrawn including fixed commission of 0.01 ether. We only charge it to cover the SMS provider expense and server maintenance, plus a two cheap meals a day for our small team to keep going.</label></div></div></div>
 				</div>
 				<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>

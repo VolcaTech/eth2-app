@@ -86,7 +86,7 @@ export default class ReceivePhoneTab extends Component {
 	    stepComponent = (
 		    <div>
 		    Transfer has been succesfully completed!
-                    <div>
+                    <div className="crop-text">
 		      Tx Id: {this.state.txId}
 		    </div>
 		    </div>
@@ -109,7 +109,7 @@ export default class ReceivePhoneTab extends Component {
 		{ ( this.state.stepId !== 0)  ?
 		  <div className="m-b">
 			  <br/>
-		  <label style={{marginLeft:"-4px"}}>Receiver Address: {this.state.to }</label>
+		  <label style={{marginLeft:"-4px"}}>Receiver Address: </label><div className="crop-text">{this.state.to}</div>
 		  </div>: ""
 		}
                 { this._stepComponent() }

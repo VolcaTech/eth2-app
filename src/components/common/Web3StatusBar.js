@@ -5,7 +5,7 @@ const ConnectionStatus = () => (
 	<div>
 	Web3 is connected: 
 	<strong className="c-white"> 	
-	{web3Api.isConnected() ? " true" : " false" }
+	{web3Api.isConnected() ? " connected" : " not connected" }
         </strong>
 	</div>
 )
