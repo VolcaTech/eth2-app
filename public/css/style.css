@@ -2917,3 +2917,11 @@ fieldset[disabled] .form-control {
 .fa {
   font-size: 20px !important;
 }
+
+.a-grey {
+  color: #949ba2;
+}
+
+.a-grey:hover :focus :active {
+  color: #f6a821;
+}

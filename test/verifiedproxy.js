@@ -2,8 +2,6 @@ const VerifiedProxy = artifacts.require("./VerifiedProxy.sol");
 const Promise = require('bluebird');
 
 // for soliditySha3
-const Web3_1 = require('web3');
-const web3_1 = new Web3_1(new Web3_1.providers.HttpProvider('http://localhost:8545'));
 
 Promise.promisifyAll(web3.eth, {suffix: "Promise"});
 const oneEth = web3.toWei(1,  "ether");
@@ -17,9 +15,10 @@ const sha3 = require('solidity-sha3').default;
 const sha3withsize = require('solidity-sha3').sha3withsize;
 const util = require("ethereumjs-util");
 
+const Web3Utils = require('web3-utils');
 var signature, v, r, s;
 const prefix = "\x19Ethereum Signed Message:\n32";
-var verificationHash = web3_1.utils.soliditySha3(prefix, {type: 'address', value: receiverAddress});
+var verificationHash = Web3Utils.soliditySha3(prefix, {type: 'address', value: receiverAddress});
 
 
 function sign(privateKey, msgHash) {
