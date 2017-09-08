@@ -4,6 +4,7 @@ import MainTab from './components/MainTab';
 import web3Api from "./utils/web3-common-api";
 
 import Web3StatusBar from './components/common/Web3StatusBar';
+import LinkFooter from './components/common/LinkFooter';
 
 class App extends Component {
 
@@ -70,6 +71,7 @@ class App extends Component {
 		  <MainTab/>
             </div>
 		</div>
+		<LinkFooter/>
 		</div>
 	);
   }

@@ -2908,3 +2908,12 @@ fieldset[disabled] .form-control {
 .td {
   padding: 10px !important;
 }
+
+.links-margin {
+  margin-left: 40%;
+  margin-top: 7px;
+}
+
+.fa {
+  font-size: 20px !important;
+}
