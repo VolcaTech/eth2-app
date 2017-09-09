@@ -49,7 +49,6 @@ export default class ReceivePhoneTab extends Component {
 		return web3Api.getTransactionReceiptMined(result.pendingTxHash);
             }).then((txReceipt) => {
 		console.log("Tx mined!");
-		alert("Tx mined!");		
 		component.setState({isFetching: false});		
 	    }).catch(function(err) {
 		console.log({err});
