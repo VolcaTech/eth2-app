@@ -57,8 +57,18 @@ contract('VerifiedProxy', function(accounts) {
 	    reciever: 0
 	},
 	 verifiedproxyInstance;
+   
+    
+    function sendTransfer() {
+	const transferId = generateTransferId();
+	return verifiedproxyInstance.deposit(verificationPublicKey, transferId, {from: senderAddress, value: oneEth})
+	    .then(function(txData) {
+		return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress})
+		    .then(parseTransfer);
+	    });
+    }
 
-
+    
     function initBalances() {
 	verifierAddress = accounts[0];
 	senderAddress = accounts[1];	
@@ -86,14 +96,14 @@ contract('VerifiedProxy', function(accounts) {
     });
 
     it("it should have correct initial valus (commission)", function() {
-	verifiedproxyInstance.commission()
+	verifiedproxyInstance.commissionFee()
 	.then(function(commission) {
 	    assert.equal(commission.toString(), _commission, "it doesn't have correct commission");
 	});
 
     });
     
-    describe("Sender sends 1 ether to verifier contract ", function() {
+    describe("Sender sends 1 ether directly to verifier contract (fallback function) ", function() {
 	beforeEach("init values", function() {
 	    initBalances();
 	});
@@ -111,30 +121,99 @@ contract('VerifiedProxy', function(accounts) {
 	});
     });
 
-    describe("ether transfer", function() {
+    describe("#deposit", function() {
 	beforeEach("making transfer", function() {
 	    initBalances();
 	});
 	
-    	it(" is correct for contract", function(done) {
-	    verifiedproxyInstance.deposit(verificationPublicKey, generateTransferId(), {from: senderAddress, value: oneEth})	    
-		.then(function(txId) {
-    		    return web3.eth.getBalancePromise(verifiedproxyInstance.address)})
+    	it("contract receives ether", function(done) {
+	    sendTransfer()
+		.then(function() {
+    		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);})
 		.then(function(contractBalanceAfterTx) {
-		    assert.equal((initialBalances.contract.plus(oneEth).minus(_commission)).toString(), contractBalanceAfterTx.toString(), "1 ether (minus fee) was not received by contract");
-		    done()
-		}).catch(done);
-	});
-
-    	it(" is correct for verifier", function(done) {
-	    verifiedproxyInstance.deposit(verificationPublicKey, generateTransferId(), {from: senderAddress, value: oneEth})	    
-		.then(function(txId) {
-    		    return web3.eth.getBalancePromise(verifierAddress);})
-		.then(function(verifierBalanceAfterTx) {
-		    assert.equal((initialBalances.verifier.plus(_commission)).toString(), verifierBalanceAfterTx.toString(), "verifier hasn't received commission");
+		    assert.equal(oneEth.toString(), contractBalanceAfterTx.toString(), "ether was not received by contract");
 		    done();
 		}).catch(done);
 	});
+
+    	it(" commission is accrued for verifier", function(done) {
+	    let commissionToWithdrawBefore;
+	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
+		.then(function(_commissionToWithdraw) {
+		    commissionToWithdrawBefore = _commissionToWithdraw;
+    		    return sendTransfer();
+		}).then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdrawAfter) {
+		    assert.equal((commissionToWithdrawBefore.plus(_commission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
+		    done();
+		}).catch(done);
+	});
+
+	it(" verifier can withdraw commission", function(done) {	  
+	    let commissionToWithdraw;
+	    
+	    sendTransfer()
+		.then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdraw) {
+		    commissionToWithdraw = _commissionToWithdraw;
+		    return verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+		}).then(function() {
+		    return web3.eth.getBalancePromise(verifierAddress);
+		// ability to withdraw check		    
+		}).then(function(_verifierBalance) {
+		    assert.isBelow( _verifierBalance.toString(), (initialBalances.verifier.plus(commissionToWithdraw)).toString(), "balance is updated with more wei than commission");		    
+		    assert.isAbove( _verifierBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
+		})
+	        // commission to withdraw reset check
+		.then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdraw) {
+		    assert.equal(_commissionToWithdraw.toNumber(), 0, "commission to withdraw was not reset");
+
+		// double-spend attack check
+		    return verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+		}).then(function() {
+		    return web3.eth.getBalancePromise(verifierAddress);
+		}).then(function(_verifierBalance) {
+		    assert.isBelow( _verifierBalance.toString(), (initialBalances.verifier.plus(commissionToWithdraw)).toString(), "commission was withdrawn twice");
+		    done();
+		}).catch(done);
+	});
+
+	it(" not verifier cannot withdraw commission", function(done) {
+	    let commissionToWithdraw, contractBalanceBefore;
+	    
+	    sendTransfer()
+		.then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdraw) {
+		    commissionToWithdraw = _commissionToWithdraw;
+		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);
+		}).then(function(_balance) {
+		    contractBalanceBefore = _balance;
+		    // ability to withdraw check		    
+		    return verifiedproxyInstance.withdrawCommission({}, {from: senderAddress});
+		}).catch(function(err) {
+		    // error pass
+		}).then(function() {
+		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);
+		// ability to withdraw check		    
+		}).then(function(_contractBalance) {
+		    assert.equal( _contractBalance.toString(), contractBalanceBefore.toString(), " ether was withdrawn from contract");		    
+		})
+	        // commission to withdraw reset check
+		.then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdraw) {
+		    assert.equal(_commissionToWithdraw.toNumber(), commissionToWithdraw, "commission to withdraw was reset");
+		    done();
+		}).catch(done);
+	});
+
+
+
     });
 
     describe("signature verification", function() {
@@ -158,24 +237,9 @@ contract('VerifiedProxy', function(accounts) {
     });
     
     describe("pending transfer", function() {
-
-	function makeTransfer(transferId) {	    
-	    return verifiedproxyInstance.deposit(verificationPublicKey, transferId, {from: senderAddress, value: oneEth})
-		.catch(function(err) {
-		});
-	}
-	
-	function getSentTransfer() {
-	    const transferId = generateTransferId();
-	    return makeTransfer(transferId).then(function(txData) {
-		return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress})
-		    .then(parseTransfer);
-	    });
-	}
-
 	
     	it("can be fetched by sender", function(done) {
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(transfer) {
 		    assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
 		    assert.equal(transfer.from, senderAddress, "sender is correct.");
@@ -188,7 +252,7 @@ contract('VerifiedProxy', function(accounts) {
 	
     	it("can be withdrawn with correct signature and through verifier", function(done) {
 	    var transfer;
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(_transfer) {
 		    transfer = _transfer;
 		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
@@ -206,7 +270,7 @@ contract('VerifiedProxy', function(accounts) {
     
 	it("cannot be withdrawn with correct signature but not through verifier", function(done) {
 	    var transferId;
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(transfer) {
 		    transferId = transfer.id;
 		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});
@@ -224,7 +288,7 @@ contract('VerifiedProxy', function(accounts) {
 
 	it("cannot be withdrawn through verifier without correct signature", function(done) {
 	    var transfer;
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(_transfer) {
 		    transfer = _transfer;
 		    return verifiedproxyInstance.withdraw(transfer.id, senderAddress, v, r, s, {from: verifierAddress, gas: 3000000});
@@ -241,7 +305,7 @@ contract('VerifiedProxy', function(accounts) {
 	    
 
 	it("can be cancelled by sender", function(done) {	    
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(transfer) {
 		    return {tx: verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000}), transferId: transfer.id};
 		}).then(function({tx, transferId}) {
@@ -254,7 +318,7 @@ contract('VerifiedProxy', function(accounts) {
 
 	it("cannot be canceled by verifier", function(done) {
 	    var transferId;
-	    getSentTransfer()
+	    sendTransfer()
 		.then(function(transfer) {
 		    transferId = transfer.id;
 		    return verifiedproxyInstance.withdraw(transfer.id, {from: verifierAddress, gas: 3000000});

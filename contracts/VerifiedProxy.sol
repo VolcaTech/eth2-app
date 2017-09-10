@@ -12,22 +12,26 @@ contract VerifiedProxy is Ownable, SafeMath {
     CANCELLED  // sender has cancelled the transfer
   }
 
-  uint public commission; // in wei
+  // fixed amount of wei accrued to verifier with each transfer
+  uint public commissionFee;
 
+  // verifier can withdraw this amount from smart-contract
+  uint public commissionToWithdraw; // in wei
   /*
    * EVENTS
    */
   event LogDeposit(
 		   address indexed from,
 		   bytes32 indexed transferId,
-		         uint amount
+		   uint amount,
+		            uint commission
 		   );
 
 
   event LogCancel(
 		  address indexed from,
 		  bytes32 indexed transferId,
-		        uint amount
+		          uint amount
 		  );
 
 
@@ -35,17 +39,26 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 indexed transferId,
 		    address indexed sender,
 		    address indexed recipient,
-		          uint amount
+		              uint amount
 		    );
-  event LogChangeCommission(
-			    uint oldCommission,
-			          uint newCommission
-			    );
+
+
+  event LogWithdrawCommission(
+			                uint commissionAmount
+			      );
+
+
+  event LogChangeCommissionFee(
+				uint oldCommissionFee,
+				    uint newCommissionFee
+				);
+
 
   struct Transfer {
     uint8 status; // 0 - active, 1 - completed, 2 - cancelled;
     address from;
     uint amount; // in wei
+    uint commission; // in wei
     address verificationPubKey;
   }
 
@@ -54,65 +67,79 @@ contract VerifiedProxy is Ownable, SafeMath {
 
 
   // CONSTRUCTOR
-  function VerifiedProxy(uint _commission) {
-    commission = _commission;
+  function VerifiedProxy(uint _commissionFee) {
+    commissionFee = _commissionFee;
   }
 
 
   // deposit ether to smart contract
   function deposit(address _verPubKey, bytes32 _transferId)
-        payable
+            payable
     returns(bool)
   {
-    require(msg.value > commission);
+    require(msg.value > commissionFee);
     // can not override old transfer
     require(transferDct[_transferId].verificationPubKey == 0);
-    
+
     // saving transfer details
     transferDct[_transferId] = Transfer(
 					uint8(Statuses.ACTIVE),
 					msg.sender,
-					safeSub(msg.value, commission), // excluding comission
+					safeSub(msg.value, commissionFee), // excluding comission
+					commissionFee,
 					 _verPubKey
 					);
 
-    // send fee to verification server
-    owner.transfer(commission);
-    LogDeposit(msg.sender, _transferId, msg.value);
+    // verification server commission accrued
+    commissionToWithdraw = safeAdd(commissionToWithdraw, commissionFee);
+    LogDeposit(msg.sender, _transferId, msg.value, commissionFee);
     return true;
   }
 
 
-  function changeCommission(uint _newCommission)
-      onlyOwner
-    returns(bool)
+  function changeCommissionFee(uint _newCommissionFee)
+          onlyOwner
+    returns(bool success)
   {
-    uint oldCommission = commission;
-    commission = _newCommission;
-    LogChangeCommission(oldCommission, commission);
+    uint oldCommissionFee = commissionFee;
+    commissionFee = _newCommissionFee;
+    LogChangeCommissionFee(oldCommissionFee, commissionFee);
     return true;
   }
 
+  function withdrawCommission()
+          onlyOwner
+    returns(bool success)
+  {
+    uint commissionToTransfer = commissionToWithdraw;
+    commissionToWithdraw = 0;
+    owner.transfer(commissionToTransfer);
+
+    LogWithdrawCommission(commissionToTransfer);
+    return true;
+  }
 
   function getTransfer(bytes32 _transferId)
-        constant
+            constant
     returns (
 	     bytes32 id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
 	     address from,
-	     uint amount)
+	     uint amount,
+	     uint commsission)
   {
     Transfer memory transfer = transferDct[_transferId];
     return (
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	        transfer.amount
+	    transfer.amount,
+	        transfer.commission
 	    );
   }
 
 
-  function cancelTransfer(bytes32 _transferId) returns (bool) {
+  function cancelTransfer(bytes32 _transferId) returns (bool success) {
     Transfer storage transferOrder = transferDct[_transferId];
     // checks
     require(msg.sender == transferOrder.from); // only sender can cancel transfer;
@@ -132,7 +159,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 			   uint8 _v,
 			   bytes32 _r,
 			   bytes32 _s)
-    constant returns(bool)
+    constant returns(bool success)
   {
     bytes32 prefixedHash = sha3("\x19Ethereum Signed Message:\n32", _recipient);
     address retAddr = ecrecover(prefixedHash, _v, _r, _s);
@@ -146,7 +173,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 				   uint8 _v,
 				   bytes32 _r,
 				   bytes32 _s)
-    constant returns(bool)
+    constant returns(bool success)
   {
     Transfer memory transferOrder = transferDct[_transferId];
     return (verifySignature(transferOrder.verificationPubKey, _to, _v, _r, _s));
@@ -160,7 +187,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 _r,
 		    bytes32 _s)
     onlyOwner // only through verifier can withdraw transfer;
-    returns (bool)
+    returns (bool success)
   {
     Transfer storage transferOrder = transferDct[_transferId];
 
