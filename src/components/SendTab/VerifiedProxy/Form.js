@@ -99,7 +99,7 @@ export default class Form extends Component {
 			    return web3Api.getTransactionReceiptMined(txHash.tx);
 			}).then((txReceipt) => {
 			    // tx is mined
-			    alert("tx is mined!");
+			    console.log("tx is mined!");
 			    console.log({txReceipt});
 			}).catch((err) => {
 				console.log({ err });
