@@ -104,7 +104,7 @@ export default class History extends Component {
                     <a className={component.state.showstatus === 1 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(1)}>Completed</a> 
                     <a className={component.state.showstatus === 2 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(2)}>Cancelled</a></div>
                 <div>
-                    <div className="table-responsive table-hover table-striped">
+                    <table className="table-responsive table-hover table-striped">
                         <thead>
                             <tr>
                 <th style={{padding: "10px"}}>
@@ -119,7 +119,7 @@ export default class History extends Component {
                         <tbody>
                             {rows}
                         </tbody>
-                    </div>
+                    </table>
                    {this.state.isLoading ? loaderHtml : ""}
             {(!this.state.isLoading && rows.length === 0 )  ? "No transfers yet" : ""}
                 </div>
