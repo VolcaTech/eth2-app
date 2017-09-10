@@ -108,7 +108,6 @@ contract VerifiedProxy is Ownable, SafeMath {
   }
 
   function withdrawCommission()
-          onlyOwner
     returns(bool success)
   {
     uint commissionToTransfer = commissionToWithdraw;

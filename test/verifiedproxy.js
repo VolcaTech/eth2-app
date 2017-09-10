@@ -182,32 +182,32 @@ contract('VerifiedProxy', function(accounts) {
 		}).catch(done);
 	});
 
-	it(" not verifier cannot withdraw commission", function(done) {
-	    let commissionToWithdraw, contractBalanceBefore;
+	it(" commission should go to verifier even if function called by other sender", function(done) {
+	    let commissionToWithdraw, verifierBalanceBefore;
 	    
 	    sendTransfer()
 		.then(function() {
 		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
 		}).then(function(_commissionToWithdraw) {
 		    commissionToWithdraw = _commissionToWithdraw;
-		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);
+		    return web3.eth.getBalancePromise(verifierAddress);
 		}).then(function(_balance) {
-		    contractBalanceBefore = _balance;
+		    verifierBalanceBefore = _balance;
 		    // ability to withdraw check		    
 		    return verifiedproxyInstance.withdrawCommission({}, {from: senderAddress});
 		}).catch(function(err) {
 		    // error pass
 		}).then(function() {
-		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);
+		    return web3.eth.getBalancePromise(verifierAddress);
 		// ability to withdraw check		    
-		}).then(function(_contractBalance) {
-		    assert.equal( _contractBalance.toString(), contractBalanceBefore.toString(), " ether was withdrawn from contract");		    
+		}).then(function(_verifierBalance) {
+		    assert.equal( verifierBalanceBefore.plus(commissionToWithdraw).toNumber(), _verifierBalance.toNumber()," ether wasn't withdrawn to verifier");		    
 		})
 	        // commission to withdraw reset check
 		.then(function() {
 		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
 		}).then(function(_commissionToWithdraw) {
-		    assert.equal(_commissionToWithdraw.toNumber(), commissionToWithdraw, "commission to withdraw was reset");
+		    assert.equal(_commissionToWithdraw.toNumber(), 0, "commission to withdraw wasn't reset");
 		    done();
 		}).catch(done);
 	});
