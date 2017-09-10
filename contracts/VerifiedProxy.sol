@@ -20,6 +20,8 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // gas cost to withdraw transfer
   uint private WITHDRAW_GAS_COST = 60000;
+
+
   /*
    * EVENTS
    */
@@ -47,14 +49,12 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    );
 
 
-  event LogWithdrawCommission(
-			                      uint commissionAmount
-			      );
+  event LogWithdrawCommission(uint commissionAmount);
 
 
   event LogChangeFixedCommissionFee(
 				    uint oldCommissionFee,
-				        uint newCommissionFee
+				    uint newCommissionFee
 				    );
 
 
@@ -62,7 +62,6 @@ contract VerifiedProxy is Ownable, SafeMath {
     uint8 status; // 0 - active, 1 - completed, 2 - cancelled;
     address from;
     uint amount; // in wei
-    uint commission; // in wei
     address verificationPubKey;
   }
 
@@ -93,7 +92,6 @@ contract VerifiedProxy is Ownable, SafeMath {
 					uint8(Statuses.ACTIVE),
 					msg.sender,
 					safeSub(msg.value, transferCommission), // excluding comission
-					commissionFee,
 					 _verPubKey
 					);
 
@@ -131,16 +129,14 @@ contract VerifiedProxy is Ownable, SafeMath {
 	     bytes32 id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
 	     address from,
-	     uint amount,
-	     uint commsission)
+	     uint amount)
   {
     Transfer memory transfer = transferDct[_transferId];
     return (
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	    transfer.amount,
-	            transfer.commission
+	    transfer.amount
 	    );
   }
 
