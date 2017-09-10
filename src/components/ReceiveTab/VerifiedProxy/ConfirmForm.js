@@ -5,6 +5,8 @@ import ksHelper from'../../../utils/keystoreHelper';
 import sha3 from 'solidity-sha3';
 const util = require("ethereumjs-util");
 import PhoneForm from './PhoneForm';
+const Web3Utils = require('web3-utils');
+const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
 
 export default class ReceivePhoneTab extends Component {
     constructor(props) {
@@ -28,9 +30,9 @@ export default class ReceivePhoneTab extends Component {
 		return result;
             }).then(function(result) {
 		console.log(result);
-		const msg = sha3(component.props.to);
+		const verificationHash = Web3Utils.soliditySha3(SIGNATURE_PREFIX, {type: 'address', value: component.props.to});
 		
-		const signature = ksHelper.signTx(result.transfer.verificationKeystoreData, component.props.code, msg);
+		const signature = ksHelper.signTx(result.transfer.verificationKeystoreData, component.props.code, verificationHash);
 		console.log("signature: ", signature);
 		
 		const v = signature.v;
