@@ -19,7 +19,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   uint public commissionToWithdraw; // in wei
 
   // gas cost to withdraw transfer
-  uint private WITHDRAW_GAS_COST = 60000;
+  uint private WITHDRAW_GAS_COST = 80000;
 
 
   /*
@@ -37,7 +37,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   event LogCancel(
 		  address indexed from,
 		  bytes32 indexed transferId,
-		            uint amount
+		              uint amount
 		  );
 
 
@@ -45,7 +45,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 indexed transferId,
 		    address indexed sender,
 		    address indexed recipient,
-		                  uint amount
+		                      uint amount
 		    );
 
 
@@ -54,7 +54,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   event LogChangeFixedCommissionFee(
 				    uint oldCommissionFee,
-				    uint newCommissionFee
+				        uint newCommissionFee
 				    );
 
 
@@ -68,6 +68,9 @@ contract VerifiedProxy is Ownable, SafeMath {
   // Mappings of TransferId => Transfer Struct
   mapping (bytes32 => Transfer) transferDct;
 
+  // Mappings of sender address => [transfer ids]
+  mapping (address => bytes32[]) senderDct;
+
 
   // CONSTRUCTOR
   function VerifiedProxy(uint _commissionFee) {
@@ -77,7 +80,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // deposit ether to smart contract
   function deposit(address _verPubKey, bytes32 _transferId)
-                payable
+                    payable
     returns(bool)
   {
     // can not override old transfer
@@ -97,13 +100,18 @@ contract VerifiedProxy is Ownable, SafeMath {
 
     // verification server commission accrued
     commissionToWithdraw = safeAdd(commissionToWithdraw, transferCommission);
+
+    // add transfer to mappings
+    senderDct[msg.sender].push(_transferId);
+
+    // log event
     LogDeposit(msg.sender, _transferId, msg.value, transferCommission, tx.gasprice);
     return true;
   }
 
 
   function changeFixedCommissionFee(uint _newCommissionFee)
-              onlyOwner
+                  onlyOwner
     returns(bool success)
   {
     uint oldCommissionFee = commissionFee;
@@ -124,7 +132,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   }
 
   function getTransfer(bytes32 _transferId)
-                constant
+        constant
     returns (
 	     bytes32 id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
@@ -136,7 +144,31 @@ contract VerifiedProxy is Ownable, SafeMath {
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	    transfer.amount
+	        transfer.amount
+	    );
+  }
+
+  function getSentTransfersCount() constant returns(uint count) {
+    return senderDct[msg.sender].length;
+  }
+
+  // get transfer from sender list by index
+  function getSentTransfer(uint _transferIndex)
+        constant
+    returns (
+	     bytes32 id,
+	     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
+	     address from,
+	     uint amount
+	     )
+  {
+    bytes32 transferId = senderDct[msg.sender][_transferIndex];
+    Transfer memory transfer = transferDct[transferId];
+    return (
+	    transferId,
+	    transfer.status,
+	    transfer.from,
+	        transfer.amount
 	    );
   }
 

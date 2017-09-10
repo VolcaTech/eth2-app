@@ -20,7 +20,7 @@ var signature, v, r, s;
 const PREFIX = "\x19Ethereum Signed Message:\n32";
 var verificationHash = Web3Utils.soliditySha3(PREFIX, {type: 'address', value: receiverAddress});
 
-const DEPOSIT_GAS_COST = 60000;
+const DEPOSIT_GAS_COST = 80000;
 const GAS_PRICE = 20;
 
 
@@ -287,7 +287,7 @@ contract('VerifiedProxy', function(accounts) {
     	it("can be fetched by sender", function(done) {
 	    sendTransfer()
 		.then(function(transfer) {
-		    assert.equal(transfer.amount.toString(), "989999999998800000", "amount is correct.");
+		    assert.equal(transfer.amount.toString(), "989999999998400000", "amount is correct.");
 		    assert.equal(transfer.from, senderAddress, "sender is correct.");
 		    assert.equal(transfer.status, 0, "status is correct.");		    		    		    
 		    done();

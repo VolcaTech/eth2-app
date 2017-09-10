@@ -13,11 +13,18 @@ function generateVerifiedProxyApi() {
 	    id: result[0].toString(),
 	    status: result[1].toNumber(),
 	    from: result[2].toString('hex'),
-	    amount: web3.fromWei(result[3], "ether").toString(),
-	    blocknumber: result[4].toNumber()
+	    amount: web3.fromWei(result[3], "ether").toString()
 	};
     }
 
+    function watchEvents() {
+	console.log("watching events: ", web3.eth.accounts);
+	const depositEvent = contractInstance.LogDeposit( {from: web3.eth.accounts[0]}, {fromBlock: 1505829, toBlock: 'latest', address: contractInstance.address });
+	depositEvent.watch(function(error, response) {
+	    console.log({error});
+	    console.log({response});
+	});
+    }
     
     function setup(_web3) {
 	web3 = _web3;
@@ -28,6 +35,7 @@ function generateVerifiedProxyApi() {
 		contractInstance = instance;
 		deployed = true;
 	    }
+	    watchEvents();
 	    console.log(" verified contract proxy is set up!");
 	    return true;	    
 	});
@@ -52,10 +60,11 @@ function generateVerifiedProxyApi() {
 
     
     function getSentTransfers(){	
-	console.log("gerer");
 	if (!contractInstance) {
 	    return Promise.resolve([]);
 	}
+	
+	
 	return contractInstance.getSentTransfersCount.call(null, {from: web3.eth.accounts[0]})
 	    .then((result) => {
 		console.log('getSentTransfersCount', result.toNumber());
