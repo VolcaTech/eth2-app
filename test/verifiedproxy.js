@@ -5,7 +5,7 @@ const Promise = require('bluebird');
 
 Promise.promisifyAll(web3.eth, {suffix: "Promise"});
 const oneEth = web3.toWei(1,  "ether");
-const _commission = web3.toWei(0.01,  "ether");
+const _commission = parseInt(web3.toWei(0.01,  "ether"));
 
 // verification constatns
 const verificationPublicKey = "0xD2657dBf4900A59e6125a83aA46388730a9f7753";
@@ -17,8 +17,11 @@ const util = require("ethereumjs-util");
 
 const Web3Utils = require('web3-utils');
 var signature, v, r, s;
-const prefix = "\x19Ethereum Signed Message:\n32";
-var verificationHash = Web3Utils.soliditySha3(prefix, {type: 'address', value: receiverAddress});
+const PREFIX = "\x19Ethereum Signed Message:\n32";
+var verificationHash = Web3Utils.soliditySha3(PREFIX, {type: 'address', value: receiverAddress});
+
+const DEPOSIT_GAS_COST = 60000;
+const GAS_PRICE = 20;
 
 
 function sign(privateKey, msgHash) {
@@ -59,9 +62,12 @@ contract('VerifiedProxy', function(accounts) {
 	 verifiedproxyInstance;
    
     
-    function sendTransfer() {
+    function sendTransfer(gasPrice) {
+	if (!gasPrice) {
+	    gasPrice = GAS_PRICE;
+	}
 	const transferId = generateTransferId();
-	return verifiedproxyInstance.deposit(verificationPublicKey, transferId, {from: senderAddress, value: oneEth})
+	return verifiedproxyInstance.deposit(verificationPublicKey, transferId, {from: senderAddress, value: oneEth, gasPrice: gasPrice})
 	    .then(function(txData) {
 		return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress})
 		    .then(parseTransfer);
@@ -145,11 +151,51 @@ contract('VerifiedProxy', function(accounts) {
 		}).then(function() {
 		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
 		}).then(function(_commissionToWithdrawAfter) {
-		    assert.equal((commissionToWithdrawBefore.plus(_commission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
+		    const gasCommission = GAS_PRICE * DEPOSIT_GAS_COST;
+		    const transferCommission = _commission + gasCommission;
+		    assert.equal((commissionToWithdrawBefore.plus(transferCommission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
 		    done();
 		}).catch(done);
 	});
 
+    	it(" commission is accrued correctly with different gas price", function(done) {
+	    let commissionToWithdrawBefore;
+	    const GAS_PRICE_2 = 2;
+	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
+		.then(function(_commissionToWithdraw) {
+		    commissionToWithdrawBefore = _commissionToWithdraw;
+    		    return sendTransfer(GAS_PRICE_2);
+		}).then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdrawAfter) {
+		    const gasCommission = GAS_PRICE_2 * DEPOSIT_GAS_COST;
+		    const transferCommission = _commission + gasCommission;
+		    assert.equal((commissionToWithdrawBefore.plus(transferCommission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
+		    done();
+		}).catch(done);
+	});
+
+
+	it(" msg.value should cover transfer commission", function(done) {
+	    let commissionToWithdrawBefore;
+	    const GAS_PRICE_LARGE = parseInt(web3.toWei(1, 'ether'));
+	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
+		.then(function(_commissionToWithdraw) {
+		    commissionToWithdrawBefore = _commissionToWithdraw;
+    		    return sendTransfer(GAS_PRICE_LARGE);
+		}).catch(function() {
+		    // pass error
+		}).then(function() {
+		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+		}).then(function(_commissionToWithdrawAfter) {
+		    const gasCommission = GAS_PRICE_LARGE * DEPOSIT_GAS_COST;
+		    const transferCommission = _commission + gasCommission;
+		    assert.equal(commissionToWithdrawBefore.toString(), _commissionToWithdrawAfter.toString(), "commission was accrued");
+		    done();
+		}).catch(done);
+	});
+
+	
 	it(" verifier can withdraw commission", function(done) {	  
 	    let commissionToWithdraw;
 	    
@@ -241,7 +287,7 @@ contract('VerifiedProxy', function(accounts) {
     	it("can be fetched by sender", function(done) {
 	    sendTransfer()
 		.then(function(transfer) {
-		    assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
+		    assert.equal(transfer.amount.toString(), "989999999998800000", "amount is correct.");
 		    assert.equal(transfer.from, senderAddress, "sender is correct.");
 		    assert.equal(transfer.status, 0, "status is correct.");		    		    		    
 		    done();

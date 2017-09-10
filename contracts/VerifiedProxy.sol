@@ -17,6 +17,9 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // verifier can withdraw this amount from smart-contract
   uint public commissionToWithdraw; // in wei
+
+  // gas cost to withdraw transfer
+  uint private WITHDRAW_GAS_COST = 60000;
   /*
    * EVENTS
    */
@@ -24,14 +27,15 @@ contract VerifiedProxy is Ownable, SafeMath {
 		   address indexed from,
 		   bytes32 indexed transferId,
 		   uint amount,
-		            uint commission
+		   uint commission,
+		   uint gasPrice // for verifier to withdraw to recipient with the same gas price
 		   );
 
 
   event LogCancel(
 		  address indexed from,
 		  bytes32 indexed transferId,
-		          uint amount
+		            uint amount
 		  );
 
 
@@ -39,19 +43,19 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 indexed transferId,
 		    address indexed sender,
 		    address indexed recipient,
-		              uint amount
+		                  uint amount
 		    );
 
 
   event LogWithdrawCommission(
-			                uint commissionAmount
+			                      uint commissionAmount
 			      );
 
 
-  event LogChangeCommissionFee(
-				uint oldCommissionFee,
-				    uint newCommissionFee
-				);
+  event LogChangeFixedCommissionFee(
+				    uint oldCommissionFee,
+				        uint newCommissionFee
+				    );
 
 
   struct Transfer {
@@ -74,36 +78,39 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // deposit ether to smart contract
   function deposit(address _verPubKey, bytes32 _transferId)
-            payable
+                payable
     returns(bool)
   {
-    require(msg.value > commissionFee);
     // can not override old transfer
     require(transferDct[_transferId].verificationPubKey == 0);
+
+    uint transferGasCommission = safeMul(tx.gasprice, WITHDRAW_GAS_COST);
+    uint transferCommission = safeAdd(commissionFee,transferGasCommission);
+    require(msg.value > transferCommission);
 
     // saving transfer details
     transferDct[_transferId] = Transfer(
 					uint8(Statuses.ACTIVE),
 					msg.sender,
-					safeSub(msg.value, commissionFee), // excluding comission
+					safeSub(msg.value, transferCommission), // excluding comission
 					commissionFee,
 					 _verPubKey
 					);
 
     // verification server commission accrued
-    commissionToWithdraw = safeAdd(commissionToWithdraw, commissionFee);
-    LogDeposit(msg.sender, _transferId, msg.value, commissionFee);
+    commissionToWithdraw = safeAdd(commissionToWithdraw, transferCommission);
+    LogDeposit(msg.sender, _transferId, msg.value, transferCommission, tx.gasprice);
     return true;
   }
 
 
-  function changeCommissionFee(uint _newCommissionFee)
-          onlyOwner
+  function changeFixedCommissionFee(uint _newCommissionFee)
+              onlyOwner
     returns(bool success)
   {
     uint oldCommissionFee = commissionFee;
     commissionFee = _newCommissionFee;
-    LogChangeCommissionFee(oldCommissionFee, commissionFee);
+    LogChangeFixedCommissionFee(oldCommissionFee, commissionFee);
     return true;
   }
 
@@ -119,7 +126,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   }
 
   function getTransfer(bytes32 _transferId)
-            constant
+                constant
     returns (
 	     bytes32 id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
@@ -133,7 +140,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 	    transfer.status,
 	    transfer.from,
 	    transfer.amount,
-	        transfer.commission
+	            transfer.commission
 	    );
   }
 
