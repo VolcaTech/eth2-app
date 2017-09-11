@@ -651,7 +651,7 @@ fieldset[disabled] .btn-danger.focus {
   margin-top: 1px;
 }
 .m-t-xs {
-  margin-top: 5px;
+  margin-top: 6px;
 }
 .m-t-sm {
   margin-top: 10px;
@@ -1690,7 +1690,7 @@ input[type="radio"] .styled:checked + label::after {
 }
 .progress-small,
 .progress-small .progress-bar {
-  height: 10px;
+  height: 5px;
 }
 .progress-bar-primary {
   border-right: 4px solid #0d74b1;
@@ -1732,6 +1732,7 @@ input[type="radio"] .styled:checked + label::after {
 }
 .modal-content {
   background-color: #21242a;
+  height: 520px;
 }
 .modal-content .modal-title {
   font-size: 22px;
@@ -1754,6 +1755,9 @@ input[type="radio"] .styled:checked + label::after {
   border-color: #3d404c;
   background-color: #1d1f24;
   padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 .modal-backdrop.in {
   filter: alpha(opacity=10);
@@ -2891,7 +2895,6 @@ fieldset[disabled] .form-control {
   overflow: hidden;
 }
 .keystore-field {
-  width: 68% !important;
   height: 160px;
   white-space: normal !important;
 }
@@ -2924,4 +2927,22 @@ fieldset[disabled] .form-control {
 
 .a-grey:hover :focus :active {
   color: #f6a821;
+}
+
+.dot-progress {
+  position: absolute;
+  color: white;
+}
+
+.gold {
+  color: #f6a821
+}
+
+.btn-margin {
+  margin: 20px;
+} 
+
+.m-t-spinner {
+  margin-top: 25px;
+  margin-right: 16px;
 }
