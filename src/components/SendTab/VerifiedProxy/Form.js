@@ -29,7 +29,9 @@ export default class Form extends Component {
 		    error: false,
 		    errorMsg: "",
 		    phoneIsValid: false,
-		    historyUpdateCounter: 0 // counter is updated in order to <History /> to fetch new transfer
+			historyUpdateCounter: 0, // counter is updated in order to <History /> to fetch new transfer
+			step: 0,
+			hash: ""
 		};
 	}
 
@@ -90,17 +92,21 @@ export default class Form extends Component {
 
 				return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
 			}).then((txHash) => {
-			    // tx is pending (not mined yet)
-			    console.log({ txHash });
+				// tx is pending (not mined yet)
+				
 			    component.setState({
+				state: 1,
+				hash: txHash.tx,
 				sendingTx: false,
-				historyUpdateCounter: 1
+				historyUpdateCounter: 1,
 			    });
 			    return web3Api.getTransactionReceiptMined(txHash.tx);
 			}).then((txReceipt) => {
 			    // tx is mined
 			    console.log("tx is mined!");
 			    console.log({txReceipt});
+			    component.setState({step: 2});
+			    //alert("tx is mined!");
 			}).catch((err) => {
 				console.log({ err });
 				component.setState({
@@ -187,6 +193,8 @@ export default class Form extends Component {
 					showModal={component.state.showModal}
 					error={component.state.error}
 					errorMsg={component.state.errorMsg}
+					step={component.state.step}
+					hash={component.state.hash}
 					closeModal={() => component.closeModal()} />
 			</div>
 
