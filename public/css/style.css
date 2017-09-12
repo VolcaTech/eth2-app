@@ -2943,6 +2943,12 @@ fieldset[disabled] .form-control {
 } 
 
 .m-t-spinner {
-  margin-top: 25px;
+  margin-top: -45px;
   margin-right: 16px;
+}
+
+.final-tick {
+    color: #f6a821;
+    font-size: 40px;
+    text-align: center;
 }

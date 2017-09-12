@@ -6,7 +6,7 @@ const contract = require('truffle-contract');
 function generateVerifiedProxyApi() {
     
 
-    var web3, contractInstance, deployed;
+    var web3, contractInstance, deployed, contractWeb3;
 
     function _parseTransfer(result) {
 	return {
@@ -17,14 +17,6 @@ function generateVerifiedProxyApi() {
 	};
     }
 
-    function watchEvents() {
-	console.log("watching events: ", web3.eth.accounts);
-	const depositEvent = contractInstance.LogDeposit( {from: web3.eth.accounts[0]}, {fromBlock: 1505829, toBlock: 'latest', address: contractInstance.address });
-	depositEvent.watch(function(error, response) {
-	    console.log({error});
-	    console.log({response});
-	});
-    }
     
     function setup(_web3) {
 	web3 = _web3;
@@ -33,9 +25,11 @@ function generateVerifiedProxyApi() {
         return verifiedProxy.deployed().then(function(instance) {
 	    if (instance) {
 		contractInstance = instance;
+		contractWeb3 = web3.eth.contract(contractInstance.abi).at(contractInstance.address);
+		Promise.promisifyAll(contractWeb3, { suffix: "Promise" });
 		deployed = true;
 	    }
-	    watchEvents();
+
 	    console.log(" verified contract proxy is set up!");
 	    return true;	    
 	});
@@ -47,9 +41,9 @@ function generateVerifiedProxyApi() {
 	    return null;
 	}	
         const weiAmount = web3.toWei(amount, "ether");
-	return contractInstance.deposit(web3.toHex(pubkey), transferId, {from: web3.eth.accounts[0], value: weiAmount});
+	return contractWeb3.depositPromise(web3.toHex(pubkey), transferId, {from: web3.eth.accounts[0], value: weiAmount, gasPrice: web3.toWei(23, "gwei")});
     }
-
+    
     function cancel(transferId){	
 	if (!deployed) {
 	    alert("Verified Proxy Contract Is not deployed to selected network!");

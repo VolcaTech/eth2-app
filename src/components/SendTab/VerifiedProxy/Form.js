@@ -93,27 +93,29 @@ export default class Form extends Component {
 				return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
 			}).then((txHash) => {
 				// tx is pending (not mined yet)
-				
+			    console.log({txHash});
 			    component.setState({
-				state: 1,
-				hash: txHash.tx,
-				sendingTx: false,
-				historyUpdateCounter: 1,
+				step: 1,
+				hash: txHash
 			    });
-			    return web3Api.getTransactionReceiptMined(txHash.tx);
+			    return web3Api.getTransactionReceiptMined(txHash);
 			}).then((txReceipt) => {
 			    // tx is mined
 			    console.log("tx is mined!");
 			    console.log({txReceipt});
-			    component.setState({step: 2});
-			    //alert("tx is mined!");
+			    component.setState({
+				sendingTx: false,
+				step: 2,
+				historyUpdateCounter: 1		
+			    });
+
 			}).catch((err) => {
 				console.log({ err });
-				component.setState({
-					sendingTx: false,
-					error: true,
-					errorMsg: (err.msg || err)
-				});
+			    component.setState({
+				sendingTx: false,
+				error: true,
+				errorMsg: (err.msg || err)
+			    });
 			});
 	}
 
