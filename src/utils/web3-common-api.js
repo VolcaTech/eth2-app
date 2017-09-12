@@ -84,6 +84,9 @@ function generateWeb3Api() {
 	isLoaded: () => _loaded,
 	getNetworkId: () => _networkId,
 	getNetworkName: () => _networkName,
+	toWei: (n, k) => web3.toWei(n, k),
+	fromWei: (n, k) => web3.fromWei(n,k),
+	toBigNumber: (n) => web3.toBigNumber(n),
 	web3: web3,
 	getTransactionReceiptMined: (txHash) => web3.eth.getTransactionReceiptMined(txHash, 500),
 	setup

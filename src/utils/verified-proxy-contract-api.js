@@ -4,9 +4,11 @@ const contract = require('truffle-contract');
 
 
 function generateVerifiedProxyApi() {
-    
+    var web3, contractInstance, deployed, contractWeb3;    
+    const WITHDRAW_GAS_COST = 80000;
+    const FIXED_COMMISSION = 0.01;
+    const GAS_PRICE = 23000000000; // 23 gwei
 
-    var web3, contractInstance, deployed, contractWeb3;
 
     function _parseTransfer(result) {
 	return {
@@ -29,10 +31,13 @@ function generateVerifiedProxyApi() {
 		Promise.promisifyAll(contractWeb3, { suffix: "Promise" });
 		deployed = true;
 	    }
-
 	    console.log(" verified contract proxy is set up!");
 	    return true;	    
 	});
+    }
+
+    function getCommission() {
+	return web3.toBigNumber(GAS_PRICE  * WITHDRAW_GAS_COST).plus(web3.toWei(FIXED_COMMISSION, 'ether'));
     }
     
     function deposit(pubkey, amount, transferId){	
@@ -92,6 +97,7 @@ function generateVerifiedProxyApi() {
 	deposit,
 	setup,
 	getSentTransfers,
+	getCommission,
 	cancel
     };
     

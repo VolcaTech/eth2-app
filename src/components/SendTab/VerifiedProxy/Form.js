@@ -10,10 +10,10 @@ import sha3 from 'solidity-sha3';
 import ksHelper from '../../../utils/keystoreHelper';
 import verifiedProxyContractApi from "../../..//utils/verified-proxy-contract-api";
 import History from "./History";
+const ReactTelInput = require('react-telephone-input');
 
 
 export default class Form extends Component {
-
 	constructor(props) {
 		console.log("constructor");
 		super(props);
@@ -21,6 +21,7 @@ export default class Form extends Component {
 		    phone: '1',
 		    phoneCode: '',
 		    amount: '',
+		    amountToPay: '',
 		    code: '',
 		    confirmPressed: false,
 		    showModal: false,
@@ -29,76 +30,83 @@ export default class Form extends Component {
 		    error: false,
 		    errorMsg: "",
 		    phoneIsValid: false,
-			historyUpdateCounter: 0, // counter is updated in order to <History /> to fetch new transfer
-			step: 0,
-			hash: ""
+		    historyUpdateCounter: 0, // counter is updated in order to <History /> to fetch new transfer
+		    step: 0,
+		    hash: ""
 		};
 	}
 
 	greenTick() {
-		return (
-			<div className="green-tick" >&#10003;</div>
-		)
+	    return (
+		    <div className="green-tick" >&#10003;</div>
+	    );
 	}
+    
+    _changeAmount(amount) {
+	const amountToPayWei = web3Api.toBigNumber(web3Api.toWei(amount, "ether")).plus(verifiedProxyContractApi.getCommission());
+	const amountToPay = web3Api.fromWei(amountToPayWei, 'ether');
+	console.log({toPay: amountToPay.toString()});
+	this.setState({amount, amountToPay});
+    }
+    
+    generateCode() {
+	const random = Math.random().toString(32).slice(5).toUpperCase();
+	return random;
+    }
+    
+    generateWallet(secretCode) {
+	const { address, keystoreData } = ksHelper.create(secretCode);
+	return { address, ksData: keystoreData };
+    }
 
-	generateCode() {
-		const random = Math.random().toString(32).slice(5).toUpperCase();
-		return random;
-	}
-
-	generateWallet(secretCode) {
-		const { address, keystoreData } = ksHelper.create(secretCode);
-		return { address, ksData: keystoreData };
-	}
-
-	closeModal() {
-		this.setState({ showModal: false });
-	}
-	showModal() {
-		this.setState({ showModal: true });
-	}
-
-	handleSubmit() {
-		this.setState({ errorMsg: "", error: false });
-		const component = this;
-		let transferId;
-		if (this.state.phoneIsValid === false) {
-			this.setState({ errorMsg: "Invalid phone number", error: true });
-			return null;
+    closeModal() {
+	this.setState({ showModal: false });
+    }
+    showModal() {
+	this.setState({ showModal: true });
+    }
+    
+    handleSubmit() {
+	this.setState({ errorMsg: "", error: false });
+	const component = this;
+	let transferId;
+	if (this.state.phoneIsValid === false) {
+	    this.setState({ errorMsg: "Invalid phone number", error: true });
+	    return null;
 		}
-		if (this.state.amount.length === 0) {
-			this.setState({ errorMsg: "Wrong amount", error: true });
-			return null;
+	if (this.state.amount.length === 0) {
+	    this.setState({ errorMsg: "Wrong amount", error: true });
+	    return null;
+	}
+	const secretCode = this.generateCode();
+	const { address, ksData } = this.generateWallet(secretCode);
+	component.setState({
+	    confirmPressed: true,
+	    code: secretCode,
+	    showModal: true,
+	    sendingTx: true,
+	    errorMsg: ""
+	});
+	
+	transferId = sha3(component.state.phoneCode + component.state.phone + secretCode);
+	console.log({ transferId, phone: component.state.phone, phoneCode: component.state.phoneCode });
+	serverApi.sendTransferKeystore(transferId, component.state.phone, component.state.phoneCode, ksData)
+	    .then(function (result) {
+		let errorMsg = "";
+		if (!result || !result.success) {
+		    errorMsg = result.errorMsg || "Server error!";
+		    throw new Error(errorMsg);
 		}
-		const secretCode = this.generateCode();
-		const { address, ksData } = this.generateWallet(secretCode);
+		
+		return verifiedProxyContractApi.deposit(address, component.state.amountToPay, transferId);
+	    }).then((txHash) => {
+		// tx is pending (not mined yet)
+		console.log({txHash});
 		component.setState({
-			confirmPressed: true,
-			code: secretCode,
-			showModal: true,
-			sendingTx: true,
-			errorMsg: ""
+		    step: 1,
+		    hash: txHash
 		});
-
-		transferId = sha3(component.state.phoneCode + component.state.phone + secretCode);
-		console.log({ transferId, phone: component.state.phone, phoneCode: component.state.phoneCode });
-		serverApi.sendTransferKeystore(transferId, component.state.phone, component.state.phoneCode, ksData)
-			.then(function (result) {
-				let errorMsg = "";
-				if (!result || !result.success) {
-					errorMsg = result.errorMsg || "Server error!";
-					throw new Error(errorMsg);
-				}
-
-				return verifiedProxyContractApi.deposit(address, component.state.amount, transferId);
-			}).then((txHash) => {
-				// tx is pending (not mined yet)
-			    console.log({txHash});
-			    component.setState({
-				step: 1,
-				hash: txHash
-			    });
-			    return web3Api.getTransactionReceiptMined(txHash);
+		return web3Api.getTransactionReceiptMined(txHash);
 			}).then((txReceipt) => {
 			    // tx is mined
 			    console.log("tx is mined!");
@@ -108,21 +116,19 @@ export default class Form extends Component {
 				step: 2,
 				historyUpdateCounter: 1		
 			    });
-
+			    
 			}).catch((err) => {
-				console.log({ err });
+			    console.log({ err });
 			    component.setState({
 				sendingTx: false,
 				error: true,
 				errorMsg: (err.msg || err)
 			    });
 			});
-	}
+    };
 
 	render() {
 		const component = this;
-
-		const ReactTelInput = require('react-telephone-input');
 		const form = (
 			<div>
 				<div>
@@ -146,14 +152,14 @@ export default class Form extends Component {
 	    </label>
 							<div className="input-container">
 								<div style={{ width: "80%", float: "left" }}>
-									<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component.setState({ amount: event.target.value })} />
+									<input className="form-control" type="text" value={component.state.amount} onChange={(event) => component._changeAmount(event.target.value)} />
 								</div><div style={{ width: "20%", float: "right" }}>{this.state.amount > 0 ? this.greenTick() : ""}</div></div></div>
 
 						<div className="col-sm-6"><label>
 							Amount to pay*, eth.
 	    </label>				<div className="input-container">
 								<div style={{ width: "80%", float: "left" }}>
-									<input className="form-control" style={{background: "lightslategrey"}} value={this.state.amount > 0 ? parseFloat(this.state.amount) + 0.01 : ""} disabled type="text" onChange={(event) => component.setState({ amount: event.target.value })} />
+			<input className="form-control" style={{background: "lightslategrey"}} value={this.state.amount > 0 ? parseFloat(this.state.amountToPay) : ""} disabled type="text" onChange={(event) => component.setState({ amount: event.target.value })} />
 								</div><label style={{ width: "80%" }}>*The amount to be withdrawn including fixed commission of 0.01 ether. We only charge it to cover the SMS provider expense and server maintenance, plus a two cheap meals a day for our small team to keep going.</label></div></div></div>
 				</div>
 				<a className="btn btn-md btn-accent" onClick={() => component.handleSubmit()}>Send</a>
