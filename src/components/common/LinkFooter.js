@@ -9,10 +9,9 @@ class LinkFooter extends React.Component {
 
         return (
             <div>
-                <div className="row" style={{ marginBottom: "15px" }}>
-                    <div className="col-md-6 col-md-offset-3" style={{left: "5%"}}>
-                        <h3>Send ethereum to any person by phone number.<br /><span style={{display: "inline-block", width: "62px"}}></span>Simple. Secure. No wallet needed.</h3>
-                    </div>
+                <div className="row" style={{ textAlign: "center", marginBottom: "15px" }}>
+                    
+                        <h3>Send ethereum to any person by phone number.<br />Simple. Secure. No wallet needed.</h3>
                 </div>
                 <div className="row">
                     <div className="col-md-2 col-md-offset-3"><a className="a-grey" href="/about.html"><div className="fa fa-info-circle links-margin" aria-hidden="true"> About</div></a></div>
