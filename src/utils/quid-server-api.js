@@ -2,7 +2,7 @@ import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
 
 //const SERVER_URL =  'http://localhost:8000';
-const SERVER_URL =  'http://eth2phone.com:8001';
+const SERVER_URL =  'https://eth2phone.com';
 
 const api = {
     sendTransferKeystore:function(transferId, phone, phoneCode,  ksData) {
