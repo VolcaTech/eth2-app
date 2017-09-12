@@ -65,13 +65,13 @@ class App extends Component {
 	return(
 		<div>
 		<Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3}/> 
-
+		<LinkFooter/>
 	   <div className="wrapper">
 		<div className="container-center animated slideInDown">
 		  <MainTab/>
             </div>
 		</div>
-		<LinkFooter/>
+		
 		</div>
 	);
   }
