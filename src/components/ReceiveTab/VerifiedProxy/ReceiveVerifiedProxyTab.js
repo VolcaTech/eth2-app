@@ -14,12 +14,12 @@ export default class ReceivePhoneTab extends Component {
         super(props);
         this.state = {
             stepId: 0,
-            phone: "",
+            phone: this.props.phone,
             transferId: "",
-	    code: "",
+	    	code: this.props.code,
             smsCode: "",
             to: "",
-	    txId: ""
+	    	txId: ""
         };
     }
 
@@ -72,7 +72,7 @@ export default class ReceivePhoneTab extends Component {
 		    <PhoneForm
 		onSuccess={(transferId, phone, code) => component.onPhoneSuccess(transferId, phone, code)}
                 goBack={() => this.goTo(0)}
-		    />
+		    code={this.state.code} phone={this.state.phone}/>
 	    );
 	    break;
 	case 2:
@@ -104,6 +104,7 @@ export default class ReceivePhoneTab extends Component {
     }
     
     render() {	
+		console.log("PROXY: ", this.state.code, this.state.phone)
         return (
             <div>
 		{ ( this.state.stepId !== 0)  ?
