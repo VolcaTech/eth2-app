@@ -5,7 +5,9 @@ export default class Tab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "receivePhone"
+            activeTab: "receivePhone",
+            code: this.props.code,
+            phone: this.props.phone
         };
     }
 
@@ -14,6 +16,7 @@ export default class Tab extends Component {
     }
 
     render() {
+        console.log("RECEIVE: ", this.state.code, this.state.phone)
         return (
             <div className="tabs-container">
                 <div className="tabs-left">
@@ -23,7 +26,7 @@ export default class Tab extends Component {
                     <div className="tab-content">
                         <div id="tab-6" className="tab-pane active">
                             <div className="panel-body">
-                                {("receivePhone" === this.state.activeTab) ? <ReceiveVerifiedProxyTab /> : ""}
+                                {("receivePhone" === this.state.activeTab) ? <ReceiveVerifiedProxyTab code={this.state.code} phone={this.state.phone}/> : ""}
                             </div>
                         </div>
                     </div>

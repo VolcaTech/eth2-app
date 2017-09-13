@@ -11,10 +11,10 @@ export default class ReceivePhoneTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: "1",
+            phone: this.props.phone,
             phoneCode: '',
             phoneIsValid: false,
-            code: "",
+            code: this.props.code,
             error: "",
             isFetching: false
         };
@@ -52,6 +52,7 @@ export default class ReceivePhoneTab extends Component {
     }
 
     render() {
+        console.log("RECEIVE: ", this.state.code, this.state.phone)
         const component = this;
         return (
             <form>
@@ -81,8 +82,8 @@ export default class ReceivePhoneTab extends Component {
                 </div>
                 <div className="input-container">
 						<div style={{ width: "90%", float: "left" }}>
-                    <input className="form-control" type="text" onChange={(event) => this.setState({ code: event.target.value })} />
-                    </div><div style={{ width: "10%", float: "right" }}>{this.state.code.length > 5 ? this.greenTick() : ""}</div></div>
+                    <input className="form-control" type="text" value={component.state.code} onChange={(event) => this.setState({ code: event.target.value })} />
+                    </div><div style={{ width: "10%", float: "right" }}>{this.state.code.length === 8 ? this.greenTick() : ""}</div></div>
                 <br />
                 <div>
                     {this.state.isFetching ? <div className="loader-spin"></div> : ""}
