@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 
 function ReceiveLink({code, phone}) {
-	const receiveUrl = "http://eth2phone.com/?tab=receiveTab&";
-	//code=0I060J1G&phone=79112721136
+    const receiveUrl = "https://eth2phone.com/?tab=receiveTab&";
     const receiveLink = receiveUrl.concat("code=").concat(code).concat("&phone=").concat(phone);
-	//if (!phone) { return null;}
-	console.log("LINK: ", receiveLink)
+
     return (
 	    <div style={{marginTop: "10px", textAlign: "center"}}>
 	     <label>
-	    <a href={receiveLink}>{receiveLink}</a>
+	    <span className="gold"> {receiveLink}</span>
 	    </label>
 	    </div>
     );
