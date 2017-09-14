@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default function ModalContent({ step }) {
-    let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
+	let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
     switch (step) {
     case 0:
 	title = "Sending transaction...";

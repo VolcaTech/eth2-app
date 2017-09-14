@@ -86,14 +86,14 @@ export default class ReceivePhoneTab extends Component {
 
 				stepComponent = (
 					<ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId)}
-						phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep}
+						phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep} txId={this.state.txId}
 					/>
 				);
 				break;
 			case 3:
 				stepComponent = (
 					<ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId)}
-						phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep}
+						phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep} txId={this.state.txId}
 					/>
 				);
 				break;

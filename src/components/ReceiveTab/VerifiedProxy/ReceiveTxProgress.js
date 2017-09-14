@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 
-export default function ReceiveTxProgress({step}) {
-	console.log("PROGRESS: ", step)
+function EtherscanTxLink({txId}) {
+	console.log("LINK TX: ", txId)
+	const etherscanUrl = "https://ropsten.etherscan.io/tx/";
+	const txLink = etherscanUrl.concat(txId);
+	//if (!txId) { return null; }
+	return (
+		<a style={{ color: "#f6a821" }} href={txLink}>{txLink}</a>
+	);
+}
+
+export default function ReceiveTxProgress({step, txId}) {
+	console.log("PROGRESS TX: ", txId)
     let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
     switch (step) {
     case 1:
@@ -54,6 +64,14 @@ export default function ReceiveTxProgress({step}) {
 	    <label style={textStyle1}>Created</label>
 	    <label style={textStyle2}>At processing</label>
 	    <label style={textStyle3}>Completed</label>
+		<div className="row" style={{marginTop:"65px"}}>
+			<div className="col-md-6">
+				<label>Wallet balance: 2.02</label><br/><label>Transaction: +1.02</label>
+			</div>
+			<div className="col-md-6">
+				<label>Check on Ehterscan: </label><br/><div className="crop-text"><label>Check on Ehterscan: <EtherscanTxLink txId={txId}/></label></div>
+			</div>
+		</div>
 		</div>
 	);
 }
