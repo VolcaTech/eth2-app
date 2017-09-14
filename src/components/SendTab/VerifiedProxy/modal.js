@@ -7,7 +7,7 @@ function EtherscanTxLink({hash, step}) {
     const txLink = etherscanUrl.concat(hash);
     if (!hash) { return null;}
     return (
-	    <div style={step===1? { marginTop: "60px", textAlign: "center" }:{}}>
+	    <div style={{marginTop: "60px", textAlign: "center"}}>
 	     <label>
 	      { step === 1 ?
 		<span>Your TX has been broadcast to the network. It is waiting to be mined and confirmed. During ICOs it may take 3+ hours to confirm.<br /><br /></span> : ""}

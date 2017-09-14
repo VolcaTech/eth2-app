@@ -10,7 +10,7 @@ export default function ModalContent({ step }) {
 	dot2Style = { fontsize: "24px", right: "50%" };
 	dot3Style = { fontsize: "24px", right: "4%" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%" };
+	textStyle2 = { position: "absolute", right: "46%" };
 	textStyle3 = { position: "absolute", right: "2%" };
 	break;
     case 1:
@@ -20,7 +20,7 @@ export default function ModalContent({ step }) {
 	dot2Style = { fontsize: "24px", right: "50%", color: "#f6a821" };
 	dot3Style = { fontsize: "24px", right: "4%" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%", color: "#f6a821" };
+	textStyle2 = { position: "absolute", right: "46%", color: "#f6a821" };
 	textStyle3 = { position: "absolute", right: "2%" };
 	break;
     case 2:
@@ -30,7 +30,7 @@ export default function ModalContent({ step }) {
 	dot2Style = { fontsize: "24px", right: "50%", color: "#f6a821" };
 	dot3Style = { fontsize: "24px", right: "4%", color: "#f6a821" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%", color: "#f6a821" };
+	textStyle2 = { position: "absolute", right: "46%", color: "#f6a821" };
 	textStyle3 = { position: "absolute", right: "2%", color: "#f6a821" };
 	break;
     }

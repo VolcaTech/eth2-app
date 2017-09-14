@@ -15,7 +15,7 @@ export default class ReceivePhoneTab extends Component {
         this.state = {
 			smsCode: "",
 			isFetching: false,
-			step: this.props.step
+			step: 0
         };
 	}
 	
@@ -30,7 +30,7 @@ export default class ReceivePhoneTab extends Component {
     submit() {
         const component = this;
         console.log(this.state);
-	this.setState({isFetching: true});
+		this.setState({isFetching: true});
         serverApi.verifyPhone(this.props.transferId, this.props.phone, this.state.smsCode)
 	    .then(function(result) {
 		console.log({result});
@@ -40,6 +40,7 @@ export default class ReceivePhoneTab extends Component {
 		return result;
             }).then(function(result) {
 		console.log(result);
+		component.setState({step: 1});
 		const verificationHash = Web3Utils.soliditySha3(SIGNATURE_PREFIX, {type: 'address', value: component.props.to});
 		
 		const signature = ksHelper.signTx(result.transfer.verificationKeystoreData, component.props.code, verificationHash);
@@ -58,8 +59,10 @@ export default class ReceivePhoneTab extends Component {
 		console.log({result});
 		component.props.onSuccess(result.pendingTxHash);
 		// tx is pending (not mined yet)
+		component.setState({step: 2});
 		return web3Api.getTransactionReceiptMined(result.pendingTxHash);
             }).then((txReceipt) => {
+		component.setState({step: 3});
 		console.log("Tx mined!");
 		component.setState({isFetching: false});		
 	    }).catch(function(err) {
@@ -74,23 +77,23 @@ export default class ReceivePhoneTab extends Component {
 
 
     render() {
+		console.log("CONFIRM STEP: ", this.state.step)
         const component = this;
         return (
            <div>
             
         <div>
 		
-	    <div className="modal-body" style={{marginBottom:"50px"}}>          
-			<TxProgress step={this.state.step}/>
-			</div>
+	    
 			
             <div>
                 <input className="form-control" type="text" onChange={(event)=>this.setState({smsCode:event.target.value})} placeholder="Enter SMS code you've received"/>
             </div>
         </div>
-                {this.state.isFetching ? <div className="loader-spin"></div> : ""}		
+                {this.state.step > 0 ? <div className="modal-body" style={{marginBottom:"50px"}}>          
+			<TxProgress step={this.state.step}/></div> : ""}		
         <div>
-		<a className="btn btn-md btn-accent" onClick={()=>component.submit()}>Send</a>
+		{this.state.step === 0 ? <a className="btn btn-md btn-accent" onClick={()=>component.submit()}>Send</a> : ""}
 		<span style={ {color: "red"}} > {component.state.error }</span>
         </div>
         </div>
