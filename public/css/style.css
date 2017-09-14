@@ -940,7 +940,7 @@ mark {
 }
 label {
   color: #ffffff;
-  font-weight: 500;
+  /* font-weight: 500; */
   margin-top: 8px;
 }
 sup {
@@ -1732,7 +1732,7 @@ input[type="radio"] .styled:checked + label::after {
 }
 .modal-content {
   background-color: #21242a;
-  height: 560px;
+  height: 660px;
 }
 .modal-content .modal-title {
   font-size: 22px;

@@ -198,6 +198,7 @@ export default class Form extends Component {
 				<History updateCounter={this.state.historyUpdateCounter} />
 				<Modal sendingTx={component.state.sendingTx}
 					code={component.state.code}
+					phone={component.state.phone}
 					showModal={component.state.showModal}
 					error={component.state.error}
 					errorMsg={component.state.errorMsg}
