@@ -133,7 +133,7 @@ export default class Form extends Component {
 			<div>
 				<div>
 					<label>
-						Phone number
+						Receiver's Phone number
   	    </label>
 					<div className="input-container">
 						<div style={{ width: "90%", float: "left" }}>
