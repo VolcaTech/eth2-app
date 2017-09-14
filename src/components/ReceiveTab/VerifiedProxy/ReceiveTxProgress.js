@@ -1,45 +1,45 @@
 import React, { Component } from 'react';
 
-export default function ModalContent({ step }) {
+export default function ReceiveTxProgress({ step }) {
     let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
     switch (step) {
-    case 0:
-	title = "Sending transaction...";
+    case 1:
+	title = "Waiting for sms code...";
 	progBarStyle = { width: "5%" };
 	dot1Style = { fontsize: "24px", color: "#f6a821" };
 	dot2Style = { fontsize: "24px", right: "50%" };
-	dot3Style = { fontsize: "24px", right: "4%" };
+	dot3Style = { fontsize: "24px", right: "1%" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%" };
+	textStyle2 = { position: "absolute", right: "46%" };
 	textStyle3 = { position: "absolute", right: "2%" };
 	break;
-    case 1:
+    case 2:
 	title = "Transaction is pending...";
 	progBarStyle = { width: "50%" };
 	dot1Style = { fontsize: "24px", color: "#f6a821" };
 	dot2Style = { fontsize: "24px", right: "50%", color: "#f6a821" };
-	dot3Style = { fontsize: "24px", right: "4%" };
+	dot3Style = { fontsize: "24px", right: "1%" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%", color: "#f6a821" };
+	textStyle2 = { position: "absolute", right: "46%", color: "#f6a821" };
 	textStyle3 = { position: "absolute", right: "2%" };
 	break;
-    case 2:
+    case 3:
 	title = "Transaction completed!";
 	progBarStyle = { width: "100%" };
 	dot1Style = { fontsize: "24px", color: "#f6a821" };
 	dot2Style = { fontsize: "24px", right: "50%", color: "#f6a821" };
-	dot3Style = { fontsize: "24px", right: "4%", color: "#f6a821" };
+	dot3Style = { fontsize: "24px", right: "1%", color: "#f6a821" };
 	textStyle1 = { position: "absolute", left: "3%", color: "#f6a821" };
-	textStyle2 = { position: "absolute", right: "44%", color: "#f6a821" };
+	textStyle2 = { position: "absolute", right: "46%", color: "#f6a821" };
 	textStyle3 = { position: "absolute", right: "2%", color: "#f6a821" };
 	break;
     }
     return (
 	    <div>
-	    <h2 className="modal-title" >
-	    {title}</h2>
+	    <h3 className="modal-title">
+	    {title}</h3>
 	    <div className="m-t m-t-spinner">
-	      {step !== 2 ? <div className="loader-spin" style={{marginTop:"10px"}}> </div> : <div className="final-tick" >&#10003;</div>} 
+	      {step !== 3 ? <div className="loader-spin" style={{marginTop:"10px"}}> </div> : <div className="final-tick" >&#10003;</div>} 
 	    </div>
 	    <br />
 	    <br />
@@ -50,10 +50,9 @@ export default function ModalContent({ step }) {
 	    <div style={progBarStyle} aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" className="progress-bar progress-bar-warning">
 	    </div>
 	    </div>
-	    <label style={textStyle1}>Created</label>
+	    <label style={textStyle1}>Verifying phone</label>
 	    <label style={textStyle2}>At processing</label>
 	    <label style={textStyle3}>Completed</label>
 		</div>
 	);
 }
-

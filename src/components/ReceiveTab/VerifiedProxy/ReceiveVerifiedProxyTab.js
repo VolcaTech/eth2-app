@@ -19,7 +19,8 @@ export default class ReceivePhoneTab extends Component {
 	    	code: this.props.code,
             smsCode: "",
             to: "",
-	    	txId: ""
+			txId: "",
+			progressStep: 0
         };
     }
 
@@ -70,26 +71,35 @@ export default class ReceivePhoneTab extends Component {
 	case 1: 
 	    stepComponent = (
 		    <PhoneForm
-		onSuccess={(transferId, phone, code) => component.onPhoneSuccess(transferId, phone, code)}
-                goBack={() => this.goTo(0)}
+			onSuccess={(transferId, phone, code) => component.onPhoneSuccess(transferId, phone, code)}
+            goBack={() => this.goTo(0)}
 		    code={this.state.code} phone={this.state.phone}/>
-	    );
+		);
+		
+		// stepComponent = (
+		//     <ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId) }
+		// phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep}
+		//     />
+	    // );
 	    break;
 	case 2:
+		
 	    stepComponent = (
-		    <ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId) }
-		phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to}
-		    />
+			""
+		//     <ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId) }
+		// phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep}
+		//     />
 	    );
 	    break;
 	case 3:
 	    stepComponent = (
-		    <div>
-		    Transfer has been succesfully completed!
-                    <div className="crop-text">
-		      Tx Id: {this.state.txId}
-		    </div>
-		    </div>
+			""
+			// <div>
+		    // Transfer has been succesfully completed!
+            //         <div className="crop-text">
+		    //   Tx Id: {this.state.txId}
+		    // </div>
+		    // </div>
 	    );
 	    break;
 	    
@@ -113,6 +123,9 @@ export default class ReceivePhoneTab extends Component {
 		  <label style={{marginLeft:"-4px"}}>Receiver Address: </label><div className="crop-text">{this.state.to}</div>
 		  </div>: ""
 		}
+				{(this.state.stepId !== 0) ? <ConfirmForm onSuccess={(txId) => this.onConfirmSuccess(txId) }
+		phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.stepId}
+		    /> : ""}
                 { this._stepComponent() }
             </div>
         );

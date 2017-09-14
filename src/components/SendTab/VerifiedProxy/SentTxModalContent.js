@@ -13,7 +13,7 @@ export default function SentTxResult({ code, error, errorMsg }) {
 	}
 
 	return (
-		<div style={{ marginTop: "60px" }}>
+		<div style={{ marginTop: "60px", textAlign: "center" }}>
 			<label>Verification code:</label>
 			<h1 style={{ color: "#f6a821", fontWeight: "bold" }}> {code} </h1>
 			<br />

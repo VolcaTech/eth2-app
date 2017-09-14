@@ -1732,10 +1732,11 @@ input[type="radio"] .styled:checked + label::after {
 }
 .modal-content {
   background-color: #21242a;
-  height: 520px;
+  height: 560px;
 }
 .modal-content .modal-title {
   font-size: 22px;
+  margin-bottom: 60px;
 }
 .modal-content .modal-header {
   border-color: #3d404c;

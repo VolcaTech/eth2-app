@@ -7,7 +7,7 @@ function EtherscanTxLink({hash, step}) {
     const txLink = etherscanUrl.concat(hash);
     if (!hash) { return null;}
     return (
-	    <div style={step===1? { marginTop: "60px" }:{}}>
+	    <div style={step===1? { marginTop: "60px", textAlign: "center" }:{}}>
 	     <label>
 	      { step === 1 ?
 		<span>Your TX has been broadcast to the network. It is waiting to be mined and confirmed. During ICOs it may take 3+ hours to confirm.<br /><br /></span> : ""}
@@ -34,7 +34,7 @@ export default function Modal(props) {
 					<div className="modal-footer">
 						{!props.sendingTx ?
 							<button type="button" className="btn btn-default" onClick={() => props.closeModal()} >Close</button>
-							: <div className="small-margin"> Please don't close this window before the transaction is completed.</div>}
+							: <div className="small-margin" style={{textAlign: "center"}}> Please don't close this window before the transaction is completed.</div>}
 					</div>
 				</div>
 			</div>

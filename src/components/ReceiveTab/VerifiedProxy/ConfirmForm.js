@@ -5,6 +5,7 @@ import ksHelper from'../../../utils/keystoreHelper';
 import sha3 from 'solidity-sha3';
 const util = require("ethereumjs-util");
 import PhoneForm from './PhoneForm';
+import TxProgress from './ReceiveTxProgress';
 const Web3Utils = require('web3-utils');
 const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
 
@@ -12,10 +13,19 @@ export default class ReceivePhoneTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            smsCode: "",
-	    isFetching: false
+			smsCode: "",
+			isFetching: false,
+			step: this.props.step
         };
-    }
+	}
+	
+	closeModal() {
+		this.setState({ showModal: false });
+		}
+
+	showModal() {
+		this.setState({ showModal: true });
+		}
 
     submit() {
         const component = this;
@@ -68,8 +78,12 @@ export default class ReceivePhoneTab extends Component {
         return (
            <div>
             
-        <div>          
-
+        <div>
+		
+	    <div className="modal-body" style={{marginBottom:"50px"}}>          
+			<TxProgress step={this.state.step}/>
+			</div>
+			
             <div>
                 <input className="form-control" type="text" onChange={(event)=>this.setState({smsCode:event.target.value})} placeholder="Enter SMS code you've received"/>
             </div>
