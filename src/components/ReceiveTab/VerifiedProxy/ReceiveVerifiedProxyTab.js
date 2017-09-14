@@ -64,7 +64,7 @@ export default class ReceivePhoneTab extends Component {
 		switch (this.state.stepId) {
 			case 0:
 				stepComponent = (
-					<AddressForm onSuccess={(address) => component.onAddressChosen(address)} />
+					<AddressForm web3Connected={web3Api.isConnected()} onSuccess={(address) => component.onAddressChosen(address)} />
 				);
 				break;
 
@@ -75,12 +75,6 @@ export default class ReceivePhoneTab extends Component {
 						goBack={() => this.goTo(0)}
 						code={this.state.code} phone={this.state.phone} />
 				);
-
-				// stepComponent = (
-				//     <ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId) }
-				// phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep}
-				//     />
-				// );
 				break;
 			case 2:
 
@@ -97,16 +91,6 @@ export default class ReceivePhoneTab extends Component {
 					/>
 				);
 				break;
-			// stepComponent = (
-			// 	<div>
-			//     Transfer has been succesfully completed!
-			//             <div className="crop-text">
-			//       Tx Id: {this.state.txId}
-			//     </div>
-			//     </div>
-			// );
-			// break;
-
 			default:
 				stepComponent = (
 					<div>
@@ -118,7 +102,6 @@ export default class ReceivePhoneTab extends Component {
 	}
 
 	render() {
-		console.log("PROXY: ", this.state.code, this.state.phone)
 		return (
 			<div>
 				{(this.state.stepId !== 0) ?

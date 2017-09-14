@@ -10,7 +10,7 @@ export default class Tab extends Component {
 
 	const queryParams = getQueryParams();
         this.state = {
-            activeTab: (queryParams.activeTab || "sendTab"), 
+            activeTab: (queryParams.tab || "sendTab"), 
             code: (queryParams.code || ""),
             phone: (queryParams.phone || "")
         };

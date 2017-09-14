@@ -30,14 +30,8 @@ class App extends Component {
 				    setTimeout(poll, 500);
 				} else {
 				    console.log("web3 is set", isWeb3Set);
-				    return true;
+				    resolve();
 				}
-			    }).then(() =>{
-				console.log("w3api;", web3Api.getWeb3());
-				return verifiedProxyContractApi.setup(web3Api.getWeb3());								    
-			    }).then(() => {
-				const contractAddress = verifiedProxyContractApi.getContractAddress();
-				resolve(contractAddress);
 			    }).catch((err) => {
 				console.log('Error finding web3.', err);
 				reject(err);
@@ -51,7 +45,12 @@ class App extends Component {
 		const component = this;
 		return new Promise(function (resolve, reject) {
 		    component._pollWeb3()
-			.then((contractAddress) => {
+			.then(() =>{
+			    console.log("w3api;", web3Api.getWeb3());
+			    return verifiedProxyContractApi.setup(web3Api.getWeb3());								    
+			}).then(() => {
+			    return verifiedProxyContractApi.getContractAddress();
+			}).then((contractAddress) => {
 			    resolve({ web3Loaded: true, noWeb3: false, contractAddress});
 			}).catch(() => {
 			    resolve({ web3Loaded: true, noWeb3: true });

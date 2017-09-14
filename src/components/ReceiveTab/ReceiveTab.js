@@ -16,7 +16,6 @@ export default class Tab extends Component {
     }
 
     render() {
-        console.log("RECEIVE: ", this.state.code, this.state.phone)
         return (
             <div className="tabs-container">
                 <div className="tabs-left">

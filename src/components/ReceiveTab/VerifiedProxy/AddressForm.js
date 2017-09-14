@@ -12,38 +12,49 @@ const fileDownload = require('react-file-download');
 
 export default class AddressForm extends Component {
 	constructor(props) {
-		super(props);
-		let selectedOption;
-		if (web3Api.isConnected()) {
-			selectedOption = 0;
-		} else {
-			selectedOption = 2;
-		}
-
-		this.state = {
-			address: "",
-			error: "",
-			connected: false,
-			selectedOption,
-			keystoreData: ""
-		};
+	    super(props);
+	    let selectedOption;
+	    
+	    this.state = {
+		selectedOption: 0,
+		address: "",
+		error: "",
+		selectedOption,
+		keystoreData: ""
+	    };
 	}
 
-	componentDidMount() {
-		this._initAddress(this.state.selectedOption);
+    componentWillReceiveProps(newProps) {
+	if (newProps.web3Connected !== this.props.web3Connected) {
+	    this._checkWeb3IsConnected(newProps);
 	}
+    }
+    
+    componentDidMount() {
+	this._checkWeb3IsConnected(this.props);
+    }
 
-	_initAddress(option) {
-		let address;
-		if (option === 0) {
-			address = web3Api.getAddress();
-		} else {
-			address = "";
-		}
-		this.setState({ address, selectedOption: option });
+    _checkWeb3IsConnected(props) {
+	let selectedOption;
+	if (props.web3Connected) {
+	    selectedOption = 0;
+	} else {
+	    selectedOption = 2;
 	}
-
-	submit() {
+	this._initAddress(selectedOption);
+    }
+    
+    _initAddress(option) {
+	let address;
+	if (option === 0) {
+	    address = web3Api.getAddress();
+	} else {
+	    address = "";
+	}
+	this.setState({ address, selectedOption: option });
+    }
+    
+    submit() {
 		if (this.state.address.length === 42) {
 			this.props.onSuccess(this.state.address);
 		} else {
