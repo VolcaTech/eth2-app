@@ -7,8 +7,7 @@ function generateVerifiedProxyApi() {
     var web3, contractInstance, deployed, contractWeb3;    
     const WITHDRAW_GAS_COST = 80000;
     const FIXED_COMMISSION = 0.01;
-    const GAS_PRICE = 23000000000; // 23 gwei
-
+    const GAS_PRICE = 23000000000; // 23 gwei (hard-coded at this moment)
 
     function _parseTransfer(result) {
 	return {
@@ -98,7 +97,8 @@ function generateVerifiedProxyApi() {
 	setup,
 	getSentTransfers,
 	getCommission,
-	cancel
+	cancel,
+	getContractAddress: () => contractInstance.address
     };
     
 }

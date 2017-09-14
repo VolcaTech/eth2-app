@@ -14,7 +14,6 @@ export default class Tab extends Component {
             code: (queryParams.code || ""),
             phone: (queryParams.phone || "")
         };
-        console.log("STATE: ", this.state.code, this.state.phone);
     }
 
     

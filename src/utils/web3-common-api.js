@@ -71,7 +71,6 @@ function generateWeb3Api() {
 		}
 		_networkName = detectNetwork(_networkId);
 	    }).then(() => {
-		verifiedProxyContractApi.setup(web3);
 		return _networkId !== -1 && web3.eth.accounts.length > 0;
 	    });
     }
@@ -87,7 +86,7 @@ function generateWeb3Api() {
 	toWei: (n, k) => web3.toWei(n, k),
 	fromWei: (n, k) => web3.fromWei(n,k),
 	toBigNumber: (n) => web3.toBigNumber(n),
-	web3: web3,
+	getWeb3: () => web3,
 	getTransactionReceiptMined: (txHash) => web3.eth.getTransactionReceiptMined(txHash, 500),
 	setup
     };

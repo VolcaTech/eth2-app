@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import web3Api from "../..//utils/web3-common-api";
+import web3Api from "../../utils/web3-common-api";
 
 const ConnectionStatus = () => (
 	<div>
@@ -34,8 +34,19 @@ const Address = () => (
 	</div>
 )
 
+const ContractAddress = ({address}) => {
+    const ropstenLink = `https://ropsten.etherscan.io/address/${address}`;
+    return (
+	<div>
+	Contract Address:  
+	 <strong className="c-white">
+	    <a target="_blank" href={ropstenLink} style={{color: '#ccc', textDecoration: "underline"}}>{address}</a>
+	  </strong>	
+	</div>
+    );
+}
 
-const Web3StatusContent = ({web3Loaded, noWeb3}) => {
+const Web3StatusContent = ({web3Loaded, noWeb3, contractAddress}) => {
     if (!web3Loaded) {
 	return (
 	    <div>
@@ -52,21 +63,18 @@ const Web3StatusContent = ({web3Loaded, noWeb3}) => {
     }
     return (
 	    <div>
-	       <ConnectionStatus />
-	       <Balance />
-	       <Address />
-	       <Network />
+	      <ConnectionStatus />
+	      <Balance />
+	      <Address />
+	      <ContractAddress address={contractAddress} />
+
+	      <Network />
 	</div>
     );
 };
 
 
-class Web3StatusBar extends React.Component {
-
-
-    render() {
-	//console.log(this.props);
-	const props = this.props;
+function Web3StatusBar(props) {
     return (
 
 <div className="row m-t-sm">
@@ -86,6 +94,6 @@ class Web3StatusBar extends React.Component {
 	    </div>
     );
 }
-}
+
 
 export default Web3StatusBar;
