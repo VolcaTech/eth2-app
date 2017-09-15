@@ -12,6 +12,7 @@ https://medium.com/p/50830f592e25/
 Play with the demo at https://eth2phone.github.io/ . The demo app supports Ropsten network right now.
 
 ## Architecture
+![Architecture](/Algorithm.png)
 1. Sender creates public key and transfers in to the blockchain smart contract
 2. Sender creates encrypted private key and sends it to verification server.
 3. Sender also passes the decryption password to receiver (by the way he chooses?—?voice, sms, e-mail, etc )
