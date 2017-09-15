@@ -93,7 +93,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
   /**
    * @dev Contructor that sets msg.sender as owner (verifier) in Ownable
    * and sets verifier's fixed commission fee.
-   * @param _commmissionFee uint Verifier's fixed commission for each transfer
+   * @param _commissionFee uint Verifier's fixed commission for each transfer
    */
   function VerifiedProxy(uint _commissionFee) {
     commissionFee = _commissionFee;
