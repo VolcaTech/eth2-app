@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import web3Api from "../../../utils/web3-common-api";
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
-import AddressRadioSelect from './AddressRadioSelect';
 import ksHelper from '../../../utils/keystoreHelper';
-
 const fileDownload = require('react-file-download');
+
 
 const Guidelines = () => (
     <div>
@@ -21,78 +19,74 @@ const Guidelines = () => (
 )
 
 
-export default class GenerateWallet extends Component {
-	constructor(props) {
-	    super(props);
-	    this.state = {
-		address: "",
-		error: "",
-		keystoreData: ""
-	    };
-	}
+const AddressWithKeystore = ({address, keystore}) => {
+    if (address.length !== 42) {return null;}
+    const downloadKeystoreData = () => {
+	fileDownload(keystore, `keystore-${Date.now()}-${address}.json`);
+    };
     
-	generateWallet() {
-		if (!this.state.password) {
-			this.setState({ error: "Provide password for your new wallet" });
-		} else {
-			const { address, keystoreData } = ksHelper.create(this.state.password);
-			this.setState({ address, keystoreData });
-		}
+    return (
+	<div>
+	  <label> Your wallet address: </label>
+	  <p className="form-control crop-text"> {address} </p>
+	  <label> Your kestore data: </label>
+	  <div className="form-control crop-text keystore-field" type="textarea"> {keystore}</div>
+	  <div className="gold"> WITHOUT KEYSTORE DATA YOU WILL LOOSE ACCESS TO THE WALLET! </div>
+	  <a className="btn btn-md btn-default" onClick={() => downloadKeystoreData()}> Download Keystore Data </a>
+	</div>
+    );
+}
+
+export default class GenerateWallet extends Component {
+    constructor(props) {
+	super(props);
+	this.state = {
+	    address: "",
+	    error: "",
+	    keystoreData: ""
+	};
+    }
+    
+    generateWallet() {
+
+	if (!this.state.password) {
+	    this.setState({ error: "Provide password for your new wallet" });
+	} else if (this.state.password.length < 8) {
+	    this.setState({ error: "Password should be at least 8 symbols" });
+	} else {
+	    const { address, keystoreData } = ksHelper.create(this.state.password);
+	    this.setState({ address, keystoreData, error: "" });
+	    this.props.onSubmit(address);
 	}
-
-	downloadKeystoreData() {
-		if (!this.state.keystoreData) {
-			this.setState({ error: "Generate wallet first!" });
-		} else {
-			fileDownload(this.state.keystoreData, `keystore-${Date.now()}.json`);
-		}
-	}
+	
+    }
 
 
-	render() {
-
-		return (
-		    <div className="m--t-mg m--b">
-		      <div>
-			<label> Password </label>
-			<div className="row">
-			  <div className="col-sm-6">
-			    <input placeholder="Password" className="form-control crop-text" type="text" onChange={(event) => this.setState({ password: event.target.value })} />
-			  </div>
-			  <div className="col-sm-6">
-			    <a className="btn btn-md btn-default" onClick={() => this.generateWallet()}> Generate Wallet </a>
-			  </div>
-			</div>
-		      </div>
-		      <div>
-			<label> Your wallet address: </label>
-			<div className="row">
-			  <div className="col-sm-6">
-			    <p className="form-control crop-text">
-			      {this.state.address}
-			    </p>
-			  </div>
-
-			</div>
 
 
-		      </div>
-		      <div>
-			<label> Your kestore data: </label>
-			<div className="row">
-			  <div className="col-sm-6">
-			    <div className="form-control crop-text keystore-field" type="textarea">
-			      {this.state.keystoreData}
-			    </div>
-			    <a className="btn btn-md btn-default" onClick={() => this.downloadKeystoreData()}> Download Keystore </a>
-			  </div>
-			  <div className="col-sm-6">
-			  </div>
-			</div>
-		      </div>
+    render() {
+	return (
+	    <div className="m--t-mg m--b">
+	      <div>
+		<label> Password </label>
+		<div className="row">
+		  <div className="col-sm-6">
+		    <input placeholder="Password" className="form-control crop-text" type="text" onChange={(event) => this.setState({ error: "", password: event.target.value })} />
+		    <a className="btn btn-md btn-default" onClick={() => this.generateWallet()}> Generate Wallet </a>
+		    <span style={{color: "red"}}> {this.state.error} </span>
+		    <AddressWithKeystore address={this.state.address} keystore={this.state.keystoreData}/> 
+		  </div>
+		  <div className="col-sm-6">
+		    <Guidelines/>
+		  </div>
 
-		    </div>
-		);
+		</div>
+	      </div>
 
-	}
+
+	    </div>
+	    
+	);
+
+    }
 }
