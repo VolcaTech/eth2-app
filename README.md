@@ -27,7 +27,7 @@ Play with the demo at https://eth2phone.github.io/ . The demo app supports Rops
 
 ## Running on Ropsten
 You should be good to go if you set Metamask to point at the correct network.
-Load https://eth2phone.github.io/ and use the app!?
+Load https://eth2phone.github.io/ and use the app.
 
 ## License
 MIT Liscense 
