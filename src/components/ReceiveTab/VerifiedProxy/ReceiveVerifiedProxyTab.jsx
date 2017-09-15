@@ -10,7 +10,7 @@ import AddressForm from './AddressForm';
 import ConfirmForm from './ConfirmForm';
 
 
-export default class ReceivePhoneTab extends Component {
+export default class ReceiverProxyTab extends Component {
     constructor(props) {
 	super(props);
 	this.state = {
@@ -35,7 +35,6 @@ export default class ReceivePhoneTab extends Component {
 
     }
 
-
     onAddressChosen(address) {
 	this.setState({
 	    stepId: 1,
@@ -58,7 +57,6 @@ export default class ReceivePhoneTab extends Component {
     };
 
 
-
     _stepComponent() {
 	const component = this;
 	let stepComponent = null;
@@ -78,7 +76,6 @@ export default class ReceivePhoneTab extends Component {
 	    );
 	    break;
 	case 2:
-
 	    stepComponent = (
 		<ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId)}
 		  phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep} txId={this.state.txId}

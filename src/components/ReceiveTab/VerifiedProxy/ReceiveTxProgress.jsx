@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 
-function EtherscanTxLink({txId}) {
-	console.log("LINK TX: ", txId)
-	const etherscanUrl = "https://ropsten.etherscan.io/tx/";
-	const txLink = etherscanUrl.concat(txId);
-	//if (!txId) { return null; }
-	return (
-		<a style={{ color: "#f6a821" }} href={txLink}>{txLink}</a>
-	);
+
+function EtherscanTxLink({hash, step}) {
+    const etherscanUrl = "https://ropsten.etherscan.io/tx/";
+    const txLink = etherscanUrl.concat(hash);
+    if (!hash) { return null;}
+    return (
+	<div style={{marginTop: "200px", textAlign: "center"}}>
+	  <label>
+	    { step === 2 ?
+	    <span>Your TX has been broadcast to the network. It is waiting to be mined and confirmed. During ICOs it may take 3+ hours to confirm.<br /><br /></span> : ""}
+	    <span style={ {fontSize:"0.9em"} }> Verify transaction on etherscan: </span>
+	    <br/>
+	    <a style={{color: "#ccc", fontSize: "0.9em"}} target="_blank" href={txLink}>{txLink}</a>
+	  </label>
+	</div>
+    );
 }
 
-export default function ReceiveTxProgress({step, txId}) {
-	console.log("PROGRESS TX: ", txId)
+
+export default function ReceiveTxProgress({step, txId, address, txAmount}) {
     let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
     switch (step) {
     case 1:
@@ -45,6 +53,7 @@ export default function ReceiveTxProgress({step, txId}) {
 	textStyle3 = { position: "absolute", right: "-1%", color: "#f6a821" };
 	break;
     }
+    const addressLink = `https://ropsten.etherscan.io/address/${address}`;
     return (
 	    <div>
 	    <h3 className="modal-title">
@@ -65,13 +74,14 @@ export default function ReceiveTxProgress({step, txId}) {
 	    <label style={textStyle2}>At processing</label>
 	    <label style={textStyle3}>Completed</label>
 		<div className="row" style={{marginTop:"65px"}}>
-			<div className="col-md-6">
-				<label>Wallet balance: 2.02</label><br/><label>Transaction: +1.02</label>
-			</div>
-			<div className="col-md-6">
-				<label>Check on Ehterscan: </label><br/><div className="crop-text"><label>Check on Ehterscan: <EtherscanTxLink txId={txId}/></label></div>
-			</div>
+		  <div className="col-md-12 text-center" style={{marginTop:"50px"}}>
+		    
+		    <h1 style={{fontSize: "40px"}}> <span className="gold"> +{txAmount} eth </span></h1>
+		    <h5> <a href={addressLink} target="_blank" style={{color: "#ccc"}}> to {address} </a>  </h5>
+		  </div>
+		  <EtherscanTxLink hash={txId} step={step}/>
 		</div>
-		</div>
+	    </div>
 	);
 }
+//<h4> Current balance is <span> 3.03 eth </span></h4>
