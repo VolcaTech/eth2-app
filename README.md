@@ -11,6 +11,10 @@ https://medium.com/p/50830f592e25/
 ## Demo
 Play with the demo at https://eth2phone.github.io/ . The demo app supports Ropsten network right now.
 
+## Video: 
+* [Sending demo](https://screencast-o-matic.com/watch/cbQoD1IbCD)
+* [Receiving demo](https://screencast-o-matic.com/watch/cbQoDXIbCp)
+
 ## Architecture
 ![Architecture](/Algorithm.png)
 1. Sender creates public key and transfers in to the blockchain smart contract
