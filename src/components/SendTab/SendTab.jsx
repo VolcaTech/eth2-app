@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-//import SendToAddress from './SendToAddress';
-//import SendToPhone from './SendToPhone';
 import VerifiedProxyTab from './VerifiedProxy/VerifiedProxyTab';
-import DirectProxyTab from './VerifiedProxy/VerifiedProxyTab';
-import web3Api from "../../utils/web3-common-api";
+import web3Api from "../../apis/web3-common-api";
 
 function WrongNetworkMessage(){
 
@@ -27,7 +24,6 @@ export default class Tab extends Component {
 
     
     render() {
-     //<li className={("DirectProxy" === this.state.activeTab) ? "active" : ""}><a data-toggle="tab" href="#tab-6" onClick={() => this.changeTab("DirectProxy")}>Address</a></li>	
         return (
             <div className="tabs-container">
                 <div className="tabs-left">

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import verifiedProxyContractApi from "../../../utils/verified-proxy-contract-api";
-import web3Api from "../../../utils/web3-common-api";
-
+import eth2phoneApi from "../../../apis/eth2phone-api";
 
 class HistoryRow extends Component {
 
@@ -16,10 +14,8 @@ class HistoryRow extends Component {
     cancel(transferId) {
 	const component = this;
 	this.setState({pendingCancel: true});
-	verifiedProxyContractApi.cancel(transferId).then((res) => {
+	eth2phoneApi.cancelTransfer(transferId).then((res) => {
 	    this.setState({pendingCancel: false, cancelled: true});
-	    console.log({res});
-	    //alert("Transfer cancelled!");
 	});
     }
     
@@ -64,7 +60,7 @@ export default class History extends Component {
     _fetchTransfers() {
         const component = this;
 	setTimeout(function() {
-            verifiedProxyContractApi.getSentTransfers().then(function (data) {
+            eth2phoneApi.getSentTransfers().then(function (data) {
 		component.setState({ rows: data, isLoading: false });
 	    }, 2000);
         });

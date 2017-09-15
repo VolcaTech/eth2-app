@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import web3Api from "../../../utils/web3-common-api";
+import web3Api from "../../../apis/web3-common-api";
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import AddressRadioSelect from './AddressRadioSelect';
 import GenerateWallet from './GenerateWallet';

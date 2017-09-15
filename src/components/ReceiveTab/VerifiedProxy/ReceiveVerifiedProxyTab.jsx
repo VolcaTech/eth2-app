@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import serverApi from "../../../utils/quid-server-api";
-import web3Api from "../../../utils/web3-common-api";
-import ksHelper from '../../../utils/keystoreHelper';
-import sha3 from 'solidity-sha3';
-const util = require("ethereumjs-util");
+import web3Api from "../../../apis/web3-common-api";
 
 import PhoneForm from './PhoneForm';
 import AddressForm from './AddressForm';
@@ -16,19 +12,17 @@ export default class ReceiverProxyTab extends Component {
 	this.state = {
 	    stepId: 0,
 	    phone: this.props.phone === "" ? "1" : this.props.phone,
-	    transferId: "",
+	    phoneCode: "",
 	    code: this.props.code,
 	    smsCode: "",
-	    to: "",
-	    txId: "",
-	    progressStep: 0
+	    to: ""
 	};
     }
 
-    onPhoneSuccess(transferId, phone, code) {
+    onPhoneSuccess(phoneCode, phone, code) {
 	this.setState({
 	    stepId: 2,
-	    transferId,
+	    phoneCode,
 	    phone,
 	    code: code
 	});
@@ -42,13 +36,6 @@ export default class ReceiverProxyTab extends Component {
 	});
     }
 
-
-    onConfirmSuccess(txId) {
-	this.setState({
-	    stepId: 3,
-	    txId
-	});
-    };
 
     goTo(stepId) {
 	this.setState({
@@ -70,22 +57,18 @@ export default class ReceiverProxyTab extends Component {
 	case 1:
 	    stepComponent = (
 		<PhoneForm
-		   onSuccess={(transferId, phone, code) => component.onPhoneSuccess(transferId, phone, code)}
+		   onSuccess={(phoneCode, phone, code) => component.onPhoneSuccess(phoneCode, phone, code)}
 		  goBack={() => this.goTo(0)}
 		  code={this.state.code} phone={this.state.phone} />
 	    );
 	    break;
 	case 2:
 	    stepComponent = (
-		<ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId)}
-		  phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep} txId={this.state.txId}
-		  />
-	    );
-	    break;
-	case 3:
-	    stepComponent = (
-		<ConfirmForm onSuccess={(txId) => component.onConfirmSuccess(txId)}
-		  phone={this.state.phone} code={this.state.code} transferId={this.state.transferId} to={this.state.to} step={this.state.progressStep} txId={this.state.txId}
+		<ConfirmForm 
+		   phone={this.state.phone}
+		   code={this.state.code}
+		   phoneCode={this.state.phoneCode}
+		   to={this.state.to}
 		  />
 	    );
 	    break;

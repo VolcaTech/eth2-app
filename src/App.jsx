@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import MainTab from './components/MainTab';
-import web3Api from "./utils/web3-common-api";
-import verifiedProxyContractApi from "./utils/verified-proxy-contract-api";
+import web3Api from "./apis/web3-common-api";
+import verifiedProxyContractApi from "./apis/verified-proxy-contract-api";
 import Web3StatusBar from './components/common/Web3StatusBar';
 import LinkFooter from './components/common/LinkFooter';
 
@@ -26,14 +26,11 @@ class App extends Component {
 			web3Api.setup()
 			    .then(isWeb3Set => {
 				if (!isWeb3Set) {
-				    console.log("web3 is not set", isWeb3Set);
 				    setTimeout(poll, 500);
 				} else {
-				    console.log("web3 is set", isWeb3Set);
 				    resolve();
 				}
 			    }).catch((err) => {
-				console.log('Error finding web3.', err);
 				reject(err);
 			    });
 		    }		    
@@ -46,7 +43,6 @@ class App extends Component {
 		return new Promise(function (resolve, reject) {
 		    component._pollWeb3()
 			.then(() =>{
-			    console.log("w3api;", web3Api.getWeb3());
 			    return verifiedProxyContractApi.setup(web3Api.getWeb3());								    
 			}).then(() => {
 			    return verifiedProxyContractApi.getContractAddress();

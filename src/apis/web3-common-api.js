@@ -1,7 +1,7 @@
 import Promise from "bluebird";
-import getWeb3 from './getWeb3';
+import getWeb3 from '../utils/getWeb3';
 import verifiedProxyContractApi from "./verified-proxy-contract-api";
-const getTransactionReceiptMined = require("./getTransactionReceiptMined.js");
+const getTransactionReceiptMined = require("../utils/getTransactionReceiptMined.js");
 
 function detectNetwork(networkId) {
     var networkName;

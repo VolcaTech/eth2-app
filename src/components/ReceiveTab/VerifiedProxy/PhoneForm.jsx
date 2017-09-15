@@ -3,9 +3,8 @@ import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from '
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType, isValidNumber } from 'libphonenumber-js';
-import serverApi from "../../../utils/quid-server-api";
-import sha3 from 'solidity-sha3';
-const util = require("ethereumjs-util");
+
+import eth2phoneApi from "../../../apis/eth2phone-api";
 
 export default class ReceivePhoneTab extends Component {
     constructor(props) {
@@ -29,14 +28,12 @@ export default class ReceivePhoneTab extends Component {
         const component = this;
         console.log(this.state);
         this.setState({ isFetching: true });
-        const transferId = sha3(component.state.phoneCode + component.state.phone + component.state.code);
-        serverApi.claimPhone(transferId).then(function (result) {
-            console.log({ result });
+        eth2phoneApi.sendSmsToPhone(component.state.phoneCode, component.state.phone, component.state.code).then(function (result) {
             if (!result.success) {
                 throw new Error((result.errorMessage || "Server error"));
             }
             component.setState({ isFetching: false });
-            component.props.onSuccess(transferId, component.state.phone, component.state.code);
+            component.props.onSuccess(component.state.phoneCode, component.state.phone, component.state.code);
         }).catch(function (err) {
             console.log({ err });
             component.setState({

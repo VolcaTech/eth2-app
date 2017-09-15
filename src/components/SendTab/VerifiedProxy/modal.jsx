@@ -11,8 +11,9 @@ function EtherscanTxLink({hash, step}) {
 	  <label>
 	    { step === 1 ?
 	    <span>Your TX has been broadcast to the network. It is waiting to be mined and confirmed. During ICOs it may take 3+ hours to confirm.<br /><br /></span> : ""}
-	    <span style={ {fontSize:"0.9em"} }> You can also check your transaction on etherscan: </span>
-	    <a style={{color: "#ccc", fontSize: "0.9em", textDecoration: "underline;"}} target="_blank" href={txLink}>{txLink}</a>
+	    <span style={ {fontSize:"0.9em"} }> Verify transaction on etherscan: </span>
+	    <br/>
+	    <a style={{color: "#ccc", fontSize: "0.9em"}} target="_blank" href={txLink}>{txLink}</a>
 	  </label>
 	</div>
     );
@@ -20,8 +21,6 @@ function EtherscanTxLink({hash, step}) {
 
 export default function Modal(props) {
     const component = this;
-    
-    //console.log("HASH: ", props.hash)
     return (
 	<div className="modal fade in" id="myModal" tabIndex="-1" role="dialog" aria-hidden="true" style={{ display: (props.showModal ? "block" : "none"), 'paddingLeft': "0px" }}>
 	  <div className="modal-dialog modal-lg">

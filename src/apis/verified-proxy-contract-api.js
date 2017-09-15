@@ -65,16 +65,13 @@ function generateVerifiedProxyApi() {
 	
 	return contractInstance.getSentTransfersCount.call(null, {from: web3.eth.accounts[0]})
 	    .then((result) => {
-		console.log('getSentTransfersCount', result.toNumber());
 		return result.toNumber();
 	    }).then((count) => {
 		const getTransferPromises = [];
 		for (let i=count-1; i >= 0; i--) {
 		    getTransferPromises.push(new Promise(function(resolve, reject) {
-			console.log("getting transfer: ", i);
 			contractInstance.getSentTransfer(i, {from: web3.eth.accounts[0]})
 			    .then((res) => {
-				console.log({res});
 				return res;
 			    }).then(_parseTransfer)
 			    .then((res) => resolve(res))
@@ -84,7 +81,6 @@ function generateVerifiedProxyApi() {
 		
 		return Promise.all(getTransferPromises);
 	    }).then((transfers) => {
-		console.log({transfers});
 		return transfers;
 	    });
     };
