@@ -2146,11 +2146,11 @@ h6 .small,
 }
 .tabs-left > .nav-tabs,
 .tabs-right > .nav-tabs {
-  width: 20%;
+  width: 10%;
 }
 .tabs-left .panel-body {
-  width: 80%;
-  margin-left: 20%;
+  width: 90%;
+  margin-left: 10%;
 }
 .tabs-right .panel-body {
   width: 80%;
