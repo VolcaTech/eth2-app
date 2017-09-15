@@ -1,9 +1,9 @@
 pragma solidity 0.4.15;
-import './Owned.sol';
 import './SafeMath.sol';
+import './Stoppable.sol';
 
 
-contract VerifiedProxy is Ownable, SafeMath {
+contract VerifiedProxy is Stoppable, SafeMath {
 
   // Status codes
   enum Statuses {
@@ -37,7 +37,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   event LogCancel(
 		  address indexed from,
 		  bytes32 indexed transferId,
-		              uint amount
+		                uint amount
 		  );
 
 
@@ -45,7 +45,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 indexed transferId,
 		    address indexed sender,
 		    address indexed recipient,
-		                      uint amount
+		                          uint amount
 		    );
 
 
@@ -54,7 +54,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   event LogChangeFixedCommissionFee(
 				    uint oldCommissionFee,
-				        uint newCommissionFee
+				            uint newCommissionFee
 				    );
 
 
@@ -80,7 +80,9 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // deposit ether to smart contract
   function deposit(address _verPubKey, bytes32 _transferId)
-                    payable
+                        whenNotPaused
+                        whenNotStopped
+                        payable
     returns(bool)
   {
     // can not override old transfer
@@ -111,7 +113,9 @@ contract VerifiedProxy is Ownable, SafeMath {
 
 
   function changeFixedCommissionFee(uint _newCommissionFee)
-                  onlyOwner
+                      whenNotPaused
+                      whenNotStopped
+                      onlyOwner
     returns(bool success)
   {
     uint oldCommissionFee = commissionFee;
@@ -121,6 +125,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   }
 
   function withdrawCommission()
+                    whenNotPaused
     returns(bool success)
   {
     uint commissionToTransfer = commissionToWithdraw;
@@ -132,7 +137,7 @@ contract VerifiedProxy is Ownable, SafeMath {
   }
 
   function getTransfer(bytes32 _transferId)
-        constant
+            constant
     returns (
 	     bytes32 id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
@@ -144,7 +149,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	        transfer.amount
+	            transfer.amount
 	    );
   }
 
@@ -154,12 +159,12 @@ contract VerifiedProxy is Ownable, SafeMath {
 
   // get transfer from sender list by index
   function getSentTransfer(uint _transferIndex)
-        constant
+            constant
     returns (
 	     bytes32 id,
 	     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
 	     address from,
-	     uint amount
+	          uint amount
 	     )
   {
     bytes32 transferId = senderDct[msg.sender][_transferIndex];
@@ -168,7 +173,7 @@ contract VerifiedProxy is Ownable, SafeMath {
 	    transferId,
 	    transfer.status,
 	    transfer.from,
-	        transfer.amount
+	            transfer.amount
 	    );
   }
 
@@ -221,6 +226,8 @@ contract VerifiedProxy is Ownable, SafeMath {
 		    bytes32 _r,
 		    bytes32 _s)
     onlyOwner // only through verifier can withdraw transfer;
+        whenNotPaused
+        whenNotStopped
     returns (bool success)
   {
     Transfer storage transferOrder = transferDct[_transferId];
