@@ -31,7 +31,7 @@ const AddressWithKeystore = ({address, keystore}) => {
 	  <p className="form-control crop-text"> {address} </p>
 	  <label> Your kestore data: </label>
 	  <div className="form-control crop-text keystore-field" type="textarea"> {keystore}</div>
-	  <div className="gold"> WITHOUT KEYSTORE DATA YOU WILL LOOSE ACCESS TO THE WALLET! </div>
+	  <div className="gold"> WITHOUT KEYSTORE DATA YOU WILL LOSE ACCESS TO THE WALLET! </div>
 	  <a className="btn btn-md btn-default" onClick={() => downloadKeystoreData()}> Download Keystore Data </a>
 	</div>
     );
