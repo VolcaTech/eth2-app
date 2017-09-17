@@ -55,7 +55,7 @@ function HistoryTable({rows, isLoading}) {
     
     return (
 	<div className="m-t-md">
-	  <table className="table-responsive table-hover table-striped">
+	  <table className="table table-responsive table-hover table-striped">
 	    <thead>
 	      <tr>
 		<th>
