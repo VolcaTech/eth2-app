@@ -12,7 +12,7 @@ export default class Tab extends Component {
 	// for mobile's change tabs style
 	let tabClass = "";
 	let DEFAULT_TAB = "receiveTab";
-	if (window.innerWidth > 600) {
+	if (window.innerWidth > 768) {
 	    tabClass = "tabs-left";
 	    DEFAULT_TAB =  "sendTab";
 	}
@@ -35,16 +35,16 @@ export default class Tab extends Component {
 
     render() {
         return (
-            <div>
+            <div className="wrapper">
                 <div className="tabs-container">
                   <div className={this.state.tabClass}>
                         <ul className="nav nav-tabs">
-                            <li className={("sendTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("sendTab")}>Send</a></li>
-                            <li className={("receiveTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("receiveTab")}>Receive</a></li>
+                            <li className={("sendTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("sendTab")}>Send ether</a></li>
+                            <li className={("receiveTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("receiveTab")}>Receive ether</a></li>
                         </ul>
                         <div className="tab-content">
                             <div id="tab-6" className="tab-pane active">
-                                <div className="panel-body">
+                                <div className="panel-body  padding-tabs-eth2phone">
                                     {("sendTab" === this.state.activeTab) ? <SendTab /> : <ReceiveTab code={this.state.code} phone={this.state.phone} />}
                                 </div>
                             </div>

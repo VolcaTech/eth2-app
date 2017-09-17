@@ -664,7 +664,6 @@ fieldset[disabled] .btn-danger.focus {
 }
 .m-t-lg {
   margin-top: 30px;
-  margin-left: -15px;
 }
 .m-t-xl {
   margin-top: 40px;
@@ -1324,7 +1323,7 @@ img.image-xl {
   line-height: 0;
 }
 .view-header .header-title {
-  margin-left: 68px;
+  /* margin-left: 68px; */
 }
 .view-header .header-title h3 {
   margin-bottom: 2px;
@@ -2146,11 +2145,11 @@ h6 .small,
 }
 .tabs-left > .nav-tabs,
 .tabs-right > .nav-tabs {
-  width: 10%;
+  width: 15%;
 }
 .tabs-left .panel-body {
-  width: 90%;
-  margin-left: 10%;
+  width: 85%;
+  margin-left: 15%;
 }
 .tabs-right .panel-body {
   width: 80%;
@@ -2952,4 +2951,11 @@ fieldset[disabled] .form-control {
     color: #f6a821;
     font-size: 40px;
     text-align: center;
+}
+
+
+@media (min-width: 768px) {
+  .padding-tabs-eth2phone {
+      padding: 30px;
+   }
 }

@@ -18,8 +18,8 @@ export default class Tab extends Component {
     render() {
         return (
             <div>
-                {("receivePhone" === this.state.activeTab) ? <ReceiveVerifiedProxyTab code={this.state.code} phone={this.state.phone} /> : ""}
+              {("receivePhone" === this.state.activeTab) ? <ReceiveVerifiedProxyTab code={this.state.code} phone={this.state.phone} /> : ""}
             </div>
-        )
+        );
     }
 }

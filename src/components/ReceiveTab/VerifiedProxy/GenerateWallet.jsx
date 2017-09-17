@@ -5,16 +5,16 @@ const fileDownload = require('react-file-download');
 
 
 const Guidelines = () => (
-    <div>
-      <label>Please:<br /><br/>
+    <div className="m-t-xl">
+      <p>Please:<br /><br/>
 	1. Save your password and wallet address.<br/>
-	2. Save your keystore as text or as file (press «download keystore data» button).</label>
+	2. Save your keystore as text or as file (press «download keystore data» button).</p>
       
-      <label>Wallet address can be shared with people to receive assets.<br/><br/>
+      <p>Wallet address can be shared with people to receive assets.<br/><br/>
 	Password and your keystore data should be stored securely and not
 	shared with untrusted third parties.<br/><br/>
-	We recommend using <a href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> to import your wallet (keystore data file and password are required) in order to send transactions to other addresses.<br/><br/>
-	</label>
+	We recommend using <a style={{color:"#aaa", textDecoration: "underline"}} target="_blank" href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> to import your wallet (keystore data file and password are required) in order to send transactions to other addresses.<br/><br/>
+	</p>
     </div>
 )
 
@@ -31,8 +31,8 @@ const AddressWithKeystore = ({address, keystore}) => {
 	  <p className="form-control crop-text"> {address} </p>
 	  <label> Your kestore data: </label>
 	  <div className="form-control crop-text keystore-field" type="textarea"> {keystore}</div>
-	  <div className="gold"> WITHOUT KEYSTORE DATA YOU WILL LOSE ACCESS TO THE WALLET! </div>
-	  <a className="btn btn-md btn-default" onClick={() => downloadKeystoreData()}> Download Keystore Data </a>
+	  <div className="gold"> WITHOUT KEYSTORE DATA YOU WILL LOOSE ACCESS TO THE WALLET! </div>
+	  <a className="btn btn-md btn-primary" onClick={() => downloadKeystoreData()}> Download Keystore Data </a>
 	</div>
     );
 }
@@ -71,8 +71,8 @@ export default class GenerateWallet extends Component {
 		<label> Password </label>
 		<div className="row">
 		  <div className="col-sm-6">
-		    <input placeholder="Password" className="form-control crop-text" type="text" onChange={(event) => this.setState({ error: "", password: event.target.value })} />
-		    <a className="btn btn-md btn-default" onClick={() => this.generateWallet()}> Generate Wallet </a>
+		    <input placeholder="Password" className="form-control crop-text" type="password" onChange={(event) => this.setState({ error: "", password: event.target.value })} />
+		    <a className="btn btn-md btn-primary" onClick={() => this.generateWallet()}> Generate Wallet </a>
 		    <span style={{color: "red"}}> {this.state.error} </span>
 		    <AddressWithKeystore address={this.state.address} keystore={this.state.keystoreData}/> 
 		  </div>

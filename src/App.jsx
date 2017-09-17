@@ -4,8 +4,8 @@ import MainTab from './components/MainTab';
 import web3Api from "./apis/web3-common-api";
 import verifiedProxyContractApi from "./apis/verified-proxy-contract-api";
 import Web3StatusBar from './components/common/Web3StatusBar';
-import LinkFooter from './components/common/LinkFooter';
-
+import Footer from './components/common/LinkFooter';
+import Header from './components/common/Header';
 
 class App extends Component {
     
@@ -67,17 +67,9 @@ class App extends Component {
 		  <Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} contractAddress={this.state.contractAddress} />
 		  <div className="container">
 
-		    <div className="row" style={{ textAlign: "center", marginBottom: "15px" }}>
- 		      <h1>Send ether to phone number. </h1>
- 		      <h4>To any person. Even without ethereum wallet.</h4>		      
- 		    </div>
-
-		    <div className="wrapper">
-		      <MainTab />
-		    </div>
-
-		    
-		    <LinkFooter />
+		    <Header/>
+		    <MainTab />
+		    <Footer />
  		  </div>
 	  
 		</div>
