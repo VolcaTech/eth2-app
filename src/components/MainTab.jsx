@@ -9,12 +9,24 @@ export default class Tab extends Component {
     constructor(props) {
         super(props);
 
+	// for mobile's change tabs style
+	let tabClass = "";
+	let DEFAULT_TAB = "receiveTab";
+	if (window.innerWidth > 600) {
+	    tabClass = "tabs-left";
+	    DEFAULT_TAB =  "sendTab";
+	}
+	console.log({tabClass});
+	
         const queryParams = getQueryParams();
         this.state = {
-            activeTab: (queryParams.tab || "sendTab"),
+            activeTab: (queryParams.tab || DEFAULT_TAB),
             code: (queryParams.code || ""),
-            phone: (queryParams.phone || "")
+            phone: (queryParams.phone || ""),
+	    tabClass
         };
+
+
     }
 
     changeTab(tabName) {
@@ -23,9 +35,9 @@ export default class Tab extends Component {
 
     render() {
         return (
-            <div className="col-lg-12">
+            <div>
                 <div className="tabs-container">
-                    <div className="tabs-left">
+                  <div className={this.state.tabClass}>
                         <ul className="nav nav-tabs">
                             <li className={("sendTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("sendTab")}>Send</a></li>
                             <li className={("receiveTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("receiveTab")}>Receive</a></li>

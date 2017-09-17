@@ -77,7 +77,7 @@ const Web3StatusContent = ({web3Loaded, noWeb3, contractAddress}) => {
 function Web3StatusBar(props) {
     return (
 
-	<div className="row m-t-sm">
+	<div className="m-t-sm hidden-xs">
 	  <div className="col-md-12">
 	    <div className="panel panel-filled">
 	      <div className="panel-body"><div className="row">

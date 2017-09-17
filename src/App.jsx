@@ -62,26 +62,30 @@ class App extends Component {
 	}
 
 	render() {
-		//console.log({state: this.state})	
-		return (
-			<div>
-			<Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} contractAddress={this.state.contractAddress} />
-				<div className="row" style={{ textAlign: "center", marginBottom: "15px" }}>
+	    return (
+		<div>
+		  <Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} contractAddress={this.state.contractAddress} />
+		  <div className="container">
 
-				  <h1>Send ether to phone number. </h1>
-				  <h4>To any person. Even without ethereum wallet.</h4>
-				</div>
-				<div className="wrapper">
-					<div className="container-center animated slideInDown">
-						<MainTab />
-					</div>
-				</div>
-				<LinkFooter />
-			</div>
-		);
+		    <div className="row" style={{ textAlign: "center", marginBottom: "15px" }}>
+ 		      <h1>Send ether to phone number. </h1>
+ 		      <h4>To any person. Even without ethereum wallet.</h4>		      
+ 		    </div>
+
+		    <div className="wrapper">
+		      <MainTab />
+		    </div>
+
+		    
+		    <LinkFooter />
+ 		  </div>
+	  
+		</div>
+	    );
 	}
 }
 
+		    
 
 
 export default App
