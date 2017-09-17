@@ -68,7 +68,8 @@ class App extends Component {
 			<Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} contractAddress={this.state.contractAddress} />
 				<div className="row" style={{ textAlign: "center", marginBottom: "15px" }}>
 
-					<h3>Send ether to any person by phone number.<br />Simple. Secure. No wallet needed.</h3>
+				  <h1>Send ether to phone number. </h1>
+				  <h4>To any person. Even without ethereum wallet.</h4>
 				</div>
 				<div className="wrapper">
 					<div className="container-center animated slideInDown">

@@ -10,11 +10,11 @@ const Guidelines = () => (
 	1. Save your password and wallet address.<br/>
 	2. Save your keystore as text or as file (press «download keystore data» button).</label>
       
-      <label>Wallet address can be shared with people to receive assetes.<br/><br/>
+      <label>Wallet address can be shared with people to receive assets.<br/><br/>
 	Password and your keystore data should be stored securely and not
 	shared with untrusted third parties.<br/><br/>
-	We recommend using <a href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> to import your wallet (keystore data file and password are required) in order to send tranactions to other addresses.<br/><br/>
-	Stay safe and enjoy the ride!</label>
+	We recommend using <a href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> to import your wallet (keystore data file and password are required) in order to send transactions to other addresses.<br/><br/>
+	</label>
     </div>
 )
 
