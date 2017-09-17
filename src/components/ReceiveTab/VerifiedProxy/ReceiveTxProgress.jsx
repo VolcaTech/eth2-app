@@ -6,14 +6,17 @@ function EtherscanTxLink({hash, step}) {
     const txLink = etherscanUrl.concat(hash);
     if (!hash) { return null;}
     return (
-	<div style={{marginTop: "200px", textAlign: "center"}}>
+	<div>
+	  <div className="hidden-xs" style={{marginTop: "220px"}}> </div>
+	  <div style={{marginTop: "20px", textAlign: "center"}}>
 	  <label>
 	    { step === 2 ?
 	    <span>Your TX has been broadcast to the network. It is waiting to be mined and confirmed. During ICOs it may take 3+ hours to confirm.<br /><br /></span> : ""}
 	    <span style={ {fontSize:"0.9em"} }> Verify transaction on etherscan: </span>
 	    <br/>
-	    <a style={{color: "#ccc", fontSize: "0.9em"}} target="_blank" href={txLink}>{txLink}</a>
+	    <div className="crop-text"><a style={{color: "#ccc", fontSize: "0.9em", textDecoration: "underline"}} target="_blank" href={txLink}>{txLink}</a> </div>
 	  </label>
+	  </div>
 	</div>
     );
 }
@@ -77,7 +80,13 @@ export default function ReceiveTxProgress({step, txId, address, txAmount}) {
 		  <div className="col-md-12 text-center" style={{marginTop:"50px"}}>
 		    
 		    <h1 style={{fontSize: "40px"}}> <span className="gold"> +{txAmount} eth </span></h1>
-		    <h5> <a href={addressLink} target="_blank" style={{color: "#ccc"}}> to {address} </a>  </h5>
+		    <h5 className=" m-t-md"> 
+		      <div className="crop-text" style={{width: "100%"}}>
+			To: <a href={addressLink} target="_blank" style={{color: "#ccc", textDecoration: 'underline'}}>
+			  {address}
+			</a>			
+		      </div>
+		    </h5>
 		  </div>
 		  <EtherscanTxLink hash={txId} step={step}/>
 		</div>
