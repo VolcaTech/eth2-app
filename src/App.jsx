@@ -19,23 +19,27 @@ class App extends Component {
 	}
 
 	_pollWeb3() {
-		const component = this;
-		return new Promise(function (resolve, reject) {
-		    function poll() {
-			console.log("trying to load web3...");
-			web3Api.setup()
-			    .then(isWeb3Set => {
-				if (!isWeb3Set) {
-				    setTimeout(poll, 500);
-				} else {
-				    resolve();
-				}
-			    }).catch((err) => {
-				reject(err);
-			    });
-		    }		    
-		    poll();
-		});
+	    const component = this;
+	    let POLL_MAX_COUNTER = 2;
+	    let pollCounter = 0;
+	    
+	    return new Promise(function (resolve, reject) {
+		function poll() {
+		    console.log("trying to load web3...");
+		    pollCounter += 1;
+		    web3Api.setup()
+			.then(isWeb3Set => {
+			    if (!isWeb3Set && pollCounter < POLL_MAX_COUNTER) {				
+				setTimeout(poll, 500);
+			    } else {
+				resolve();
+			    }
+			}).catch((err) => {
+			    reject(err);
+			});
+		}		    
+		poll();
+	    });
 	}
 
 	_getWeb3() {

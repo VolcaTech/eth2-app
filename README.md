@@ -29,12 +29,13 @@ You should be good to go if you set Metamask to point at the correct network.
 Load https://eth2phone.github.io/ and use the app!?
 
 ## Code structure
+
 `./src` - all Javascript/React code is located in this folder.
 `./src/apis/eth2phone-api` - all interaction of the web app with the VerificationProxy smart-contract and verification server is defined in this file.  
 `./contracts/VerifiedProxy` - the VerificationProxy Smart Contract, which locks ether from sender and withdraws ether on request from the owner to address signed by verification private key. Verification Server deploys the contract and controls smart contract's owner account.
 `./test` - tests for the VerificationProxy Smart Contract
 
-Verification server's code is located in separate repository - ...
+This repo contains front-end code + smart-contracts. Verification server's code is located in the separate repository - ...
 
 ## License
 MIT Liscense 
