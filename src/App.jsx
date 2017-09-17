@@ -22,7 +22,7 @@ class App extends Component {
 		const component = this;
 		return new Promise(function (resolve, reject) {
 		    function poll() {
-			console.log("trying web3...");
+			console.log("trying to load web3...");
 			web3Api.setup()
 			    .then(isWeb3Set => {
 				if (!isWeb3Set) {

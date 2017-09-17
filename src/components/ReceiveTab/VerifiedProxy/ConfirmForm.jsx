@@ -39,7 +39,8 @@ export default class ConfirmForm extends Component {
 		    console.log({ err });
 		    component.setState({
 			error: (err.message || err.errorMessage || "Server error!"),
-			isFetching: false
+			isFetching: false,
+			step: 0
 		    });
 		});
 	}
