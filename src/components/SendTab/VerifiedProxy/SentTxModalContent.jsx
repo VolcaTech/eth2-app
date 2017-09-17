@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 function ReceiveLink({code, phone}) {
-    const receiveUrl = "https://eth2phone.com/?tab=receiveTab&";
+    const receiveUrl = "https://eth2phone.github.io/?tab=receiveTab&";
     const receiveLink = receiveUrl.concat("code=").concat(code).concat("&phone=").concat(phone);
 
     return (
