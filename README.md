@@ -2,7 +2,7 @@
 Sending Ether to a phone number with user verification via SMS.
 
 ## Project Overview
-We thought of how to make ether transfer onboarding easier and have come up with the idea of sending assets to a receiver by mobile phone number. He doesn’t even need to have a wallet, but simply needs to open the web app, follow simple steps and receive the assets using one of the possible ways.
+Send ether to mobile phone number. Receiver doesn’t even need to have a wallet, but simply needs to open the web app, follow simple steps and receive ether using one of the possible ways.
 
 ## How it works
 The full description of necessary steps could be found in the article here:
