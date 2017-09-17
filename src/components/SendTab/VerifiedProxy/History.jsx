@@ -23,21 +23,60 @@ class HistoryRow extends Component {
 	const component = this;
         return (
             <tr>
-                <td style={{padding: "10px"}}><span className="c-accent">{this.props.data.id}</span></td>
-                <td style={{padding: "10px"}}><span className="c-accent">{this.props.data.amount}</span></td>
-                <td style={{padding: "10px"}}>
-		{(this.props.data.status === 0 && !this.state.pendingCancel && !this.state.cancelled) ?
-                 <a className="btn btn-xs btn-default active" onClick={()=>this.cancel(this.props.data.id)}>Cancel</a>
-		 : ""
-		}
-	       { this.state.pendingCancel ? <div className="loader-spin"></div>: "" }
-	    { this.state.cancelled ? <div style={{color: "blue"}}> CANCELLED </div>: "" }	    
+                <td><span className="c-accent">{this.props.data.id}</span></td>
+                <td><span className="c-accent">{this.props.data.amount}</span></td>
+                <td>
+		  {(this.props.data.status === 0 && !this.state.pendingCancel && !this.state.cancelled) ?
+                    <a className="btn btn-xs btn-default active" onClick={()=>this.cancel(this.props.data.id)}>Cancel</a>
+		     : ""
+		 }
+		 { this.state.pendingCancel ? <div className="loader-spin"></div>: "" }
+		 { this.state.cancelled ? <div style={{color: "blue"}}> CANCELLED </div>: "" }	    
 
 		</td>		
 	    </tr>
         );
     }
 }
+
+
+function HistoryTable({rows, isLoading}) {
+    
+    const component = this;
+	
+    
+    if (isLoading) {
+	return  ( <div className="loader-spin"> </div>);
+    }
+
+    if (rows.length === 0) {
+	return  ( <div> No transfers yet.</div>);
+    }
+    
+    return (
+	<div className="m-t-md">
+	  <table className="table-responsive table-hover table-striped">
+	    <thead>
+	      <tr>
+		<th>
+		  Transfer id
+		</th>
+		<th>
+		  Amount
+		</th>
+		<th> </th>
+		
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
+    );    
+}
+
+
 
 export default class History extends Component {
     constructor(props) {
@@ -67,9 +106,7 @@ export default class History extends Component {
     }
     
     componentWillReceiveProps(newProps) {
-	//console.log("<history /> will receive new props: ", newProps);
 	if (newProps.updateCounter > this.props.updateCounter) {
-	    //console.log("<history /> - fetching new counter");
 	    this._fetchTransfers();
 	}
     }
@@ -81,17 +118,12 @@ export default class History extends Component {
             return (rowData.status === component.state.showstatus);
         });
         const rows = filteredRows.map(function (rowData, index) {
-	    //console.log({rowData});
             return (
                 <HistoryRow data={rowData} key={index} />
             );
         });
-	
-        const loaderHtml = (
-            <div className="loader-spin">
-            </div>
-        );
 
+	
         return (
             <div className="m-t-lg col-sm-12">
                 <div>
@@ -99,26 +131,7 @@ export default class History extends Component {
                     <a className={component.state.showstatus === 0 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(0)}>Awaiting receiving</a> 
                     <a className={component.state.showstatus === 1 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(1)}>Completed</a> 
                     <a className={component.state.showstatus === 2 ? "btn btn-xs btn-accent active" : "btn btn-xs btn-accent"}onClick={()=>this.changeShowStatus(2)}>Cancelled</a></div>
-                <div>
-                    <table className="table-responsive table-hover table-striped">
-                        <thead>
-                            <tr>
-                <th style={{padding: "10px"}}>
-                Transfer id
-            </th>
-		<th style={{padding: "10px"}}>
-		                Amount
-                              </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rows}
-                        </tbody>
-                    </table>
-                   {this.state.isLoading ? loaderHtml : ""}
-            {(!this.state.isLoading && rows.length === 0 )  ? "No transfers yet" : ""}
-                </div>
+		<HistoryTable rows={rows} isLoading={this.state.isLoading}/>
             </div>
         );
     }

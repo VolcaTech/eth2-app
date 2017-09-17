@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SendTab from './SendTab/SendTab';
 
-import ReceiveTab from  './ReceiveTab/ReceiveTab';
+import ReceiveTab from './ReceiveTab/ReceiveTab';
 import { getQueryParams } from '../utils/helpers';
 
 export default class Tab extends Component {
@@ -9,33 +9,48 @@ export default class Tab extends Component {
     constructor(props) {
         super(props);
 
-	const queryParams = getQueryParams();
+	// for mobile's change tabs style
+	let tabClass = "";
+	let DEFAULT_TAB = "receiveTab";
+	if (window.innerWidth > 768) {
+	    tabClass = "tabs-left";
+	    DEFAULT_TAB =  "sendTab";
+	}
+	console.log({tabClass});
+	
+        const queryParams = getQueryParams();
         this.state = {
-            activeTab: (queryParams.tab || "sendTab"), 
+            activeTab: (queryParams.tab || DEFAULT_TAB),
             code: (queryParams.code || ""),
-            phone: (queryParams.phone || "")
+            phone: (queryParams.phone || ""),
+	    tabClass
         };
+
+
     }
-    
-    changeTab(tabName){
-        this.setState({activeTab: tabName});
+
+    changeTab(tabName) {
+        this.setState({ activeTab: tabName });
     }
 
     render() {
         return (
-            <div className="tabs-container">
-              <ul className="nav nav-tabs">
-                <li className={("sendTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={()=>this.changeTab("sendTab")}>Send</a></li>
-                <li className={("receiveTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={()=>this.changeTab("receiveTab")}>Receive</a></li>
-              </ul>
-              <div className="tab-content">
-                <div id="tab-1" className="tab-pane active">
-                  <div className="panel-body">
-                    
-                    {("sendTab" === this.state.activeTab) ? <SendTab/> : <ReceiveTab code={this.state.code} phone={this.state.phone}/>}
-                  </div>
+            <div className="wrapper">
+                <div className="tabs-container">
+                  <div className={this.state.tabClass}>
+                        <ul className="nav nav-tabs">
+                            <li className={("sendTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("sendTab")}>Send ether</a></li>
+                            <li className={("receiveTab" === this.state.activeTab) ? "active" : ""}><a href="#" onClick={() => this.changeTab("receiveTab")}>Receive ether</a></li>
+                        </ul>
+                        <div className="tab-content">
+                            <div id="tab-6" className="tab-pane active">
+                                <div className="panel-body  padding-tabs-eth2phone">
+                                    {("sendTab" === this.state.activeTab) ? <SendTab /> : <ReceiveTab code={this.state.code} phone={this.state.phone} />}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
         );
     }

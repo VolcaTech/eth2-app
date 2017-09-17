@@ -77,7 +77,7 @@ function generateWeb3Api() {
 
     // api
     return {
-	isConnected: () => _connected,
+	isConnected: () => {return _connected && web3.eth.accounts.length > 0;},
 	getBalance: () => _balance,
 	getAddress: () => _address,
 	isLoaded: () => _loaded,
