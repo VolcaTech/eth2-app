@@ -12,18 +12,25 @@ Play with the demo at https://eth2phone.github.io/ . The demo app supports Rops
 * [Receiving demo](https://screencast-o-matic.com/watch/cbQoDXIbCp)
 
 ## Transfer details
-![Architecture](/Algorithm.png)
-1. Sender generates verification private-public key pair. Sender transfers ether to smart contract and assigns verification public key. On withdrawal smart-contract verifies that receiver's address is signed by the verification private key.
-2. Sender encrypts verification private key with random secret code and sends encrypted keystore data to verification server.
-3. Sender passes the secret code to receiver by the way he chooses (voice, sms, e-mail, etc.)
-4. Receiver types in his phone number and the secret code. Hashed phone verification request is sent to server. (So not at any point in time verification server has the verification private key.)
-5. Server sends the verification code via SMS to the phone entered.
-6 Receiver gets the code from SMS and types it in. If the code is correct, server returns encrypted keystore data to receiver.
-7. Receiver decrypts keystore data with the secret code provided by sender and gets verification private key. Receiver signs address to transfer to ether with verfication private key. Receiver sends signed address to verification server. Verification server tries to withdraw ether through smart-contract to signed address. If signature is correct, the transaction is executed and receiver gets the ether.
+### Send
+![Send](/public/send.png)
+1. Sender generates verification private-public key pair.
+2. Sender deposits ether to smart contract and assigns verification public key to the deposit. On withdrawal smart-contract verifies that receiver's address is signed by the verification private key.
+3. Sender encrypts verification private key with random secret code and sends encrypted keystore data to verification server.
+4. Sender passes the secret code to receiver by the way he chooses (voice, sms, e-mail, etc.)
+
+### Receive
+![Receive](/public/receive.png)
+1. Receiver types in his phone number and the secret code. Hashed phone verification request is sent to server. (So not at any point in time verification server has the verification private key.)
+2. Server sends the verification code via SMS to the phone entered.
+3. Receiver gets the code from SMS and types it in. If the code is correct, server returns encrypted keystore data to receiver.
+4. Receiver decrypts the keystore data with the secret code provided by sender and gets the verification private key. Receiver signs address of his choice with the verfication private key. Receiver sends signed address to verification server.
+5. Verification server tries to withdraw ether through smart-contract to signed address. If signature is correct, the transaction is executed and receiver gets the ether.
 
 ## Running on Ropsten
-You should be good to go if you set Metamask to point at the correct network.
+You can use a browser with Metamask on desktop. You can also use mobile wallet with dapp browser such as Trust Wallet or Cipher Browser.  
 Load https://eth2phone.github.io/ and use the app.
+
 
 ## Code structure
 `./src` - all Javascript/React code is located in this folder.
