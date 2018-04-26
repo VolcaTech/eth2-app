@@ -74,7 +74,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} contractAddress={this.state.contractAddress} />
+                <Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} address={this.props.address} contractAddress={this.state.contractAddress} />
                 <div className="container">
 
                     <Header />
