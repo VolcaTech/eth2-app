@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux'
 import MainTab from './components/MainTab';
 import web3Api from "./apis/web3-common-api";
 import verifiedProxyContractApi from "./apis/verified-proxy-contract-api";
 import Web3StatusBar from './components/common/Web3StatusBar';
 import Footer from './components/common/LinkFooter';
 import Header from './components/common/Header';
+import updateAddress from './actions'
 
 class App extends Component {
     
@@ -81,7 +82,11 @@ class App extends Component {
 	}
 }
 
-		    
+function mapStateToProps(state) {
+    return {
+      address: state.address
+    }
+  }		    
 
 
-export default App
+export default connect(mapStateToProps, { updateAddress })(App)

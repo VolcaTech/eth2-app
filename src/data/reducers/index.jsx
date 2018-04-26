@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { UPDATE_ADDRESS } from '/home/alex/Documents/eth2phone/src/actions/index.js'
+import { UPDATE_ADDRESS } from './../../actions'
 
 function address(state = null, action) {
   switch (action.type) {
