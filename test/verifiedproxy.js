@@ -13,9 +13,8 @@ function sign(privateKey, msgHash) {
 function parseTransfer(result) {
     return {
 	id: result[0].toString(),
-	status: result[1].toNumber(),
-	from: result[2].toString('hex'),
-	amount: result[3].toNumber()
+	from: result[1].toString('hex'),
+	amount: result[2].toNumber()
     };
 }
 Promise.promisifyAll(web3.eth, {suffix: "Promise"});
@@ -51,7 +50,7 @@ contract('VerifiedProxy', async (accounts) => {
 	    verifier: 0,
 	    reciever: 0
 	},
-	 verifiedproxyInstance;
+	verifiedproxyInstance;
    
     
     const sendTransfer = async (gasPrice, verificationAddress) => {
@@ -61,9 +60,8 @@ contract('VerifiedProxy', async (accounts) => {
 	if (!verificationAddress) {
 	    verificationAddress = Web3Utils.randomHex(20);
 	}
-	// aconst transferId = generateTransferId();
+	
 	const txData = await verifiedproxyInstance.deposit(Web3Utils.toHex(verificationAddress), {from: senderAddress, value: oneEth, gasPrice: gasPrice});
-
 	const rawTransfer = await verifiedproxyInstance.getTransfer.call(verificationAddress, {from: senderAddress});
 	return parseTransfer(rawTransfer);	
     }
@@ -210,78 +208,97 @@ contract('VerifiedProxy', async (accounts) => {
 	    
 	    assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
 	    assert.equal(transfer.from, senderAddress, "sender is correct.");
-	    assert.equal(transfer.status, 1, "status is correct.");		    		    		    	    
 	});
 	    
 	    
-	it("cannot be withdrawn with correct signature but not through verifier", async () => {	    
+	it("cannot be withdrawn with correct signature but not through verifier", async () => {
+	    let transferFrom;
 	    try { 
 	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
 						     receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});		
 	    } catch(err) {}
 
-	    let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
-	    let transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn (1).");
+	    try { 
+		let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		let transfer = parseTransfer(transferRaw);
+		transferFrom = transfer.from;		
+	    } catch(err) {}
+	    
+	    assert.equal(transferFrom, senderAddress, "transfer doesn't exist.");
 	    const balance = await web3.eth.getBalancePromise(receiverAddress);
 	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(initialBalances.receiver).toString(), " ether not transfered to receiver");
-	    
-	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS,{from: senderAddress});
-	    transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn.");		    		    		    
 	});
 
 
 	it("cannot be withdrawn through verifier without correct signature", async() => {
-	    	    
+	    let transferFrom;
 	    try {
 		// signature is for receiver address
 	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
 						     senderAddress, v, r, s, {from: senderAddress, gas: 3000000});		
 	    } catch(err) {}
-	    
-	    let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
-	    let transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn (1).");
-	    const balance = await web3.eth.getBalancePromise(receiverAddress);
-	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(initialBalances.receiver).toString(), " ether not transfered to receiver");
-	    
-	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS,{from: senderAddress});
-	    transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 1, "status is not updated to withdrawn.");		    		    		    
 
+	    try { 
+		let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		let transfer = parseTransfer(transferRaw);
+		transferFrom = transfer.from;		
+	    } catch (err) {}
+
+	    assert.equal(transferFrom, senderAddress, "transfer doesn't exist.");
+	    const balance = await web3.eth.getBalancePromise(receiverAddress);
+	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(initialBalances.receiver).toString(), " ether not transfered to receiver");	  
 	});
 	    
     	it("can be withdrawn with correct signature and through verifier", async () => {
+	    let transferFrom, transfer, transferRaw;
+	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+	    transfer = parseTransfer(transferRaw);
+	    const transferAmount = transfer.amount;
 	    
 	    await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
 	    
-	    const transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
-	    transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 2, "status is NOT updated to withdrawn (2).");
+	    try { 
+		transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		transfer = parseTransfer(transferRaw);
+		transferFrom = transfer.from;
+	    } catch (err) {}
+	    assert.equal(transferFrom, '0x0000000000000000000000000000000000000000', "transfer does exist, but should not.");
 	    const balance = await web3.eth.getBalancePromise(receiverAddress);
-	    assert.equal(web3.toBigNumber(balance).toString(), (web3.toBigNumber(transfer.amount).plus(web3.toBigNumber(initialBalances.receiver)).toString()), " ether not transfered to receiver");
+	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(transferAmount).plus(initialBalances.receiver).toString(), " ether not transfered to receiver");
 	});
-
+	
     
 	it("cannot be canceled by verifier", async () => {
-	    let transfer = await sendTransfer();
+	    let transferFrom, transfer;
+	    transfer = await sendTransfer();
 	    // cancel transfer
 	    try { 
 		await verifiedproxyInstance.cancelTransfer(transfer.id, {from: verifierAddress, gas: 3000000});
 	    } catch (err) { }
-	    const transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
-	    transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 1, "status is updated to cancelled (3).");		    		    		    
+
+	    try { 
+		let transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
+		transfer = parseTransfer(transferRaw);
+		transferFrom = transfer.from;
+	    } catch (err) {}
+	    assert.equal(transferFrom, senderAddress, "transfer doesn't exist.");
 	});
 
+	
 	it("can be cancelled by sender", async () => {	    
-	    let transfer = await sendTransfer(GAS_PRICE, CANCELLED_TRANSFER_ADDRESS);
-	    // cancel transfer 
-	    await verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000});
-	    const transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
-	    transfer = parseTransfer(transferRaw);
-	    assert.equal(transfer.status, 3, "status is NOT updated to cancelled (3).");		    		    		    
+	    let transferFrom, transfer;
+	    transfer = await sendTransfer();
+	    // cancel transfer
+	    try { 
+		await verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000});
+	    } catch (err) { }
+
+	    try { 
+		let transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
+		transfer = parseTransfer(transferRaw);
+		transferFrom = transfer.from;
+	    } catch (err) {}
+	    assert.equal(transferFrom, '0x0000000000000000000000000000000000000000', "transfer does exist, but should not.");	    
 	});
 
 	xit("cancelled transfer cannot be withdrawn", async () => {

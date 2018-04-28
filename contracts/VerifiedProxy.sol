@@ -30,55 +30,43 @@ import './Stoppable.sol';
  */
 contract VerifiedProxy is Stoppable, SafeMath {
 
-  // Status codes
-  enum Statuses {
-    EMPTY,
-    ACTIVE, // awaiting withdrawal
-    COMPLETED, // recepient have withdrawn the transfer
-    CANCELLED  // sender has cancelled the transfer
-  }
-
   // fixed amount of wei accrued to verifier with each transfer
   uint public commissionFee;
 
   // verifier can withdraw this amount from smart-contract
   uint public commissionToWithdraw; // in wei
 
-  // gas cost to withdraw transfer
-  uint private WITHDRAW_GAS_COST = 80000;
 
   /*
    * EVENTS
    */
   event LogDeposit(
-		   address indexed from,
+		   address indexed sender,
 		   address indexed transferId,
 		   uint amount,
-		      uint commission
+		   uint commission
 		   );
 
   event LogCancel(
-		  address indexed from,
-		  address indexed transferId,
-		    uint amount
+		  address indexed sender,
+		          address indexed transferId
 		  );
 
   event LogWithdraw(
-		    address indexed transferId,
 		    address indexed sender,
+		    address indexed transferId,
 		    address indexed recipient,
-		        uint amount
+		    uint amount
 		    );
 
   event LogWithdrawCommission(uint commissionAmount);
 
   event LogChangeFixedCommissionFee(
 				    uint oldCommissionFee,
-				                uint newCommissionFee
+				    uint newCommissionFee
 				    );
 
   struct Transfer {
-    uint8 status; // 0 - active, 1 - completed, 2 - cancelled;
     address from;
     uint amount; // in wei
   }
@@ -113,16 +101,13 @@ contract VerifiedProxy is Stoppable, SafeMath {
                             payable
     returns(bool)
   {
-    // can not override old transfer
-    require(transferDct[_verPubKey].status == 0);
+    // can not override existing transfer
+    require(transferDct[_verPubKey].amount == 0);
 
-    //uint transferGasCommission = safeMul(tx.gasprice, WITHDRAW_GAS_COST);
-    //uint transferCommission = safeAdd(commissionFee,transferGasCommission);
     require(msg.value > commissionFee);
 
     // saving transfer details
     transferDct[_verPubKey] = Transfer(
-				       uint8(Statuses.ACTIVE),
 				       msg.sender,
 				       safeSub(msg.value, commissionFee)//amount = msg.value - comission
 				       );
@@ -175,23 +160,21 @@ contract VerifiedProxy is Stoppable, SafeMath {
   /**
    * @dev Get transfer details.
    * @param _transferId address Unique transfer id.
-   * @return Transfer details (id, status, sender, amount)
+   * @return Transfer details (id, sender, amount)
    */
   function getTransfer(address _transferId)
             public
             constant
     returns (
 	     address id,
-	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
 	     address from, // transfer sender
 	     uint amount) // in wei
   {
     Transfer memory transfer = transferDct[_transferId];
     return (
 	    _transferId,
-	    transfer.status,
 	    transfer.from,
-	    transfer.amount
+	        transfer.amount
 	    );
   }
 
@@ -203,22 +186,16 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * @return True if success.
    */
   function cancelTransfer(address _transferId) public returns (bool success) {
-    Transfer storage transferOrder = transferDct[_transferId];
+    Transfer memory transferOrder = transferDct[_transferId];
 
     // only sender can cancel transfer;
     require(msg.sender == transferOrder.from);
 
-    // only active transfers can be cancelled;
-    require(transferOrder.status == uint8(Statuses.ACTIVE));
-
-    // set transfer's status to cancelled.
-    transferOrder.status = uint8(Statuses.CANCELLED);
-
-    // transfer ether back to sender
-    transferOrder.from.transfer(transferOrder.amount);
-
     // log cancel event
-    emit LogCancel(msg.sender, _transferId, transferOrder.amount);
+    emit LogCancel(msg.sender, _transferId);
+
+    delete transferDct[_transferId];
+
     return true;
   }
 
@@ -282,30 +259,28 @@ contract VerifiedProxy is Stoppable, SafeMath {
 		    address _recipient,
 		    uint8 _v,
 		    bytes32 _r,
-		    bytes32 _s)
+		    bytes32 _s
+		    )
     public
     onlyOwner // only through verifier can withdraw transfer;
             whenNotPaused
             whenNotStopped
     returns (bool success)
   {
-    Transfer storage transferOrder = transferDct[_transferId];
-
-    // only active transfers can be withdrawn;
-    require(transferOrder.status == uint8(Statuses.ACTIVE));
+    Transfer memory transferOrder = transferDct[_transferId];
 
     // verifying signature
-    require(verifySignature(_transferId,
-			    _recipient, _v, _r, _s ));
-
-    // set transfer's status to completed.
-    transferOrder.status = uint8(Statuses.COMPLETED);
+    (verifySignature(_transferId,
+		     _recipient, _v, _r, _s ));
 
     // transfer ether to recipient's address
     _recipient.transfer(transferOrder.amount);
 
     // log withdraw event
     emit LogWithdraw(_transferId, transferOrder.from, _recipient, transferOrder.amount);
+
+    delete transferDct[_transferId];
+
     return true;
   }
 
