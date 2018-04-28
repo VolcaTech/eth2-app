@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.23;
 
 import './Pausable.sol';
 
@@ -32,10 +32,8 @@ contract Stoppable is Pausable {
   /**
    * @dev called by the owner to pause, triggers stopped state
    */
-  function stop() onlyOwner whenNotStopped {
+  function stop() public onlyOwner whenNotStopped {
     stopped = true;
-    Stop();
+    emit Stop();
   }
-
-
 }

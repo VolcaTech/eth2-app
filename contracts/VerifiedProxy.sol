@@ -1,4 +1,4 @@
-pragma solidity 0.4.15;
+pragma solidity 0.4.23;
 import './SafeMath.sol';
 import './Stoppable.sol';
 
@@ -32,6 +32,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
 
   // Status codes
   enum Statuses {
+    EMPTY,
     ACTIVE, // awaiting withdrawal
     COMPLETED, // recepient have withdrawn the transfer
     CANCELLED  // sender has cancelled the transfer
@@ -51,51 +52,47 @@ contract VerifiedProxy is Stoppable, SafeMath {
    */
   event LogDeposit(
 		   address indexed from,
-		   bytes32 indexed transferId,
+		   address indexed transferId,
 		   uint amount,
-		   uint commission,
-		   uint gasPrice // to withdraw with the same gas price
+		      uint commission
 		   );
 
   event LogCancel(
 		  address indexed from,
-		  bytes32 indexed transferId,
-		                uint amount
+		  address indexed transferId,
+		    uint amount
 		  );
 
   event LogWithdraw(
-		    bytes32 indexed transferId,
+		    address indexed transferId,
 		    address indexed sender,
 		    address indexed recipient,
-		                          uint amount
+		        uint amount
 		    );
 
   event LogWithdrawCommission(uint commissionAmount);
 
   event LogChangeFixedCommissionFee(
 				    uint oldCommissionFee,
-				            uint newCommissionFee
+				                uint newCommissionFee
 				    );
 
   struct Transfer {
     uint8 status; // 0 - active, 1 - completed, 2 - cancelled;
     address from;
     uint amount; // in wei
-    address verificationPubKey;
   }
 
   // Mappings of TransferId => Transfer Struct
-  mapping (bytes32 => Transfer) transferDct;
+  mapping (address => Transfer) transferDct;
 
-  // Mappings of sender address => [transfer ids]
-  mapping (address => bytes32[]) senderDct;
 
   /**
    * @dev Contructor that sets msg.sender as owner (verifier) in Ownable
    * and sets verifier's fixed commission fee.
    * @param _commissionFee uint Verifier's fixed commission for each transfer
    */
-  function VerifiedProxy(uint _commissionFee) {
+  constructor(uint _commissionFee) public {
     commissionFee = _commissionFee;
   }
 
@@ -107,38 +104,34 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * for verification public key.
    * 
    * @param _verPubKey address Verifification public key.
-   * @param _transferId bytes32 Unique transfer id.
    * @return True if success.
    */
-  function deposit(address _verPubKey, bytes32 _transferId)
-                        whenNotPaused
-                        whenNotStopped
-                        payable
+  function deposit(address _verPubKey)
+                            public
+                            whenNotPaused
+                            whenNotStopped
+                            payable
     returns(bool)
   {
     // can not override old transfer
-    require(transferDct[_transferId].verificationPubKey == 0);
+    require(transferDct[_verPubKey].status == 0);
 
-    uint transferGasCommission = safeMul(tx.gasprice, WITHDRAW_GAS_COST);
-    uint transferCommission = safeAdd(commissionFee,transferGasCommission);
-    require(msg.value > transferCommission);
+    //uint transferGasCommission = safeMul(tx.gasprice, WITHDRAW_GAS_COST);
+    //uint transferCommission = safeAdd(commissionFee,transferGasCommission);
+    require(msg.value > commissionFee);
 
     // saving transfer details
-    transferDct[_transferId] = Transfer(
-					uint8(Statuses.ACTIVE),
-					msg.sender,
-					safeSub(msg.value, transferCommission),//amount = msg.value - comission
-					_verPubKey // verification public key
-					);
+    transferDct[_verPubKey] = Transfer(
+				       uint8(Statuses.ACTIVE),
+				       msg.sender,
+				       safeSub(msg.value, commissionFee)//amount = msg.value - comission
+				       );
 
     // verification server commission accrued
-    commissionToWithdraw = safeAdd(commissionToWithdraw, transferCommission);
-
-    // add transfer to mappings
-    senderDct[msg.sender].push(_transferId);
+    commissionToWithdraw = safeAdd(commissionToWithdraw, commissionFee);
 
     // log deposit event
-    LogDeposit(msg.sender,_transferId,msg.value,transferCommission,tx.gasprice);
+    emit LogDeposit(msg.sender, _verPubKey, msg.value, commissionFee);
     return true;
   }
 
@@ -150,14 +143,15 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * @return True if success.
    */
   function changeFixedCommissionFee(uint _newCommissionFee)
-                      whenNotPaused
-                      whenNotStopped
-                      onlyOwner
+                          public
+                          whenNotPaused
+                          whenNotStopped
+                          onlyOwner
     returns(bool success)
   {
     uint oldCommissionFee = commissionFee;
     commissionFee = _newCommissionFee;
-    LogChangeFixedCommissionFee(oldCommissionFee, commissionFee);
+    emit LogChangeFixedCommissionFee(oldCommissionFee, commissionFee);
     return true;
   }
 
@@ -166,26 +160,28 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * @return True if success.
    */
   function withdrawCommission()
-                    whenNotPaused
+                        public
+                        whenNotPaused
     returns(bool success)
   {
     uint commissionToTransfer = commissionToWithdraw;
     commissionToWithdraw = 0;
     owner.transfer(commissionToTransfer); // owner is verifier
 
-    LogWithdrawCommission(commissionToTransfer);
+    emit LogWithdrawCommission(commissionToTransfer);
     return true;
   }
 
   /**
    * @dev Get transfer details.
-   * @param _transferId bytes32 Unique transfer id.
+   * @param _transferId address Unique transfer id.
    * @return Transfer details (id, status, sender, amount)
    */
-  function getTransfer(bytes32 _transferId)
-        constant
+  function getTransfer(address _transferId)
+            public
+            constant
     returns (
-	     bytes32 id,
+	     address id,
 	     uint status, // 0 - active, 1 - completed, 2 - cancelled;
 	     address from, // transfer sender
 	     uint amount) // in wei
@@ -195,48 +191,18 @@ contract VerifiedProxy is Stoppable, SafeMath {
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	        transfer.amount
+	            transfer.amount
 	    );
   }
 
-  /**
-   * @dev Get count of sent transfers by msg.sender.
-   * @return A number of sent transfers by msg.sender.
-   */
-  function getSentTransfersCount() constant returns(uint count) {
-    return senderDct[msg.sender].length;
-  }
-
-  /**
-   * @dev Get transfer by index from array of msg.sender's sent transfer ids.
-   * @param _transferIndex uint Index in msg.sender's sent transfers array. 
-   * @return Transfer details (id, status, sender, amount)
-   */
-  function getSentTransfer(uint _transferIndex)
-            constant
-    returns (
-	     bytes32 id,
-	     uint status, // 0 - pending, 1 - closed, 2 - cancelled;
-	     address from, // transfer sender
-	     uint amount) // in wei
-  {
-    bytes32 transferId = senderDct[msg.sender][_transferIndex];
-    Transfer memory transfer = transferDct[transferId];
-    return (
-	    transferId,
-	    transfer.status,
-	    transfer.from,
-	        transfer.amount
-	    );
-  }
 
   /**
    * @dev Cancel transfer and get sent ether back. Only transfer sender can
    * cancel transfer.
-   * @param _transferId bytes32 Unique transfer id.
+   * @param _transferId address Unique transfer id.
    * @return True if success.
    */
-  function cancelTransfer(bytes32 _transferId) returns (bool success) {
+  function cancelTransfer(address _transferId) public returns (bool success) {
     Transfer storage transferOrder = transferDct[_transferId];
 
     // only sender can cancel transfer;
@@ -252,7 +218,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
     transferOrder.from.transfer(transferOrder.amount);
 
     // log cancel event
-    LogCancel(msg.sender, _transferId, transferOrder.amount);
+    emit LogCancel(msg.sender, _transferId, transferOrder.amount);
     return true;
   }
 
@@ -271,9 +237,9 @@ contract VerifiedProxy is Stoppable, SafeMath {
 			   uint8 _v,
 			   bytes32 _r,
 			   bytes32 _s)
-    constant returns(bool success)
+    private pure returns(bool success)
   {
-    bytes32 prefixedHash = sha3("\x19Ethereum Signed Message:\n32", _recipient);
+    bytes32 prefixedHash = keccak256("\x19Ethereum Signed Message:\n32", _recipient);
     address retAddr = ecrecover(prefixedHash, _v, _r, _s);
     return retAddr == _verPubKey;
   }
@@ -289,15 +255,14 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * @return True if signature is correct.
    */
   function verifyTransferSignature(
-				   bytes32 _transferId,
+				   address _transferId,
 				   address _recipient,
 				   uint8 _v,
 				   bytes32 _r,
 				   bytes32 _s)
-    constant returns(bool success)
+    public pure returns(bool success)
   {
-    Transfer memory transferOrder = transferDct[_transferId];
-    return (verifySignature(transferOrder.verificationPubKey,
+    return (verifySignature(_transferId,
 			    _recipient, _v, _r, _s));
   }
 
@@ -313,14 +278,15 @@ contract VerifiedProxy is Stoppable, SafeMath {
    * @return True if success.
    */
   function withdraw(
-		    bytes32 _transferId,
+		    address _transferId,
 		    address _recipient,
 		    uint8 _v,
 		    bytes32 _r,
 		    bytes32 _s)
+    public
     onlyOwner // only through verifier can withdraw transfer;
-        whenNotPaused
-        whenNotStopped
+            whenNotPaused
+            whenNotStopped
     returns (bool success)
   {
     Transfer storage transferOrder = transferDct[_transferId];
@@ -329,7 +295,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
     require(transferOrder.status == uint8(Statuses.ACTIVE));
 
     // verifying signature
-    require(verifySignature(transferOrder.verificationPubKey,
+    require(verifySignature(_transferId,
 			    _recipient, _v, _r, _s ));
 
     // set transfer's status to completed.
@@ -339,13 +305,13 @@ contract VerifiedProxy is Stoppable, SafeMath {
     _recipient.transfer(transferOrder.amount);
 
     // log withdraw event
-    LogWithdraw(_transferId, transferOrder.from, _recipient, transferOrder.amount);
+    emit LogWithdraw(_transferId, transferOrder.from, _recipient, transferOrder.amount);
     return true;
   }
 
 
   // fallback function - do not receive ether by default
-  function() payable {
+  function() public payable {
     revert();
   }
 }
