@@ -191,7 +191,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
 	    _transferId,
 	    transfer.status,
 	    transfer.from,
-	            transfer.amount
+	    transfer.amount
 	    );
   }
 
@@ -237,7 +237,7 @@ contract VerifiedProxy is Stoppable, SafeMath {
 			   uint8 _v,
 			   bytes32 _r,
 			   bytes32 _s)
-    private pure returns(bool success)
+    public pure returns(bool success)
   {
     bytes32 prefixedHash = keccak256("\x19Ethereum Signed Message:\n32", _recipient);
     address retAddr = ecrecover(prefixedHash, _v, _r, _s);

@@ -1,45 +1,14 @@
 const VerifiedProxy = artifacts.require("./VerifiedProxy.sol"); 
 const Promise = require('bluebird');
-
-// for soliditySha3
-
-Promise.promisifyAll(web3.eth, {suffix: "Promise"});
-const oneEth = web3.toWei(1,  "ether");
-const _commission = parseInt(web3.toWei(0.01,  "ether"));
-
-// verification constatns
-const verificationPublicKey = "0xD2657dBf4900A59e6125a83aA46388730a9f7753";
-const verificationPrivateKey = "c1d65fc0afe6afe5318d400d93de5057c16f3e1b2715d5072f64cf4b1d4ab493";
-const receiverAddress = "0x1b019c6f52c39e07e6c396ee1d0f957d3832d92a";
 const sha3 = require('solidity-sha3').default;
 const sha3withsize = require('solidity-sha3').sha3withsize;
 const util = require("ethereumjs-util");
-
 const Web3Utils = require('web3-utils');
-var signature, v, r, s;
-const PREFIX = "\x19Ethereum Signed Message:\n32";
-var verificationHash = Web3Utils.soliditySha3(PREFIX, {type: 'address', value: receiverAddress});
 
-const DEPOSIT_GAS_COST = 80000;
-const GAS_PRICE = 20;
-
-
+// helpers
 function sign(privateKey, msgHash) {
-    //return util.ecsign(new Buffer(util.stripHexPrefix(msgHash), 'hex'), new Buffer(privateKey, 'hex'));
     return util.ecsign(new Buffer(util.stripHexPrefix(msgHash), 'hex'), new Buffer(privateKey, 'hex'));
 }
-
-signature = sign(verificationPrivateKey, verificationHash);
-
-function generateTransferId() {
-    const PHONE = "123456789";    
-    return sha3(PHONE + Math.random().toString(32).slice(5).toUpperCase());
-}
-
-v = signature.v;
-r =  '0x' + signature.r.toString("hex");
-s =  '0x' + signature.s.toString("hex");	    
-const sigParams = `"${receiverAddress}",${v},"${r}","${s}"`;
 
 function parseTransfer(result) {
     return {
@@ -49,8 +18,31 @@ function parseTransfer(result) {
 	amount: result[3].toNumber()
     };
 }
+Promise.promisifyAll(web3.eth, {suffix: "Promise"});
 
-contract('VerifiedProxy', function(accounts) {
+// constants
+const PREFIX = "\x19Ethereum Signed Message:\n32";
+const GAS_PRICE = 20;
+const receiverAddress = "0x1b019c6f52c39e07e6c396ee1d0f957d3832d92a";
+const oneEth = web3.toWei(1,  "ether");
+const FIXED_COMMISSION = parseInt(web3.toWei(0.01,  "ether"));
+const CANCELLED_TRANSFER_ADDRESS = "0xD2657dBf4900A59e6125a83aA46388730a9f7754";
+
+// verification constatns
+const VERIFICATION_TRANSIT_ADDRESS = "0xD2657dBf4900A59e6125a83aA46388730a9f7753";
+const VERIFICATION_TRANSIT_PRIVATE_KEY = "c1d65fc0afe6afe5318d400d93de5057c16f3e1b2715d5072f64cf4b1d4ab493";
+var signature, v, r, s;
+var verificationHash = Web3Utils.soliditySha3(PREFIX, {type: 'address', value: receiverAddress});
+signature = sign(VERIFICATION_TRANSIT_PRIVATE_KEY, verificationHash);
+v = signature.v;
+r = '0x' + signature.r.toString("hex");
+s = '0x' + signature.s.toString("hex");	    
+
+
+
+
+
+contract('VerifiedProxy', async (accounts) => {
     var senderAddress,
 	verifierAddress,
 	initialBalances = {
@@ -62,322 +54,244 @@ contract('VerifiedProxy', function(accounts) {
 	 verifiedproxyInstance;
    
     
-    function sendTransfer(gasPrice) {
+    const sendTransfer = async (gasPrice, verificationAddress) => {
 	if (!gasPrice) {
 	    gasPrice = GAS_PRICE;
 	}
-	const transferId = generateTransferId();
-	return verifiedproxyInstance.deposit(verificationPublicKey, transferId, {from: senderAddress, value: oneEth, gasPrice: gasPrice})
-	    .then(function(txData) {
-		return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress})
-		    .then(parseTransfer);
-	    });
-    }
+	if (!verificationAddress) {
+	    verificationAddress = Web3Utils.randomHex(20);
+	}
+	// aconst transferId = generateTransferId();
+	const txData = await verifiedproxyInstance.deposit(Web3Utils.toHex(verificationAddress), {from: senderAddress, value: oneEth, gasPrice: gasPrice});
 
+	const rawTransfer = await verifiedproxyInstance.getTransfer.call(verificationAddress, {from: senderAddress});
+	return parseTransfer(rawTransfer);	
+    }
     
-    function initBalances() {
+    async function initBalances() {
 	verifierAddress = accounts[0];
 	senderAddress = accounts[1];	
-	web3.eth.getBalancePromise(senderAddress).then(function(result) {
-	    initialBalances.sender = result;
-	});
-	web3.eth.getBalancePromise(verifiedproxyInstance.address).then(function(result) {
-	    initialBalances.contract = result;		
-	});
-	web3.eth.getBalancePromise(verifierAddress).then(function(result) {
-	    initialBalances.verifier = result;		
-	});
-	web3.eth.getBalancePromise(receiverAddress).then(function(result) {
-	    initialBalances.receiver = result;		
-	});	
-
+	initialBalances.sender = await web3.eth.getBalancePromise(senderAddress);
+	initialBalances.contract = await web3.eth.getBalancePromise(verifiedproxyInstance.address);
+	initialBalances.verifier = await web3.eth.getBalancePromise(verifierAddress);
+	initialBalances.receiver = await web3.eth.getBalancePromise(receiverAddress);
     }
     
-    before("deploy and prepare", function() {
-	VerifiedProxy.deployed().then(function(instance) {
-	    verifiedproxyInstance = instance;
-	}).then(function() {
-	    initBalances();
-	});
+    before("deploy and prepare", async () => {
+	verifiedproxyInstance = await VerifiedProxy.deployed();
+	await initBalances();
     });
 
-    it("it should have correct initial valus (commission)", function() {
-	verifiedproxyInstance.commissionFee()
-	.then(function(commission) {
-	    assert.equal(commission.toString(), _commission, "it doesn't have correct commission");
-	});
-
+    it("it should have correct initial valus (commission)", async () => {
+	const commission = await verifiedproxyInstance.commissionFee();
+	assert.equal(commission.toString(), commission, "it doesn't have correct commission");
     });
     
-    describe("Sender sends 1 ether directly to verifier contract (fallback function) ", function() {
-	beforeEach("init values", function() {
-	    initBalances();
+    describe("Sender sends 1 ether directly to verifier contract (fallback function) ", () => {
+	beforeEach("init values", async () => {
+	    await initBalances();
 	});
 
-	it("contract should not accept ether to address", function() {
-	    web3.eth.sendTransactionPromise({to: verifiedproxyInstance.address, from: senderAddress, value: oneEth}).catch(function() {
-		    // passing error
-		})
-		.then(function(result) {
-		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);
-		})
-		.then(function(contractBalanceAfterTx) {
-		    assert.equal(initialBalances.contract.toString(), contractBalanceAfterTx.toString(), "Ether was incorrectly received by contract");
-		});
+	it("contract should not accept ether to address", async () => {
+	    try { 
+		await web3.eth.sendTransactionPromise({to: verifiedproxyInstance.address, from: senderAddress, value: oneEth});
+	    } catch (err) {
+		// pass
+	    }
+	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(verifiedproxyInstance.address);	    
+	    assert.equal(initialBalances.contract.toString(), contractBalanceAfterTx.toString(), "Ether was incorrectly received by contract");
 	});
     });
 
     describe("#deposit", function() {
-	beforeEach("making transfer", function() {
-	    initBalances();
+	beforeEach("making transfer", async () => {
+	    await initBalances();
 	});
 	
-    	it("contract receives ether", function(done) {
-	    sendTransfer()
-		.then(function() {
-    		    return web3.eth.getBalancePromise(verifiedproxyInstance.address);})
-		.then(function(contractBalanceAfterTx) {
-		    assert.equal(oneEth.toString(), contractBalanceAfterTx.toString(), "ether was not received by contract");
-		    done();
-		}).catch(done);
+    	it("contract receives ether", async () => {
+	    await sendTransfer();
+	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(verifiedproxyInstance.address);
+	    assert.equal(oneEth.toString(), contractBalanceAfterTx.toString(), "ether was not received by contract");
 	});
 
-    	it(" commission is accrued for verifier", function(done) {
+    	it(" commission is accrued for verifier", async () => {
 	    let commissionToWithdrawBefore;
-	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
-		.then(function(_commissionToWithdraw) {
-		    commissionToWithdrawBefore = _commissionToWithdraw;
-    		    return sendTransfer();
-		}).then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdrawAfter) {
-		    const gasCommission = GAS_PRICE * DEPOSIT_GAS_COST;
-		    const transferCommission = _commission + gasCommission;
-		    assert.equal((commissionToWithdrawBefore.plus(transferCommission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
-		    done();
-		}).catch(done);
-	});
 
-    	it(" commission is accrued correctly with different gas price", function(done) {
-	    let commissionToWithdrawBefore;
-	    const GAS_PRICE_2 = 2;
-	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
-		.then(function(_commissionToWithdraw) {
-		    commissionToWithdrawBefore = _commissionToWithdraw;
-    		    return sendTransfer(GAS_PRICE_2);
-		}).then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdrawAfter) {
-		    const gasCommission = GAS_PRICE_2 * DEPOSIT_GAS_COST;
-		    const transferCommission = _commission + gasCommission;
-		    assert.equal((commissionToWithdrawBefore.plus(transferCommission)).toString(), _commissionToWithdrawAfter.toString(), "commission was not accrued");
-		    done();
-		}).catch(done);
-	});
+	    // save commission before transfer
+	    commissionToWithdrawBefore = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
 
+	    // make transfer
+	    await sendTransfer();
+	    const commissionToWithdrawAfter = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
 
-	it(" msg.value should cover transfer commission", function(done) {
-	    let commissionToWithdrawBefore;
-	    const GAS_PRICE_LARGE = parseInt(web3.toWei(1, 'ether'));
-	    verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress})
-		.then(function(_commissionToWithdraw) {
-		    commissionToWithdrawBefore = _commissionToWithdraw;
-    		    return sendTransfer(GAS_PRICE_LARGE);
-		}).catch(function() {
-		    // pass error
-		}).then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdrawAfter) {
-		    const gasCommission = GAS_PRICE_LARGE * DEPOSIT_GAS_COST;
-		    const transferCommission = _commission + gasCommission;
-		    assert.equal(commissionToWithdrawBefore.toString(), _commissionToWithdrawAfter.toString(), "commission was accrued");
-		    done();
-		}).catch(done);
-	});
-
-	
-	it(" verifier can withdraw commission", function(done) {	  
-	    let commissionToWithdraw;
+	    // const gasCommission = GAS_PRICE * DEPOSIT_GAS_COST;
+	    const transferCommission = FIXED_COMMISSION;
+	    assert.equal((commissionToWithdrawBefore.plus(transferCommission)).toString(), commissionToWithdrawAfter.toString(), "commission was not accrued");
 	    
-	    sendTransfer()
-		.then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdraw) {
-		    commissionToWithdraw = _commissionToWithdraw;
-		    return verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
-		}).then(function() {
-		    return web3.eth.getBalancePromise(verifierAddress);
-		// ability to withdraw check		    
-		}).then(function(_verifierBalance) {
-		    assert.isBelow( _verifierBalance.toString(), (initialBalances.verifier.plus(commissionToWithdraw)).toString(), "balance is updated with more wei than commission");		    
-		    assert.isAbove( _verifierBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
-		})
-	        // commission to withdraw reset check
-		.then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdraw) {
-		    assert.equal(_commissionToWithdraw.toNumber(), 0, "commission to withdraw was not reset");
-
-		// double-spend attack check
-		    return verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
-		}).then(function() {
-		    return web3.eth.getBalancePromise(verifierAddress);
-		}).then(function(_verifierBalance) {
-		    assert.isBelow( _verifierBalance.toString(), (initialBalances.verifier.plus(commissionToWithdraw)).toString(), "commission was withdrawn twice");
-		    done();
-		}).catch(done);
 	});
 
-	it(" commission should go to verifier even if function called by other sender", function(done) {
+
+	it(" msg.value should cover transfer commission", async () => {
+	    const commissionToWithdrawBefore = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});	    
+    	    await sendTransfer();
+	    const commissionToWithdrawAfter = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    	    
+	    assert.equal(commissionToWithdrawBefore.plus(FIXED_COMMISSION).toString(), commissionToWithdrawAfter.toString(), "commission was accrued");
+	});
+
+	
+	it(" verifier can withdraw commission", async () => {	  
+	    let commissionToWithdraw, _verifierBalance;
+	    
+	    await sendTransfer();
+	    
+	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    
+	    await verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
+	    
+	    // ability to withdraw check
+	    const balanceAfterWithdrawnCommission = (initialBalances.verifier.plus(commissionToWithdraw)).toString();
+	    assert.isBelow( _verifierBalance.toString(), balanceAfterWithdrawnCommission, "balance is updated with more wei than commission");	    
+	    assert.isAbove( _verifierBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
+	    
+	    // commission to withdraw reset check
+	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    
+	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw was not reset");
+	    
+	    // double-spend attack check
+	    await verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
+	    assert.isBelow(_verifierBalance.toString(), balanceAfterWithdrawnCommission, "commission was withdrawn twice");
+	});
+
+	it(" commission should go to verifier even if function called by other sender", async () => {
 	    let commissionToWithdraw, verifierBalanceBefore;
 	    
-	    sendTransfer()
-		.then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdraw) {
-		    commissionToWithdraw = _commissionToWithdraw;
-		    return web3.eth.getBalancePromise(verifierAddress);
-		}).then(function(_balance) {
-		    verifierBalanceBefore = _balance;
-		    // ability to withdraw check		    
-		    return verifiedproxyInstance.withdrawCommission({}, {from: senderAddress});
-		}).catch(function(err) {
-		    // error pass
-		}).then(function() {
-		    return web3.eth.getBalancePromise(verifierAddress);
-		// ability to withdraw check		    
-		}).then(function(_verifierBalance) {
-		    assert.equal( verifierBalanceBefore.plus(commissionToWithdraw).toNumber(), _verifierBalance.toNumber()," ether wasn't withdrawn to verifier");		    
-		})
-	        // commission to withdraw reset check
-		.then(function() {
-		    return verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
-		}).then(function(_commissionToWithdraw) {
-		    assert.equal(_commissionToWithdraw.toNumber(), 0, "commission to withdraw wasn't reset");
-		    done();
-		}).catch(done);
+	    await sendTransfer();
+	    
+	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    verifierBalanceBefore = await web3.eth.getBalancePromise(verifierAddress);
+	    // ability to withdraw check		    
+	    await verifiedproxyInstance.withdrawCommission({}, {from: senderAddress});
+
+	    const _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
+	    // ability to withdraw check		    	    
+	    assert.equal( verifierBalanceBefore.plus(commissionToWithdraw).toNumber(), _verifierBalance.toNumber()," ether wasn't withdrawn to verifier");		    
+	    
+	    // commission to withdraw reset check
+	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});	    
+	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw wasn't reset");	
 	});
-
-
-
     });
 
-    describe("signature verification", function() {
+    describe("signature verification", () => {
 
-	it("can correctly recognize address for signature", function(done) {
-	    verifiedproxyInstance.verifySignature.call(verificationPublicKey, receiverAddress, v, r, s, {from: verifierAddress})	    
-		.then(function(result) {
-		    assert.equal(result, true, "it didn't correctly recognized signature");
-		    done();
-		}).catch(done);
+	it("can correctly recognize address for signature", async () => {
+	    const result = await verifiedproxyInstance.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
+									    receiverAddress, v, r, s,
+									    {from: verifierAddress});
+	    assert.equal(result, true, "it didn't correctly recognized signature");
 	});
 	
-	it("returns different address for antother receiver", function(done) {
-	    verifiedproxyInstance.verifySignature.call(verificationPublicKey, senderAddress, v, r, s, {from: verifierAddress})
-		.then(function(result) {
-		    assert.equal(result, false, "it didn't correctly recognized signature");
-		    done();
-		}).catch(done);
-
+	it("returns different address for antother receiver", async () => {
+	    const result = await verifiedproxyInstance.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
+									    senderAddress, v, r, s,
+									    {from: verifierAddress});
+	    assert.equal(result, false, "it didn't correctly recognized signature");
 	});
     });
     
-    describe("pending transfer", function() {
+    describe("pending transfer", () => {
 	
-    	it("can be fetched by sender", function(done) {
-	    sendTransfer()
-		.then(function(transfer) {
-		    assert.equal(transfer.amount.toString(), "989999999998400000", "amount is correct.");
-		    assert.equal(transfer.from, senderAddress, "sender is correct.");
-		    assert.equal(transfer.status, 0, "status is correct.");		    		    		    
-		    done();
-		})
-		.catch(done);	    
+    	it("can be fetched by sender", async () => {
+	    let transfer = await sendTransfer(GAS_PRICE, VERIFICATION_TRANSIT_ADDRESS);
+	    
+	    assert.equal(transfer.amount.toString(), "990000000000000000", "amount is correct.");
+	    assert.equal(transfer.from, senderAddress, "sender is correct.");
+	    assert.equal(transfer.status, 1, "status is correct.");		    		    		    	    
 	});
 	    
-	
-    	it("can be withdrawn with correct signature and through verifier", function(done) {
-	    var transfer;
-	    sendTransfer()
-		.then(function(_transfer) {
-		    transfer = _transfer;
-		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
-		}).then(function() {
-		    return verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
-		}).then(parseTransfer).then(function(_transfer) {
-		    transfer = _transfer;
-		    assert.equal(transfer.status, 1, "status is updated to withdrawn (1).");
-		    return web3.eth.getBalancePromise(receiverAddress);
-		}).then(function(balance) {
-		    assert.equal(web3.toBigNumber(balance).toString(), (web3.toBigNumber(transfer.amount).plus(web3.toBigNumber(initialBalances.receiver)).toString()), " ether not transfered to receiver");
-		    done();
-		}).catch(done);
+	    
+	it("cannot be withdrawn with correct signature but not through verifier", async () => {	    
+	    try { 
+	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
+						     receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});		
+	    } catch(err) {}
+
+	    let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+	    let transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn (1).");
+	    const balance = await web3.eth.getBalancePromise(receiverAddress);
+	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(initialBalances.receiver).toString(), " ether not transfered to receiver");
+	    
+	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS,{from: senderAddress});
+	    transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn.");		    		    		    
 	});
+
+
+	it("cannot be withdrawn through verifier without correct signature", async() => {
+	    	    
+	    try {
+		// signature is for receiver address
+	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
+						     senderAddress, v, r, s, {from: senderAddress, gas: 3000000});		
+	    } catch(err) {}
+	    
+	    let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+	    let transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 1, "status is NOT updated to withdrawn (1).");
+	    const balance = await web3.eth.getBalancePromise(receiverAddress);
+	    assert.equal(web3.toBigNumber(balance).toString(), web3.toBigNumber(initialBalances.receiver).toString(), " ether not transfered to receiver");
+	    
+	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS,{from: senderAddress});
+	    transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 1, "status is not updated to withdrawn.");		    		    		    
+
+	});
+	    
+    	it("can be withdrawn with correct signature and through verifier", async () => {
+	    
+	    await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
+	    
+	    const transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+	    transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 2, "status is NOT updated to withdrawn (2).");
+	    const balance = await web3.eth.getBalancePromise(receiverAddress);
+	    assert.equal(web3.toBigNumber(balance).toString(), (web3.toBigNumber(transfer.amount).plus(web3.toBigNumber(initialBalances.receiver)).toString()), " ether not transfered to receiver");
+	});
+
     
-	it("cannot be withdrawn with correct signature but not through verifier", function(done) {
-	    var transferId;
-	    sendTransfer()
-		.then(function(transfer) {
-		    transferId = transfer.id;
-		    return verifiedproxyInstance.withdraw(transfer.id, receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});
-		}).catch(function(err) {
-		    // passing error from smart contract
-		}).then(function() {
-		    return verifiedproxyInstance.getTransfer.call(transferId,{from: senderAddress});
-		}).then(parseTransfer).then(function(transfer) {
-		    assert.equal(transfer.status, 0, "status is not updated to withdrawn.");		    		    		    
-		    done();
-		}).catch(done);
+	it("cannot be canceled by verifier", async () => {
+	    let transfer = await sendTransfer();
+	    // cancel transfer
+	    try { 
+		await verifiedproxyInstance.cancelTransfer(transfer.id, {from: verifierAddress, gas: 3000000});
+	    } catch (err) { }
+	    const transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
+	    transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 1, "status is updated to cancelled (3).");		    		    		    
+	});
+
+	it("can be cancelled by sender", async () => {	    
+	    let transfer = await sendTransfer(GAS_PRICE, CANCELLED_TRANSFER_ADDRESS);
+	    // cancel transfer 
+	    await verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000});
+	    const transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
+	    transfer = parseTransfer(transferRaw);
+	    assert.equal(transfer.status, 3, "status is NOT updated to cancelled (3).");		    		    		    
+	});
+
+	xit("cancelled transfer cannot be withdrawn", async () => {
 	});
 	
-
-
-	it("cannot be withdrawn through verifier without correct signature", function(done) {
-	    var transfer;
-	    sendTransfer()
-		.then(function(_transfer) {
-		    transfer = _transfer;
-		    return verifiedproxyInstance.withdraw(transfer.id, senderAddress, v, r, s, {from: verifierAddress, gas: 3000000});
-		}).catch(function() {
-		    // passing error
-		}).then(function() {
-		    return verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
-		}).then(parseTransfer).then(function(_transfer) {
-		    transfer = _transfer;
-		    assert.equal(transfer.status, 0, "status is incorrectly updated to withdrawn 0.");
-		    done();
-		}).catch(done);
+	xit("cancelled transfer returns ether to sender", async () => {
 	});
-	    
-
-	it("can be cancelled by sender", function(done) {	    
-	    sendTransfer()
-		.then(function(transfer) {
-		    return {tx: verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000}), transferId: transfer.id};
-		}).then(function({tx, transferId}) {
-		    return verifiedproxyInstance.getTransfer.call(transferId, {from: senderAddress});
-		}).then(parseTransfer).then(function(transfer) {
-		    assert.equal(transfer.status, 2, "status is updated to cancelled (2).");		    		    		    
-		    done();
-		}).catch(done);
+	
+	xit("cancelled transfer returns ether to sender ONLY ONCE", async () => {
 	});
-
-	it("cannot be canceled by verifier", function(done) {
-	    var transferId;
-	    sendTransfer()
-		.then(function(transfer) {
-		    transferId = transfer.id;
-		    return verifiedproxyInstance.withdraw(transfer.id, {from: verifierAddress, gas: 3000000});
-		}).catch(function(err) {
-		    // passing error from smart contract
-		}).then(function() {
-		    return verifiedproxyInstance.getTransfer.call(transferId,{from: senderAddress});
-		}).then(parseTransfer).then(function(transfer) {
-		    assert.equal(transfer.status, 0, "status is updated to cancelled.");		    		    		    
-		    done();
-		}).catch(done);
-	});
-
-	    
+	
     });
 });
