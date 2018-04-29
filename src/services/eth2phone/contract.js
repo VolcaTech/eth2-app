@@ -1,12 +1,11 @@
 import Promise from "bluebird";
 import VerifiedProxy from '../../../build/contracts/VerifiedProxy.json';
 const contract = require('truffle-contract');
+import web3Service from "../web3Service";
 
 function generateVerifiedProxyApi() {
     var web3, contractInstance, deployed, contractWeb3;    
-    const WITHDRAW_GAS_COST = 80000;
     const FIXED_COMMISSION = 0.01;
-    const GAS_PRICE = 23000000000; // 23 gwei (hard-coded at this moment)
 
     function _parseTransfer(result) {
 	return {
@@ -16,7 +15,6 @@ function generateVerifiedProxyApi() {
 	    amount: web3.fromWei(result[3], "ether").toString()
 	};
     }
-
     
     function setup(_web3) {
 	web3 = _web3;
@@ -34,8 +32,12 @@ function generateVerifiedProxyApi() {
 	});
     }
 
-    function getCommission() {
-	return web3.toBigNumber(GAS_PRICE  * WITHDRAW_GAS_COST).plus(web3.toWei(FIXED_COMMISSION, 'ether'));
+    function getAmountWithCommission(amount) {
+	const commission = web3.toWei(FIXED_COMMISSION, 'ether');
+	const amountWithCommissionWei = web3Service.toBigNumber(web3Service.toWei(amount, "ether")).plus(commission);
+	const amountWithCommission = web3Service.fromWei(amountWithCommissionWei, 'ether');
+	console.log({commission, amountWithCommissionWei, amountWithCommission});
+	return {commission, amountWithCommission};
     }
     
     function deposit(pubkey, amount){	
@@ -91,7 +93,7 @@ function generateVerifiedProxyApi() {
 	deposit,
 	setup,
 	getSentTransfers,
-	getCommission,
+	getAmountWithCommission,
 	cancel,
 	getContractAddress: () => contractInstance.address
     };

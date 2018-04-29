@@ -3,7 +3,7 @@ import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from '
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType, isValidNumber } from 'libphonenumber-js';
-import eth2phoneService from "../../../services/eth2phone";
+import * as eth2phoneService from "../../../services/eth2phone";
 
 export default class ReceivePhoneTab extends Component {
     constructor(props) {

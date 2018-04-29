@@ -5,7 +5,7 @@ import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import Modal from "./modal";
 import web3Service from "../../../services/web3Service";
-import eth2phoneService from "../../../services/eth2phone";
+import * as eth2phoneService from "../../../services/eth2phone";
 // import History from "./History";
 const ReactTelInput = require('react-telephone-input');
 
@@ -34,8 +34,8 @@ export default class Form extends Component {
 	}
     
     _changeAmount(amount) {
-	const amountToPay = eth2phoneService.addCommission(amount);
-	this.setState({amount, amountToPay});
+	const { commission, amountWithCommission } = eth2phoneService.getAmountWithCommission(amount);
+	this.setState({amount, amountToPay: amountWithCommission});
     }
     
     closeModal() {

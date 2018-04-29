@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import web3Service from "../../../services/web3Service";
 import PhoneForm from './PhoneForm';
 import TxProgress from './ReceiveTxProgress';
-import eth2phoneService from "../../../services/eth2phone";
+import * as eth2phoneService from "../../../services/eth2phone";
 
 
 export default class ConfirmForm extends Component {

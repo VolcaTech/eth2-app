@@ -1,104 +1,77 @@
 import Promise from "bluebird";
-import sha3 from 'solidity-sha3';
-import ksHelper from '../../utils/keystoreHelper';
 import verifiedProxyContractApi from "./contract";
 import web3Service from "../web3Service";
-import serverApi from "./server";
-const Web3Utils = require('web3-utils');
-const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
+import * as server from "./server";
+import { generateKeystoreWithSecret, generateTransferId, getSignatureForReceiveAddress } from './utils';
 
 
-function generateWeb3Api() {
 
-    function addCommission(amount) {
-	const verifierCommission = verifiedProxyContractApi.getCommission();
-	const amountWithCommissionWei = web3Service.toBigNumber(web3Service.toWei(amount, "ether")).plus(verifierCommission);
-	const amountWithCommission = web3Service.fromWei(amountWithCommissionWei, 'ether');
-	return amountWithCommission;
-    }
+export const sendTransfer = async (phoneCode, phone, amountToPay) => {
 
-    function generateTransferId(phoneCode, phone, secretCode) {
-	return sha3(phoneCode + phone + secretCode);
-    }
-    
-    function sendTransfer(phoneCode, phone, amountToPay) {
+    // 1. generate transit verification key pair, with private key encrypted with secret code 
+    const { verAddress, verKeystore, secretCode } = generateKeystoreWithSecret(); // verification keystore
 
-	function _generateKeystoreWithSecret() {
-	    // generating secret code
-	    const secretCode = Math.random().toString(32).slice(5).toUpperCase();
-	    
-	    const { address, keystoreData } = ksHelper.create(secretCode);
-	    return { address, ksData: keystoreData, secretCode };
-	}
+    // 2. send transfer to serve
+    const transferId = generateTransferId(phoneCode, phone, secretCode);
+    const result = await server.sendTransferKeystore(
+	transferId,
+	phone,
+	phoneCode,
+	verKeystore
+    );
 
-	const verKS = _generateKeystoreWithSecret(); // verification keystore 
-	const transferId = generateTransferId(phoneCode, phone, verKS.secretCode);
-
-	return serverApi.sendTransferKeystore(transferId, phone, phoneCode, verKS.ksData)
-	    .then(function (result) {
-		let errorMsg = "";
-		if (!result || !result.success) {
-		    errorMsg = result.errorMsg || "Server error!";
-		    throw new Error(errorMsg);
-		}
-		return verifiedProxyContractApi.deposit(verKS.address, amountToPay, transferId);
-	    }).then((txHash) => {
-		return {txHash, secretCode: verKS.secretCode};
-	    });
-    }
-
-    function cancelTransfer(transferId) {
-	return verifiedProxyContractApi.cancel(transferId);
+    // if server error interrupt execution and don't send deposit to smart-contract
+    if (!result || !result.success) {
+	const errorMsg = result.errorMsg || "Server error!";
+	throw new Error(errorMsg);
     }
     
-    function getSentTransfers() {
-	return verifiedProxyContractApi.getSentTransfers();
-    }
-
-
-    // ask for sms code
-    function sendSmsToPhone(phoneCode, phone, code) {
-	const transferId = generateTransferId(phoneCode, phone, code);
-	return serverApi.claimPhone(transferId, phone); 
-    }
-
-    // verify code from SMS
-    function verifyPhoneAndWithdraw(phoneCode, phone, code, smsCode, addressTo) {
-	const transferId = generateTransferId(phoneCode, phone, code);	
-	return serverApi.verifyPhone(transferId, phone, smsCode)
-	    .then(function (result) {
-		if (!result || !result.success) {
-		    throw new Error((result.errorMessage || "Server error!"));
-		}
-		
-		const verificationHash = Web3Utils.soliditySha3(SIGNATURE_PREFIX, { type: 'address', value: addressTo });		
-		const signature = ksHelper.signTx(result.transfer.verificationKeystoreData, code, verificationHash);
-		const v = signature.v;
-		const r = '0x' + signature.r.toString("hex");
-		const s = '0x' + signature.s.toString("hex");
-		
-		return serverApi.confirmTx(
-		    transferId,
-		    phone,
-		    smsCode,
-		    addressTo,
-		    v, r, s);
-	    });
-    }
-    
-    // api
-    return {
-	// sender apis
-	addCommission,
-	sendTransfer,
-	cancelTransfer,
-	getSentTransfers,
-
-	// receiver apis
-	sendSmsToPhone, // 1 verification step
-	verifyPhoneAndWithdraw // confirm sms and withdraw transfer
-    };
+    // 3. send deposit to smart contract
+    const txHash = await verifiedProxyContractApi.deposit(verAddress, amountToPay);
+    return { txHash, secretCode };
 }
 
 
-export default generateWeb3Api();
+export const cancelTransfer = ((verAddress) => verifiedProxyContractApi.cancel(verAddress));
+export const getAmountWithCommission = ((amount) => verifiedProxyContractApi.getAmountWithCommission(amount));
+
+
+// export const getSentTransfers = () => {
+//     return verifiedProxyContractApi.getSentTransfers();
+// }
+
+
+// ask for confirmation code
+export const sendSmsToPhone = (phoneCode, phone, code) => {
+    const transferId = generateTransferId(phoneCode, phone, code);
+    return server.claimPhone(transferId, phone); 
+}
+
+// verify code from SMS and withdraw transfer
+export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCode, addressTo) => {
+    const transferId = generateTransferId(phoneCode, phone, secretCode);
+
+    // 1. verify phone by sending confirmation code from sms
+    // and get verification keystore 
+    const result = await server.verifyPhone(transferId, phone, smsCode);
+    
+    if (!result || !result.success) {
+	throw new Error((result.errorMessage || "Server error!"));
+    }
+	    
+    // 2. sign address chosen by receiver with verification private key
+    const { v, r, s } = getSignatureForReceiveAddress({
+	address: addressTo,
+	ksData: result.transfer.verificationKeystoreData,
+	password: secretCode
+    });
+
+    // 3. send signed address to server
+    return server.confirmTx(
+	transferId,
+	phone,
+	smsCode,
+	addressTo,
+	v, r, s);
+}
+    
