@@ -1,4 +1,4 @@
-var VerifiedProxy = artifacts.require("./VerifiedProxy.sol");
+var e2pEscrow = artifacts.require("./e2pEscrow.sol");
 
 
 module.exports = function(deployer, network, accounts) {
@@ -11,5 +11,5 @@ module.exports = function(deployer, network, accounts) {
     // HARDCODED VALUES for proof-of-concept 
     //var verifier = "0xf695e673d7d159cbfc119b53d8928ceca4efe99e";
 
-    deployer.deploy(VerifiedProxy, web3.toWei(fee,  "ether"),  {from: owner});
+    deployer.deploy(e2pEscrow, web3.toWei(fee,  "ether"),  {from: owner});
 };

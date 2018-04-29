@@ -2,9 +2,9 @@ pragma solidity 0.4.23;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/VerifiedProxy.sol";
+import "../contracts/e2pEscrow.sol";
 
-contract TestVerifiedProxy {
+contract Teste2pEscrow {
 
   /* function testItStoresAValue() { */
   /*   SimpleStorage simpleStorage = SimpleStorage(DeployedAddresses.SimpleStorage()); */

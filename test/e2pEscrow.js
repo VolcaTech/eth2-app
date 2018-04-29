@@ -1,4 +1,4 @@
-const VerifiedProxy = artifacts.require("./VerifiedProxy.sol"); 
+const e2pEscrow = artifacts.require("./e2pEscrow.sol"); 
 const Promise = require('bluebird');
 const sha3 = require('solidity-sha3').default;
 const sha3withsize = require('solidity-sha3').sha3withsize;
@@ -12,7 +12,7 @@ function sign(privateKey, msgHash) {
 
 function parseTransfer(result) {
     return {
-	id: result[0].toString(),
+	transitAddress: result[0].toString(),
 	from: result[1].toString('hex'),
 	amount: result[2].toNumber()
     };
@@ -38,10 +38,7 @@ r = '0x' + signature.r.toString("hex");
 s = '0x' + signature.s.toString("hex");	    
 
 
-
-
-
-contract('VerifiedProxy', async (accounts) => {
+contract('e2pEscrow', async (accounts) => {
     var senderAddress,
 	verifierAddress,
 	initialBalances = {
@@ -50,7 +47,7 @@ contract('VerifiedProxy', async (accounts) => {
 	    verifier: 0,
 	    reciever: 0
 	},
-	verifiedproxyInstance;
+	escrowContract;
    
     
     const sendTransfer = async (gasPrice, verificationAddress) => {
@@ -61,27 +58,27 @@ contract('VerifiedProxy', async (accounts) => {
 	    verificationAddress = Web3Utils.randomHex(20);
 	}
 	
-	const txData = await verifiedproxyInstance.deposit(Web3Utils.toHex(verificationAddress), {from: senderAddress, value: oneEth, gasPrice: gasPrice});
-	const rawTransfer = await verifiedproxyInstance.getTransfer.call(verificationAddress, {from: senderAddress});
+	const txData = await escrowContract.deposit(Web3Utils.toHex(verificationAddress), {from: senderAddress, value: oneEth, gasPrice: gasPrice});
+	const rawTransfer = await escrowContract.getTransfer.call(verificationAddress, {from: senderAddress});
 	return parseTransfer(rawTransfer);	
-    }
+    };
     
     async function initBalances() {
 	verifierAddress = accounts[0];
 	senderAddress = accounts[1];	
 	initialBalances.sender = await web3.eth.getBalancePromise(senderAddress);
-	initialBalances.contract = await web3.eth.getBalancePromise(verifiedproxyInstance.address);
+	initialBalances.contract = await web3.eth.getBalancePromise(escrowContract.address);
 	initialBalances.verifier = await web3.eth.getBalancePromise(verifierAddress);
 	initialBalances.receiver = await web3.eth.getBalancePromise(receiverAddress);
     }
     
     before("deploy and prepare", async () => {
-	verifiedproxyInstance = await VerifiedProxy.deployed();
+	escrowContract = await e2pEscrow.deployed();
 	await initBalances();
     });
 
     it("it should have correct initial valus (commission)", async () => {
-	const commission = await verifiedproxyInstance.commissionFee();
+	const commission = await escrowContract.commissionFee();
 	assert.equal(commission.toString(), commission, "it doesn't have correct commission");
     });
     
@@ -92,11 +89,11 @@ contract('VerifiedProxy', async (accounts) => {
 
 	it("contract should not accept ether to address", async () => {
 	    try { 
-		await web3.eth.sendTransactionPromise({to: verifiedproxyInstance.address, from: senderAddress, value: oneEth});
+		await web3.eth.sendTransactionPromise({to: escrowContract.address, from: senderAddress, value: oneEth});
 	    } catch (err) {
 		// pass
 	    }
-	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(verifiedproxyInstance.address);	    
+	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(escrowContract.address);	    
 	    assert.equal(initialBalances.contract.toString(), contractBalanceAfterTx.toString(), "Ether was incorrectly received by contract");
 	});
     });
@@ -108,7 +105,7 @@ contract('VerifiedProxy', async (accounts) => {
 	
     	it("contract receives ether", async () => {
 	    await sendTransfer();
-	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(verifiedproxyInstance.address);
+	    const contractBalanceAfterTx = await web3.eth.getBalancePromise(escrowContract.address);
 	    assert.equal(oneEth.toString(), contractBalanceAfterTx.toString(), "ether was not received by contract");
 	});
 
@@ -116,11 +113,11 @@ contract('VerifiedProxy', async (accounts) => {
 	    let commissionToWithdrawBefore;
 
 	    // save commission before transfer
-	    commissionToWithdrawBefore = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    commissionToWithdrawBefore = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 
 	    // make transfer
 	    await sendTransfer();
-	    const commissionToWithdrawAfter = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    const commissionToWithdrawAfter = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 
 	    // const gasCommission = GAS_PRICE * DEPOSIT_GAS_COST;
 	    const transferCommission = FIXED_COMMISSION;
@@ -130,9 +127,9 @@ contract('VerifiedProxy', async (accounts) => {
 
 
 	it(" msg.value should cover transfer commission", async () => {
-	    const commissionToWithdrawBefore = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});	    
+	    const commissionToWithdrawBefore = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});	    
     	    await sendTransfer();
-	    const commissionToWithdrawAfter = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    const commissionToWithdrawAfter = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 	    	    
 	    assert.equal(commissionToWithdrawBefore.plus(FIXED_COMMISSION).toString(), commissionToWithdrawAfter.toString(), "commission was accrued");
 	});
@@ -143,9 +140,9 @@ contract('VerifiedProxy', async (accounts) => {
 	    
 	    await sendTransfer();
 	    
-	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 	    
-	    await verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+	    await escrowContract.withdrawCommission({}, {from: verifierAddress});
 	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
 	    
 	    // ability to withdraw check
@@ -154,12 +151,12 @@ contract('VerifiedProxy', async (accounts) => {
 	    assert.isAbove( _verifierBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
 	    
 	    // commission to withdraw reset check
-	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 	    
 	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw was not reset");
 	    
 	    // double-spend attack check
-	    await verifiedproxyInstance.withdrawCommission({}, {from: verifierAddress});
+	    await escrowContract.withdrawCommission({}, {from: verifierAddress});
 	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
 	    assert.isBelow(_verifierBalance.toString(), balanceAfterWithdrawnCommission, "commission was withdrawn twice");
 	});
@@ -169,17 +166,17 @@ contract('VerifiedProxy', async (accounts) => {
 	    
 	    await sendTransfer();
 	    
-	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
 	    verifierBalanceBefore = await web3.eth.getBalancePromise(verifierAddress);
 	    // ability to withdraw check		    
-	    await verifiedproxyInstance.withdrawCommission({}, {from: senderAddress});
+	    await escrowContract.withdrawCommission({}, {from: senderAddress});
 
 	    const _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
 	    // ability to withdraw check		    	    
 	    assert.equal( verifierBalanceBefore.plus(commissionToWithdraw).toNumber(), _verifierBalance.toNumber()," ether wasn't withdrawn to verifier");		    
 	    
 	    // commission to withdraw reset check
-	    commissionToWithdraw = await verifiedproxyInstance.commissionToWithdraw.call({}, {from: verifierAddress});	    
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});	    
 	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw wasn't reset");	
 	});
     });
@@ -187,14 +184,14 @@ contract('VerifiedProxy', async (accounts) => {
     describe("signature verification", () => {
 
 	it("can correctly recognize address for signature", async () => {
-	    const result = await verifiedproxyInstance.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
+	    const result = await escrowContract.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
 									    receiverAddress, v, r, s,
 									    {from: verifierAddress});
 	    assert.equal(result, true, "it didn't correctly recognized signature");
 	});
 	
 	it("returns different address for antother receiver", async () => {
-	    const result = await verifiedproxyInstance.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
+	    const result = await escrowContract.verifySignature.call(VERIFICATION_TRANSIT_ADDRESS,
 									    senderAddress, v, r, s,
 									    {from: verifierAddress});
 	    assert.equal(result, false, "it didn't correctly recognized signature");
@@ -214,12 +211,12 @@ contract('VerifiedProxy', async (accounts) => {
 	it("cannot be withdrawn with correct signature but not through verifier", async () => {
 	    let transferFrom;
 	    try { 
-	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
+	 	await escrowContract.withdraw(VERIFICATION_TRANSIT_ADDRESS,
 						     receiverAddress, v, r, s, {from: senderAddress, gas: 3000000});		
 	    } catch(err) {}
 
 	    try { 
-		let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		let transferRaw = await escrowContract.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
 		let transfer = parseTransfer(transferRaw);
 		transferFrom = transfer.from;		
 	    } catch(err) {}
@@ -234,12 +231,12 @@ contract('VerifiedProxy', async (accounts) => {
 	    let transferFrom;
 	    try {
 		// signature is for receiver address
-	 	await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS,
+	 	await escrowContract.withdraw(VERIFICATION_TRANSIT_ADDRESS,
 						     senderAddress, v, r, s, {from: senderAddress, gas: 3000000});		
 	    } catch(err) {}
 
 	    try { 
-		let transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		let transferRaw = await escrowContract.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
 		let transfer = parseTransfer(transferRaw);
 		transferFrom = transfer.from;		
 	    } catch (err) {}
@@ -251,14 +248,14 @@ contract('VerifiedProxy', async (accounts) => {
 	    
     	it("can be withdrawn with correct signature and through verifier", async () => {
 	    let transferFrom, transfer, transferRaw;
-	    transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+	    transferRaw = await escrowContract.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
 	    transfer = parseTransfer(transferRaw);
 	    const transferAmount = transfer.amount;
 	    
-	    await verifiedproxyInstance.withdraw(VERIFICATION_TRANSIT_ADDRESS, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
+	    await escrowContract.withdraw(VERIFICATION_TRANSIT_ADDRESS, receiverAddress, v, r, s, {from: verifierAddress, gas: 3000000});
 	    
 	    try { 
-		transferRaw = await verifiedproxyInstance.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
+		transferRaw = await escrowContract.getTransfer.call(VERIFICATION_TRANSIT_ADDRESS, {from: verifierAddress});
 		transfer = parseTransfer(transferRaw);
 		transferFrom = transfer.from;
 	    } catch (err) {}
@@ -273,11 +270,11 @@ contract('VerifiedProxy', async (accounts) => {
 	    transfer = await sendTransfer();
 	    // cancel transfer
 	    try { 
-		await verifiedproxyInstance.cancelTransfer(transfer.id, {from: verifierAddress, gas: 3000000});
+		await escrowContract.cancelTransfer(transfer.transitAddress, {from: verifierAddress, gas: 3000000});
 	    } catch (err) { }
 
 	    try { 
-		let transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: verifierAddress});
+		let transferRaw = await escrowContract.getTransfer.call(transfer.transitAddress, {from: verifierAddress});
 		transfer = parseTransfer(transferRaw);
 		transferFrom = transfer.from;
 	    } catch (err) {}
@@ -290,11 +287,11 @@ contract('VerifiedProxy', async (accounts) => {
 	    transfer = await sendTransfer();
 	    // cancel transfer
 	    try { 
-		await verifiedproxyInstance.cancelTransfer(transfer.id, {from: senderAddress, gas: 3000000});
+		await escrowContract.cancelTransfer(transfer.transitAddress, {from: senderAddress, gas: 3000000});
 	    } catch (err) { }
 
 	    try { 
-		let transferRaw = await verifiedproxyInstance.getTransfer.call(transfer.id, {from: senderAddress});
+		let transferRaw = await escrowContract.getTransfer.call(transfer.transitAddress, {from: senderAddress});
 		transfer = parseTransfer(transferRaw);
 		transferFrom = transfer.from;
 	    } catch (err) {}
