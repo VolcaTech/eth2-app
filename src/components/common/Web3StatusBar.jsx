@@ -27,10 +27,10 @@ const Network = () => (
 
 
 
-const Address = () => (
+const Address = ({address}) => (
     <div>
       Address: 
-      <strong className="c-white"> {web3Api.getAddress()} </strong>	
+      <strong className="c-white"> {address} </strong>	
     </div>
 )
 
@@ -46,7 +46,7 @@ const ContractAddress = ({address}) => {
     );
 }
 
-const Web3StatusContent = ({web3Loaded, noWeb3, contractAddress}) => {
+const Web3StatusContent = ({web3Loaded, noWeb3, address, contractAddress}) => {
     if (!web3Loaded) {
 	return (
 	    <div>
@@ -65,7 +65,7 @@ const Web3StatusContent = ({web3Loaded, noWeb3, contractAddress}) => {
 	<div>
 	  <ConnectionStatus />
 	  <Balance />
-	  <Address />
+	  <Address address={address}/>
 	  <ContractAddress address={contractAddress} />
 
 	  <Network />
