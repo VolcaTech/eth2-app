@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 
 import Form from "./Form";
-import web3Api from "../../../apis/web3-common-api";
+import web3Service from "../../../services/web3Service";
 
 
 export default class VerifiedProxyTab extends Component {
     
     render() {
-	if (!web3Api.isConnected()) {
+	if (!web3Service.isConnected()) {
 	    return (
-		    <div>
-                      In order to send, web3 should be connected		    
-		    </div>
+		<div>
+                  In order to send, web3 should be connected		    
+		</div>
 	    );
 	}	
 	
         return (
             <div>
-                <Form/>
+              <Form/>
             </div>
         );
     }

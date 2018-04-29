@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import web3Api from "../../apis/web3-common-api";
+import web3Service from "../../services/web3Service";
 
 const ConnectionStatus = () => (
     <div>
       Web3 is: 
       <strong className="c-white"> 	
-	{web3Api.isConnected() ? " connected" : " not connected" }
+	{web3Service.isConnected() ? " connected" : " not connected" }
       </strong>
     </div>
 )
@@ -14,14 +14,14 @@ const ConnectionStatus = () => (
 const Balance = () => (
     <div>
       Balance: 
-      <strong className="c-white"> {web3Api.getBalance()} ETH</strong>	
+      <strong className="c-white"> {web3Service.getBalance()} ETH</strong>	
     </div>
 )
 
 const Network = () => (
     <div>
       Network: 
-      <strong className="c-white"> {web3Api.getNetworkName()} ({web3Api.getNetworkId()}) </strong>	
+      <strong className="c-white"> {web3Service.getNetworkName()} ({web3Service.getNetworkId()}) </strong>	
     </div>
 )
 

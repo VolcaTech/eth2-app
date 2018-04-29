@@ -19,7 +19,7 @@ module.exports = {
      },
       ropsten: {
 	  provider: function() {
-	      const provider_ = new HDWalletProvider(mnemonic, `https://ropsten.infura.io/INFURA_TOKEN`);
+	      const provider_ = new HDWalletProvider(mnemonic, `https://ropsten.infura.io/${INFURA_TOKEN}`);
 	      return provider_
 	  },
 	  network_id: 3,

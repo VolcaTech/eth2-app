@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import VerifiedProxyTab from './VerifiedProxy/VerifiedProxyTab';
-import web3Api from "../../apis/web3-common-api";
+import web3Service from "../../services/web3Service";
 
 function WrongNetworkMessage() {
     return (
@@ -12,7 +12,7 @@ export default class Tab extends Component {
     render() {
         return (
             <div>
-                {web3Api.getNetworkId() === "3" ? <VerifiedProxyTab /> : <WrongNetworkMessage />}
+                {web3Service.getNetworkId() === "3" ? <VerifiedProxyTab /> : <WrongNetworkMessage />}
             </div>
         );
     }

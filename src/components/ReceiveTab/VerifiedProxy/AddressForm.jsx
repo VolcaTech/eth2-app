@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import web3Api from "../../../apis/web3-common-api";
+import web3Service from "../../../services/web3Service";
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import AddressRadioSelect from './AddressRadioSelect';
 import GenerateWallet from './GenerateWallet';
@@ -40,7 +40,7 @@ export default class AddressForm extends Component {
     _initAddress(option) {
 	let address;
 	if (option === 0) {
-	    address = web3Api.getAddress();
+	    address = web3Service.getAddress();
 	} else {
 	    address = "";
 	}
@@ -89,7 +89,7 @@ export default class AddressForm extends Component {
 	    <div>
 
 	      <AddressRadioSelect
-		 disabled={!web3Api.isConnected()}
+		 disabled={!web3Service.isConnected()}
 		 onAddressTypeChange={(v) => this.onAddressTypeChange(v)}
 		selectedOption={this.state.selectedOption} />
 		<div>

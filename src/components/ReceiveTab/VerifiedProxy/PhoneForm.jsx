@@ -3,8 +3,7 @@ import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from '
 import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType, isValidNumber } from 'libphonenumber-js';
-
-import eth2phoneApi from "../../../apis/eth2phone-api";
+import eth2phoneService from "../../../services/eth2phone";
 
 export default class ReceivePhoneTab extends Component {
     constructor(props) {
@@ -28,7 +27,7 @@ export default class ReceivePhoneTab extends Component {
         const component = this;
         console.log(this.state);
         this.setState({ isFetching: true });
-        eth2phoneApi.sendSmsToPhone(component.state.phoneCode, component.state.phone, component.state.code).then(function (result) {
+        eth2phoneService.sendSmsToPhone(component.state.phoneCode, component.state.phone, component.state.code).then(function (result) {
             if (!result.success) {
                 throw new Error((result.errorMessage || "Server error"));
             }

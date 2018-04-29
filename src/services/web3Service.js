@@ -1,35 +1,9 @@
-import Promise from "bluebird";
+import Promise from 'bluebird';
 import getWeb3 from '../utils/getWeb3';
-import verifiedProxyContractApi from "./verified-proxy-contract-api";
-const getTransactionReceiptMined = require("../utils/getTransactionReceiptMined.js");
-
-function detectNetwork(networkId) {
-    var networkName;
-    switch (networkId) {
-    case "1":
-	networkName = "Main";
-	break;
-    case "2":
-	networkName = "Morden";
-	break;
-    case "3":
-	networkName = "Ropsten";
-	break;
-    case "4":
-	networkName = "Rinkeby";
-	break;
-    case "42":
-	networkName = "Kovan";
-	break;
-    default:
-	networkName = `Unknown network`;
-    }
-    return networkName;
-}
+import { getTransactionReceiptMined, detectNetwork } from '../utils';
 
 
-function generateWeb3Api() {
-
+const Web3Service = () => {
     let web3,
 	_connected,
 	_balance,
@@ -93,4 +67,4 @@ function generateWeb3Api() {
 }
 
 
-export default generateWeb3Api();
+export default Web3Service();

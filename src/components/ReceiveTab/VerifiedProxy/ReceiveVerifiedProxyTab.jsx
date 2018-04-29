@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import web3Api from "../../../apis/web3-common-api";
-
+import web3Service from "../../../services/web3Service";
 import PhoneForm from './PhoneForm';
 import AddressForm from './AddressForm';
 import ConfirmForm from './ConfirmForm';
@@ -50,7 +49,7 @@ export default class ReceiverProxyTab extends Component {
 	switch (this.state.stepId) {
 	case 0:
 	    stepComponent = (
-		<AddressForm web3Connected={web3Api.isConnected()} onSuccess={(address) => component.onAddressChosen(address)} />
+		<AddressForm web3Connected={web3Service.isConnected()} onSuccess={(address) => component.onAddressChosen(address)} />
 	    );
 	    break;
 

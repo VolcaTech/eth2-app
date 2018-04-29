@@ -1,7 +1,6 @@
 import Promise from "bluebird";
-import VerifiedProxy from './../../build/contracts/VerifiedProxy.json';
+import VerifiedProxy from '../../../build/contracts/VerifiedProxy.json';
 const contract = require('truffle-contract');
-
 
 function generateVerifiedProxyApi() {
     var web3, contractInstance, deployed, contractWeb3;    
@@ -39,13 +38,13 @@ function generateVerifiedProxyApi() {
 	return web3.toBigNumber(GAS_PRICE  * WITHDRAW_GAS_COST).plus(web3.toWei(FIXED_COMMISSION, 'ether'));
     }
     
-    function deposit(pubkey, amount, transferId){	
+    function deposit(pubkey, amount){	
 	if (!deployed) {
 	    alert("Verified Proxy Contract Is not deployed to selected network!");
 	    return null;
 	}	
         const weiAmount = web3.toWei(amount, "ether");
-	return contractWeb3.depositPromise(web3.toHex(pubkey), transferId, {from: web3.eth.accounts[0], value: weiAmount, gasPrice: web3.toWei(23, "gwei")});
+	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount, gasPrice: web3.toWei(23, "gwei")});
     }
     
     function cancel(transferId){	

@@ -1,22 +1,19 @@
 import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
-
-import ksHelper from '../utils/keystoreHelper';
-import verifiedProxyContractApi from "./verified-proxy-contract-api";
-import web3Api from "./web3-common-api";
-import serverApi from "./eth2phone-server-api";
-
+import ksHelper from '../../utils/keystoreHelper';
+import verifiedProxyContractApi from "./contract";
+import web3Service from "../web3Service";
+import serverApi from "./server";
 const Web3Utils = require('web3-utils');
 const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
-
 
 
 function generateWeb3Api() {
 
     function addCommission(amount) {
 	const verifierCommission = verifiedProxyContractApi.getCommission();
-	const amountWithCommissionWei = web3Api.toBigNumber(web3Api.toWei(amount, "ether")).plus(verifierCommission);
-	const amountWithCommission = web3Api.fromWei(amountWithCommissionWei, 'ether');
+	const amountWithCommissionWei = web3Service.toBigNumber(web3Service.toWei(amount, "ether")).plus(verifierCommission);
+	const amountWithCommission = web3Service.fromWei(amountWithCommissionWei, 'ether');
 	return amountWithCommission;
     }
 

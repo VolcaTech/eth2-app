@@ -4,9 +4,9 @@ import rrui from 'react-phone-number-input/rrui.css';
 import rpni from 'react-phone-number-input/style.css';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import Modal from "./modal";
-import web3Api from "../../../apis/web3-common-api";
-import eth2phoneApi from "../../../apis/eth2phone-api";
-import History from "./History";
+import web3Service from "../../../services/web3Service";
+import eth2phoneService from "../../../services/eth2phone";
+// import History from "./History";
 const ReactTelInput = require('react-telephone-input');
 
 
@@ -34,40 +34,46 @@ export default class Form extends Component {
 	}
     
     _changeAmount(amount) {
-	const amountToPay = eth2phoneApi.addCommission(amount);
+	const amountToPay = eth2phoneService.addCommission(amount);
 	this.setState({amount, amountToPay});
     }
     
     closeModal() {
 	this.setState({ showModal: false });
     }
+
     showModal() {
 	this.setState({ showModal: true });
     }
     
-    handleSubmit() {
+    async handleSubmit() {
 	this.setState({ errorMsg: "", error: false });
 	const component = this;
 	let transferId;
 	if (this.state.phoneIsValid === false) {
 	    this.setState({ errorMsg: "Invalid phone number", error: true });
 	    return null;
-		}
+	}
 	if (this.state.amount.length === 0) {
 	    this.setState({ errorMsg: "Wrong amount", error: true });
 	    return null;
 	}
+	
 	component.setState({
 	    confirmPressed: true,
 	    showModal: true,
 	    sendingTx: true,
 	    errorMsg: ""
 	});
-	eth2phoneApi.sendTransfer(
-	    this.state.phoneCode,
-	    this.state.phone,
-	    this.state.amountToPay
-	).then(({txHash, secretCode}) => {
+	
+	try {
+	    // send to server 
+	    const { txHash, secretCode } = await eth2phoneService.sendTransfer(
+		this.state.phoneCode,
+		this.state.phone,
+		this.state.amountToPay
+	    );
+
 	    // tx is pending (not mined yet)
 	    console.log({txHash, secretCode});
 	    component.setState({
@@ -75,22 +81,22 @@ export default class Form extends Component {
 		hash: txHash,
 		code: secretCode
 	    });
-	    return web3Api.getTransactionReceiptMined(txHash);
-	}).then((txReceipt) => {
+	    const txReceipt = await web3Service.getTransactionReceiptMined(txHash);    
+	    
 	    // tx is mined
 	    component.setState({
 		sendingTx: false,
 		step: 2,
 		historyUpdateCounter: 1		
 	    });		
-	}).catch((err) => {
+	} catch(err) {
 	    console.log({ err });
 	    component.setState({
 		sendingTx: false,
 		error: true,
 		errorMsg: (err.msg || err)
 	    });
-	});
+	};
     };
 
     render() {
@@ -161,8 +167,6 @@ export default class Form extends Component {
 
 	      {!this.state.confirmPressed ? form : txDetails}
 
-
-	      <History updateCounter={this.state.historyUpdateCounter} />
 	      <Modal sendingTx={component.state.sendingTx}
 		     code={component.state.code}
 		     phone={component.state.phone}
@@ -172,6 +176,7 @@ export default class Form extends Component {
 		     step={component.state.step}
 		     hash={component.state.hash}
 		     closeModal={() => component.closeModal()} />
+
 	    </div>
 
 
@@ -181,3 +186,5 @@ export default class Form extends Component {
     }
 }
 
+
+// <History updateCounter={this.state.historyUpdateCounter} />

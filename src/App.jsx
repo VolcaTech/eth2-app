@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import MainTab from './components/MainTab';
-import web3Api from "./apis/web3-common-api";
-import verifiedProxyContractApi from "./apis/verified-proxy-contract-api";
+import web3Service from "./services/web3Service";
+import verifiedProxyContractApi from "./services/eth2phone/contract";
 import Web3StatusBar from './components/common/Web3StatusBar';
 import Footer from './components/common/LinkFooter';
 import Header from './components/common/Header';
-import { updateAddress } from './actions'
+import { updateAddress } from './actions';
+
 
 class App extends Component {
 
@@ -28,7 +29,7 @@ class App extends Component {
             function poll() {
                 console.log("trying to load web3...");
                 pollCounter += 1;
-                web3Api.setup()
+                web3Service.setup()
                     .then(isWeb3Set => {
                         if (!isWeb3Set && pollCounter < POLL_MAX_COUNTER) {
                             setTimeout(poll, 500);
@@ -48,10 +49,10 @@ class App extends Component {
         return new Promise(function (resolve, reject) {
             component._pollWeb3()
                 .then(() => {
-                    const web3 = web3Api.getWeb3();
+                    const web3 = web3Service.getWeb3();
                     const address = web3.eth.accounts[0];
-                    updateAddress(address)
-                    return verifiedProxyContractApi.setup(web3Api.getWeb3());
+                    updateAddress(address);
+                    return verifiedProxyContractApi.setup(web3Service.getWeb3());
                 }).then(() => {
                     return verifiedProxyContractApi.getContractAddress();
                 }).then((contractAddress) => {
@@ -76,7 +77,6 @@ class App extends Component {
             <div>
                 <Web3StatusBar web3Loaded={this.state.web3Loaded} noWeb3={this.state.noWeb3} address={this.props.address} contractAddress={this.state.contractAddress} />
                 <div className="container">
-
                     <Header />
                     <MainTab />
                     <Footer />
@@ -94,4 +94,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { updateAddress })(App)
+export default connect(mapStateToProps, { updateAddress })(App);

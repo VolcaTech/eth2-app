@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
-import web3Api from "../../../apis/web3-common-api";
+import web3Service from "../../../services/web3Service";
 import PhoneForm from './PhoneForm';
 import TxProgress from './ReceiveTxProgress';
-import eth2phoneApi from "../../../apis/eth2phone-api";
+import eth2phoneService from "../../../services/eth2phone";
+
 
 export default class ConfirmForm extends Component {
 	constructor(props) {
@@ -22,7 +22,7 @@ export default class ConfirmForm extends Component {
 	    const component = this;
 	    console.log(this.state);
 	    this.setState({ isFetching: true, step: 1 });
-	    eth2phoneApi.verifyPhoneAndWithdraw(this.props.phoneCode,
+	    eth2phoneService.verifyPhoneAndWithdraw(this.props.phoneCode,
 						this.props.phone,
 						this.props.code,
 						this.state.smsCode,
@@ -31,7 +31,7 @@ export default class ConfirmForm extends Component {
 		    console.log({ result });
 		    // tx is pending (not mined yet)
 		    component.setState({ step: 2, txId: result.pendingTxHash, txAmount : result.amount});
-		    return web3Api.getTransactionReceiptMined(result.pendingTxHash);
+		    return web3Service.getTransactionReceiptMined(result.pendingTxHash);
 		}).then((txReceipt) => {
 		    console.log("Tx mined!");
 		    component.setState({ isFetching: false, step: 3 });

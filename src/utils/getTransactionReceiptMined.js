@@ -1,4 +1,4 @@
-module.exports = function getTransactionReceiptMined(txHash, interval) {
+export function getTransactionReceiptMined(txHash, interval) {
     const self = this;
     const transactionReceiptAsync = function(resolve, reject) {
 	self.getTransactionReceipt(txHash, (error, receipt) => {
