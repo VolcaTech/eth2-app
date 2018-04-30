@@ -1,24 +1,26 @@
 import Promise from "bluebird";
-import verifiedProxyContractApi from "./contract";
-import web3Service from "../web3Service";
-import * as server from "./server";
-import { generateKeystoreWithSecret, generateTransferId, getSignatureForReceiveAddress } from './utils';
-
+import escrowContract from "./escrowContract";
+import * as verificationServer from "./verificationServer";
+import {
+    generateKeystoreWithSecret,
+    generateTransferId, getSignatureForReceiveAddress } from './utils';
 
 
 export const sendTransfer = async (phoneCode, phone, amountToPay) => {
 
-    // 1. generate transit verification key pair, with private key encrypted with secret code 
-    const { verAddress, verKeystore, secretCode } = generateKeystoreWithSecret(); // verification keystore
+    // 1. generate transit keystore, with private key encrypted with random code 
+    const { address: transitAddress,
+	    keystore: transitKeystore, secretCode } = generateKeystoreWithSecret(); // verification keystore
 
-    // 2. send transfer to serve
+    // 2. register transfer to Verification Server 
     const transferId = generateTransferId(phoneCode, phone, secretCode);
-    const result = await server.sendTransferKeystore(
+    const result = await verificationServer.registerTransfer({
 	transferId,
 	phone,
 	phoneCode,
-	verKeystore
-    );
+	transitAddress,
+	transitKeystore
+    });
 
     // if server error interrupt execution and don't send deposit to smart-contract
     if (!result || !result.success) {
@@ -27,13 +29,13 @@ export const sendTransfer = async (phoneCode, phone, amountToPay) => {
     }
     
     // 3. send deposit to smart contract
-    const txHash = await verifiedProxyContractApi.deposit(verAddress, amountToPay);
+    const txHash = await escrowContract.deposit(transitAddress, amountToPay);
     return { txHash, secretCode };
 }
 
 
-export const cancelTransfer = ((verAddress) => verifiedProxyContractApi.cancel(verAddress));
-export const getAmountWithCommission = ((amount) => verifiedProxyContractApi.getAmountWithCommission(amount));
+export const cancelTransfer = ((transitAddress) => escrowContract.cancel(transitAddress));
+export const getAmountWithCommission = ((amount) => escrowContract.getAmountWithCommission(amount));
 
 
 // export const getSentTransfers = () => {
@@ -44,8 +46,9 @@ export const getAmountWithCommission = ((amount) => verifiedProxyContractApi.get
 // ask for confirmation code
 export const sendSmsToPhone = (phoneCode, phone, code) => {
     const transferId = generateTransferId(phoneCode, phone, code);
-    return server.claimPhone(transferId, phone); 
+    return verificationServer.claimPhone(transferId, phone); 
 }
+
 
 // verify code from SMS and withdraw transfer
 export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCode, addressTo) => {
@@ -53,7 +56,7 @@ export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCo
 
     // 1. verify phone by sending confirmation code from sms
     // and get verification keystore 
-    const result = await server.verifyPhone(transferId, phone, smsCode);
+    const result = await verificationServer.verifyPhone(transferId, phone, smsCode);
     
     if (!result || !result.success) {
 	throw new Error((result.errorMessage || "Server error!"));
@@ -67,10 +70,9 @@ export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCo
     });
 
     // 3. send signed address to server
-    return server.confirmTx(
+    return verificationServer.confirmTx(
 	transferId,
 	phone,
-	smsCode,
 	addressTo,
 	v, r, s);
 }

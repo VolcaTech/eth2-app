@@ -3,7 +3,8 @@ const Web3Utils = require('web3-utils');
 const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
 import ksHelper from '../../utils/keystoreHelper';
 
-
+// transfer id is generated for server
+// to fetch confirmation code from server via sms 
 export const generateTransferId = (phoneCode, phone, secretCode) => {
     return sha3(phoneCode + phone + secretCode);
 }
@@ -12,8 +13,8 @@ export const generateKeystoreWithSecret = () => {
     // generating secret code
     const secretCode = Math.random().toString(32).slice(5).toUpperCase();
     
-    const { address, keystoreData } = ksHelper.create(secretCode);
-    return { verAddress: address, verKeystore: keystoreData, secretCode };
+    const { address, keystoreData: keystore } = ksHelper.create(secretCode);
+    return { address, keystore, secretCode };
 }
 
 

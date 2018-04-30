@@ -1,20 +1,20 @@
 import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
-const SERVER_URL =  'https://eth2phone.com';
+const SERVER_URL =  'http://eth2phone.com:8001';
 
 
-
-
-export const sendTransferKeystore = (transferId, phone, phoneCode,  ksData) => {
+export const registerTransfer = ({transferId, phone, phoneCode,
+				  transitAddress, transitKeystore}) => {
     // data sent to server
     const data =  {
 	transferId,
      	phone,
 	phoneCode,
-     	verificationKeystoreData: ksData 
+	transitAddress,
+	transitKeystore
     };
     
-    return fetch(`${SERVER_URL}/api/v1/sender/send`, { 
+    return fetch(`${SERVER_URL}/api/v1/sender/register-transfer`, { 
         method: 'POST', 
         headers: {
             'Accept': 'application/json',
@@ -41,11 +41,11 @@ export const claimPhone = (transferId, phone) => {
 }
 
 
-export const verifyPhone = (transferId, phone, code) => {
+export const verifyPhone = (transferId, phone, smsCode) => {
     const data =  {
      	transferId,	
      	phone,
-     	code
+     	code: smsCode
     };
     return fetch(`${SERVER_URL}/api/v1/receiver/verify-sms`, { 
         method: 'POST', 
@@ -58,7 +58,7 @@ export const verifyPhone = (transferId, phone, code) => {
 }
 
 
-export const confirmTx = (transferId, phone, code, to, v, r, s) => {
+export const confirmTx = (transferId, phone, to, v, r, s) => {
     const data =  { 
      	phone,
      	transferId,

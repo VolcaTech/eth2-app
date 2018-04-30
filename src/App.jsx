@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MainTab from './components/MainTab';
 import web3Service from "./services/web3Service";
-import verifiedProxyContractApi from "./services/eth2phone/contract";
+import escrowContract from "./services/eth2phone/escrowContract";
 import Web3StatusBar from './components/common/Web3StatusBar';
 import Footer from './components/common/LinkFooter';
 import Header from './components/common/Header';
@@ -52,9 +52,9 @@ class App extends Component {
                     const web3 = web3Service.getWeb3();
                     const address = web3.eth.accounts[0];
                     updateAddress(address);
-                    return verifiedProxyContractApi.setup(web3Service.getWeb3());
+                    return escrowContract.setup(web3Service.getWeb3());
                 }).then(() => {
-                    return verifiedProxyContractApi.getContractAddress();
+                    return escrowContract.getContractAddress();
                 }).then((contractAddress) => {
                     resolve({ web3Loaded: true, noWeb3: false, contractAddress });
                 }).catch(() => {

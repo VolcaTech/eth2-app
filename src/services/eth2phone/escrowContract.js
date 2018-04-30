@@ -1,16 +1,15 @@
 import Promise from "bluebird";
-import VerifiedProxy from '../../../build/contracts/VerifiedProxy.json';
+import e2pEscrow from '../../../build/contracts/e2pEscrow.json';
 const contract = require('truffle-contract');
 import web3Service from "../web3Service";
 
-function generateVerifiedProxyApi() {
+const EscrowContractService = () => {
     var web3, contractInstance, deployed, contractWeb3;    
     const FIXED_COMMISSION = 0.01;
 
     function _parseTransfer(result) {
 	return {
-	    id: result[0].toString(),
-	    status: result[1].toNumber(),
+	    transitAddress: result[0].toString(),
 	    from: result[2].toString('hex'),
 	    amount: web3.fromWei(result[3], "ether").toString()
 	};
@@ -18,16 +17,16 @@ function generateVerifiedProxyApi() {
     
     function setup(_web3) {
 	web3 = _web3;
-	const verifiedProxy = contract(VerifiedProxy);
-        verifiedProxy.setProvider(web3.currentProvider);
-        return verifiedProxy.deployed().then(function(instance) {
+	const escrowConstract = contract(e2pEscrow);
+        escrowConstract.setProvider(web3.currentProvider);
+        return escrowConstract.deployed().then((instance) => {
 	    if (instance) {
 		contractInstance = instance;
 		contractWeb3 = web3.eth.contract(contractInstance.abi).at(contractInstance.address);
 		Promise.promisifyAll(contractWeb3, { suffix: "Promise" });
 		deployed = true;
 	    }
-	    console.log(" verified contract proxy is set up!");
+	    console.log(" eth2phone escrow contract is set up!");
 	    return true;	    
 	});
     }
@@ -59,31 +58,29 @@ function generateVerifiedProxyApi() {
 
     
     function getSentTransfers(){	
-	if (!contractInstance) {
-	    return Promise.resolve([]);
-	}
-	
-	
-	return contractInstance.getSentTransfersCount.call(null, {from: web3.eth.accounts[0]})
-	    .then((result) => {
-		return result.toNumber();
-	    }).then((count) => {
-		const getTransferPromises = [];
-		for (let i=count-1; i >= 0; i--) {
-		    getTransferPromises.push(new Promise(function(resolve, reject) {
-			contractInstance.getSentTransfer(i, {from: web3.eth.accounts[0]})
-			    .then((res) => {
-				return res;
-			    }).then(_parseTransfer)
-			    .then((res) => resolve(res))
-			    .catch((err) => reject(err));				
-		    }));
-		}
+	//	if (!contractInstance) {
+	return Promise.resolve([]);
+	//}	
+	// return contractInstance.getSentTransfersCount.call(null, {from: web3.eth.accounts[0]})
+	//     .then((result) => {
+	// 	return result.toNumber();
+	//     }).then((count) => {
+	// 	const getTransferPromises = [];
+	// 	for (let i=count-1; i >= 0; i--) {
+	// 	    getTransferPromises.push(new Promise(function(resolve, reject) {
+	// 		contractInstance.getSentTransfer(i, {from: web3.eth.accounts[0]})
+	// 		    .then((res) => {
+	// 			return res;
+	// 		    }).then(_parseTransfer)
+	// 		    .then((res) => resolve(res))
+	// 		    .catch((err) => reject(err));				
+	// 	    }));
+	// 	}
 		
-		return Promise.all(getTransferPromises);
-	    }).then((transfers) => {
-		return transfers;
-	    });
+	// 	return Promise.all(getTransferPromises);
+	//     }).then((transfers) => {
+	// 	return transfers;
+	//     });
     };
 
     
@@ -100,4 +97,4 @@ function generateVerifiedProxyApi() {
     
 }
 
-export default generateVerifiedProxyApi();
+export default EscrowContractService();
