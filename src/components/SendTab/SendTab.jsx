@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { sendTransfer } from '../../actions/transfer';
 import VerifiedProxyTab from './VerifiedProxy/VerifiedProxyTab';
 import web3Service from "../../services/web3Service";
 import NumberInput from './../common/NumberInput';
@@ -13,7 +15,7 @@ function WrongNetworkMessage() {
     );
 }
 
-export default class Tab extends Component {
+class Tab extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +23,20 @@ export default class Tab extends Component {
         };
     }
 
+    async _onSubmit() {
+	try {
+	    const transfer = await this.props.sendTransfer({
+		amount: 0.0123,
+		phone: "+711111111",
+		phoneCode: "7"
+	    });
+	    console.log({transfer});
+	} catch(err) {
+	    console.log(err);
+	    this.setState({ errorMessage: err.message });
+	}
+    }
+    
     render() {
         return (
             <div style={{ alignContent: 'center' }}>
@@ -31,10 +47,11 @@ export default class Tab extends Component {
                     {this.state.errorMessage}
                 </div>
                 <PhoneInput />
-                <div style={{ marginTop: 28 }}><ButtonPrimary handleClick={(value) => this.setState({ errorMessage: "ERROR" })} buttonColor={e2pColors.green}>
+                <div style={{ marginTop: 28 }}><ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.green}>
                     Send
                 </ButtonPrimary>
                 </div>
+    
             </div>
         );
     }
@@ -44,3 +61,6 @@ const e2pColors = {
     blue: '#0099ff',
     green: '#2bc64f'
 }
+
+
+export default connect(null, {sendTransfer})(Tab);

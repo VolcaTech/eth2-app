@@ -3,9 +3,6 @@ import { Button } from 'react-bootstrap';
 
 
 class e2pButtonPrimary extends React.Component {
-    handleClick = () => {
-        console.log("button pressed");
-    };
 
     render() {
         return (
