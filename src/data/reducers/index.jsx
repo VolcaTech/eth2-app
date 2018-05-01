@@ -1,15 +1,6 @@
-import { combineReducers } from 'redux'
-import { UPDATE_ADDRESS } from './../../actions'
-
-function address(state = null, action) {
-  switch (action.type) {
-    case UPDATE_ADDRESS:
-      return action.address
-    default:
-      return state
-  }
-}
+import { combineReducers } from 'redux';
+import web3Data from './web3Data';
 
 export default combineReducers({
-  address
+  web3Data
 })

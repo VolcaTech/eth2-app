@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import web3Service from "../../services/web3Service";
 
+// {web3Service.isConnected() ? " connected" : " not connected" }
 const ConnectionStatus = () => (
     <div>
       Web3 is: 
       <strong className="c-white"> 	
-	{web3Service.isConnected() ? " connected" : " not connected" }
+	
       </strong>
     </div>
 )
@@ -14,14 +14,13 @@ const ConnectionStatus = () => (
 const Balance = () => (
     <div>
       Balance: 
-      <strong className="c-white"> {web3Service.getBalance()} ETH</strong>	
+      <strong className="c-white"> 0 ETH</strong>	
     </div>
 )
 
 const Network = () => (
     <div>
       Network: 
-      <strong className="c-white"> {web3Service.getNetworkName()} ({web3Service.getNetworkId()}) </strong>	
     </div>
 )
 
@@ -76,7 +75,6 @@ const Web3StatusContent = ({web3Loaded, noWeb3, address, contractAddress}) => {
 
 function Web3StatusBar(props) {
     return (
-
 	<div className="m-t-sm">
 	  <div className="col-md-12">
 	    <div className="panel panel-filled">
@@ -89,8 +87,7 @@ function Web3StatusBar(props) {
 		</div>
 	      </div>
 	    </div>
-	  </div>
-	  
+	  </div>	  
 	</div>
     );
 }

@@ -65,6 +65,7 @@
     "react-redux": "^5.0.7",
     "react-telephone-input": "^4.1.2",
     "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0",
     "solidity-sha3": "^0.4.1",
     "web-utils": "^1.0.0",
     "web3": "^0.20.1",

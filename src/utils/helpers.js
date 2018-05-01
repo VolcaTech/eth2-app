@@ -22,8 +22,16 @@ export function getQueryParams() {
 }
 
 
-export function detectNetwork(networkId) {
-    var networkName;
+export function detectNetwork(web3) {
+    let networkId;
+    try {
+	networkId = web3 && web3.version && web3.version.network;
+    } catch (err) {
+	console.log("error: ", err);
+	networkId = -1;
+    }
+    
+    let networkName;
     switch (networkId) {
     case "1":
 	networkName = "Main";
@@ -43,6 +51,6 @@ export function detectNetwork(networkId) {
     default:
 	networkName = `Unknown network`;
     }
-    return networkName;
+    return { networkName, networkId };
 }
 
