@@ -38,20 +38,12 @@ export default class AssetTransfer extends Model {
 	    
 	    return undefined;
 	}
-	// case actions.UPDATE_ASSET_TRANSFER: {
-	//     const { blockNumber, transferId, timestamp, status } = action.payload;
-	//     const updateParams = {
-	// 	id: transferId,
-	// 	timestamp,
-	// 	blockNumber,
-	// 	status,  // 1 - is success
-	// 	isPending: false
-	//     };
-	//     model.upsert(updateParams);
+	case actions.UPDATE_TRANSFER: {
+	    const updateParams = action.payload;
+	    model.upsert(updateParams);
 
-
-	//     return undefined;
-	// }
+	    return undefined;
+	}
 	// case actions.DELETE_ASSET_TRANSFER: {
 	//     return model.withId(action.payload).delete();
 	// }
