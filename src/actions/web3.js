@@ -1,10 +1,9 @@
 import web3Service from "../services/web3Service";
+import escrowContract from "../services/eth2phone/escrowContract";
 import * as actionTypes from './types';
 
 
 const updateWeb3Details = (payload) => {
-    console.log("disapatching", {payload});
-    
     return {
         type: actionTypes.UPDATE_WEB3_DETAILS,
         payload
@@ -14,7 +13,6 @@ const updateWeb3Details = (payload) => {
 
 export const setupWeb3 = (address) => {
     return async (dispatch, getState) => {
-	console.log("setupping web3..");
 	const {
 	    web3,
 	    balance,
@@ -23,6 +21,9 @@ export const setupWeb3 = (address) => {
 	    networkName,
 	    networkId
 	} = await web3Service.setup();
+
+	escrowContract.setup(web3);
+	
 	dispatch(updateWeb3Details({
 	    balance,
 	    address,

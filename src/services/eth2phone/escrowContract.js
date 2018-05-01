@@ -3,6 +3,7 @@ import e2pEscrow from '../../../build/contracts/e2pEscrow.json';
 const contract = require('truffle-contract');
 import web3Service from "../web3Service";
 
+
 const EscrowContractService = () => {
     var web3, contractInstance, deployed, contractWeb3;    
     const FIXED_COMMISSION = 0.01;

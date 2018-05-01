@@ -3,12 +3,15 @@ import * as actionTypes from './../../actions/types';
 
 
 const address = (state = null, action) => {
+    let newState;
   switch (action.type) {
-    case actionTypes.UPDATE_WEB3_DETAILS:
-      return action.payload.address;
-    default:
-      return state;
+  case actionTypes.UPDATE_WEB3_DETAILS:
+      newState = action.payload.address;
+      break;
+  default:
+      newState = state;     
   }
+    return newState || state;
 }
 
 
