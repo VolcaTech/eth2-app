@@ -9,21 +9,19 @@ class e2pButtonPrimary extends React.Component {
 
     render() {
         return (
-            <div style={{
-                margin: "auto",                
-            }}>
             <Button style={{
                 width: 205,
                 height: 38,
                 borderRadius: 12,
                 borderColor: this.props.buttonColor,                
                 backgroundColor: this.props.buttonColor,
+                display: 'block', 
+                margin: 'auto',
                 color: "#fff",
                 fontSize: 18
-            }} onClick={this.handleClick}>
+            }} onClick={this.props.handleClick}>
                 {this.props.children}
             </Button>
-            </div>
         );
     }
 }

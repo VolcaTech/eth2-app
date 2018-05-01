@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 // import escrowContract from "./services/eth2phone/escrowContract";
 import Web3StatusBar from './components/common/Web3StatusBar';
 import SendTab from './components/SendTab/SendTab'
+import Header from './components/common/Header.jsx';
+
 // import Footer from './components/common/LinkFooter';
 // import Header from './components/common/Header';
 // import { updateAddress } from './actions';
@@ -60,11 +62,10 @@ class App extends Component {
         // <Header />
         // <MainTab />
         // <Footer />
-
         return (
             <div>
-                <div className="container">
-                    <Web3StatusBar web3Loaded={true} noWeb3={this.props.connected} address={this.props.address} contractAddress={this.props.contractAddress} />
+                <div>
+                    {this.props.address ? <Header address={this.props.address}/> : <Header/>}
                     <div>
                     <SendTab />
                 </div>

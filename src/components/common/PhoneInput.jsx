@@ -21,8 +21,8 @@ class e2pPhoneInput extends React.Component {
 
     render() {
         return (
-            <div style={{margin: "0 auto"}}>
-            <Phone inputStyle={{ width: 295, height: 38, borderRadius: 12, border: '2px solid #f5f5f5' }}
+            <div style={{display: 'block', margin: 'auto', width: 295,}}>
+            <Phone inputStyle={{ width: 295, height: 38, borderRadius: 12, border: '2px solid #f5f5f5', color: 'black', fontSize: 16, letterSpacing: 1.94 }}
                 buttonStyle={{ borderBottom: '2px solid #f5f5f5', borderTop: '2px solid #f5f5f5', borderLeft: '2px solid #f5f5f5', borderRight: '0px', borderRadius: 12, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: 'white' }}
                 defaultCountry={'us'}
                 onChange={(value) => {
