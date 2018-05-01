@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // import escrowContract from "./services/eth2phone/escrowContract";
 import Web3StatusBar from './components/common/Web3StatusBar';
+import SendTab from './components/SendTab/SendTab'
 // import Footer from './components/common/LinkFooter';
 // import Header from './components/common/Header';
 // import { updateAddress } from './actions';
@@ -44,7 +45,7 @@ class App extends Component {
     //                 resolve({ web3Loaded: true, noWeb3: true });
     //             });
     //     });
-        
+
     // }
 
     // componentWillMount() {
@@ -59,23 +60,26 @@ class App extends Component {
         // <Header />
         // <MainTab />
         // <Footer />
-	
+
         return (
             <div>
-              <div className="container">
-		<Web3StatusBar web3Loaded={true} noWeb3={this.props.connected} address={this.props.address} contractAddress={this.props.contractAddress} />
-              </div>
+                <div className="container">
+                    <Web3StatusBar web3Loaded={true} noWeb3={this.props.connected} address={this.props.address} contractAddress={this.props.contractAddress} />
+                    <div>
+                    <SendTab />
+                </div>
+                </div>
             </div>
         );
     }
 }
 
 function mapStateToProps(state) {
-    console.log({state});
+    console.log({ state });
     return {
         address: state.web3Data.address,
-	contractAddress: state.web3Data.address,
-	connected: state.web3Data.connected
+        contractAddress: state.web3Data.address,
+        connected: state.web3Data.connected
     };
 }
 
