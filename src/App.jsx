@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // import escrowContract from "./services/eth2phone/escrowContract";
 import Web3StatusBar from './components/common/Web3StatusBar';
-import SendTab from './components/SendTab/SendTab'
+import SendTab from './components/SendTab/SendTab';
 // import Footer from './components/common/LinkFooter';
 // import Header from './components/common/Header';
 // import { updateAddress } from './actions';

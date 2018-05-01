@@ -3,9 +3,6 @@ import { Button } from 'react-bootstrap';
 
 
 class e2pButtonPrimary extends React.Component {
-    handleClick = () => {
-        console.log("button pressed");
-    };
 
     render() {
         return (
@@ -20,7 +17,7 @@ class e2pButtonPrimary extends React.Component {
                 backgroundColor: this.props.buttonColor,
                 color: "#fff",
                 fontSize: 18
-            }} onClick={this.handleClick}>
+            }} onClick={this.props.handleClick}>
                 {this.props.children}
             </Button>
             </div>

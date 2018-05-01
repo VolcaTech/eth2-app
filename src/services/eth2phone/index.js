@@ -6,7 +6,7 @@ import {
     generateTransferId, getSignatureForReceiveAddress } from './utils';
 
 
-export const sendTransfer = async (phoneCode, phone, amountToPay) => {
+export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
 
     // 1. generate transit keystore, with private key encrypted with random code 
     const { address: transitAddress,
@@ -29,8 +29,9 @@ export const sendTransfer = async (phoneCode, phone, amountToPay) => {
     }
     
     // 3. send deposit to smart contract
+    console.log({result, amountToPay, transitAddress, contract: escrowContract.getContractAddress()});
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
-    return { txHash, secretCode };
+    return { txHash, secretCode, transferId, transitAddress };
 }
 
 
