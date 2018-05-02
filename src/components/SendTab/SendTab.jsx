@@ -22,20 +22,23 @@ export default class Tab extends Component {
 
     render() {
         return (<div>
-                <div style={{ alignContent: 'center' }}>
+            <div style={{ alignContent: 'center' }}>
                 <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
                 <div style={{ marginBottom: 17 }}><NumberInput disabled={false} fontColor='black' backgroundColor='#fff' /></div>
-                <div><NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder="123"/></div>
+                <div><NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder="123" /></div>
                 <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
-                {this.state.errorMessage}
+                    {this.state.errorMessage}
                 </div>
                 <PhoneInput />
-                <div style={{ marginTop: 28 }}><ButtonPrimary handleClick={this.props.handleClick} buttonColor={e2pColors.green}>
-                <Link to="/transaction">Add a book</Link>
+                <div style={{ marginTop: 28 }}>
+                    <Link style={{ textDecoration: 'none', width: 205, height: 38 }} to="/transaction">
+                        <ButtonPrimary buttonColor={e2pColors.green}>
+                            Add a book
                 </ButtonPrimary>
+                    </Link>
                 </div>
             </div>
-            </div>
+        </div>
         );
     }
 }
