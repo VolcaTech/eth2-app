@@ -9,7 +9,7 @@ import copy from 'copy-to-clipboard';
 
 
 const CompletedTransferScreen = ({ phone, secretCode, amount}) => {
-    const shareLink = `${ETH2PHONE_HOST}/receive/code=${secretCode}&phone=${phone}`;
+    const shareLink = `${ETH2PHONE_HOST}/receive?code=${secretCode}&phone=${phone}`;
     return (
 	<div>
 	  <div style={{ fontSize: 18, marginBottom: 17 }}>
