@@ -1,4 +1,4 @@
-// import web3Service from "../services/web3Service";
+import web3Service from "../services/web3Service";
 // import escrowContract from "../services/eth2phone/escrowContract";
 import * as e2pService from '../services/eth2phone';
 import * as actionTypes from './types';
@@ -8,6 +8,30 @@ const createTransfer = (payload) => {
     return {
         type: actionTypes.CREATE_TRANSFER,
         payload
+    };
+}
+
+
+const updateTransfer = (payload) => {
+    return {
+        type: actionTypes.UPDATE_TRANSFER,
+        payload
+    };
+}
+
+const subscribePendingTransferMined = (transfer) => {
+    return async (dispatch, getState) => {
+	const web3 = web3Service.getWeb3();
+	const txReceipt = await web3.eth.getTransactionReceiptMined(transfer.txHash);
+	console.log("transaction mined!!");
+	
+	dispatch(updateTransfer({
+	    status: 'sent',
+	    id: transfer.id
+	}));
+
+	const state = getState();
+	console.log({state});
     };
 }
 
@@ -39,6 +63,9 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	
 	dispatch(createTransfer(transfer));
 
+	// subscribe
+	dispatch(subscribePendingTransferMined(transfer));
+	
 	return transfer;
     };
 }
