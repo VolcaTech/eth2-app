@@ -6,6 +6,7 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import PendingTransfer from './PendingTransfer';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 
 function WrongNetworkMessage() {
@@ -18,6 +19,7 @@ class Tab extends Component {
     constructor(props) {
         super(props);
         this.state = {
+	    amount: 0,
             errorMessage: "",
 	    sentTransferId: null,
 	    showPendingTransfer: false,
@@ -25,17 +27,17 @@ class Tab extends Component {
         };
     }
 
-    async _sendTransfer() {
+    async _sendTransfer({phone, phoneCode}) {
 	try {
 	    const transfer = await this.props.sendTransfer({
-		amount: 0.0123,
-		phone: "+711111111",
-		phoneCode: "7"
+	    	amount: this.state.amount,
+	    	phone,
+	    	phoneCode
 	    });
 	    console.log({transfer});
 	    this.setState({
-		sentTransferId: transfer.id,
-		step: 2
+	    	sentTransferId: transfer.id,
+	    	step: 2
 	    });
 	} catch(err) {
 	    console.log(err);
@@ -44,8 +46,61 @@ class Tab extends Component {
     }
     
     _onSubmit() {
+	// hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10
+	const phone = this.phoneNumber.state.formattedNumber;
+	const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
+	
+	// check that phone number is valid
+	if (!isValidPhoneNumber(phone)) {
+	    this.setState({ errorMessage: "Phone number is invalid" });
+	    return null;
+	};
+
+	// check amount
+	if (this.state.amount <= 0) {
+	    this.setState({ errorMessage: "Amount should be more than 0" });
+	    return null;
+	};
+
+	
 	this.setState({showPendingTransfer: true, step: 1});	
-	this._sendTransfer();
+	this._sendTransfer({phone, phoneCode});
+    };
+
+    _renderForm() {
+	return (
+	    <div>
+	      <div style={{ marginBottom: 17 }}>
+		<NumberInput
+		   onChange={({target}) => {
+		       const amount = target.value;
+		       this.setState({amount});
+		  }}
+		   disabled={false}
+		   fontColor='black'
+		   backgroundColor='#fff' />
+	      </div>
+
+	      <div>
+		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.state.amount} />
+	      </div>
+
+	      <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
+		{this.state.errorMessage}
+	      </div>
+	      
+              <div style={{display: 'block', margin: 'auto', width: 295,}}>		
+		<PhoneInput _ref={(ref) => { this.phoneNumber = ref; }}/>
+	      </div>
+
+	      
+	      <div style={{ marginTop: 28 }}>
+		<ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.green}>
+		  Send
+		</ButtonPrimary>
+	      </div>
+	    </div>	    
+	);
     }
     
     render() {
@@ -53,23 +108,8 @@ class Tab extends Component {
             <div style={{ alignContent: 'center' }}>
               <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
 	      
-	      { this.state.showPendingTransfer ? <PendingTransfer step={this.state.step} transferId={this.state.sentTransferId} />	:
-		  <div>
-			<div style={{ marginBottom: 17 }}>
-			      <NumberInput disabled={false} fontColor='black' backgroundColor='#fff' />
-			    </div>
-			    <div>
-				  <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder="123" />
-				</div>
-				<div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
-				      {this.state.errorMessage}
-				    </div>
-				    <PhoneInput />
-					<div style={{ marginTop: 28 }}><ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.green}>
-						Send
-					      </ButtonPrimary>
-					    </div>
-		      </div>
+	      { this.state.showPendingTransfer ? <PendingTransfer step={this.state.step} transferId={this.state.sentTransferId} /> :
+		  this._renderForm()
 		  }		 
             </div>
         );
