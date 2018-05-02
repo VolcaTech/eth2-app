@@ -20,12 +20,14 @@ class ConfirmSmsForm extends Component {
     
     async _confirmSmsAndWithdrawTransfer() {
 	try {
-	    await this.props.withdrawTransfer({
+	    const withdrawParams = {
 		phone: this.props.phone,
 		phoneCode: this.props.phoneCode,
 		secretCode: this.props.secretCode,
 		smsCode: this.state.smsCode
-	    });
+	    }
+	    await this.props.withdrawTransfer(withdrawParams);
+	    console.log({withdrawParams});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
 	}	

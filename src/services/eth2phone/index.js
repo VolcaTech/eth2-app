@@ -70,7 +70,7 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     // 2. sign address chosen by receiver with verification private key
     const { v, r, s } = getSignatureForReceiveAddress({
 	address: receiverAddress,
-	ksData: result.transfer.verificationKeystoreData,
+	ksData: result.transfer.transitKeystore,
 	password: secretCode
     });
 

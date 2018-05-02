@@ -16,6 +16,7 @@ function WrongNetworkMessage() {
     );
 }
 
+
 class Tab extends Component {
     constructor(props) {
         super(props);

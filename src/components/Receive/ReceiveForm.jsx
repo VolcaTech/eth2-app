@@ -10,6 +10,8 @@ import e2pLogo from './../../assets/images/eth2phone-logo.png';
 //import PendingTransfer from './PendingTransfer';
 import { getQueryParams } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
+import { parse, format, asYouType } from 'libphonenumber-js';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 
 class Tab extends Component {
@@ -19,7 +21,20 @@ class Tab extends Component {
 	const queryParams = getQueryParams();
 	console.log({queryParams});
 
-	this.phone = queryParams.phone;
+	// parse phone params
+	const phone = queryParams.phone;
+	const phoneIsValid = isValidPhoneNumber(phone);
+	const formatter = new asYouType();
+	formatter.input(phone);
+
+	this.phoneParams = {
+	    phone,
+	    phoneCode: formatter.country_phone_code,
+	    phoneIsValid
+	};
+
+	console.log(this.phoneParams)
+	
 	this.secretCode = queryParams.code;
 	
         this.state = {
@@ -30,11 +45,11 @@ class Tab extends Component {
 
     async _sendSmsToPhone() {
 	try {
-	    // const result = await sendSmsToPhone({
-	    // 	phone: this.phone,
-	    // 	secretCode: this.secretCode,
-	    // 	phoneCode: '7'
-	    // });
+	    const result = await sendSmsToPhone({
+	    	phone: this.phoneParams.phone,
+	    	secretCode: this.secretCode,
+	    	phoneCode: '7'
+	    });
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
@@ -50,7 +65,7 @@ class Tab extends Component {
 	return (
 	    <div>
 	      <div>
-		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phone} />
+		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
 	      </div>
 	      <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
 		{this.state.errorMessage}
@@ -71,7 +86,11 @@ class Tab extends Component {
 	      
 	      <div>
 		{ this.state.step === 'confirm-details' ?
-		this._renderConfirmDetailsForm() : <ConfirmSmsForm/> }
+		    this._renderConfirmDetailsForm() : <ConfirmSmsForm
+							      secretCode={this.secretCode}
+							      phoneCode={this.phoneParams.phoneCode}
+							      phone={this.phoneParams.phone}							      
+							  /> }
 	      </div>
 	      
             </div>
