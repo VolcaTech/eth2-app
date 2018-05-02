@@ -65,6 +65,7 @@
     "react-phone-number-input": "https://github.com/sashamihaha/react-phone-number-input.git",
     "react-radio-buttons": "^1.1.1",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
     "react-telephone-input": "^4.1.2",
     "redux": "^4.0.0",
     "redux-orm": "^0.9.4",

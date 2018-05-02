@@ -3,20 +3,25 @@ import { connect } from 'react-redux';
 import Web3StatusBar from './components/common/Web3StatusBar';
 import SendTab from './components/SendTab/SendTab';
 import Header from './components/common/Header.jsx';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 class App extends Component {
 
     render() {
         return (
-            <div>
+            <Router>
                 <div>
-                    {this.props.address ? <Header address={this.props.address}/> : <Header/>}
                     <div>
-                    <SendTab />
+                        {this.props.address ? <Header address={this.props.address} /> : <Header />}
+                        <Switch>
+                            <Route exact path="/" component={SendTab} />
+                            <Route exact path="/transaction" render={() => (
+                                <div>new</div>)} />
+                        </Switch>
+                    </div>
                 </div>
-                </div>
-            </div>
+            </Router>
         );
     }
 }

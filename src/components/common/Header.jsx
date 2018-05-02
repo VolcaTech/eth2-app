@@ -7,7 +7,7 @@ class e2pHeader extends React.Component {
 
     render() {
         return (
-            <div style={{ width: 375, height: 44, backgroundColor: 'white', alignItems: 'center', position: 'relative', borderBottom: '1px solid #f5f5f5', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
+            <div style={{ width: 375, height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', position: 'relative', borderBottom: '1px solid #f5f5f5', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
                 <div style={{ width: 55, height: 29, fontSize: 24, position: 'absolute', textTransform: 'uppercase', letterSpacing: 3.1, textAlign: 'center', marginTop: 9, marginLeft: 15 }}>
                     E2P
                 </div>
