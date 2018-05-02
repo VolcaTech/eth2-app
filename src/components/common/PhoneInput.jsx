@@ -4,8 +4,6 @@ import Phone from 'react-phone-input-2';
 
 class e2pPhoneInput extends React.Component {    
     render() {
-	console.log("render")
-	console.log(this.phoneNumber);
 	return (
 	    <Phone
 	       ref={this.props._ref}
