@@ -5,7 +5,9 @@ import { FormControl } from 'react-bootstrap';
 class e2pInput extends React.Component {
     render() {
         return (
-            <FormControl disabled={this.props.disabled} type="number" style={{
+            <FormControl
+	       onChange={this.props.onChange}
+	       disabled={this.props.disabled} type="number" style={{
                 width: 290,
                 height: 38,
                 borderRadius: 12,

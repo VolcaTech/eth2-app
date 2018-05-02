@@ -31,17 +31,21 @@ class ConfirmSmsForm extends Component {
 	}	
     }
 
-    
     _onSubmit() {	
 	this._confirmSmsAndWithdrawTransfer();
     }
-    
     
     render() {
         return (
 	    <div>
 	      <div>
-		<NumberInput disabled={false} placeholder="Code from SMS" />
+		<NumberInput
+		   onChange={({target}) => {
+		       const smsCode = target.value;
+		       console.log({smsCode, target});
+		       this.setState({smsCode});
+		  }}
+		   disabled={false} placeholder="Code from SMS" />
 	      </div>
 	      <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
 		{this.state.errorMessage}
