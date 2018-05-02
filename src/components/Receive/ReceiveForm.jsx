@@ -45,11 +45,11 @@ class Tab extends Component {
 
     async _sendSmsToPhone() {
 	try {
-	    const result = await sendSmsToPhone({
-	    	phone: this.phoneParams.phone,
-	    	secretCode: this.secretCode,
-	    	phoneCode: '7'
-	    });
+	    // const result = await sendSmsToPhone({
+	    // 	phone: this.phoneParams.phone,
+	    // 	secretCode: this.secretCode,
+	    // 	phoneCode: this.phoneParams.phoneCode
+	    // });
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
