@@ -20,7 +20,7 @@ class e2pInput extends React.Component {
                 color: this.props.fontColor
             }} placeholder={this.props.placeholder}>
             </FormControl>
-        )
+        );
     }
 }
 

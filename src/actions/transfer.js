@@ -69,3 +69,43 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	return transfer;
     };
 }
+
+
+export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
+    return async (dispatch, getState) => {
+	
+	const state = getState();
+	const receiverAddress = state.web3Data.address;
+
+	//const id = `SEND-${txHash}-${transitAddress}`;
+	const result = await e2pService.verifyPhoneAndWithdraw({
+	    phoneCode,
+	    phone,
+	    secretCode,
+	    smsCode,
+	    receiverAddress
+	});
+
+	console.log({result});
+	// const transfer = {
+	//     id,
+	//     txHash,
+	//     secretCode,
+	//     transferId,
+	//     transitAddress,
+	//     status: 'pending',
+	//     receiverPhone: phone,
+	//     receiverPhoneCode: phoneCode,
+	//     timestamp: Date.now(),
+	//     amount,	    
+	//     fee: 0,
+	//     direction: 'in'
+	// };
+	
+	// dispatch(createTransfer(transfer));
+
+	// // subscribe
+	// dispatch(subscribePendingTransferMined(transfer));	
+	// return transfer;
+    };
+}

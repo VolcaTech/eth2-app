@@ -45,16 +45,20 @@ export const getAmountWithCommission = ((amount) => escrowContract.getAmountWith
 
 
 // ask for confirmation code
-export const sendSmsToPhone = (phoneCode, phone, code) => {
-    const transferId = generateTransferId(phoneCode, phone, code);
-    return verificationServer.claimPhone(transferId, phone); 
+export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
+    const transferId = generateTransferId(phoneCode, phone, secretCode);
+    const result = await verificationServer.claimPhone(transferId, phone);
+    if (!result.success) {
+	throw new Error(result.errorMessage);
+    }
+    return result;    
 }
 
 
 // verify code from SMS and withdraw transfer
-export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCode, addressTo) => {
+export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsCode, receiverAddress}) => {
     const transferId = generateTransferId(phoneCode, phone, secretCode);
-
+    
     // 1. verify phone by sending confirmation code from sms
     // and get verification keystore 
     const result = await verificationServer.verifyPhone(transferId, phone, smsCode);
@@ -65,7 +69,7 @@ export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCo
 	    
     // 2. sign address chosen by receiver with verification private key
     const { v, r, s } = getSignatureForReceiveAddress({
-	address: addressTo,
+	address: receiverAddress,
 	ksData: result.transfer.verificationKeystoreData,
 	password: secretCode
     });
@@ -74,7 +78,7 @@ export const verifyPhoneAndWithdraw = async (phoneCode, phone, secretCode, smsCo
     return verificationServer.confirmTx(
 	transferId,
 	phone,
-	addressTo,
+	receiverAddress,
 	v, r, s);
 }
     
