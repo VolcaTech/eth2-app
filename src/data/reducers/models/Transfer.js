@@ -7,7 +7,7 @@ import * as actions  from '../../../actions/types';
 // }
 
 export default class AssetTransfer extends Model {
-    static modelName = 'AssetTransfer';
+    static modelName = 'Transfer';
     static fields = {
 	id: attr(),
 	txHash: attr(),

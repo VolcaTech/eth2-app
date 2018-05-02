@@ -3,18 +3,12 @@ import { ProgressBar } from 'react-bootstrap';
 
 
 class e2pTransferBar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            testStep: 1
-        };
-    }
 
     _renderTransferBar = (step) => {
         let title, progBarStyle, dot1Style, dot2Style, dot3Style, textStyle1, textStyle2, textStyle3, pendingText;
         const labelStyle = { width: 60, height: 15, textAlign: "center", fontSize: 12 };
 
-        switch (this.state.testStep) {
+        switch (step) {
             case 1:
                 progBarStyle = { width: 0, height: 4, backgroundColor: "#33aeff" };
                 dot1Style = { height: 20, width: 20, backgroundColor: "#33aeff", borderRadius: 40, position: "absolute" };
@@ -53,7 +47,6 @@ class e2pTransferBar extends React.Component {
                     <label style={{ width: 60, height: 15, textAlign: "center", fontSize: 12, marginLeft: 55 }}>Processing</label>
                     <label style={{ width: 60, height: 15, textAlign: "center", fontSize: 12, marginLeft: 55 }}>Completed</label>
                 </div>
-                <button style={{ width: 50, height: 50 }} onClick={() => this.setState({ testStep: 2 })} title="increment" />
             </div>
 
         );
