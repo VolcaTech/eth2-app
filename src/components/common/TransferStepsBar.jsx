@@ -32,7 +32,7 @@ class e2pTransferBar extends React.Component {
                 break;
         }
         return (
-            <div>
+            <div style={{ width: 290, display: 'block', margin: 'auto'}}>
                 <div style={{ height: 20, width: 250, position: "relative", marginBottom: 12, marginLeft: 20, marginRight: 20, marginTop: 10 }}>
                     <div className="progress" style={{ width: 250, height: 4, position: "absolute", marginTop: 8, marginBottom: 8, }}>
                         <div className="progress-bar" role="progressbar" style={progBarStyle} ></div>

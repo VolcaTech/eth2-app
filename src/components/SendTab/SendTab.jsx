@@ -9,6 +9,7 @@ import PendingTransfer from './PendingTransfer';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 
+
 function WrongNetworkMessage() {
     return (
         <div>At this stage of the project we only support Ropsten network. Please switch to Ropsten in your web3 network provider.</div>
@@ -46,9 +47,11 @@ class Tab extends Component {
     }
     
     _onSubmit() {
-	// hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10
-	const phone = this.phoneNumber.state.formattedNumber;
-	const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
+	// hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
+	const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;	
+	let phone = this.phoneNumber.state.formattedNumber;
+	// remove formatting from phone number
+	phone = "+" + phone.replace(/\D+/g, "");
 	
 	// check that phone number is valid
 	if (!isValidPhoneNumber(phone)) {
