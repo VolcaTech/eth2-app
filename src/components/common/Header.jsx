@@ -15,13 +15,15 @@ class e2pHeader extends React.Component {
 	      </Col>
 	      <Col xs={4}>	      
 		<div style={{ marginTop: 13, textAlign: 'center' }}>
-                  <AddressButton className={'addressButton'} address={this.props.address}/>
+		  { this.props.address ? 
+                      <AddressButton className={'addressButton'} address={this.props.address}/>
+		      : null }
 		</div>
 	      </Col>
 	      <Col xs={4}>	      	      
 		<div style={{  right: 0, marginTop: 16, float: 'right' }}>
                   <div style={{ float: "left", fontSize: 12 }}>
-                    14.0234
+                    { this.props.balance }
                   </div>
                   <div style={{ float: "left", fontSize: 12, color: '#a9a9a9', marginLeft: 2 }}>
                     ETH
