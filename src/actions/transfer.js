@@ -95,6 +95,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    status: 'pending',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
+	    receiverAddress,
 	    timestamp: Date.now(),
 	    amount,	    
 	    fee: 0,

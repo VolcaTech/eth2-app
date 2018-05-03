@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { getAllTransfers } from '../../data/selectors';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
-import CompletedTransferScreen from './CompletedTransferScreen';
+import { CompletedSentScreen, CompletedReceivedScreen } from './CompletedTransferScreen';
 
 
 class PendingTransfer extends Component {
@@ -18,10 +18,18 @@ class PendingTransfer extends Component {
 		</div>
 	    );
 	case 3:
-	    return (
-		<CompletedTransferScreen phone={transfer.receiverPhone}
+	    if (transfer.direction === 'out') {
+		return (
+		    <CompletedSentScreen phone={transfer.receiverPhone}
 					 amount={transfer.amount} secretCode={transfer.secretCode}/>
-	    );
+		);
+	    } else {
+		return (
+		    <CompletedReceivedScreen receiverAddress={transfer.receiverAddress}
+					     amount={transfer.amount}
+					     txHash={transfer.txHash}/>
+		);
+	    }
 	}
     }
     
