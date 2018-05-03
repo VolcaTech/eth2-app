@@ -5,9 +5,7 @@ import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
-import PendingTransfer from './PendingTransfer';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-
 
 
 function WrongNetworkMessage() {
@@ -22,10 +20,7 @@ class Tab extends Component {
         super(props);
         this.state = {
 	    amount: 0,
-            errorMessage: "",
-	    sentTransferId: null,
-	    showPendingTransfer: false,
-	    step: 0
+            errorMessage: ""
         };
     }
 
@@ -36,11 +31,7 @@ class Tab extends Component {
 	    	phone,
 	    	phoneCode
 	    });
-	    console.log({transfer});
-	    this.setState({
-	    	sentTransferId: transfer.id,
-	    	step: 2
-	    });
+	    this.props.history.push(`/transfers/${transfer.id}`);
 	} catch(err) {
 	    console.log(err);
 	    this.setState({ errorMessage: err.message });
@@ -55,19 +46,19 @@ class Tab extends Component {
 	phone = "+" + phone.replace(/\D+/g, "");
 	
 	// check that phone number is valid
-	if (!isValidPhoneNumber(phone)) {
-	    this.setState({ errorMessage: "Phone number is invalid" });
-	    return null;
-	};
+	// if (!isValidPhoneNumber(phone)) {
+	//     this.setState({ errorMessage: "Phone number is invalid" });
+	//     return null;
+	// };
 
-	// check amount
-	if (this.state.amount <= 0) {
-	    this.setState({ errorMessage: "Amount should be more than 0" });
-	    return null;
-	};
+	// // check amount
+	// if (this.state.amount <= 0) {
+	//     this.setState({ errorMessage: "Amount should be more than 0" });
+	//     return null;
+	// };
 
 	
-	this.setState({showPendingTransfer: true, step: 1});	
+	// this.setState({showPendingTransfer: true, step: 1});	
 	this._sendTransfer({phone, phoneCode});
     };
 
@@ -80,13 +71,12 @@ class Tab extends Component {
 		       const amount = target.value;
 		       this.setState({amount});
 		  }}
-		   disabled={false}
-		   fontColor='black'
-		   backgroundColor='#fff' />
-	      </div>
-
-	      <div>
-		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.state.amount} />
+		  disabled={false}
+		  fontColor='black'
+		  backgroundColor='#fff'
+		  placeholder="amount (ETH)"
+		  />
+	     
 	      </div>
 
 	      <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
@@ -110,11 +100,8 @@ class Tab extends Component {
     render() {
         return (
             <div style={{ alignContent: 'center' }}>
-              <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
-	      
-	      { this.state.showPendingTransfer ? <PendingTransfer step={this.state.step} transferId={this.state.sentTransferId} /> :
-		  this._renderForm()
-		  }		 
+              <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>	      
+	      { this._renderForm() }
             </div>
         );
     }

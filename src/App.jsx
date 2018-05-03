@@ -4,6 +4,7 @@ import Web3StatusBar from './components/common/Web3StatusBar';
 import web3Service from './services/web3Service';
 import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
+import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
 import Header from './components/common/Header.jsx';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -14,14 +15,13 @@ class App extends Component {
         return (
             <Router>
 	      <div>
-              <Header address={this.props.address} balance={this.props.balance} /> 
-              <Switch>
-                <Route exact path="/" component={SendTab} />
-                <Route exact path="/transaction" render={() => (
-                    <div>new</div>)} />
-		<Route exact path="/receive" component={ReceiveForm} />	    
-            </Switch>
-		</div>
+		<Header address={this.props.address} balance={this.props.balance} /> 
+		<Switch>
+                  <Route exact path="/" component={SendTab} />
+                  <Route exact path="/transfers/:transferId" component={PendingTransferComponent}/>
+		  <Route exact path="/receive" component={ReceiveForm} />	    
+		</Switch>
+	      </div>
             </Router>
         );
     }
