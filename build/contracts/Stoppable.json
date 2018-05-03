@@ -149,8 +149,8 @@
           }
         ],
         "contractDependencies": [
-          24,
-          84
+          84,
+          24
         ],
         "contractKind": "contract",
         "documentation": "@title Stoppable\n@dev Base contract which allows children to implement final irreversible stop mechanism.",
@@ -272,10 +272,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        681,
-                        682
+                        690,
+                        691
                       ],
-                      "referencedDeclaration": 681,
+                      "referencedDeclaration": 690,
                       "src": "388:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -355,10 +355,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        681,
-                        682
+                        690,
+                        691
                       ],
-                      "referencedDeclaration": 681,
+                      "referencedDeclaration": 690,
                       "src": "544:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -624,8 +624,8 @@
           }
         ],
         "contractDependencies": [
-          24,
-          84
+          84,
+          24
         ],
         "contractKind": "contract",
         "documentation": "@title Stoppable\n@dev Base contract which allows children to implement final irreversible stop mechanism.",
@@ -747,10 +747,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        681,
-                        682
+                        690,
+                        691
                       ],
-                      "referencedDeclaration": 681,
+                      "referencedDeclaration": 690,
                       "src": "388:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -830,10 +830,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        681,
-                        682
+                        690,
+                        691
                       ],
-                      "referencedDeclaration": 681,
+                      "referencedDeclaration": 690,
                       "src": "544:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1051,5 +1051,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-29T23:31:59.172Z"
+  "updatedAt": "2018-05-03T14:10:24.545Z"
 }

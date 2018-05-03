@@ -189,11 +189,14 @@ contract e2pEscrow is Stoppable, SafeMath {
     // only sender can cancel transfer;
     require(msg.sender == transferOrder.from);
 
+    delete transferDct[_transitAddress];
+    
+    // transfer ether to recipient's address
+    msg.sender.transfer(transferOrder.amount);
+
     // log cancel event
     emit LogCancel(msg.sender, _transitAddress);
-
-    delete transferDct[_transitAddress];
-
+    
     return true;
   }
 
@@ -271,14 +274,15 @@ contract e2pEscrow is Stoppable, SafeMath {
     (verifySignature(_transitAddress,
 		     _recipient, _v, _r, _s ));
 
+    delete transferDct[_transitAddress];
+
     // transfer ether to recipient's address
     _recipient.transfer(transferOrder.amount);
 
     // log withdraw event
     emit LogWithdraw(_transitAddress, transferOrder.from, _recipient, transferOrder.amount);
 
-    delete transferDct[_transitAddress];
-
+    
     return true;
   }
 
