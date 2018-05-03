@@ -66,11 +66,9 @@ class Tab extends Component {
 				      {this.state.errorMessage}
 				    </div>
 				    <PhoneInput />
-					<div style={{ marginTop: 28 }}><Link style={{ textDecoration: 'none', width: 205, height: 38 }} to="/transaction">
-                        <ButtonPrimary buttonColor={e2pColors.green}>
-                            Add a book
-                </ButtonPrimary>
-                    </Link>
+					<div style={{ marginTop: 28 }}><ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.green}>
+						Send
+					      </ButtonPrimary>
 					    </div>
 		      </div>
 		  }		 
