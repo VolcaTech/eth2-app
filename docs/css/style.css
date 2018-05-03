@@ -11,6 +11,7 @@
 }
 .btn-default {
   border-color: #585d6e;
+  
 }
 .btn.btn-w-sm {
   min-width: 80px;
@@ -31,6 +32,12 @@
   color: #949ba2;
   background-color: transparent;
   border-color: #f6a821;
+  margin-top: 10px;
+  margin-right: 10px;;
+}
+.btn-margin-left{
+  margin-left: 10px;
+  margin-top: 0px !important;
 }
 .btn-accent:focus,
 .btn-accent.focus {
@@ -644,7 +651,7 @@ fieldset[disabled] .btn-danger.focus {
   margin-top: 1px;
 }
 .m-t-xs {
-  margin-top: 5px;
+  margin-top: 6px;
 }
 .m-t-sm {
   margin-top: 10px;
@@ -882,7 +889,7 @@ body.blank .content {
   margin: 0;
 }
 .container-center {
-  max-width: 80%;
+  max-width: 95%;
   margin: 2% auto 0;
   padding: 20px;
 }
@@ -932,7 +939,8 @@ mark {
 }
 label {
   color: #ffffff;
-  font-weight: 500;
+  /* font-weight: 500; */
+  margin-top: 8px;
 }
 sup {
   font-size: 12px;
@@ -1239,6 +1247,7 @@ img.image-xl {
 }
 .panel.panel-filled .panel-body {
   padding-top: 10px;
+  margin-left: 10px;
 }
 .panel .panel-footer {
   background-color: transparent;
@@ -1314,7 +1323,7 @@ img.image-xl {
   line-height: 0;
 }
 .view-header .header-title {
-  margin-left: 68px;
+  /* margin-left: 68px; */
 }
 .view-header .header-title h3 {
   margin-bottom: 2px;
@@ -1680,7 +1689,7 @@ input[type="radio"] .styled:checked + label::after {
 }
 .progress-small,
 .progress-small .progress-bar {
-  height: 10px;
+  height: 5px;
 }
 .progress-bar-primary {
   border-right: 4px solid #0d74b1;
@@ -1722,9 +1731,11 @@ input[type="radio"] .styled:checked + label::after {
 }
 .modal-content {
   background-color: #21242a;
+  height: 660px;
 }
 .modal-content .modal-title {
   font-size: 22px;
+  margin-bottom: 60px;
 }
 .modal-content .modal-header {
   border-color: #3d404c;
@@ -1744,6 +1755,9 @@ input[type="radio"] .styled:checked + label::after {
   border-color: #3d404c;
   background-color: #1d1f24;
   padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 .modal-backdrop.in {
   filter: alpha(opacity=10);
@@ -2131,11 +2145,11 @@ h6 .small,
 }
 .tabs-left > .nav-tabs,
 .tabs-right > .nav-tabs {
-  width: 20%;
+  width: 15%;
 }
 .tabs-left .panel-body {
-  width: 80%;
-  margin-left: 20%;
+  width: 85%;
+  margin-left: 15%;
 }
 .tabs-right .panel-body {
   width: 80%;
@@ -2438,6 +2452,7 @@ div.dt-button-info h2 {
   -o-transition: none;
   transition: none;
   background-color: #ddd;
+  margin-bottom: 10px;
 }
 .form-control:focus {
   -webkit-box-shadow: none;
@@ -2856,4 +2871,91 @@ fieldset[disabled] .form-control {
 
 .btn-xs {
   margin: 2px;
+}
+
+.green-tick {
+  color: green;
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.input-container {
+  width: "100%";
+  margin-bottom: 60px;
+}
+
+.th-no-padding {
+  padding-left: 0px !important;
+}
+
+.crop-text {
+  width: 90%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.keystore-field {
+  height: 160px;
+  white-space: normal !important;
+}
+.radio input[type="radio"]{
+  width: 130px;
+  height: 22px;
+}
+
+.small-margin {
+  font-size: 85%;
+  text-align: center;
+}
+
+.td {
+  padding: 10px !important;
+}
+
+.links-margin {
+  margin-left: 40%;
+  margin-top: 7px;
+}
+
+.fa {
+  font-size: 20px !important;
+}
+
+.a-grey {
+  color: #949ba2;
+}
+
+.a-grey:hover :focus :active {
+  color: #f6a821;
+}
+
+.dot-progress {
+  position: absolute;
+  color: white;
+}
+
+.gold {
+  color: #f6a821
+}
+
+.btn-margin {
+  margin: 20px;
+} 
+
+.m-t-spinner {
+  margin-top: -45px;
+  margin-right: 16px;
+}
+
+.final-tick {
+    color: #f6a821;
+    font-size: 40px;
+    text-align: center;
+}
+
+
+@media (min-width: 768px) {
+  .padding-tabs-eth2phone {
+      padding: 30px;
+   }
 }

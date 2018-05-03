@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900' rel='stylesheet' type='text/css'>
+	
+
+	<title>eth2phone | F.A.Q.</title>
+
+	<link rel="stylesheet" href="/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/css/style.css">
+    </head>
+
+
+
+    <div class="container">
+
+        <div class="view-header">
+            
+            <div class="header-title">
+                
+            </div>
+        </div>
+
+        <div class="panel panel-filled">
+            <div class="panel-body">
+                <h1> FREQUENTLY ASKED QUESTIONS (FAQ)</h1>
+		<br/>
+                <h2>GENERAL<h2>
+                    <hr/>
+                    <h4 >What is that row in the header with 5 lines?</h4>
+                    
+                    <p>The row in the header shows your web3 wallet status:<br/>
+			- web3 connection status<br/>
+			- balance of your connected wallet<br/>
+			- address of your connected wallet<br/>
+			- address of VerifiedProxy smart-contract, used for transfers of ether<br/>			
+			- network (we have now only launched on Ropsten test network. Your wallet should be switched to Ropsten to work)
+		    </p>
+		    <br/>
+                    <h4 >How do I switch to Ropsten?</h4>
+                    
+                    <p>The connected web3 wallet is required to use current prototype. We recommend using MetaMask. If you’re using MetaMask - open your wallet extension in browser, in the upper left corner click current network (usually it shows you’re on Mainnet) and select Ropsten in the dropdown. That’s it.</p>
+		    <br/>
+		    <br/>
+                    <h2>SEND ETHER</h2>
+                    <hr/>
+                    
+                    <h4 >My wallet is connected and balance is sufficient to send, how do I proceed?</h4>
+                        
+                    <p>You should select «Send» tab, type in the phone of the person you’re sending ether to, and the amount. The commission is added to the amount that you intend to pay, and the final amount to be charged from your account is written in the «amount to pay» tab. Please mind that you need to have this amount on your account to proceed.<br/>
+                        <br/>
+                        When you press send, your MetaMask pop-up opens, verify transaction by pressing «submit», then you will see waiter rotating and that shows that your transaction is being processed. When it is sent, you will see the verification code. Please copy it to share with receiver, that is important, otherwise he wouldn’t be able to receive his assets.</p>
+                        <br/>
+                        <h4 >What if I accidentally close the window with verification code?</h4>
+                        
+                        <p>You can press «show code» button to show the code again. However, if you’ve reloaded the page, the code’d be lost. But don’t worry and check the next question.</p> 
+                        <br/>
+                        <h4 >What if I’ve reloaded the page and lost the verification code ? Are my money lost?</h4>
+                        
+                        <p>Don’t worry, all transfers via our smart-contract can be cancelled until receiver has withdrawn the transfer, and as you haven’t shared the code with anyone, no one will be able to do that.
+			    So, go to the history table list on the bottom of the page, select «awaiting receiving» tab and find your transaction there. Press «сancel» button. After you press it, your MetaMask pop-up opens, verify transaction by pressing «submit», then you will see waiter rotating and that shows that your transaction is being processed.You will see «cancelled» when the request will be processed. Do not reload your page during that action.</p>
+                        <br/>
+                        <h4 >Where can I see all the previously cancelled and completed transactions?</h4>
+                        
+                        <p>The table list on the bottom of the page has 3 tabs, according to the status of transaction.<br/>
+			    - all «awaiting receiving» transactions in our system can be cancelled until receiver has verified the transaction<br/>
+			    - «completed» - transaction has been successfully received<br/>
+			    - «cancelled» - transaction has been cancelled</p>
+                        <br/>
+			<br/>
+                        <h2>RECEIVE ETHER</H2>
+                        <hr/>
+                        <H4 >WHAT are the 3 radio button options? Which one should I choose?</h4>
+                        
+                        <p>First two options are for users who have already dealed with ethereum and have a wallet.<br/>
+			    - MetaMask is to receive to your connected web3 wallet ( the status of wallet is shown in the header - check the general section of FAQ)<br/>
+			    - Type address - is to paste in your wallet address to receive funds to it<br/>
+			    
+			    The third option is to generate a wallet on-the-fly in case you never had one.</p>
+                        <br/>
+                        <h4 >How do I generate a new wallet?</h4>
+                        
+                        <p>Choose «Generate Wallet tab», enter and remember the password (you will need it to access your funds), press «Generate»
+			    You will now see you wallet address and keystore data.<br/>
+			    
+			    Wallet address can be shared with people to receive assets. Password and your keystore data should be stored securely and not shared with untrusted third parties.<br/>
+			    
+			    1. Save your password and wallet address.<br/>
+			    2. Save your keystore as text or as file (press «download keystore data» button)</p>
+                        <br/>
+                        <h4 >How do I continue after choosing the receiving method?</h4>
+                        
+                        <p>1. After you’ve chosen the right method and done appropriate actions (connected your MetaMask or typed in the address or generated new wallet), press «continue» button.<br/>
+			    2. You will then see and need to fill two inputs:<br/>
+			    - your phone number - you should enter your phone here<br/>
+			    - verification code - the sender should have shared this code with you, and it’s just about time to use it and enter it here. If he hadn’t - request it from him. If he’d lost it - see the appropriate question in «Sending» section of current FAQ.<br/>
+			    After you fill in the inputs, you need to press «Send». You will receive an SMS with code and switch to next screen where you need to input that code from SMS. Sometimes receiving SMS can more than couple of seconds, please be patient.<br/>
+			    3. When you get an SMS - fill the code from it to the input and press «Send». Your transaction will then bi finalized and you will see a transaction ID, you can copy it and check on the https://etherscan.io/</p>
+                        
+			
+                        
+            </div>
+            <div>
+                <a href="index.html" class="btn btn-accent btn-margin">Back</a>
+            </div>
+        </div>
+        
+
+
+
+</html>
