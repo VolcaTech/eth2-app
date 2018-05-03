@@ -2,7 +2,7 @@
   "name": "eth2phone-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://eth2phone.github.io/",
+  "homepage": "https://dobrokhvalov.github.io/eth2phone/",
   "devDependencies": {
     "autoprefixer": "6.5.1",
     "babel-core": "6.17.0",
