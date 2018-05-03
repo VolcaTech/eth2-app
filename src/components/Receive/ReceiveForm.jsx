@@ -45,11 +45,11 @@ class Tab extends Component {
 
     async _sendSmsToPhone() {
 	try {
-	    // const result = await sendSmsToPhone({
-	    // 	phone: this.phoneParams.phone,
-	    // 	secretCode: this.secretCode,
-	    // 	phoneCode: this.phoneParams.phoneCode
-	    // });
+	    const result = await sendSmsToPhone({
+	    	phone: this.phoneParams.phone,
+	    	secretCode: this.secretCode,
+	    	phoneCode: this.phoneParams.phoneCode
+	    });
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
@@ -80,17 +80,19 @@ class Tab extends Component {
     }
     
     render() {
+	const props = {
+	    ...this.props,
+	    secretCode:this.secretCode,
+	    phoneCode:this.phoneParams.phoneCode,
+	    phone: this.phoneParams.phone
+	};
         return (
             <div style={{ alignContent: 'center' }}>
               <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
 	      
 	      <div>
 		{ this.state.step === 'confirm-details' ?
-		    this._renderConfirmDetailsForm() : <ConfirmSmsForm
-							      secretCode={this.secretCode}
-							      phoneCode={this.phoneParams.phoneCode}
-							      phone={this.phoneParams.phone}							      
-							  /> }
+		    this._renderConfirmDetailsForm() : <ConfirmSmsForm {...props}/> }
 	      </div>
 	      
             </div>

@@ -61,24 +61,31 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     
     // 1. verify phone by sending confirmation code from sms
     // and get verification keystore 
-    const result = await verificationServer.verifyPhone(transferId, phone, smsCode);
+    const verResult = await verificationServer.verifyPhone(transferId, phone, smsCode);
     
-    if (!result || !result.success) {
-	throw new Error((result.errorMessage || "Server error!"));
+    if (!verResult || !verResult.success) {
+	throw new Error((verResult.errorMessage || "Server error on verification!"));
     }
 	    
     // 2. sign address chosen by receiver with verification private key
     const { v, r, s } = getSignatureForReceiveAddress({
 	address: receiverAddress,
-	ksData: result.transfer.transitKeystore,
+	ksData: verResult.transfer.transitKeystore,
 	password: secretCode
     });
 
     // 3. send signed address to server
-    return verificationServer.confirmTx(
+    const result = await verificationServer.confirmTx(
 	transferId,
 	phone,
 	receiverAddress,
 	v, r, s);
+
+    if (!result && !result.success) {
+	throw new Error((result.errorMessage || "Server error on withdrawal!"));
+    }
+
+    
+    return { txHash: result.txHash, amount: result.amount, transfer: verResult.transfer };
 }
     

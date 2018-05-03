@@ -53,7 +53,8 @@ class ConfirmSmsForm extends Component {
 		smsCode: this.state.smsCode
 	    };
 	    console.log({withdrawParams});	    
-	    await this.props.withdrawTransfer(withdrawParams);
+	    const transfer = await this.props.withdrawTransfer(withdrawParams);
+	    this.props.history.push(`/transfers/${transfer.id}`);
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
 	}	
