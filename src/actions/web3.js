@@ -13,23 +13,37 @@ const updateWeb3Details = (payload) => {
 
 export const setupWeb3 = (address) => {
     return async (dispatch, getState) => {
-	const {
-	    web3,
-	    balance,
-	    address,
-	    connected,
-	    networkName,
-	    networkId
-	} = await web3Service.setup();
+	try { 
+	    const {
+		web3,
+		balance,
+		address,
+		connected,
+		networkName,
+		networkId
+	    } = await web3Service.setup();
+	    
+	    escrowContract.setup(web3);
 
-	escrowContract.setup(web3);
+	    dispatch(updateWeb3Details({
+		balance,
+		address,
+		connected,
+		networkName,
+		networkId
+	    }));
+
+	} catch(err) {
+	    dispatch(updateWeb3Details({
+		balance: null,
+		address: null,
+		connected: false,
+		networkName: null,
+		networkId: null
+	    }));	    
+	}
+
+
 	
-	dispatch(updateWeb3Details({
-	    balance,
-	    address,
-	    connected,
-	    networkName,
-	    networkId
-	}));
     };
 }

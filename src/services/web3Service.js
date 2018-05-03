@@ -25,6 +25,9 @@ const Web3Service = () => {
 	// Get network provider and web3 instance.
 	// See utils/getWeb3 for more info.	
 	web3 = await getWeb3();
+	if (!web3) {
+	    throw new Error("Web3 is not connected");
+	}
 	Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 	web3.eth.getTransactionReceiptMined = getTransactionReceiptMined;
 	console.log("got web3");

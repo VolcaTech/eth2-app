@@ -25,6 +25,16 @@ const balance = (state = 0, action) => {
 }
 
 
+const loaded = (state = false, action) => {
+  switch (action.type) {
+    case actionTypes.UPDATE_WEB3_DETAILS:
+      return true;
+    default:
+      return state;
+  }
+}
+
+
 const connected = (state = false, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_WEB3_DETAILS:
@@ -60,6 +70,7 @@ export default combineReducers({
     balance,
     connected,
     networkName,
-    networkId
+    networkId,
+    loaded
 })
 

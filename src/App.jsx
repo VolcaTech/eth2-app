@@ -12,6 +12,39 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 class App extends Component {
 
     render() {
+	if (!this.props.loaded) {
+	    return (
+		<div>
+		  Loading web3...
+		</div>
+	    );
+	}
+	
+	if (!this.props.connected) {
+	    return (
+		<div>
+		  Web3 is not connected. Please use Trust Browser in order to send and receive ether.
+		</div>
+	    );
+	}
+
+	if (this.props.networkId != "3") {
+	    return (
+		<div>
+		  Connected to {this.props.networkName} Network.
+		  Only Ropsten is supported at the moment. Please switch to Ropsten Network and reload the page.
+		</div>
+	    );
+	}
+
+	if (!this.props.address) {
+	    return (
+		<div>
+		  No address is provided. Check that Metamask is unlocked and reload the page. 
+		</div>
+	    );
+	}
+	
         return (
             <Router>
 	      <div>
@@ -38,7 +71,10 @@ function mapStateToProps(state) {
         address: state.web3Data.address,
         contractAddress: state.web3Data.address,
 	balance,
-        connected: state.web3Data.connected
+        connected: state.web3Data.connected,
+	networkId: state.web3Data.networkId,
+	networkName: state.web3Data.networkName,
+	loaded: state.web3Data.loaded
     };
 }
 
