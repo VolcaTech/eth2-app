@@ -6,7 +6,7 @@ import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import Button from './../common/ButtonSmall';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
-import Timer from 'react-timer-component';
+//import Timer from 'react-timer-component';
 import PropTypes from 'prop-types';
 //import PendingTransfer from './PendingTransfer';
 
@@ -101,14 +101,16 @@ class ConfirmSmsForm extends Component {
 		    <Button buttonColor='#2bc64f' onClick={this._onSubmit.bind(this)}>Receive</Button>
 		  </div>
 		</div>
-		{this.state.timer ? (<div style={{ height: 28, width: 210, margin: 'auto', marginBottom: 46, display: 'block', textAlign: 'center', fontSize: 12 }}>Send code again in <Timer style={{ display: 'inline-block' }} afterComplete={() => this.setState({buttonDisabled: false, buttonOpacity: 1, timer: false})} interval={1000} remaining={60000}>
-				     <Countdown />
-				     </Timer> seconds
+		{this.state.timer ? (<div style={{ height: 28, width: 210, margin: 'auto', marginBottom: 46, display: 'block', textAlign: 'center', fontSize: 12 }}>Send code again in  seconds
 		</div>) : null}
 	    </div>
 	)
     }
 }
 
+
+// <Timer style={{ display: 'inline-block' }} afterComplete={() => this.setState({buttonDisabled: false, buttonOpacity: 1, timer: false})} interval={1000} remaining={60000}>
+// 				     <Countdown />
+// 				     </Timer>
 
 export default connect(null, { withdrawTransfer, sendSmsToPhone })(ConfirmSmsForm);

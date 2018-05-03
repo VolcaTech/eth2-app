@@ -186,7 +186,19 @@ module.exports = {
           name: 'fonts/[name].[hash].[ext]'
         }
       }
-    ]
+    ],
+      rules: [
+	  {
+	      test: /\.(js|jsx)$/,
+              exclude: /(node_modules|bower_components)/,
+              use: {
+		  loader: 'babel-loader',
+		  options: {  // << add options with presets env
+		      presets: ['env']
+		  }
+	      }
+	  }
+      ]      
   },
 
   // We use PostCSS for autoprefixing only.
