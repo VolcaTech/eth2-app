@@ -12,17 +12,20 @@ import { getQueryParams } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+const qs = require('querystring');
 
 
 class Tab extends Component {
     constructor(props) {
         super(props);
 	console.log({props});
-	const queryParams = getQueryParams();
+	//
+	//const queryParams = {}
+	const queryParams = qs.parse(props.location.search.substring(1));
 	console.log({queryParams});
 
 	// parse phone params
-	const phone = queryParams.phone;
+	const phone = `+${queryParams.phone}`;
 	const phoneIsValid = isValidPhoneNumber(phone);
 	const formatter = new asYouType();
 	formatter.input(phone);

@@ -5,7 +5,8 @@ const ETH2PHONE_HOST = 'https://eth2phone.github.io';
 
 
 export const CompletedSentScreen = ({ phone, secretCode, amount}) => {
-    const shareLink = `${ETH2PHONE_HOST}/receive?code=${secretCode}&phone=${phone}`;
+    const phoneNumberWithoutPlus = phone.substring(1); // remove '+' from number
+    const shareLink = `${ETH2PHONE_HOST}/#/receive?code=${secretCode}&phone=${phoneNumberWithoutPlus}`;
     return (
 	<div>
 	  <div style={{ fontSize: 18, marginBottom: 17 }}>
