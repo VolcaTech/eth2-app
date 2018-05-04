@@ -1,26 +1,35 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { setupWeb3 } from '../actions/web3';
+import { subscribePendingTransfers } from '../actions/transfer';
+
+
 
 import reducers from './reducers';
 
-//import getWeb3 from '../utils/getWeb3';
+const persistConfig = {
+    key: 'root',
+    storage: storage,
+    whitelist: ['orm'] // only navigation will be persisted
+};
 
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 const enhancers = compose(applyMiddleware(thunk));
-const store = createStore(reducers, undefined, enhancers);
+const store = createStore(persistedReducer, undefined, enhancers);
 
-const configureStore = (store) => {
+persistStore(store, null, async () => {
+    console.log("configuring store..");
+    // setup web3 data
+    await store.dispatch(setupWeb3());
 
-    // getWeb3().then(web3 => {
-    // 	console.log("got web3");
-    // 	console.log({web3});
-    // });
+    // find all pending transfers and update status when they will be mined
+    store.dispatch(subscribePendingTransfers());
     
-    console.log("configuring store");
-    store.dispatch(setupWeb3());
-}
+});
 
-configureStore(store);
 
 
 export default store;

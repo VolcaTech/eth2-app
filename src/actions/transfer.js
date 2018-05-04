@@ -1,5 +1,6 @@
 import web3Service from "../services/web3Service";
 // import escrowContract from "../services/eth2phone/escrowContract";
+import { getPendingTransfers } from './../data/selectors';
 import * as e2pService from '../services/eth2phone';
 import * as actionTypes from './types';
 
@@ -28,12 +29,23 @@ const subscribePendingTransferMined = (transfer) => {
 	dispatch(updateTransfer({
 	    status: 'sent',
 	    id: transfer.id
-	}));
-
-	const state = getState();
-	console.log({state});
+	}));	
     };
 }
+
+
+// find all pending transfers and update status when they will be mined
+export const subscribePendingTransfers = () => {
+    return  (dispatch, getState) => {
+	const state = getState();
+	const pendingTransfers = getPendingTransfers(state);
+	console.log("got pending transfers: ", {pendingTransfers})
+	pendingTransfers.map(transfer => {
+	    dispatch(subscribePendingTransferMined(transfer));
+	});
+    };
+}
+
 
 
 export const sendTransfer = ({phone,  phoneCode, amount}) => {
