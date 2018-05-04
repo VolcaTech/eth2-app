@@ -3,6 +3,33 @@ const Web3Utils = require('web3-utils');
 const SIGNATURE_PREFIX = "\x19Ethereum Signed Message:\n32";
 import ksHelper from '../../utils/keystoreHelper';
 
+
+function generateRandomString(length)
+{
+    var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$@±§*+-_";
+    var i;
+    var result = "";
+    var isOpera = Object.prototype.toString.call(window.opera) == '[object Opera]';
+    if(window.crypto && window.crypto.getRandomValues)  {
+	const values = new Uint32Array(length);
+	window.crypto.getRandomValues(values);
+	for(i=0; i<length; i++)	{
+	    result += charset[values[i] % charset.length];
+	}
+	return result;
+    }
+    else if(isOpera)//Opera's Math.random is secure, see http://lists.w3.org/Archives/Public/public-webcrypto/2013Jan/0063.html
+    {
+	for(i=0; i<length; i++)
+	{
+	    result += charset[Math.floor(Math.random()*charset.length)];
+	}
+	return result;
+    }
+    else throw new Error("Your browser can't generate secure random numbers");
+}
+
+
 // transfer id is generated for server
 // to fetch confirmation code from server via sms 
 export const generateTransferId = (phoneCode, phone, secretCode) => {
@@ -10,7 +37,9 @@ export const generateTransferId = (phoneCode, phone, secretCode) => {
 }
 
 const generateSecretCode = (n) => {
-    const secretCode = Math.random().toString(32).slice(5).toUpperCase();
+    const secretCode = generateRandomString(30);
+    console.log({secretCode});
+
     return secretCode;
 }
 
