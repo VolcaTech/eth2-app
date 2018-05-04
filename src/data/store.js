@@ -1,26 +1,30 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { setupWeb3 } from '../actions/web3';
+
 
 import reducers from './reducers';
 
-//import getWeb3 from '../utils/getWeb3';
+const persistConfig = {
+    key: 'root',
+    storage: storage,
+    whitelist: ['orm'] // only navigation will be persisted
+};
 
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 const enhancers = compose(applyMiddleware(thunk));
-const store = createStore(reducers, undefined, enhancers);
+const store = createStore(persistedReducer, undefined, enhancers);
 
-const configureStore = (store) => {
-
-    // getWeb3().then(web3 => {
-    // 	console.log("got web3");
-    // 	console.log({web3});
-    // });
-    
-    console.log("configuring store");
+persistStore(store, null, () => {
+    console.log("configuring store..");
     store.dispatch(setupWeb3());
-}
+    const state = store.getState();
+    console.log({state});
+});
 
-configureStore(store);
 
 
 export default store;
