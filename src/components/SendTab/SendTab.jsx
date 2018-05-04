@@ -47,10 +47,10 @@ class Tab extends Component {
 	phone = "+" + phone.replace(/\D+/g, "");
 	
 	// check that phone number is valid
-	if (!isValidPhoneNumber(phone)) {
-	    this.setState({ errorMessage: "Phone number is invalid" });
-	    return null;
-	};
+	// if (!isValidPhoneNumber(phone)) {
+	//     this.setState({ errorMessage: "Phone number is invalid" });
+	//     return null;
+	// };
 
 	// check amount
 	if (this.state.amount <= 0) {
