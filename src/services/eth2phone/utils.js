@@ -9,9 +9,14 @@ export const generateTransferId = (phoneCode, phone, secretCode) => {
     return sha3(phoneCode + phone + secretCode);
 }
 
+const generateSecretCode = (n) => {
+    const secretCode = Math.random().toString(32).slice(5).toUpperCase();
+    return secretCode;
+}
+
 export const generateKeystoreWithSecret = () => {
     // generating secret code
-    const secretCode = Math.random().toString(32).slice(5).toUpperCase();
+    const secretCode = generateSecretCode(12);
     
     const { address, keystoreData: keystore } = ksHelper.create(secretCode);
     return { address, keystore, secretCode };
