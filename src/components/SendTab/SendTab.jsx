@@ -4,6 +4,7 @@ import { sendTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
+import CheckBox from './../common/CheckBox';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
@@ -37,7 +38,7 @@ class Tab extends Component {
 	    this.setState({ errorMessage: err.message });
 	}
     }
-    
+
     _onSubmit() {
 	// hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
 	const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;	
@@ -46,16 +47,16 @@ class Tab extends Component {
 	phone = "+" + phone.replace(/\D+/g, "");
 	
 	// check that phone number is valid
-	// if (!isValidPhoneNumber(phone)) {
-	//     this.setState({ errorMessage: "Phone number is invalid" });
-	//     return null;
-	// };
+	if (!isValidPhoneNumber(phone)) {
+	    this.setState({ errorMessage: "Phone number is invalid" });
+	    return null;
+	};
 
-	// // check amount
-	// if (this.state.amount <= 0) {
-	//     this.setState({ errorMessage: "Amount should be more than 0" });
-	//     return null;
-	// };
+	// check amount
+	if (this.state.amount <= 0) {
+	    this.setState({ errorMessage: "Amount should be more than 0" });
+	    return null;
+	};
 
 	
 	// this.setState({showPendingTransfer: true, step: 1});	
@@ -96,7 +97,7 @@ class Tab extends Component {
 	    </div>	    
 	);
     }
-    
+
     render() {
         return (
             <div style={{ alignContent: 'center' }}>

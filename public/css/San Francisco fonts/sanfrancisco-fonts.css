@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "SF Display Black";
+    font-weight: 900;    
+    src: url("./SanFranciscoDisplay-Black.otf");
+}
+
+@font-face {
+  font-family: "SF Display Bold";
+  font-weight: 700;
+  src: url("SanFranciscoDisplay-Bold.otf");
+}
+
+@font-face {
+  font-family: "SF Display Regular";
+  font-weight: 400;
+  src: url("SanFranciscoDisplay-Regular.otf");
+}
