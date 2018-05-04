@@ -17,6 +17,7 @@ class e2pInput extends React.Component {
                 boxShadow: 0,
                 display: 'block', 
                 margin: 'auto',
+                fontFamily: "SF Display Bold",                 
                 color: this.props.fontColor
             }} placeholder={this.props.placeholder}>
             </FormControl>
