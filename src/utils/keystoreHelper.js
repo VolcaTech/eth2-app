@@ -7,7 +7,9 @@ const ksHelper = {
 	const wallet = Wallet.generate();
 	const address = wallet.getChecksumAddressString();
 	const params = {
-	    n:  1024
+	    n:  4096,
+	    p: 6,
+	    r: 8
 	};
 
 	const keystoreData = JSON.stringify(wallet.toV3(password, params));

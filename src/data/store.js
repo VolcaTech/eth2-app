@@ -7,6 +7,7 @@ import { subscribePendingTransfers } from '../actions/transfer';
 
 
 
+
 import reducers from './reducers';
 
 const persistConfig = {
@@ -20,8 +21,8 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 const enhancers = compose(applyMiddleware(thunk));
 const store = createStore(persistedReducer, undefined, enhancers);
 
-persistStore(store, null, async () => {
-    console.log("configuring store..");
+persistStore(store, null, async () => {   
+    
     // setup web3 data
     await store.dispatch(setupWeb3());
 
