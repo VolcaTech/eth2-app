@@ -37,6 +37,7 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
 
 export const cancelTransfer = ((transitAddress) => escrowContract.cancel(transitAddress));
 export const getAmountWithCommission = ((amount) => escrowContract.getAmountWithCommission(amount));
+export const getWithdrawalEvents = ((address, fromBlock) => escrowContract.getWithdrawalEvents(address, fromBlock));
 
 
 // export const getSentTransfers = () => {

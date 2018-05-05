@@ -23,7 +23,7 @@ export const setupWeb3 = (address) => {
 		networkId
 	    } = await web3Service.setup();
 	    
-	    escrowContract.setup(web3);
+	    await escrowContract.setup(web3);
 
 	    dispatch(updateWeb3Details({
 		balance,

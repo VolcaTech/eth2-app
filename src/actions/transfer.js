@@ -20,6 +20,7 @@ const updateTransfer = (payload) => {
     };
 }
 
+
 const subscribePendingTransferMined = (transfer, nextStatus, txHash) => {
     return async (dispatch, getState) => {
 	const web3 = web3Service.getWeb3();
@@ -55,7 +56,6 @@ export const subscribePendingTransfers = () => {
 	
     };
 }
-
 
 
 export const sendTransfer = ({phone,  phoneCode, amount}) => {
@@ -151,5 +151,23 @@ export const cancelTransfer = (transfer) => {
 	transfer.txHash = txHash;
 	dispatch(subscribePendingTransferMined(transfer, 'cancelled'));	
 	return transfer;
+    };
+}
+
+
+
+export const fetchWithdrawalEvents = () => {
+    return async (dispatch, getState) => {
+	const state = getState();
+	const address = state.web3Data.address;
+	const lastChecked = 0;
+	console.log("fetching withdrawals...");
+	try { 
+	    const events = await e2pService.getWithdrawalEvents(address, lastChecked);
+	    console.log({events});
+	    
+	} catch (err) {
+	    console.log("Error while getting events", err);
+	}
     };
 }

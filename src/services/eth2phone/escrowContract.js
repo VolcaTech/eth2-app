@@ -59,39 +59,23 @@ const EscrowContractService = () => {
     }
 
     
-    function getSentTransfers(){	
-	//	if (!contractInstance) {
-	return Promise.resolve([]);
-	//}	
-	// return contractInstance.getSentTransfersCount.call(null, {from: web3.eth.accounts[0]})
-	//     .then((result) => {
-	// 	return result.toNumber();
-	//     }).then((count) => {
-	// 	const getTransferPromises = [];
-	// 	for (let i=count-1; i >= 0; i--) {
-	// 	    getTransferPromises.push(new Promise(function(resolve, reject) {
-	// 		contractInstance.getSentTransfer(i, {from: web3.eth.accounts[0]})
-	// 		    .then((res) => {
-	// 			return res;
-	// 		    }).then(_parseTransfer)
-	// 		    .then((res) => resolve(res))
-	// 		    .catch((err) => reject(err));				
-	// 	    }));
-	// 	}
-		
-	// 	return Promise.all(getTransferPromises);
-	//     }).then((transfers) => {
-	// 	return transfers;
-	//     });
+    function getWithdrawalEvents(address, fromBlock){
+	return new Promise((resolve, reject) => {
+	    console.log({contractInstance, address});
+	    const eventsGetter = contractWeb3.LogWithdraw({'sender': address}, { fromBlock, toBlock: 'latest', address: contractInstance.address });
+	    eventsGetter.get((error, response) => {
+		if (error) { return reject(error); }
+		resolve(response);
+	    });
+	});
     };
-
     
 
     // api
     return {
 	deposit,
 	setup,
-	getSentTransfers,
+	getWithdrawalEvents,
 	getAmountWithCommission,
 	cancel,
 	getContractAddress: () => contractInstance.address
