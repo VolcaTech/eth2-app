@@ -3,20 +3,28 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { cancelTransfer } from '../../actions/transfer';
 import styles from './styles';
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
-const StatusCell = ({transfer, cancelTransfer}) => {    
+const StatusCell = ({transfer, cancelTransfer}) => {
+    let link = (<Link to={`/transfers/${transfer.id}`} style={styles.statusCell.infoIcon}>i</Link>);
     switch (transfer.status) {
+	
     case "deposited":
         return (
-            <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
+            <div style={styles.statusCell.container}>
+              <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
+              { link }
+	    </div>
+	    
+
 	);
         break;
     case "received":
         return (
             <div style={styles.statusCell.container}>
               <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Received</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>
         );
         break;
@@ -24,7 +32,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
         return (
             <div style={styles.statusCell.container}>
               <div style={{...styles.statusCell.statusText, color: '#f04234'}}>Cancelled</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>	    
         );
         break;
@@ -32,7 +40,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
         return (
             <div style={styles.statusCell.container}>
               <div style={styles.statusCell.pendingStatusText}>Depositing...</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>	    
         );	    
         break;
@@ -40,7 +48,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
         return (
             <div style={styles.statusCell.container}>
               <div style={styles.statusCell.pendingStatusText}>Receiving...</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>	    
         );	    
         break;
@@ -48,7 +56,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
         return (
             <div style={styles.statusCell.container}>
               <div style={styles.statusCell.pendingStatusText}>Cancelling...</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>	    
         );	    
         break;
@@ -56,7 +64,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
 	return   (
 	    <div style={styles.statusCell.container}>
               <div style={styles.statusCell.pendingStatusText}>{transfer.status}</div>
-              <div style={styles.statusCell.infoIcon}>i</div>
+              { link }
 	    </div>
 	);
     }

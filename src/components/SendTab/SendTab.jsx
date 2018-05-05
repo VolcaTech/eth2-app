@@ -142,11 +142,6 @@ const SendForm = () => {
     )
 }
 
-const HistoryScreen = () => {
-    return (
-        <div>HISTORY</div>
-    )
-}
 
 const e2pColors = {
     blue: '#0099ff',

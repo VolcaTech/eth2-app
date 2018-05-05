@@ -30,6 +30,6 @@ export const getTransfersForActiveAddress = createSelector(
     [(state) => state.web3Data.address,
      getAllTransfers
     ], (address, transfers) => {
-	return transfers.filter(a => a.senderAddress === address);
+	return transfers.filter(a => a.senderAddress === address || a.receiverAddress === address );
     }
 );

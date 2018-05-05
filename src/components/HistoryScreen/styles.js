@@ -33,7 +33,8 @@ export default {
         color: '#fff',
         fontSize: 18,
         textAlign: 'center',
-        padding: 0
+        padding: 0,
+		    marginRight: 20,
     },
     statusCellContainer: {
 	position: 'inline-block',
