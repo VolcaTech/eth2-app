@@ -27,14 +27,14 @@ class e2pAddressButton extends React.Component {
                 height: 22,
                 borderRadius: 6,
                 borderWidth: 2,
-                borderColor: "#2bc64f",                
-                backgroundColor: "white",
-                color: "#999999",
+                borderColor: this.props.borderColor,                
+                backgroundColor: this.props.backgroundColor,
+                color: this.props.fontColor,
                 fontFamily: "SF Display Regular", 
                 fontSize: 12,
                 padding: 0,
                 paddingTop: 2
-            }} onClick={this.handleClick}>
+            }} onClick={this.props.handleClick}>
                 {this.shortAddress(this.props.address, 4)}
             </Button>
         );
