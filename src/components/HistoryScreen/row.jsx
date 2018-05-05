@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from 'react-bootstrap';
+import * as e2pService from '../../services/eth2phone';
 import styles from './styles';
 
 
@@ -41,7 +42,14 @@ const StatusCell = ({transfer}) => {
 
 const CancelButton = ({transfer}) => {
     return (
-        <Button style={styles.cancelButton}>
+        <Button style={styles.cancelButton} onClick={async () => {
+	      var r = confirm("Are you sure you want to cancel transfer?");
+	      if (r) {
+		  console.log("cancelling transfer..");
+		  const result = await e2pService.cancelTransfer(transfer.transitAddress);
+		  console.log("cancelled", { result});
+	      }
+	  }}>
         Cancel
         </Button>
     );
