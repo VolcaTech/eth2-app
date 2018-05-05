@@ -280,7 +280,7 @@ contract e2pEscrow is Stoppable, SafeMath {
     _recipient.transfer(transferOrder.amount);
 
     // log withdraw event
-    emit LogWithdraw(_transitAddress, transferOrder.from, _recipient, transferOrder.amount);
+    emit LogWithdraw(transferOrder.from, _transitAddress, _recipient, transferOrder.amount);
 
     
     return true;
