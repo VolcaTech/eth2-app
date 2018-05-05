@@ -9,33 +9,6 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 const StatusCell = ({transfer, cancelTransfer}) => {
     let link = (<Link to={`/transfers/${transfer.id}`} style={styles.statusCell.infoIcon}>i</Link>);
     switch (transfer.status) {
-	
-    case "deposited":
-        return (
-            <div style={styles.statusCell.container}>
-              <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
-              { link }
-	    </div>
-	    
-
-	);
-        break;
-    case "received":
-        return (
-            <div style={styles.statusCell.container}>
-              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Received</div>
-              { link }
-	    </div>
-        );
-        break;
-    case "cancelled":
-        return (
-            <div style={styles.statusCell.container}>
-              <div style={{...styles.statusCell.statusText, color: '#f04234'}}>Cancelled</div>
-              { link }
-	    </div>	    
-        );
-        break;
     case "depositing":
         return (
             <div style={styles.statusCell.container}>
@@ -43,7 +16,23 @@ const StatusCell = ({transfer, cancelTransfer}) => {
               { link }
 	    </div>	    
         );	    
+        break;	
+    case "deposited":
+        return (
+            <div style={styles.statusCell.container}>
+              <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
+              { link }
+	    </div>
+	);
         break;
+    case "sent":
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Sent</div>
+              { link }
+	    </div>
+	);
+        break;		
     case "receiving":
         return (
             <div style={styles.statusCell.container}>
@@ -52,6 +41,14 @@ const StatusCell = ({transfer, cancelTransfer}) => {
 	    </div>	    
         );	    
         break;
+    case "received":
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Received</div>
+              { link }
+	    </div>
+        );
+        break;	
     case "cancelling":
         return (
             <div style={styles.statusCell.container}>
@@ -60,6 +57,14 @@ const StatusCell = ({transfer, cancelTransfer}) => {
 	    </div>	    
         );	    
         break;
+    case "cancelled":
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={{...styles.statusCell.statusText, color: '#f04234'}}>Cancelled</div>
+              { link }
+	    </div>	    
+        );
+        break;	
     default:
 	return   (
 	    <div style={styles.statusCell.container}>

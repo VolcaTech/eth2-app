@@ -1,6 +1,10 @@
 import web3Service from "../services/web3Service";
 // import escrowContract from "../services/eth2phone/escrowContract";
-import { getDepositingTransfers, getReceivingTransfers, getCancellingTransfers } from './../data/selectors';
+import { getDepositingTransfers,
+	 getReceivingTransfers,
+	 getCancellingTransfers,
+	 getTransfersForActiveAddress
+       } from './../data/selectors';
 import * as e2pService from '../services/eth2phone';
 import * as actionTypes from './types';
 
@@ -25,8 +29,6 @@ const subscribePendingTransferMined = (transfer, nextStatus, txHash) => {
     return async (dispatch, getState) => {
 	const web3 = web3Service.getWeb3();
 	const txReceipt = await web3.eth.getTransactionReceiptMined(txHash || transfer.txHash);
-	console.log("transaction mined!!");
-	
 	dispatch(updateTransfer({
 	    status: nextStatus,
 	    id: transfer.id
@@ -72,7 +74,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    txHash,
 	    secretCode,
 	    transferId,
-	    transitAddress,
+	    transitAddress: transitAddress.toLowerCase(),
 	    senderAddress,
 	    status: 'depositing',
 	    receiverPhone: phone,
@@ -113,7 +115,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    txHash,
 	    secretCode,
 	    transferId: transferFromServer.transferId,
-	    transitAddress: transferFromServer.transitAddress,
+	    transitAddress: transferFromServer.transitAddress.toLowerCase(),
 	    status: 'receiving',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
@@ -161,10 +163,28 @@ export const fetchWithdrawalEvents = () => {
 	const state = getState();
 	const address = state.web3Data.address;
 	const lastChecked = 0;
-	console.log("fetching withdrawals...");
+	console.log("fetching withdrawals...", {lastChecked});
+	const activeAddressTransfers = getTransfersForActiveAddress(state);
+	console.log({activeAddressTransfers});
 	try { 
 	    const events = await e2pService.getWithdrawalEvents(address, lastChecked);
 	    console.log({events});
+	    events.map(event => {
+		const { transitAddress, sender } = event.args;
+		activeAddressTransfers
+		    .filter(transfer =>
+			    transfer.status === 'deposited' &&
+			    transfer.transitAddress === transitAddress &&
+			    transfer.senderAddress === sender
+			   )
+		    .map(transfer => {
+			console.log("found transfer", {transfer});
+			dispatch(updateTransfer({
+			    status: "sent",
+			    id: transfer.id
+			}));				
+		    });
+	    });
 	    
 	} catch (err) {
 	    console.log("Error while getting events", err);
