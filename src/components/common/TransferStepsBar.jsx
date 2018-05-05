@@ -38,7 +38,7 @@ class e2pTransferBar extends React.Component {
                         <div className="progress-bar" role="progressbar" style={progBarStyle} ></div>
                     </div>
                     <div className="dot" style={dot1Style}></div>
-                    <div className="dot" style={dot2Style}></div>
+                    <div className={this.props.step===2 ? 'dot scale-up-center': 'dot'} style={dot2Style}></div>
                     <div className="dot" style={dot3Style}></div>
 
                 </div>
