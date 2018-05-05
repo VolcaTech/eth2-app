@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { getAllTransfers } from './../../data/selectors';
+import {  getTransfersForActiveAddress } from './../../data/selectors';
 import HistoryRow from './row';
 
 
@@ -18,7 +18,7 @@ class HistoryScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        transfers: getAllTransfers(state)
+        transfers: getTransfersForActiveAddress(state)
     };
 }
 

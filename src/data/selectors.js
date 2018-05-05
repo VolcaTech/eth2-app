@@ -14,3 +14,12 @@ export const getPendingTransfers = createSelector(
     ormSelector,
     createOrmSelector(schema, session => (session.Transfer.filter(transfer => transfer.status === 'pending').toRefArray()))
 );
+
+
+export const getTransfersForActiveAddress = createSelector(
+    [(state) => state.web3Data.address,
+     getAllTransfers
+    ], (address, transfers) => {
+	return transfers.filter(a => a.senderAddress === address);
+    }
+);
