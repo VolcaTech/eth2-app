@@ -7,6 +7,7 @@ import ButtonPrimary from './../common/ButtonPrimary';
 import CheckBox from './../common/CheckBox';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 function WrongNetworkMessage() {
@@ -67,7 +68,7 @@ class Tab extends Component {
 
     _renderForm() {
         return (
-            <div>
+<div>
                 <div>
                     <NumberInput
                         onChange={({ target }) => {
@@ -92,7 +93,8 @@ class Tab extends Component {
                         Send
 		</ButtonPrimary>
                 </div>
-                <CheckBox onChange={() => this.setState({buttonDisabled: false, buttonOpacity: 1})}/>
+                <div style={{marginBottom: 20}}><CheckBox onChange={() => this.setState({buttonDisabled: false, buttonOpacity: 1})}/></div>
+                <Link to="/history">History</Link>
             </div>
         );
     }
@@ -105,6 +107,45 @@ class Tab extends Component {
             </div>
         );
     }
+}
+
+const SendForm = () => {
+    return (
+        <div>
+                <div>
+                    <NumberInput
+                        onChange={({ target }) => {
+                            const amount = target.value;
+                            this.setState({ amount });
+                        }}
+                        disabled={false}
+                        fontColor='black'
+                        backgroundColor='#fff'
+                        placeholder="amount (ETH)"
+                    />
+
+                </div>
+                <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
+                    {this.state.errorMessage}
+                </div>
+                <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 25 }}>
+                    <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+                </div>
+                <div style={{marginBottom: 28}}>
+                    <ButtonPrimary handleClick={this._onSubmit.bind(this)} disabled={this.state.buttonDisabled} opacity={this.state.buttonOpacity} buttonColor={e2pColors.green}>
+                        Send
+		</ButtonPrimary>
+                </div>
+                <div style={{marginBottom: 20}}><CheckBox onChange={() => this.setState({buttonDisabled: false, buttonOpacity: 1})}/></div>
+                <Link to="/history">History</Link>
+            </div>
+    )
+}
+
+const HistoryScreen = () => {
+    return (
+        <div>HISTORY</div>
+    )
 }
 
 const e2pColors = {

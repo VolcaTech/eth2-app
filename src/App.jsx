@@ -6,6 +6,7 @@ import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
 import Header from './components/common/Header.jsx';
+import HistoryScreen from './components/common/HistoryScreen';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
@@ -52,7 +53,8 @@ class App extends Component {
 		<Switch>
                   <Route exact path="/" component={SendTab} />
                   <Route exact path="/transfers/:transferId" component={PendingTransferComponent}/>
-		  <Route path="/receive" component={ReceiveForm} />	    
+		  <Route path="/receive" component={ReceiveForm} />
+		  <Route path="/history" component={HistoryScreen} />	              	    
 		</Switch>
 	      </div>
             </Router>
