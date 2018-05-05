@@ -6,7 +6,7 @@ import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
 import Header from './components/common/Header.jsx';
-import HistoryScreen from './components/common/HistoryScreen';
+import HistoryScreen from './components/HistoryScreen';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
