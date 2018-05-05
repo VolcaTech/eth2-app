@@ -42,19 +42,20 @@ const EscrowContractService = () => {
     
     function deposit(pubkey, amount){	
 	if (!deployed) {
-	    alert("Verified Proxy Contract Is not deployed to selected network!");
+	    alert("E2P Escrow Contract is not deployed to selected network!");
 	    return null;
 	}	
         const weiAmount = web3.toWei(amount, "ether");
-	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount, gasPrice: web3.toWei(23, "gwei")});
+	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount});
     }
     
-    function cancel(transferId){	
+    function cancel(transitAddress){	
 	if (!deployed) {
-	    alert("Verified Proxy Contract Is not deployed to selected network!");
+	    alert("E2P Escrow Contract is not deployed to selected network!");
 	    return null;
 	}	
-	return contractInstance.cancelTransfer( transferId, {from: web3.eth.accounts[0]});
+	// return contractInstance.cancelTransfer( transferId, {from: web3.eth.accounts[0]});
+	return contractWeb3.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
     }
 
     

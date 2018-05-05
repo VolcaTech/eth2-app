@@ -18,12 +18,12 @@ class PendingTransfer extends Component {
 		</div>
 	    );
 	case 3:
-	    if (transfer.direction === 'out') {
+	    if (transfer.status === 'deposited') {
 		return (
 		    <CompletedSentScreen phone={transfer.receiverPhone}
 					 amount={transfer.amount} secretCode={transfer.secretCode}/>
 		);
-	    } else {
+	    } else if (transfer.status === 'received') {
 		return (
 		    <CompletedReceivedScreen receiverAddress={transfer.receiverAddress}
 					     amount={transfer.amount}
@@ -64,7 +64,9 @@ const mapStateToProps = (state, props) => {
     let currentStep = 2;
     const transferId = props.match.params.transferId;
     const transfer = getAllTransfers(state).filter(transfer => transfer.id === transferId)[0] || {};
-    if (transfer && transfer.status === 'sent') {
+    if (transfer && (transfer.status === 'deposited' ||
+		     transfer.status === 'cancelled' ||
+		     transfer.status === 'received')) {
 	currentStep = 3;
     }
     let error = "";

@@ -1,6 +1,6 @@
 import web3Service from "../services/web3Service";
 // import escrowContract from "../services/eth2phone/escrowContract";
-import { getPendingTransfers } from './../data/selectors';
+import { getDepositingTransfers, getReceivingTransfers, getCancellingTransfers } from './../data/selectors';
 import * as e2pService from '../services/eth2phone';
 import * as actionTypes from './types';
 
@@ -20,14 +20,14 @@ const updateTransfer = (payload) => {
     };
 }
 
-const subscribePendingTransferMined = (transfer) => {
+const subscribePendingTransferMined = (transfer, nextStatus, txHash) => {
     return async (dispatch, getState) => {
 	const web3 = web3Service.getWeb3();
-	const txReceipt = await web3.eth.getTransactionReceiptMined(transfer.txHash);
+	const txReceipt = await web3.eth.getTransactionReceiptMined(txHash || transfer.txHash);
 	console.log("transaction mined!!");
 	
 	dispatch(updateTransfer({
-	    status: 'sent',
+	    status: nextStatus,
 	    id: transfer.id
 	}));	
     };
@@ -38,11 +38,21 @@ const subscribePendingTransferMined = (transfer) => {
 export const subscribePendingTransfers = () => {
     return  (dispatch, getState) => {
 	const state = getState();
-	const pendingTransfers = getPendingTransfers(state);
-	console.log("got pending transfers: ", {pendingTransfers})
-	pendingTransfers.map(transfer => {
-	    dispatch(subscribePendingTransferMined(transfer));
+	const depositingTransfers = getDepositingTransfers(state);
+	const receivingTransfers = getReceivingTransfers(state);
+	const cancellingTransfers = getCancellingTransfers(state);		
+
+	
+	depositingTransfers.map(transfer => {
+	    dispatch(subscribePendingTransferMined(transfer, 'deposited'));
 	});
+	receivingTransfers.map(transfer => {
+	    dispatch(subscribePendingTransferMined(transfer, 'received'));
+	});
+	cancellingTransfers.map(transfer => {
+	    dispatch(subscribePendingTransferMined(transfer, 'cancelled'));
+	});	
+	
     };
 }
 
@@ -64,7 +74,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    transferId,
 	    transitAddress,
 	    senderAddress,
-	    status: 'pending',
+	    status: 'depositing',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
 	    timestamp: Date.now(),
@@ -76,7 +86,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	dispatch(createTransfer(transfer));
 
 	// subscribe
-	dispatch(subscribePendingTransferMined(transfer));
+	dispatch(subscribePendingTransferMined(transfer, 'deposited'));
 	
 	return transfer;
     };
@@ -104,7 +114,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    secretCode,
 	    transferId: transferFromServer.transferId,
 	    transitAddress: transferFromServer.transitAddress,
-	    status: 'pending',
+	    status: 'receiving',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
 	    receiverAddress,
@@ -117,7 +127,29 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	dispatch(createTransfer(transfer));
 
 	// // subscribe
-	dispatch(subscribePendingTransferMined(transfer));	
+	dispatch(subscribePendingTransferMined(transfer, 'received'));	
+	return transfer;
+    };
+}
+
+
+export const cancelTransfer = (transfer) => {
+    return async (dispatch, getState) => {
+	
+	console.log("cancelling transfer..");
+	
+	const txHash = await e2pService.cancelTransfer(transfer.transitAddress);
+	console.log("cancelled", { txHash, transfer});
+
+	dispatch(updateTransfer({
+	    status: "cancelling",
+	    id: transfer.id,
+	    txHash
+	}));	
+	
+	// // subscribe
+	transfer.txHash = txHash;
+	dispatch(subscribePendingTransferMined(transfer, 'cancelled'));	
 	return transfer;
     };
 }

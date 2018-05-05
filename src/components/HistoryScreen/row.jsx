@@ -1,20 +1,21 @@
 import React from "react";
+import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import * as e2pService from '../../services/eth2phone';
+import { cancelTransfer } from '../../actions/transfer';
 import styles from './styles';
 
 
-const StatusCell = ({transfer}) => {    
+const StatusCell = ({transfer, cancelTransfer}) => {    
     switch (transfer.status) {
-    case "sent":
+    case "deposited":
         return (
-            <CancelButton transfer={transfer}/>
+            <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
 	);
         break;
-    case "completed":
+    case "received":
         return (
             <div style={styles.statusCell.container}>
-              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Completed</div>
+              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Received</div>
               <div style={styles.statusCell.infoIcon}>i</div>
 	    </div>
         );
@@ -27,27 +28,48 @@ const StatusCell = ({transfer}) => {
 	    </div>	    
         );
         break;
-    case "pending":
+    case "depositing":
         return (
             <div style={styles.statusCell.container}>
-              <div style={styles.statusCell.pendingStatusText}>Pending...</div>
+              <div style={styles.statusCell.pendingStatusText}>Depositing...</div>
               <div style={styles.statusCell.infoIcon}>i</div>
 	    </div>	    
         );	    
         break;
+    case "receiving":
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={styles.statusCell.pendingStatusText}>Receiving...</div>
+              <div style={styles.statusCell.infoIcon}>i</div>
+	    </div>	    
+        );	    
+        break;
+    case "cancelling":
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={styles.statusCell.pendingStatusText}>Cancelling...</div>
+              <div style={styles.statusCell.infoIcon}>i</div>
+	    </div>	    
+        );	    
+        break;
+    default:
+	return   (
+	    <div style={styles.statusCell.container}>
+              <div style={styles.statusCell.pendingStatusText}>{transfer.status}</div>
+              <div style={styles.statusCell.infoIcon}>i</div>
+	    </div>
+	);
     }
     
 }
 
 
-const CancelButton = ({transfer}) => {
+const CancelButton = ({transfer, cancelTransfer}) => {
     return (
         <Button style={styles.cancelButton} onClick={async () => {
 	      var r = confirm("Are you sure you want to cancel transfer?");
 	      if (r) {
-		  console.log("cancelling transfer..");
-		  const result = await e2pService.cancelTransfer(transfer.transitAddress);
-		  console.log("cancelled", { result});
+		  await cancelTransfer(transfer);		  
 	      }
 	  }}>
         Cancel
@@ -56,15 +78,15 @@ const CancelButton = ({transfer}) => {
 }
 
 
-const HistoryRow = ({transfer}) => {
+const HistoryRow = ({transfer, cancelTransfer}) => {
      return (
         <div style={styles.row}>
           <div style={styles.amount}>{transfer.amount} ETH</div>
           <div style={styles.phone}>{transfer.receiverPhone}</div>
-	  <StatusCell transfer={transfer}/>
+	  <StatusCell transfer={transfer} cancelTransfer={cancelTransfer}/>
         </div>                       
      )
  }
 
 
-export default HistoryRow;
+export default connect(null, {cancelTransfer})(HistoryRow);

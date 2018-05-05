@@ -17,6 +17,7 @@ class HistoryScreen extends React.Component {
 
 
 function mapStateToProps(state) {
+    console.log({state});
     return {
         transfers: getTransfersForActiveAddress(state)
     };
