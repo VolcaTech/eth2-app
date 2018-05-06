@@ -39,15 +39,18 @@ s = '0x' + signature.s.toString("hex");
 
 
 contract('e2pEscrow', async (accounts) => {
-    var senderAddress,
+    var
+    ownerAddress,
+    senderAddress,
 	verifierAddress,
-	initialBalances = {
-	    sender: 0,
-	    contract: 0,
-	    verifier: 0,
-	    reciever: 0
-	},
-	escrowContract;
+    initialBalances = {
+	ownerAddress: 0,
+	sender: 0,
+	contract: 0,
+	verifier: 0,
+	reciever: 0
+    },
+    escrowContract;
    
     
     const sendTransfer = async (gasPrice, verificationAddress) => {
@@ -64,8 +67,10 @@ contract('e2pEscrow', async (accounts) => {
     };
     
     async function initBalances() {
-	verifierAddress = accounts[0];
-	senderAddress = accounts[1];	
+	ownerAddress = accounts[0];
+	verifierAddress = accounts[1];
+	senderAddress = accounts[2];
+	initialBalances.owner = await web3.eth.getBalancePromise(ownerAddress);	
 	initialBalances.sender = await web3.eth.getBalancePromise(senderAddress);
 	initialBalances.contract = await web3.eth.getBalancePromise(escrowContract.address);
 	initialBalances.verifier = await web3.eth.getBalancePromise(verifierAddress);
@@ -135,20 +140,20 @@ contract('e2pEscrow', async (accounts) => {
 	});
 
 	
-	it(" verifier can withdraw commission", async () => {	  
-	    let commissionToWithdraw, _verifierBalance;
+	it(" contract owner can withdraw commission", async () => {	  
+	    let commissionToWithdraw, _ownerBalance;
 	    
 	    await sendTransfer();
 	    
-	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: ownerAddress});
 	    
-	    await escrowContract.withdrawCommission({}, {from: verifierAddress});
-	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
+	    await escrowContract.withdrawCommission({}, {from: ownerAddress});
+	    _ownerBalance = await web3.eth.getBalancePromise(ownerAddress);
 	    
 	    // ability to withdraw check
-	    const balanceAfterWithdrawnCommission = (initialBalances.verifier.plus(commissionToWithdraw)).toString();
-	    assert.isBelow( _verifierBalance.toString(), balanceAfterWithdrawnCommission, "balance is updated with more wei than commission");	    
-	    assert.isAbove( _verifierBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
+	    const balanceAfterWithdrawnCommission = (initialBalances.owner.plus(commissionToWithdraw)).toString();
+	    assert.isBelow( _ownerBalance.toString(), balanceAfterWithdrawnCommission, "balance is updated with more wei than commission");	    
+	    assert.isAbove( _ownerBalance.toString(), initialBalances.verifier.toString(), "commission was not withdrawn");
 	    
 	    // commission to withdraw reset check
 	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
@@ -156,27 +161,27 @@ contract('e2pEscrow', async (accounts) => {
 	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw was not reset");
 	    
 	    // double-spend attack check
-	    await escrowContract.withdrawCommission({}, {from: verifierAddress});
-	    _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
-	    assert.isBelow(_verifierBalance.toString(), balanceAfterWithdrawnCommission, "commission was withdrawn twice");
+	    await escrowContract.withdrawCommission({}, {from: ownerAddress});
+	    _ownerBalance = await web3.eth.getBalancePromise(ownerAddress);
+	    assert.isBelow(_ownerBalance.toString(), balanceAfterWithdrawnCommission, "commission was withdrawn twice");
 	});
 
-	it(" commission should go to verifier even if function called by other sender", async () => {
-	    let commissionToWithdraw, verifierBalanceBefore;
+	it(" commission should go to contract owner even if function called by other sender", async () => {
+	    let commissionToWithdraw, ownerBalanceBefore;
 	    
 	    await sendTransfer();
 	    
-	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});
-	    verifierBalanceBefore = await web3.eth.getBalancePromise(verifierAddress);
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: ownerAddress});
+	    ownerBalanceBefore = await web3.eth.getBalancePromise(ownerAddress);
 	    // ability to withdraw check		    
 	    await escrowContract.withdrawCommission({}, {from: senderAddress});
 
-	    const _verifierBalance = await web3.eth.getBalancePromise(verifierAddress);
+	    const _ownerBalance = await web3.eth.getBalancePromise(ownerAddress);
 	    // ability to withdraw check		    	    
-	    assert.equal( verifierBalanceBefore.plus(commissionToWithdraw).toNumber(), _verifierBalance.toNumber()," ether wasn't withdrawn to verifier");		    
+	    assert.equal( ownerBalanceBefore.plus(commissionToWithdraw).toNumber(), _ownerBalance.toNumber()," ether wasn't withdrawn to owner");		    
 	    
 	    // commission to withdraw reset check
-	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: verifierAddress});	    
+	    commissionToWithdraw = await escrowContract.commissionToWithdraw.call({}, {from: ownerAddress});	    
 	    assert.equal(commissionToWithdraw.toNumber(), 0, "commission to withdraw wasn't reset");	
 	});
     });

@@ -36,6 +36,9 @@ contract e2pEscrow is Stoppable, SafeMath {
   // verifier can withdraw this amount from smart-contract
   uint public commissionToWithdraw; // in wei
 
+  // verifier's address
+  address public verifier;
+    
   /*
    * EVENTS
    */
@@ -64,7 +67,12 @@ contract e2pEscrow is Stoppable, SafeMath {
 				    uint oldCommissionFee,
 				    uint newCommissionFee
 				    );
-
+  
+  event LogChangeVerifier(
+			  address oldVerifier,
+			  address newVerifier
+			  );  
+  
   struct Transfer {
     address from;
     uint amount; // in wei
@@ -79,11 +87,17 @@ contract e2pEscrow is Stoppable, SafeMath {
    * and sets verifier's fixed commission fee.
    * @param _commissionFee uint Verifier's fixed commission for each transfer
    */
-  constructor(uint _commissionFee) public {
+  constructor(uint _commissionFee, address _verifier) public {
     commissionFee = _commissionFee;
+    verifier = _verifier;
   }
 
 
+  modifier onlyVerifier() {
+    require(msg.sender == verifier);
+    _;
+  }
+  
   /**
    * @dev Deposit ether to smart-contract and create transfer.
    * Transit address is assigned to transfer by sender. 
@@ -138,6 +152,28 @@ contract e2pEscrow is Stoppable, SafeMath {
     return true;
   }
 
+  
+  /**
+   * @dev Change verifier's address.
+   * Only owner can change verifier's address.
+   * 
+   * @param _newVerifier address New verifier's address
+   * @return True if success.
+   */
+  function changeVerifier(address _newVerifier)
+                          public
+                          whenNotPaused
+                          whenNotStopped
+                          onlyOwner
+    returns(bool success)
+  {
+    address oldVerifier = verifier;
+    verifier = _newVerifier;
+    emit LogChangeVerifier(oldVerifier, verifier);
+    return true;
+  }
+
+  
   /**
    * @dev Transfer accrued commission to verifier's address.
    * @return True if success.
@@ -263,9 +299,9 @@ contract e2pEscrow is Stoppable, SafeMath {
 		    bytes32 _s
 		    )
     public
-    onlyOwner // only through verifier can withdraw transfer;
-            whenNotPaused
-            whenNotStopped
+    onlyVerifier // only through verifier can withdraw transfer;
+    whenNotPaused
+    whenNotStopped
     returns (bool success)
   {
     Transfer memory transferOrder = transferDct[_transitAddress];
