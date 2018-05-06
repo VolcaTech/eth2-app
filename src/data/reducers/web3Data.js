@@ -17,7 +17,8 @@ const address = (state = null, action) => {
 
 const balance = (state = 0, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_WEB3_DETAILS:
+  case actionTypes.UPDATE_WEB3_DETAILS:
+  case actionTypes.UPDATE_BALANCE:
       return action.payload.balance;
     default:
       return state;

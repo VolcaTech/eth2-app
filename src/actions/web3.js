@@ -11,6 +11,22 @@ const updateWeb3Details = (payload) => {
 }
 
 
+
+export const updateBalance = () => {
+    return async (dispatch, getState) => {
+	const state = getState();
+	const address = state.web3Data.address;
+
+	const web3 = web3Service.getWeb3();
+	const balance = await web3.eth.getBalancePromise(address);
+	console.log("got balance", balance)
+	dispatch({
+	    type: actionTypes.UPDATE_BALANCE,
+	    payload: { balance } 
+	});	
+    }
+}
+
 export const setupWeb3 = (address) => {
     return async (dispatch, getState) => {
 	try { 
@@ -41,9 +57,6 @@ export const setupWeb3 = (address) => {
 		networkName: null,
 		networkId: null
 	    }));	    
-	}
-
-
-	
+	}	
     };
 }

@@ -21,7 +21,6 @@ class e2pHeader extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div style={{borderBottom: '1px solid #f5f5f5'}}>
                 <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>

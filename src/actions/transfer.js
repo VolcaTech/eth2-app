@@ -7,7 +7,7 @@ import { getDepositingTransfers,
        } from './../data/selectors';
 import * as e2pService from '../services/eth2phone';
 import * as actionTypes from './types';
-
+import { updateBalance } from './web3';
 
 const createTransfer = (payload) => {
     return {
@@ -32,7 +32,11 @@ const subscribePendingTransferMined = (transfer, nextStatus, txHash) => {
 	dispatch(updateTransfer({
 	    status: nextStatus,
 	    id: transfer.id
-	}));	
+	}));
+
+	setTimeout(() => {
+	    dispatch(updateBalance());
+	}, 10000);
     };
 }
 
@@ -84,7 +88,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    fee: 0,
 	    direction: 'out'
 	};
-	console.log({transfer});
+
 	dispatch(createTransfer(transfer));
 
 	// subscribe
@@ -125,7 +129,6 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    fee: 0,
 	    direction: 'in'
 	};
-	console.log({transfer});
 	dispatch(createTransfer(transfer));
 
 	// // subscribe
@@ -136,12 +139,8 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 
 
 export const cancelTransfer = (transfer) => {
-    return async (dispatch, getState) => {
-	
-	console.log("cancelling transfer..");
-	
+    return async (dispatch, getState) => {		
 	const txHash = await e2pService.cancelTransfer(transfer.transitAddress);
-	console.log("cancelled", { txHash, transfer});
 
 	dispatch(updateTransfer({
 	    status: "cancelling",
@@ -163,12 +162,9 @@ export const fetchWithdrawalEvents = () => {
 	const state = getState();
 	const address = state.web3Data.address;
 	const lastChecked = 0;
-	console.log("fetching withdrawals...", {lastChecked});
 	const activeAddressTransfers = getTransfersForActiveAddress(state);
-	console.log({activeAddressTransfers});
 	try { 
 	    const events = await e2pService.getWithdrawalEvents(address, lastChecked);
-	    console.log({events});
 	    events.map(event => {
 		const { transitAddress, sender } = event.args;
 		activeAddressTransfers

@@ -45,8 +45,9 @@ class App extends Component {
 		</div>
 	    );
 	}
-	
+
         return (
+
             <Router>
 	      <div>
 		<Header address={this.props.address} networkName={this.props.networkName} contractAddress={this.props.contractAddress} balance={this.props.balance} /> 
