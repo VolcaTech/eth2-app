@@ -30,7 +30,7 @@ class App extends Component {
 	    );
 	}
 
-	if (this.props.networkId != "3") {
+	if ( this.props.networkId != "3" && this.props.networkId != "1") {
 	    return (
 		<div>
 		  Connected to {this.props.networkName} Network.
@@ -48,7 +48,6 @@ class App extends Component {
 	}
 
         return (
-
             <Router>
 	      <div>
 		<Header address={this.props.address} networkName={this.props.networkName} contractAddress={this.props.contractAddress} balance={this.props.balance} /> 
