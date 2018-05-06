@@ -1,6 +1,6 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
-const mnemonic = "fall gasp culture lonely awkward switch nurse fee road blur weekend phrase";
-const INFURA_TOKEN = 'OZH2R47KNnEajk7xhkZv';
+const mnemonic = "";
+const INFURA_TOKEN = '';
 
 
 
