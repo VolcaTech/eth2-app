@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Web3StatusBar from './components/common/Web3StatusBar';
 import web3Service from './services/web3Service';
+import escrowContract from './services/eth2phone/escrowContract';
 import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
@@ -64,15 +65,20 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-    let balance = null;
+    let balance, contractAddress;
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {
 	balance = web3.fromWei(state.web3Data.balance, 'ether').toNumber();
-	balance = balance.toFixed(4);
+	balance = balance.toFixed(4);	
     }
+
+    if (state.web3Data.connected) {
+	contractAddress = escrowContract.getContractAddress();
+    }
+    
     return {
         address: state.web3Data.address,
-        contractAddress: state.web3Data.address,
+        contractAddress,
 	balance,
         connected: state.web3Data.connected,
 	networkId: state.web3Data.networkId,
