@@ -1,6 +1,6 @@
 import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
-const SERVER_URL =  'https://ropsten.eth2phone.com';
+const SERVER_URL =  'http://ropsten.eth2phone.com';
 
 
 export const registerTransfer = ({transferId, phone, phoneCode,
