@@ -59,7 +59,12 @@ class App extends Component {
         return (
             <Router>
                 <div>
-                    <Header address={this.props.address} networkName={this.props.networkName} contractAddress={this.props.contractAddress} balance={this.props.balance} />
+                  <Header
+		     address={this.props.address}
+		     networkName={this.props.networkName}
+		     contractAddress={this.props.contractAddress}
+		     networkId={this.props.networkId}
+		     balance={this.props.balance} />
                     <Switch>
                         <Route exact path="/" component={SendTab} />
                         <Route exact path="/transfers/:transferId" component={PendingTransferComponent} />

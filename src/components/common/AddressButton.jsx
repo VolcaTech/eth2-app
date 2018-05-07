@@ -16,26 +16,31 @@ class e2pAddressButton extends React.Component {
 
     shortAddress(address, num, showEnd = true) {
         const sanitized = this.dePrefix(address);
-        const shorten = `${sanitized.slice(0, num)}...${showEnd ? sanitized.slice(-num) : ''}`;
+        const shorten = `${sanitized.slice(0, 3)}...${showEnd ? sanitized.slice(-num) : ''}`;
         return '0x'.concat(shorten);
     }
 
     render() {
         return (
             <Button style={{
-                width: 100,
-                height: 22,
-                borderRadius: 6,
-                borderWidth: 2,
-                borderColor: this.props.borderColor,                
-                backgroundColor: this.props.backgroundColor,
-                color: this.props.fontColor,
-                fontFamily: "SF Display Regular", 
-                fontSize: 12,
-                padding: 0,
-                paddingTop: 2
+			//width: 100,
+			height: 22,
+			borderRadius: 6,
+			borderWidth: 2,
+			borderColor: this.props.color,                
+			backgroundColor: (this.props.active ? this.props.color: "#fff"),
+			color: (this.props.active ? "#fff": this.props.color),
+			fontFamily: "SF Display Regular", 
+			fontSize: 12,
+			padding: 0,
+			paddingTop: 2,
+			paddingLeft:5,
+			paddingRight:5
+			
             }} onClick={this.props.handleClick}>
-                {this.shortAddress(this.props.address, 4)}<div class="fa-rectangle" syle={{color: "black"}}></div>
+              <span>{this.shortAddress(this.props.address, 4)}</span>
+	      { this.props.networkId != "1" ? <span> ({this.props.networkName})</span> : null }
+	      <i className={this.props.active ? 'fa fa-caret-up' : 'fa fa-caret-down'} style={{marginLeft: 5}}></i>
             </Button>
         );
     }
