@@ -16,6 +16,7 @@ export default class AssetTransfer extends Model {
 	timestamp: attr(),
 	amount: attr(),
 	fee: attr(),
+	networkId: attr(),
 	transferId: attr(), // sha3(phone, secretCode)
 	secretCode: attr(),
 	transitAddress: attr(),

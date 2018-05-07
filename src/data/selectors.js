@@ -28,8 +28,12 @@ export const getCancellingTransfers = createSelector(
 
 export const getTransfersForActiveAddress = createSelector(
     [(state) => state.web3Data.address,
+     (state) => state.web3Data.networkId,
      getAllTransfers
-    ], (address, transfers) => {
-	return transfers.filter(a => a.senderAddress === address || a.receiverAddress === address ).sort((a,b) => b.timestamp - a.timestamp);
+    ], (address, networkId, transfers) => {
+	return transfers
+	    .filter(t => t.networkId === networkId)
+	    .filter(t => t.senderAddress === address || t.receiverAddress === address )
+	    .sort((a,b) => b.timestamp - a.timestamp);
     }
 );

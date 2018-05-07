@@ -68,6 +68,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
     return async (dispatch, getState) => {
 	
 	const state = getState();
+	const networkId = state.web3Data.networkId;	
 	const senderAddress = state.web3Data.address;
 
 	const { txHash, secretCode, transferId, transitAddress } = await e2pService.sendTransfer({phone, phoneCode, amountToPay: amount});
@@ -79,6 +80,7 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    secretCode,
 	    transferId,
 	    transitAddress: transitAddress.toLowerCase(),
+	    networkId,
 	    senderAddress,
 	    status: 'depositing',
 	    receiverPhone: phone,
@@ -103,6 +105,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
     return async (dispatch, getState) => {
 	
 	const state = getState();
+	const networkId = state.web3Data.networkId;
 	const receiverAddress = state.web3Data.address;
 	
 	const { txHash, transfer: transferFromServer, amount } = await e2pService.verifyPhoneAndWithdraw({
@@ -123,6 +126,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    status: 'receiving',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
+	    networkId,
 	    receiverAddress,
 	    timestamp: Date.now(),
 	    amount,	    
