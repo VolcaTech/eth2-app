@@ -2,7 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { setupWeb3 } from '../actions/web3';
+import { setupWeb3, setupWeb3ChangeListener } from '../actions/web3';
 import { subscribePendingTransfers, fetchWithdrawalEvents } from '../actions/transfer';
 
 
@@ -31,7 +31,9 @@ persistStore(store, null, async () => {
 
     // fetch withdrawal events
     store.dispatch(fetchWithdrawalEvents());
-    
+
+    // subscribe for account changes
+    store.dispatch(setupWeb3ChangeListener());
 });
 
 
