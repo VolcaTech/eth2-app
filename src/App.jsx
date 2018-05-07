@@ -9,6 +9,7 @@ import Header from './components/common/Header.jsx';
 import HistoryScreen from './components/HistoryScreen';
 import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust-logo.png';
+import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
@@ -118,16 +119,20 @@ const styles = {
 
 
 function mapStateToProps(state) {
-    let balance = null;
+    let balance, contractAddress;
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {
         balance = web3.fromWei(state.web3Data.balance, 'ether').toNumber();
         balance = balance.toFixed(4);
     }
 
+    if (state.web3Data.connected) {
+	contractAddress = escrowContract.getContractAddress();
+    }
+    
     return {
         address: state.web3Data.address,
-        contractAddress: state.web3Data.address,
+        contractAddress,
         balance,
         connected: state.web3Data.connected,
         networkId: state.web3Data.networkId,

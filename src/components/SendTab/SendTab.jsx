@@ -16,8 +16,6 @@ class Tab extends Component {
         this.state = {
             amount: 0,
             errorMessage: "",
-            buttonDisabled: true,
-            buttonOpacity: 0.1
         };
     }
 
@@ -82,12 +80,14 @@ class Tab extends Component {
                     <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
                 </div>
                 <div style={{marginBottom: 28}}>
-                    <ButtonPrimary handleClick={this._onSubmit.bind(this)} disabled={this.state.buttonDisabled} opacity={this.state.buttonOpacity} buttonColor={e2pColors.green}>
-                        Send
-		</ButtonPrimary>
+                    <ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.blue}>
+                      Send
+		    </ButtonPrimary>
                 </div>
-                <div style={{marginBottom: 20}}><CheckBox onChange={() => this.setState({buttonDisabled: false, buttonOpacity: 1})}/></div>
-		<div style={{textAlign: 'center'}}>
+                <div style={{marginBottom: 20}}>
+		  <CheckBox/>
+		</div>
+		<div style={{textAlign: 'center', marginTop:20}}>
                   <Link to="/history">Recent Transfers</Link>
 		</div>
             </div>
