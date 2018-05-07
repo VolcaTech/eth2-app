@@ -49,9 +49,7 @@ class NotConnectedPage extends Component {
 class App extends Component {
 
     _renderNotConnected() {
-	const trustWalletDeepLink = getDeepLinkForTrustWallet(ETH2PHONE_HOST);
-	return <NotConnectedPage/>
-	
+	return <NotConnectedPage/>;	
     }
 
     _renderWrongNetwork() {
