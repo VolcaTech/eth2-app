@@ -69,23 +69,26 @@ export const setupWeb3ChangeListener = () => {
     return (dispatch, getState) => {
 	const state = getState();
 	const oldAddress = state.web3Data.address;
-	const oldNetworkId = state.web3Data.networkId;	
+	const oldNetworkId = state.web3Data.networkId;
+	const connected = state.web3Data.connected;		
 	const web3 = web3Service.getWeb3();
 	
 	var accountInterval = setInterval(async () => {
-	    const address = web3.eth.accounts[0];
-	    const {networkName, networkId } = detectNetwork(web3);
-	    
-	    if (oldAddress !== address || oldNetworkId !== networkId) {
-		const balance = await web3.eth.getBalancePromise(address);
-		dispatch(updateWeb3Details({
-		    balance,
-		    address,
-		    connected: true,
-		    networkName,
-		    networkId
-		}));	    
+	    if (connected) { 
+		const address = web3.eth.accounts[0];
+		const {networkName, networkId } = detectNetwork(web3);
+		
+		if (oldAddress !== address || oldNetworkId !== networkId) {
+		    const balance = await web3.eth.getBalancePromise(address);
+		    dispatch(updateWeb3Details({
+			balance,
+			address,
+			connected: true,
+			networkName,
+			networkId
+		    }));	    
+		}
 	    }
-	}, 2000);
+	}, 2000);					
     };
 }

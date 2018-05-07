@@ -11,23 +11,46 @@ import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust-logo.png';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+import getDeepLinkForTrustWallet from './services/trustDeepLinkService';
 
 
-class App extends Component {
+class NotConnectedPage extends Component {
+    constructor(props) {
+	super(props);
+	this.state = {
+	    deepLink: ''
+	};
+	this._getDeepLink();
+    }
 
-    _renderNotConnected() {
+
+    async _getDeepLink() {
+	const { url: deepLink } = await getDeepLinkForTrustWallet(window.location.href);
+	this.setState({deepLink});
+    }
+    
+    render() {
         return (
             <div style={{ alignContent: 'center' }}>
               <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
               <div style={styles.title}>You need wallet to receive Ethereum</div>
               <div style={styles.instructionsContainer}>
                 <div style={styles.instructionsText}>1. Go to the <div style={styles.linkText}>App Store</div> or <div style={styles.linkText}>Google Play</div> to get Trust wallet.</div>
-                <div style={styles.instructionsText}>2. Return here and follow the link</div>
+                <div style={styles.instructionsText}>2. Return here and follow the <a style={styles.linkText} href={this.state.deepLink}>link</a></div>
                 <div style={styles.supported}>Supported wallets</div>
                 <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
               </div>
             </div>
         );
+    }
+}
+
+
+class App extends Component {
+
+    _renderNotConnected() {
+	const trustWalletDeepLink = getDeepLinkForTrustWallet(ETH2PHONE_HOST);
+	return <NotConnectedPage/>
 	
     }
 
