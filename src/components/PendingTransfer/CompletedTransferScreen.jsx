@@ -1,12 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ButtonPrimary from './../common/ButtonPrimary';
 import copy from 'copy-to-clipboard';
 const ETH2PHONE_HOST = 'https://eth2phone.github.io';
 
 
-export const CompletedSentScreen = ({ phone, secretCode, amount}) => {
+export const CompletedSentScreen = connect(
+    state => ({	networkId: state.web3Data.networkId})
+)(({ phone, secretCode, amount, networkId}) => {
     const phoneNumberWithoutPlus = phone.substring(1); // remove '+' from number
-    const shareLink = `${ETH2PHONE_HOST}/#/receive?code=${secretCode}&phone=${phoneNumberWithoutPlus}`;
+    let shareLink = `${ETH2PHONE_HOST}/#/receive?code=${secretCode}&phone=${phoneNumberWithoutPlus}`;
+
+    // add network id to url params if not mainnet
+    if (networkId != "1") {
+	shareLink += `&chainId=${networkId}`;
+    }
     return (
 	<div>
 	  <div style={{ fontSize: 18, marginBottom: 17 }}>
@@ -29,8 +37,8 @@ export const CompletedSentScreen = ({ phone, secretCode, amount}) => {
 	  </div>
 	</div>
     );
-}
-
+    }
+)
 
 export const CompletedReceivedScreen = ({ receiverAddress, amount, txHash}) => {
     const etherscanLink = `https://ropsten.etherscan.io/tx/${txHash}`;
