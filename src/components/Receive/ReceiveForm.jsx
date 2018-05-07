@@ -36,11 +36,12 @@ class Tab extends Component {
 	    phoneIsValid
 	};
 
-	console.log(this.phoneParams)
+
 	
 	this.secretCode = queryParams.code;
-	this.networkId = queryParams.chainId || 1;	
-	
+	this.networkId = queryParams.chainId || "1";	
+
+	console.log(this)
         this.state = {
             errorMessage: "",
 	    step: 'confirm-details'
@@ -50,7 +51,7 @@ class Tab extends Component {
     async _sendSmsToPhone() {
 	try {
 
-	    if (this.networkId && this.networkId !== this.props.networkId) {
+	    if (this.networkId && this.networkId != this.props.networkId) {
 		const networkNeeded = getNetworkNameById(this.networkId);
 		const currentNetwork = getNetworkNameById(this.props.networkId);
 		const msg = `Transfer is for ${networkNeeded} network, but you are on ${currentNetwork} network`;
