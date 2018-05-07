@@ -6,6 +6,7 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import CheckBox from './../common/CheckBox';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
+import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -23,11 +24,16 @@ class Tab extends Component {
     async _sendTransfer() {
         try {
             // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
-            const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
             let phone = this.phoneNumber.state.formattedNumber;
+
             // remove formatting from phone number
             phone = "+" + phone.replace(/\D+/g, "");
 
+	    const formatter = new asYouType();
+	    formatter.input(phone);
+	    
+	    const phoneCode = formatter.country_phone_code;
+	    
             // check amount
             if (this.state.amount <= 0) {
 		throw new Error("Amount should be more than 0");				
@@ -38,7 +44,7 @@ class Tab extends Component {
 		throw new Error("Phone number is invalid");		
             };
 
-	    
+	    console.log({phone, phoneCode});
             const transfer = await this.props.sendTransfer({
                 amount: this.state.amount,
                 phone,
@@ -63,7 +69,7 @@ class Tab extends Component {
 	// sending transfer
 	setTimeout(() => {  // let ui update
             this._sendTransfer();
-	}, 0);
+	}, 500);
     };
 
     _renderForm() {
