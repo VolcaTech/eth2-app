@@ -11,7 +11,6 @@ const updateWeb3Details = (payload) => {
 }
 
 
-
 export const updateBalance = () => {
     return async (dispatch, getState) => {
 	const state = getState();
@@ -27,6 +26,7 @@ export const updateBalance = () => {
     }
 }
 
+
 export const setupWeb3 = (address) => {
     return async (dispatch, getState) => {
 	try { 
@@ -38,8 +38,13 @@ export const setupWeb3 = (address) => {
 		networkName,
 		networkId
 	    } = await web3Service.setup();
-	    
-	    await escrowContract.setup(web3);
+
+	    try { 
+		await escrowContract.setup(web3);
+	    } catch(err) {
+		console.log("Error while setupping contract");
+		console.log(err);
+	    }
 
 	    dispatch(updateWeb3Details({
 		balance,

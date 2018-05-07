@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Web3StatusBar from './components/common/Web3StatusBar';
 import web3Service from './services/web3Service';
-import escrowContract from './services/eth2phone/escrowContract';
 import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
@@ -15,6 +14,55 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class App extends Component {
 
+    _renderNotConnected() {
+        return (
+            <div style={{ alignContent: 'center' }}>
+              <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+              <div style={styles.title}>You need wallet to receive Ethereum</div>
+              <div style={styles.instructionsContainer}>
+                <div style={styles.instructionsText}>1. Go to the <div style={styles.linkText}>App Store</div> or <div style={styles.linkText}>Google Play</div> to get Trust wallet.</div>
+                <div style={styles.instructionsText}>2. Return here and follow the link</div>
+                <div style={styles.supported}>Supported wallets</div>
+                <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
+              </div>
+            </div>
+        );
+	
+    }
+
+    _renderWrongNetwork() {
+        return (
+            <div>
+              <div style={{ alignContent: 'center' }}>
+                <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+                <div style={styles.title}>{this.props.networkName} network is not supported</div>
+                <div style={styles.instructionsContainer}>
+                  <div style={styles.instructionsText}>Change network to one of the following:
+		    <div style={styles.ethereum}> - Mainnet Ethereum (ETH)</div>
+		    <div style={styles.ethereum}> - Ropsten</div>			  
+		  </div>                       
+                </div>
+              </div>
+	    </div>
+        );
+    }
+
+    _renderNoAddress() {
+        return (
+            <div>
+              <div style={{ alignContent: 'center' }}>
+                <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+                <div style={styles.title}>No ethereum address is found</div>
+                <div style={styles.instructionsContainer}>
+                  <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
+		  </div>                       
+                </div>
+              </div>
+	    </div>
+        );
+    }
+
+    
     render() {
         if (!this.props.loaded) {
             return (
@@ -25,35 +73,15 @@ class App extends Component {
         }
 
         if (!this.props.connected) {
-            return (
-                <div style={{ alignContent: 'center' }}>
-                    <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-                    <div style={styles.title}>You need wallet to receive Ethereum</div>
-                    <div style={styles.instructionsContainer}>
-                        <div style={styles.instructionsText}>1. Go to the <div style={styles.linkText}>App Store</div> or <div style={styles.linkText}>Google Play</div> to get Trust wallet.</div>
-                        <div style={styles.instructionsText}>2. Return here and follow the link</div>
-                        <div style={styles.supported}>Supported wallets</div>
-                    <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
-                    </div>
-                </div>
-            );
+	    return this._renderNotConnected();
         }
 
-	if ( this.props.networkId != "3" && this.props.networkId != "1") {
-	    return (
-		<div>
-		  Connected to {this.props.networkName} Network.
-		  Only Ropsten is supported at the moment. Please switch to Ropsten Network and reload the page.
-		</div>
-            );
+        if (this.props.networkId != "3" && this.props.networkId != "1") {
+	    return this._renderWrongNetwork();
         }
 
         if (!this.props.address) {
-            return (
-                <div>
-                    No address is provided. Check that Metamask is unlocked and reload the page.
-		</div>
-            );
+	    return this._renderNoAddress();
         }
 
         return (
@@ -80,29 +108,27 @@ class App extends Component {
 const styles = {
     e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },
     trustLogo: { display: 'block', margin: 'auto', marginTop: 150, marginTop: 38 },    
-    title: { fontSize: 18, display: "block", margin: "auto", width: 319, fontFamily: "SF Display Black" },
+    title: { fontSize: 18, display: "block", margin: "auto", width: 319, fontFamily: "SF Display Black", textAlign: 'center' },
     supported: { fontSize: 18, display: "block", margin: "auto", width: 163, marginTop: 61, fontFamily: "SF Display Black" },
     instructionsText: { fontFamily: "SF Display Regular", fontSize: 12, opacity: 0.8 },
     instructionsContainer: { width: 290, height: 41, display: "flex", margin: "auto", textAlign: 'center', verticalAlign: "text-top", marginTop: 33, flexDirection: "column", justifyContent: "space-between" },
-    linkText: { display: "inline-block", fontSize: 12, fontFamily: "SF Display Bold", color: "#0099ff" }
+    linkText: { display: "inline-block", fontSize: 12, fontFamily: "SF Display Bold", color: "#0099ff" },
+    ethereum: { display: "block", fontSize: 12, fontFamily: "SF Display Bold", opacity: 1, marginLeft: 3 }
 }
 
+
 function mapStateToProps(state) {
-    let balance, contractAddress;
+    let balance = null;
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {
-	balance = web3.fromWei(state.web3Data.balance, 'ether').toNumber();
-	balance = balance.toFixed(4);	
+        balance = web3.fromWei(state.web3Data.balance, 'ether').toNumber();
+        balance = balance.toFixed(4);
     }
 
-    if (state.web3Data.connected) {
-	contractAddress = escrowContract.getContractAddress();
-    }
-    
     return {
         address: state.web3Data.address,
-        contractAddress,
-	balance,
+        contractAddress: state.web3Data.address,
+        balance,
         connected: state.web3Data.connected,
         networkId: state.web3Data.networkId,
         networkName: state.web3Data.networkName,
