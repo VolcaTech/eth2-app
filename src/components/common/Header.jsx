@@ -29,6 +29,8 @@ class e2pHeader extends React.Component {
                             <div style={{ width: 55, height: 29, fontFamily: "SF Display Black", color: "black", fontSize: 24, textTransform: 'uppercase', letterSpacing: 3.1, textAlign: 'center', marginTop: 9 }}>
                                 E2P
 		</div>
+        <i class="fa fa-circle" style={{fontSize: 20, color: "black"}}></i>
+        
                         </Link>
                     </Col>
                     <Col xs={4}>
