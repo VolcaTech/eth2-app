@@ -16,11 +16,29 @@ class Tab extends Component {
         this.state = {
             amount: 0,
             errorMessage: "",
+	    disabled: false
         };
     }
 
-    async _sendTransfer({ phone, phoneCode }) {
+    async _sendTransfer() {
         try {
+            // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
+            const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
+            let phone = this.phoneNumber.state.formattedNumber;
+            // remove formatting from phone number
+            phone = "+" + phone.replace(/\D+/g, "");
+
+            // check amount
+            if (this.state.amount <= 0) {
+		throw new Error("Amount should be more than 0");				
+            };
+	    
+            // check that phone number is valid
+            if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
+		throw new Error("Phone number is invalid");		
+            };
+
+	    
             const transfer = await this.props.sendTransfer({
                 amount: this.state.amount,
                 phone,
@@ -31,30 +49,20 @@ class Tab extends Component {
             console.log(err);
             this.setState({ errorMessage: err.message });
         }
+
+	// enabling button
+	this.setState({disabled: false});
     }
-
+    
+    
     _onSubmit() {
-        // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
-        const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
-        let phone = this.phoneNumber.state.formattedNumber;
-        // remove formatting from phone number
-        phone = "+" + phone.replace(/\D+/g, "");
+	// disabling button
+	this.setState({disabled: true});
 
-        // check that phone number is valid
-        // if (!isValidPhoneNumber(phone)) {
-        //     this.setState({ errorMessage: "Phone number is invalid" });
-        //     return null;
-        // };
-
-        // check amount
-        if (this.state.amount <= 0) {
-            this.setState({ errorMessage: "Amount should be more than 0" });
-            return null;
-        };
-
-
-        // this.setState({showPendingTransfer: true, step: 1});	
-        this._sendTransfer({ phone, phoneCode });
+	// sending transfer
+	setTimeout(() => {  // let ui update
+            this._sendTransfer();
+	}, 0);
     };
 
     _renderForm() {
@@ -80,7 +88,11 @@ class Tab extends Component {
                     <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
                 </div>
                 <div style={{marginBottom: 28}}>
-                    <ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.blue}>
+                  <ButtonPrimary
+		     handleClick={this._onSubmit.bind(this)}
+		     buttonColor={e2pColors.blue}
+		     disabled={this.state.disabled}
+		     >		    
                       Send
 		    </ButtonPrimary>
                 </div>
