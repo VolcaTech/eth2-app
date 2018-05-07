@@ -48,10 +48,11 @@ class Tab extends Component {
         } catch (err) {
             console.log(err);
             this.setState({ errorMessage: err.message });
+	    
+	    // enabling button
+	    this.setState({disabled: false});
         }
 
-	// enabling button
-	this.setState({disabled: false});
     }
     
     
