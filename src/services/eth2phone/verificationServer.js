@@ -1,37 +1,40 @@
 import Promise from "bluebird";
 import sha3 from 'solidity-sha3';
-const SERVER_URL =  'http://ropsten.eth2phone.com';
-
+import urlGetter from './serverUrl';
 
 export const registerTransfer = ({transferId, phoneHash,
-				  transitAddress, transitKeystore}) => {
-    // data sent to server
-    const data =  {
-	transferId,
-	phoneHash,
-	transitAddress,
-	transitKeystore
-    };
+				  transitAddress, transitKeystore}) =>
     
-    return fetch(`${SERVER_URL}/api/v1/sender/register-transfer`, { 
-        method: 'POST', 
-        headers: {
-            'Accept': 'application/json',
-      	    'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)	
-    }).then((response)  => response.json());
-}
+    {
+	const serverUrl = urlGetter.getServerUrl();	
+	// data sent to server
+	const data =  {
+	    transferId,
+	    phoneHash,
+	    transitAddress,
+	    transitKeystore
+	};
+	
+	return fetch(`${serverUrl}/api/v1/sender/register-transfer`, { 
+            method: 'POST', 
+            headers: {
+		'Accept': 'application/json',
+      		'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)	
+	}).then((response)  => response.json());
+    }
 
 
 export const claimPhone = ({transferId, phone, dialCode, salt}) => {
+	const serverUrl = urlGetter.getServerUrl();    
     	const data =  { 
      	    transferId,
 	    phone,
 	    salt,
 	    dialCode
       	};
-    	return fetch(`${SERVER_URL}/api/v1/receiver/claim-transfer`, { 
+    	return fetch(`${serverUrl}/api/v1/receiver/claim-transfer`, { 
             method: 'POST', 
             headers: {
         	'Accept': 'application/json',
@@ -43,13 +46,14 @@ export const claimPhone = ({transferId, phone, dialCode, salt}) => {
 
 
 export const verifyPhone = ({transferId, phone, dialCode, smsCode}) => {
+    const serverUrl = urlGetter.getServerUrl();    
     const data =  {
      	transferId,
 	phone,
 	dialCode,
      	code: smsCode
     };
-    return fetch(`${SERVER_URL}/api/v1/receiver/verify-sms`, { 
+    return fetch(`${serverUrl}/api/v1/receiver/verify-sms`, { 
         method: 'POST', 
         headers: {
             'Accept': 'application/json',
@@ -61,6 +65,7 @@ export const verifyPhone = ({transferId, phone, dialCode, smsCode}) => {
 
 
 export const confirmTx = (transferId, receiverAddress, v, r, s) => {
+    const serverUrl = urlGetter.getServerUrl();    
     const data =  { 
      	transferId,
      	receiverAddress,
@@ -69,7 +74,7 @@ export const confirmTx = (transferId, receiverAddress, v, r, s) => {
      	s
     };
     
-    return fetch(`${SERVER_URL}/api/v1/receiver/confirm-transfer`, { 
+    return fetch(`${serverUrl}/api/v1/receiver/confirm-transfer`, { 
         method: 'POST', 
         headers: {
             'Accept': 'application/json',

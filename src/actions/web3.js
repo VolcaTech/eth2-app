@@ -1,5 +1,6 @@
 import web3Service from "../services/web3Service";
 import escrowContract from "../services/eth2phone/escrowContract";
+import verificationUrlGetter from "../services/eth2phone/serverUrl";
 import * as actionTypes from './types';
 
 
@@ -18,7 +19,6 @@ export const updateBalance = () => {
 
 	const web3 = web3Service.getWeb3();
 	const balance = await web3.eth.getBalancePromise(address);
-	console.log("got balance", balance)
 	dispatch({
 	    type: actionTypes.UPDATE_BALANCE,
 	    payload: { balance } 
@@ -41,6 +41,7 @@ export const setupWeb3 = (address) => {
 
 	    try { 
 		await escrowContract.setup(web3);
+		verificationUrlGetter.setNetwork(networkId);
 	    } catch(err) {
 		console.log("Error while setupping contract");
 		console.log(err);
