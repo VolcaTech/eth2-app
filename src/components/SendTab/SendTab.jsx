@@ -10,13 +10,6 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
-function WrongNetworkMessage() {
-    return (
-        <div>At this stage of the project we only support Ropsten network. Please switch to Ropsten in your web3 network provider.</div>
-    );
-}
-
-
 class Tab extends Component {
     constructor(props) {
         super(props);

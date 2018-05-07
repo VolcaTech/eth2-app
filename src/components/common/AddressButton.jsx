@@ -35,7 +35,7 @@ class e2pAddressButton extends React.Component {
                 padding: 0,
                 paddingTop: 2
             }} onClick={this.props.handleClick}>
-                {this.shortAddress(this.props.address, 4)}
+                {this.shortAddress(this.props.address, 4)}<div class="fa-rectangle" syle={{color: "black"}}></div>
             </Button>
         );
     }
