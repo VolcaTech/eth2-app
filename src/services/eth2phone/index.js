@@ -4,6 +4,7 @@ import * as verificationServer from "./verificationServer";
 import {
     generateKeystoreWithSecret,
     generateTransferId, getSignatureForReceiveAddress } from './utils';
+import { sha3 } from 'web3-utils';
 
 
 export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
@@ -14,10 +15,15 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
 
     // 2. register transfer to Verification Server 
     const transferId = generateTransferId(phoneCode, phone, secretCode);
+
+    // salt hash in order to prevent bruteforce attack in the case if server's database is stolen
+    const salt = sha3(secretCode, phone);
+    const phoneHash = sha3(phone, transferId, salt);
+    
+    
     const result = await verificationServer.registerTransfer({
 	transferId,
-	phone,
-	phoneCode,
+	phoneHash,
 	transitAddress,
 	transitKeystore
     });
@@ -40,15 +46,13 @@ export const getAmountWithCommission = ((amount) => escrowContract.getAmountWith
 export const getWithdrawalEvents = ((address, fromBlock) => escrowContract.getWithdrawalEvents(address, fromBlock));
 
 
-// export const getSentTransfers = () => {
-//     return verifiedProxyContractApi.getSentTransfers();
-// }
-
-
 // ask for confirmation code
 export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
     const transferId = generateTransferId(phoneCode, phone, secretCode);
-    const result = await verificationServer.claimPhone(transferId, phone);
+    // salt hash in order to prevent bruteforce attack in the case if server's database is stolen
+    const salt = sha3(secretCode, phone);
+    
+    const result = await verificationServer.claimPhone({transferId, phone, dialCode: phoneCode, salt});
     if (!result.success) {
 	throw new Error(result.errorMessage);
     }
@@ -62,9 +66,9 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     
     // 1. verify phone by sending confirmation code from sms
     // and get verification keystore 
-    const verResult = await verificationServer.verifyPhone(transferId, phone, smsCode);
+    const verResult = await verificationServer.verifyPhone({transferId, phone, dialCode: phoneCode, smsCode});
     
-    if (!verResult || !verResult.success) {
+    if (!verResult.success) {
 	throw new Error((verResult.errorMessage || "Server error on verification!"));
     }
 	    
@@ -78,11 +82,11 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     // 3. send signed address to server
     const result = await verificationServer.confirmTx(
 	transferId,
-	phone,
 	receiverAddress,
 	v, r, s);
 
-    if (!result && !result.success) {
+    console.log({result});
+    if (!result.success) {
 	throw new Error((result.errorMessage || "Server error on withdrawal!"));
     }
 

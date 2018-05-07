@@ -3,13 +3,12 @@ import sha3 from 'solidity-sha3';
 const SERVER_URL =  'http://ropsten.eth2phone.com';
 
 
-export const registerTransfer = ({transferId, phone, phoneCode,
+export const registerTransfer = ({transferId, phoneHash,
 				  transitAddress, transitKeystore}) => {
     // data sent to server
     const data =  {
 	transferId,
-     	phone,
-	phoneCode,
+	phoneHash,
 	transitAddress,
 	transitKeystore
     };
@@ -25,10 +24,12 @@ export const registerTransfer = ({transferId, phone, phoneCode,
 }
 
 
-export const claimPhone = (transferId, phone) => {
+export const claimPhone = ({transferId, phone, dialCode, salt}) => {
     	const data =  { 
-     	    transferId: transferId,
-	    phone: phone
+     	    transferId,
+	    phone,
+	    salt,
+	    dialCode
       	};
     	return fetch(`${SERVER_URL}/api/v1/receiver/claim-transfer`, { 
             method: 'POST', 
@@ -41,10 +42,11 @@ export const claimPhone = (transferId, phone) => {
 }
 
 
-export const verifyPhone = (transferId, phone, smsCode) => {
+export const verifyPhone = ({transferId, phone, dialCode, smsCode}) => {
     const data =  {
-     	transferId,	
-     	phone,
+     	transferId,
+	phone,
+	dialCode,
      	code: smsCode
     };
     return fetch(`${SERVER_URL}/api/v1/receiver/verify-sms`, { 
@@ -58,11 +60,10 @@ export const verifyPhone = (transferId, phone, smsCode) => {
 }
 
 
-export const confirmTx = (transferId, phone, to, v, r, s) => {
+export const confirmTx = (transferId, receiverAddress, v, r, s) => {
     const data =  { 
-     	phone,
      	transferId,
-     	to,
+     	receiverAddress,
      	v, 
      	r, 
      	s

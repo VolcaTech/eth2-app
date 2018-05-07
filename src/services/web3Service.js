@@ -30,10 +30,8 @@ const Web3Service = () => {
 	}
 	Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 	web3.eth.getTransactionReceiptMined = getTransactionReceiptMined;
-	console.log("got web3");
 	
 	const address = web3.eth.accounts[0];
-	console.log("got address");
 	const balance = await fetchBalance(address);
 	const connected = web3.isConnected();
 	const { networkName, networkId } = detectNetwork(web3);

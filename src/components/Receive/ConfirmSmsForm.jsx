@@ -54,14 +54,16 @@ class ConfirmSmsForm extends Component {
 	    };
 	    console.log({withdrawParams});	    
 	    const transfer = await this.props.withdrawTransfer(withdrawParams);
+	    console.log({transfer});
 	    this.props.history.push(`/transfers/${transfer.id}`);
 	} catch(err) {
+	    console.log({err});
 	    this.setState({ errorMessage: err.message });
 	}	
     }
 
-    _onSubmit() {	
-	this._confirmSmsAndWithdrawTransfer();
+    async _onSubmit() {	
+	await this._confirmSmsAndWithdrawTransfer();
     }
 
     async _sendSmsAgain() {
