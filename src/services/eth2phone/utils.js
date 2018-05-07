@@ -6,7 +6,7 @@ import ksHelper from '../../utils/keystoreHelper';
 
 function generateRandomString(length)
 {
-    var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$@±§*-_";
+    var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     var i;
     var result = "";
     var isOpera = Object.prototype.toString.call(window.opera) == '[object Opera]';
