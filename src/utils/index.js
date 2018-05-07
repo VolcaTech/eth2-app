@@ -1,2 +1,2 @@
 export { getTransactionReceiptMined } from './getTransactionReceiptMined';
-export { detectNetwork, getQueryParams } from './helpers';
+export { detectNetwork, getQueryParams, getNetworkNameById } from './helpers';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 // import { sendTransfer } from '../../actions/transfer';
 import { sendSmsToPhone } from '../../services/eth2phone';
 import NumberInput from './../common/NumberInput';
@@ -8,7 +8,7 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 //import PendingTransfer from './PendingTransfer';
-import { getQueryParams } from '../../utils';
+import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
@@ -39,6 +39,7 @@ class Tab extends Component {
 	console.log(this.phoneParams)
 	
 	this.secretCode = queryParams.code;
+	this.networkId = queryParams.chainId || 1;	
 	
         this.state = {
             errorMessage: "",
@@ -48,6 +49,14 @@ class Tab extends Component {
 
     async _sendSmsToPhone() {
 	try {
+
+	    if (this.networkId && this.networkId !== this.props.networkId) {
+		const networkNeeded = getNetworkNameById(this.networkId);
+		const currentNetwork = getNetworkNameById(this.props.networkId);
+		const msg = `Transfer is for ${networkNeeded} network, but you are on ${currentNetwork} network`;
+		throw new Error(msg);
+	    }
+	    
 	    const result = await sendSmsToPhone({
 	    	phone: this.phoneParams.phone,
 	    	secretCode: this.secretCode,
@@ -109,4 +118,4 @@ const e2pColors = {
 }
 
 
-export default Tab;
+export default connect(state=> ({networkId: state.web3Data.networkId}))(Tab);
