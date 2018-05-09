@@ -79,6 +79,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
 
 const CancelButton = ({transfer, cancelTransfer}) => {
     return (
+        <div style={{width: 147, height: 25}}>
         <Button style={styles.cancelButton} onClick={async () => {
 	      var r = confirm("Are you sure you want to cancel transfer?");
 	      if (r) {
@@ -87,6 +88,7 @@ const CancelButton = ({transfer, cancelTransfer}) => {
 	  }}>
         Cancel
         </Button>
+        </div>
     );
 }
 

@@ -10,6 +10,8 @@ export default {
 	marginBottom: 25
     },
     amount: {
+    width: 93,
+    height: 15,
 	position: 'inline-block',
 	float: 'left',
 	fontSize: 12,
@@ -17,6 +19,8 @@ export default {
 	textTransform: 'uppercase'
     },
     phone: {
+        width: 115,
+    height: 15,
 	position: 'inline-block',
 	textAlign: 'center',
 	fontSize: 12,
@@ -32,8 +36,10 @@ export default {
         backgroundColor: '#f04234',
         color: '#fff',
         fontSize: 18,
+        fontFamily: 'SF Display Black',
         textAlign: 'center',
         padding: 0,
+        lineHeight: 1,
 		    marginRight: 20,
     },
     statusCellContainer: {
@@ -45,7 +51,10 @@ export default {
     statusCell: {
 	container: {
 	    position: 'inline-block',
-	    display: 'flex',
+        display: 'flex',
+        width: 164, 
+        height: 25,
+        paddingLeft: 17,
 	    justifyContent: 'space-between',
 	    alignItems: 'center',
 	},
@@ -73,7 +82,9 @@ export default {
 	    textAlign: 'center',
 	    lineHeight: 1,
 	    fontSize: 13,
-	    paddingTop: 1
+        paddingTop: 1,
+        paddingLeft: 1,
+        fontFamily: 'SF Display Bold'
 	}
     }
 }

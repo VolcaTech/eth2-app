@@ -72,12 +72,18 @@ class Tab extends Component {
         }, 0);
     };
 
+    _numberInputHandlet({target}) {
+        const amount = target.value;
+                                            this.setState({ amount });
+    }
+    
+
     _renderForm() {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
                 <CarouselProvider
-                    naturalSlideWidth={375}
-                    naturalSlideHeight={510}
+                    naturalSlideWidth={window.innerWidth}
+                    naturalSlideHeight={window.innerHeight - 150}
                     totalSlides={2}
                     orientation='vertical'
                     currentSlide={this.state.currentSlide}
@@ -93,14 +99,11 @@ class Tab extends Component {
                                 <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
                                 <div>
                                     <NumberInput
-                                        onChange={({ target }) => {
-                                            const amount = target.value;
-                                            this.setState({ amount });
-                                        }}
+                                        onChange={(target) => (this._numberInputHandlet(target))}
                                         disabled={false}
                                         fontColor='black'
                                         backgroundColor='#fff'
-                                        placeholder="amount (ETH)"
+                                        style={{touchInput: 'manipulation'}}
                                     />
 
                                 </div>
