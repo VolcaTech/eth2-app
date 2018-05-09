@@ -33,7 +33,8 @@ class Tab extends Component {
 	this.phoneParams = {
 	    phone,
 	    phoneCode: formatter.country_phone_code,
-	    phoneIsValid
+	    phoneIsValid,
+	    buttonDisabled: false
 	};
 
 
@@ -66,10 +67,16 @@ class Tab extends Component {
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
+	    // disabling button
+	    this.setState({buttonDisabled: false});	    
 	}
     }
     
-    _onSubmit() {	
+    _onSubmit() {
+	// disabling button
+	this.setState({buttonDisabled: true});
+
+	// sending request for sms-code
 	 this._sendSmsToPhone();
     }
 
@@ -84,7 +91,10 @@ class Tab extends Component {
 		{this.state.errorMessage}
 	      </div>
 	      <div style={{ marginTop: 28 }}>
-		<ButtonPrimary handleClick={this._onSubmit.bind(this)} buttonColor={e2pColors.green}>
+		<ButtonPrimary
+		   handleClick={this._onSubmit.bind(this)}
+		   disabled={this.state.buttonDisabled}		   
+		   buttonColor={e2pColors.green}>
 		  Receive
 	      </ButtonPrimary>
 	      </div>
