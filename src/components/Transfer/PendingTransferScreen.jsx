@@ -13,30 +13,22 @@ const styles = {
 }
 
 
-const PendingReceiveScreen = ({transfer}) => {
-    let title;
-    const phoneNumberWithoutPlus = transfer.receiverPhone.substring(1); // remove '+' from number
-    let shareLink = `${ETH2PHONE_HOST}/#/receive?code=${transfer.secretCode}&phone=${phoneNumberWithoutPlus}`;
-    // add network id to url params if not mainnet
-    if (transfer.networkId != "1") {
-	shareLink += `&chainId=${transfer.networkId}`;
-    }
+const PendingScreen = ({transfer}) => {
+    let titleAction = transfer.status[0].toUpperCase() + transfer.status.substring(1);
     
     return (
 	<div>
-	  <div style={styles.title}>Receiving transfer</div>
+	  <div style={styles.title}>{titleAction} transfer</div>
 	  <div style={styles.text1}>Your <div style={{fontFamily: "SF Display Bold", display: 'inline-block'}}> transaction has been broadcast </div> to the Ethereum network. It’s waiting to be mined and confirmed.</div>
 	  <div style={{marginTop:80}}>
 	    <TxDetailsBox
 	       txHash={transfer.txHash}
 	       networkId={transfer.networkId}
 	       />
-	  </div>
-
-	  
+	  </div>	  
 	</div>
     );
 }
 
 
-export default PendingReceiveScreen;
+export default PendingScreen;

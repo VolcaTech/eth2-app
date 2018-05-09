@@ -6,8 +6,8 @@ import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import CompletedSentScreen from './CompletedSentScreen';
 import CompletedReceivedScreen from './CompletedReceivedScreen';
 import PendingSentScreen from './PendingSentTransfer';
-import PendingReceiveScreen from './PendingReceiveScreen';
-//import CancellingTransferScreen from './CancellingTransferScreen';
+import PendingTransferScreen from './PendingTransferScreen';
+import CancelledTransferScreen from './CancelledTransferScreen';
 
 
 
@@ -22,7 +22,7 @@ class PendingTransfer extends Component {
 	    );
 	case 'receiving':
 	    return (
-		<PendingReceiveScreen transfer={transfer}/>
+		<PendingTransferScreen transfer={transfer}/>
 	    );	    
 	case 'deposited':	    
 	case 'sent':	    
@@ -35,10 +35,15 @@ class PendingTransfer extends Component {
 					 amount={transfer.amount}
 					 txHash={transfer.txHash}/>
 	    );
-	// case 'cancelling':	    
-	//     return (
-	// 	<CancellingTransferScreen transfer={transfer}/>
-	//     );	    	    
+	case 'cancelling':	    
+	    return (
+		<PendingTransferScreen transfer={transfer}/>
+	    );
+	case 'cancelled':	    
+	    return (
+		<CancelledTransferScreen transfer={transfer}/>
+	    );	    	    
+	    
 	default: {
 	    alert("Unknown status: " + transfer.status);
 	}
