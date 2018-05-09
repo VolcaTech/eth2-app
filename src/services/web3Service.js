@@ -18,7 +18,7 @@ const Web3Service = () => {
 	web3.eth.getTransactionReceiptMined = getTransactionReceiptMined;
 	
 	const address = web3.eth.accounts[0];
-	const balance = await web3.eth.getBalancePromise(address);
+	const balance = address ?  await web3.eth.getBalancePromise(address) : 0;
 	const connected = web3.isConnected();
 	const { networkName, networkId } = detectNetwork(web3);
 
