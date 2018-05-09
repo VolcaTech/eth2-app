@@ -78,7 +78,7 @@ const EscrowContractService = () => {
 	getWithdrawalEvents,
 	getAmountWithCommission,
 	cancel,
-	getContractAddress: () => contractInstance.address
+	getContractAddress: () => contractInstance && contractInstance.address
     };
     
 }
