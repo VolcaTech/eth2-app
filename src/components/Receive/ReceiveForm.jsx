@@ -7,6 +7,7 @@ import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
+import Spinner from './../common/Spinner';
 //import PendingTransfer from './PendingTransfer';
 import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
@@ -34,7 +35,6 @@ class Tab extends Component {
 	    phone,
 	    phoneCode: formatter.country_phone_code,
 	    phoneIsValid,
-	    buttonDisabled: false
 	};
 
 
@@ -45,7 +45,8 @@ class Tab extends Component {
 	console.log(this)
         this.state = {
             errorMessage: "",
-	    step: 'confirm-details'
+	    step: 'confirm-details',
+	    fetching: false	    
         };
     }
 
@@ -68,13 +69,13 @@ class Tab extends Component {
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
 	    // disabling button
-	    this.setState({buttonDisabled: false});	    
+	    this.setState({fetching: false});	    
 	}
     }
     
     _onSubmit() {
 	// disabling button
-	this.setState({buttonDisabled: true});
+	this.setState({fetching: true});
 
 	// sending request for sms-code
 	 this._sendSmsToPhone();
@@ -87,13 +88,19 @@ class Tab extends Component {
 	      <div>
 		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
 	      </div>
-	      <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
-		{this.state.errorMessage}
+
+	      <div style={{ height: 28, textAlign: 'center', paddingTop: 8 }}>
+		{ this.state.fetching ?
+		    <Spinner/>:
+		    <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
+		}
+
+		
 	      </div>
 	      <div style={{ marginTop: 28 }}>
 		<ButtonPrimary
 		   handleClick={this._onSubmit.bind(this)}
-		   disabled={this.state.buttonDisabled}		   
+		   disabled={this.state.fetching}		   
 		   buttonColor={e2pColors.green}>
 		  Receive
 	      </ButtonPrimary>
