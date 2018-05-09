@@ -81,6 +81,7 @@ class Tab extends Component {
                     totalSlides={2}
                     orientation='vertical'
                     currentSlide={this.state.currentSlide}
+                    touchEnabled={false}
                 >
                     <div style={this.state.backButtonStyle}>
                         <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={{ fontSize: 16, color: '#0099ff' }}></i></ButtonBack>
