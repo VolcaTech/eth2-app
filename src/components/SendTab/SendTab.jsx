@@ -9,6 +9,7 @@ import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Spinner from './../common/Spinner';
 
 
 class Tab extends Component {
@@ -17,33 +18,12 @@ class Tab extends Component {
         this.state = {
             amount: 0,
             errorMessage: "",
-	    disabled: false
+	    fetching: false
         };
     }
 
-    async _sendTransfer() {
+    async _sendTransfer(phone, phoneCode) {
         try {
-            // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
-            let phone = this.phoneNumber.state.formattedNumber;
-
-            // remove formatting from phone number
-            phone = "+" + phone.replace(/\D+/g, "");
-
-	    const formatter = new asYouType();
-	    formatter.input(phone);
-	    
-	    const phoneCode = formatter.country_phone_code;
-	    
-            // check amount
-            if (this.state.amount <= 0) {
-		throw new Error("Amount should be more than 0");				
-            };
-	    
-            // check that phone number is valid
-            if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-		throw new Error("Phone number is invalid");		
-            };
-
 	    console.log({phone, phoneCode});
             const transfer = await this.props.sendTransfer({
                 amount: this.state.amount,
@@ -53,22 +33,45 @@ class Tab extends Component {
             this.props.history.push(`/transfers/${transfer.id}`);
         } catch (err) {
             console.log(err);
-            this.setState({ errorMessage: err.message });
-	    
-	    // enabling button
-	    this.setState({disabled: false});
+	    let errorMsg = err.message;
+	    if (err.isOperational) errorMsg = "User denied transaction";
+            this.setState({fetching: false, errorMessage: errorMsg });	    
         }
 
     }
     
     
     _onSubmit() {
-	// disabling button
-	this.setState({disabled: true});
 
+        // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
+        let phone = this.phoneNumber.state.formattedNumber;
+
+        // remove formatting from phone number
+        phone = "+" + phone.replace(/\D+/g, "");
+
+	const formatter = new asYouType();
+	formatter.input(phone);
+	
+	const phoneCode = formatter.country_phone_code;
+	
+        // check amount
+        if (this.state.amount <= 0) {
+	    this.setState({fetching:false, errorMessage: "Amount should be more than 0"});	    
+	    return;
+        };
+	
+        // check that phone number is valid
+        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
+	    this.setState({fetching:false, errorMessage: "Phone number is invalid"});
+	    return;
+        };
+
+	// disabling button
+	this.setState({fetching: true});
+	
 	// sending transfer
 	setTimeout(() => {  // let ui update
-            this._sendTransfer();
+            this._sendTransfer(phone, phoneCode);
 	}, 100);
     };
 
@@ -88,22 +91,30 @@ class Tab extends Component {
                     />
 
                 </div>
-                <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
-                    {this.state.errorMessage}
-                </div>
-                <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 25 }}>
+
+
+                <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 25, marginTop:25 }}>
                     <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
                 </div>
-                <div style={{marginBottom: 28}}>
+                <div>
                   <ButtonPrimary
 		     handleClick={this._onSubmit.bind(this)}
 		     buttonColor={e2pColors.blue}
-		     disabled={this.state.disabled}
+		     disabled={this.state.fetching}
 		     >		    
-                      Send
-		    </ButtonPrimary>
+                    Send
+		  </ButtonPrimary>
+		  <div style={{ height: 28, textAlign: 'center'}}>
+		    { this.state.fetching ?
+			<div style={{marginTop:10}}>
+			      <Spinner/>
+			    </div>:
+			    <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
+			    }		
+		  </div>
+		  
                 </div>
-                <div style={{marginBottom: 20}}>
+                <div>
 		  <CheckBox/>
 		</div>
 		<div style={{textAlign: 'center', marginTop:20}}>
