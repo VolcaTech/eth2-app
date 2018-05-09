@@ -4,7 +4,7 @@ import Web3StatusBar from './components/common/Web3StatusBar';
 import web3Service from './services/web3Service';
 import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
-import PendingTransferComponent from './components/PendingTransfer/PendingTransfer';
+import TransferComponent from './components/Transfer';
 import Header from './components/common/Header.jsx';
 import ButtonPrimary from './components/common/ButtonPrimary';
 import HistoryScreen from './components/HistoryScreen';
@@ -122,7 +122,7 @@ class App extends Component {
 		     balance={this.props.balance} />
                     <Switch>
                         <Route exact path="/" component={SendTab} />
-                        <Route exact path="/transfers/:transferId" component={PendingTransferComponent} />
+                        <Route exact path="/transfers/:transferId" component={TransferComponent} />
                         <Route path="/receive" component={ReceiveForm} />
                         <Route path="/history" component={HistoryScreen} />
                     </Switch>

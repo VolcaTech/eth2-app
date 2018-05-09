@@ -5,9 +5,7 @@ import copy from 'copy-to-clipboard';
 const ETH2PHONE_HOST = 'https://eth2phone.github.io';
 
 
-export const CompletedSentScreen = connect(
-    state => ({	networkId: state.web3Data.networkId})
-)(({ phone, secretCode, amount, networkId}) => {
+const CompletedSentScreen = (({ phone, secretCode, amount, networkId}) => {
     const phoneNumberWithoutPlus = phone.substring(1); // remove '+' from number
     let shareLink = `${ETH2PHONE_HOST}/#/receive?code=${secretCode}&phone=${phoneNumberWithoutPlus}`;
 
@@ -40,18 +38,7 @@ export const CompletedSentScreen = connect(
     }
 )
 
-export const CompletedReceivedScreen = ({ receiverAddress, amount, txHash}) => {
-    const etherscanLink = `https://ropsten.etherscan.io/tx/${txHash}`;
-    return (
-	<div>
-	  <div style={{ fontSize: 18, marginBottom: 17 }}>
-	    <div style={{display: 'inline-block', marginRight: 5}}>You have successfully received</div>
-	    <div style={{display: 'inline-block', color: '#2bc64f'}}>{amount} ETH</div>
-	    <div style={{marginTop: 5}}>to: {receiverAddress}</div>
-	  </div>
-	  <div style={{marginTop: 28}}>
-	    <a href={etherscanLink} target="_blank"> Verify on Etherscan </a>
-	  </div>
-	</div>
-    );
-}
+
+export default  connect(
+    state => ({	networkId: state.web3Data.networkId})
+)(CompletedSentScreen);
