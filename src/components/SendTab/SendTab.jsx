@@ -69,7 +69,7 @@ class Tab extends Component {
 	// sending transfer
 	setTimeout(() => {  // let ui update
             this._sendTransfer();
-	}, 500);
+	}, 100);
     };
 
     _renderForm() {
