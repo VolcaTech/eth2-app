@@ -12,7 +12,7 @@ class e2pButtonSmall extends React.Component {
 			borderRadius: 12,
 			borderColor: this.props.buttonColor,
 			backgroundColor: this.props.buttonColor,
-			opacity: this.props.opacity,
+			opacity: this.props.disabled ? 0.1 : 1,
 			color: '#fff',
 			fontSize: 18,
 		    }} onClick={this.props.onClick}

@@ -8,7 +8,6 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import Spinner from './../common/Spinner';
-//import PendingTransfer from './PendingTransfer';
 import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, asYouType } from 'libphonenumber-js';
@@ -60,11 +59,11 @@ class Tab extends Component {
 		throw new Error(msg);
 	    }
 	    
-	    const result = await sendSmsToPhone({
-	    	phone: this.phoneParams.phone,
-	    	secretCode: this.secretCode,
-	    	phoneCode: this.phoneParams.phoneCode
-	    });
+	    // const result = await sendSmsToPhone({
+	    // 	phone: this.phoneParams.phone,
+	    // 	secretCode: this.secretCode,
+	    // 	phoneCode: this.phoneParams.phoneCode
+	    // });
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
