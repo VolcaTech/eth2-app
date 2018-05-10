@@ -100,7 +100,9 @@ class ConfirmSmsForm extends Component {
               <NumberInput type='tel' placeholder="Code from SMS" onChange={({target}) => this.setState({ smsCode: target.value })} />
 	      <div style={{ height: 28, textAlign: 'center', paddingTop: 8 }}>
 		{ this.state.fetching ?
-		    <Spinner/>:
+		    <div style={{width: 20, margin: 'auto'}}>
+			  <Spinner/>
+			</div> :
 		    <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
 		}		
 		</div>
