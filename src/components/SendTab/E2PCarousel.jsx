@@ -90,7 +90,7 @@ class E2PCarousel extends Component {
             <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
               <CarouselProvider
                  naturalSlideWidth={window.innerWidth}
-                 naturalSlideHeight={window.innerHeight - 130}
+                 naturalSlideHeight={window.INITIAL_HEIGHT - 130}
                  totalSlides={2}
                  orientation='vertical'
                  currentSlide={this.state.currentSlide}

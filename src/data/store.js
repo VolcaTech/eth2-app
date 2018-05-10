@@ -22,6 +22,7 @@ const enhancers = compose(applyMiddleware(thunk));
 const store = createStore(persistedReducer, undefined, enhancers);
 
 persistStore(store, null, async () => {   
+    window.INITIAL_HEIGHT = window.innerHeight;
     
     // setup web3 data
     await store.dispatch(setupWeb3());
@@ -34,6 +35,9 @@ persistStore(store, null, async () => {
 
     // subscribe for account changes
     store.dispatch(setupWeb3ChangeListener());
+
+    
+    
 });
 
 

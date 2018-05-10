@@ -97,7 +97,7 @@ class ConfirmSmsForm extends Component {
 	    <div>
 	      <div style={{ height: 28, width: 224, margin: 'auto', marginBottom: 46, display: 'block', textAlign: 'center', fontSize: 12 }}>Eth2phone allows to send Ether to anybody using phone number</div>
 	      <div style={{ height: 22, width: 286, display: 'block', margin: 'auto', marginBottom: 28, textAlign: 'center', fontSize: 18 }}>Enter SMS code you've received</div>
-              <NumberInput placeholder="Code from SMS" onChange={({target}) => this.setState({ smsCode: target.value })} />
+              <NumberInput type='tel' placeholder="Code from SMS" onChange={({target}) => this.setState({ smsCode: target.value })} />
 	      <div style={{ height: 28, textAlign: 'center', paddingTop: 8 }}>
 		{ this.state.fetching ?
 		    <Spinner/>:

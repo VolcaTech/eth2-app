@@ -7,7 +7,9 @@ class e2pInput extends React.Component {
         return (
             <FormControl
 	       onChange={this.props.onChange}
-	       disabled={this.props.disabled} type="number" style={{
+	       disabled={this.props.disabled}
+	       componentClass='input'
+	       type={this.props.type || "number"} style={{
                 width: 290,
                 height: 38,
                 borderRadius: 12,
