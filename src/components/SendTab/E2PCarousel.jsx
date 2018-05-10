@@ -4,10 +4,56 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 const styles = {
-    backButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center', marginTop: 14 },
-    nextButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center' },
-    backButtonTitle: { width: 250, height: 15, margin: 'auto', marginTop: 15, display: 'block', textAlign: 'center', fontSize: 12, fontFamily: 'SF Display Bold', opacity: 0.4 },
-    nextButtonTitle: { width: 250, height: 23, margin: 'auto', paddingTop: 3, display: 'block', textAlign: 'center', fontSize: 14, fontFamily: 'SF Display Bold' },
+    backButton: {
+	display: 'block',
+	margin: 'auto',
+	textAlign: 'center',
+    },
+    nextButton: {
+	display: 'block',
+	textAlign: 'center',
+	margin: '0px auto auto'
+    },
+    nextButtonIcon: {
+	display: 'inline',	
+	borderRadius: 16,
+	borderWidth: 0,
+	backgroundColor: '#f5f5f5',
+	fontSize: 16,
+	color: '#0099ff',
+	padding: '4px 7px 4px 7px',
+    },    
+    backButtonIcon: {
+	borderRadius: 16,
+	borderWidth: 0,
+	backgroundColor: '#f5f5f5',
+	fontSize: 16,
+	color: '#0099ff',
+	padding: '4px 7px 4px 7px'	
+    },    
+    backButtonTitle: {
+	marginTop: 14,	
+	width: 250,
+	height: 15,
+	margin: '15px auto auto',
+	display: 'block',
+	textAlign: 'center',
+	display: 'block',
+	fontSize: 12,
+	fontFamily: 'SF Display Bold',
+	opacity: 0.4
+    },
+    nextButtonTitle: {
+	// width: 250,
+	// height: 23,
+	// margin: 'auto',
+	// paddingTop: 3,
+	// display: 'block',
+	// textAlign: 'center',
+	fontSize: 14,
+	fontFamily: 'SF Display Bold',
+	marginRight: 7
+    },
     buttonHidden: { width: 0, height: 0, overflow: 'hidden' },    
     infoIcon: {
 	width: 18,
@@ -52,17 +98,21 @@ class E2PCarousel extends Component {
 		 dragEnabled={false}
                  >
 		<div style={this.state.backButtonStyle}>
-                  <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={{ fontSize: 16, color: '#0099ff' }}></i></ButtonBack>
+                  <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
                   <div style={styles.backButtonTitle}>Back</div>
+		  </ButtonBack>
+
                 </div>		
                 <Slider>
 		  { Slides }
                 </Slider>
 
               <div style={this.state.nextButtonStyle}>
-                <div style={{width: 162, height: 23, display: 'flex', margin: 'auto', marginBottom: 26,}}>
-                  <div style={styles.nextButtonTitle}>Recent transactions</div>
-                  <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}><i className="fas fa-angle-down" style={{ fontSize: 16, marginTop: 3, color: '#0099ff' }}></i></ButtonNext>
+                <div style={{height: 23, margin: 'auto', marginBottom: 26,}}>
+                  <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>		    
+		    <span style={styles.nextButtonTitle}>Recent transactions</span>
+		    <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+		  </ButtonNext>
                 </div>
               </div>                    
               </CarouselProvider>
