@@ -1,6 +1,5 @@
 export default {
     row: {
-	width: 334,
 	height: 24,
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -10,17 +9,16 @@ export default {
 	marginBottom: 25
     },
     amount: {
-    width: 93,
-    height: 15,
-	position: 'inline-block',
-	float: 'left',
+	flex: 2,
+	height: 15,
+	textAlign: 'center',
 	fontSize: 12,
 	fontFamily: 'SF Display Bold',
 	textTransform: 'uppercase'
     },
     phone: {
-        width: 115,
-    height: 15,
+	flex: 2,
+	height: 15,
 	position: 'inline-block',
 	textAlign: 'center',
 	fontSize: 12,
@@ -28,6 +26,12 @@ export default {
 	textTransform: 'uppercase',
 	opacity: 0.4
     },
+    statusCellContainer: {
+	flex: 3,
+    },
+    infoLinkContainer: {
+	flex: 1
+    },        
     cancelButton: {
         width: 84,	
         height: 24,
@@ -40,51 +44,34 @@ export default {
         textAlign: 'center',
         padding: 0,
         lineHeight: 1,
-		    marginRight: 20,
-    },
-    statusCellContainer: {
-	position: 'inline-block',
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
     },
     statusCell: {
-	container: {
-	    position: 'inline-block',
-        display: 'flex',
-        width: 164, 
-        height: 25,
-        paddingLeft: 17,
-	    justifyContent: 'space-between',
-	    alignItems: 'center',
+	container: {	    
+            height: 25,
+            paddingLeft: 17,
 	},
-	statusText: {
-	    textAlign: 'center',
-	    float: 'right',
+	statusText: {	    
 	    fontSize: 18,
-	    marginRight: 20,
 	},
-	pendingStatusText: {
-	    textAlign: 'center',
-	    float: 'right',
+	pendingStatusText: {	    
 	    fontSize: 18,
-	    marginRight: 20,	    
 	    color: '#33aeff',
 	    opacity: 0.4,
 	    fontFamily: "SF Display Black"		       	    
 	},
 	infoIcon: {
-	    width: 18,
 	    height: 18,
 	    border: '2px solid #33aeff',
 	    color: '#33aeff',
-	    borderRadius: 9,
+	    borderRadius: 12,
 	    textAlign: 'center',
+	    marginRight: 15,
 	    lineHeight: 1,
-	    fontSize: 13,
-        paddingTop: 1,
-        paddingLeft: 1,
-        fontFamily: 'SF Display Bold'
+	    fontSize: 15,
+            paddingTop: 1,
+            paddingLeft: 8,
+            paddingRight: 8,	    
+            fontFamily: 'SF Display Bold'
 	}
     }
 }
