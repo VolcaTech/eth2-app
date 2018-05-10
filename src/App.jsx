@@ -151,7 +151,6 @@ function mapStateToProps(state) {
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {
         balance = web3.fromWei(state.web3Data.balance, 'ether').toNumber();
-        balance = balance.toFixed(4);
     }
 
     if (state.web3Data.connected) {

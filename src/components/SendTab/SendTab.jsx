@@ -14,8 +14,28 @@ import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './E2PCarousel';
 
 const styles = {
-    title: { width: 309, height: 48, display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', marginBottom: 14, marginTop: 27 },
-    text1: { width: 252, height: 68, display: 'block', margin: 'auto', fontSize: 14, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 36 },
+    title: {
+	width: 309,
+	height: 48,
+	display: 'block',
+	margin: 'auto',
+	fontSize: 18,
+	fontFamily: 'SF Display Black',
+	textAlign: 'center',
+	marginBottom: 14,
+	marginTop: 27
+    },
+    text1: {
+	width: 252,
+	height: 68,
+	display: 'block',
+	margin: 'auto',
+	fontSize: 14,
+	lineHeight: '17px',
+	fontFamily: 'SF Display Regular',
+	textAlign: 'center',
+	marginBottom: 36
+    },
     blue: '#0099ff'
 }
 
@@ -104,8 +124,7 @@ class Tab extends Component {
             <div>
               <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
               <div style={styles.text1}>You can send ether to any person,
-		verifying him by phone number.<br/>
-		He could then receive the assets using
+		verifying him by phone number.<br/>He could then receive the assets using
 		special link and any Ethereum address.</div>
               <div>
                 <NumberInput
@@ -138,15 +157,19 @@ class Tab extends Component {
 	    }
   </div>
 </div>
-
 </div>
 	);
     }
 
     render() {
 	const SendForm = this._renderForm();
+	const History = (
+	    <div style={{marginTop: 56}}>
+	      <HistoryScreen/>
+	    </div>
+	);
         return (
-	    <E2PCarousel slides={[SendForm, HistoryScreen]}/>
+	    <E2PCarousel slides={[SendForm, History ]}/>
 	);
     }
 }

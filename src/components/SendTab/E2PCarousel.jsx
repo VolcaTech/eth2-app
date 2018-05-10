@@ -36,7 +36,7 @@ class E2PCarousel extends Component {
     
     render() {
 	const Slides = this.props.slides.map((slideComponent, index) => {
-	    return (<Slide index={index}>{slideComponent}</Slide>);
+	    return (<Slide key={index} index={index}>{slideComponent}</Slide>);
 	});
 
 	
