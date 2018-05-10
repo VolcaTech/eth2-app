@@ -81,7 +81,7 @@ class e2pHeader extends React.Component {
 
 const HeaderDetails = ({ height, address, contract, networkName, networkId, balance }) => {
     return (
-        <div style={{ height: height, width: "100%", paddingBottom: 17, paddingLeft: 15, overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
+        <div style={{ height: height, width: "100%", paddingLeft: 15, overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
             <div>
                 <div style={styles.headerDetailsGrey}>
                     ADDRESS
