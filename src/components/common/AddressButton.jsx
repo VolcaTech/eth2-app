@@ -23,7 +23,8 @@ class e2pAddressButton extends React.Component {
     render() {
         return (
             <Button style={{
-			//width: 100,
+            //width: 100,
+            width: 85,
 			height: 22,
 			borderRadius: 6,
 			borderWidth: 2,
@@ -38,8 +39,8 @@ class e2pAddressButton extends React.Component {
 			paddingRight:5
 			
             }} onClick={this.props.handleClick}>
-              <span>{this.shortAddress(this.props.address, 4)}</span>
-	      { this.props.networkId != "1" ? <span> ({this.props.networkName})</span> : null }
+              <span>{this.shortAddress(this.props.address, 3)}</span>
+	      {/* { this.props.networkId != "1" ? <span> ({this.props.networkName})</span> : null } */}
 	      <i className={this.props.active ? 'fa fa-caret-up' : 'fa fa-caret-down'} style={{marginLeft: 5}}></i>
             </Button>
         );

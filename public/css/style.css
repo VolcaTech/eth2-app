@@ -115,6 +115,7 @@ input[type="radio"]:checked {
   padding-top: 1px;  
 }
 
+<<<<<<< HEAD
 
 /* FETCHING SPINNER */
 .lds-spinner {
@@ -210,3 +211,19 @@ li:focus,
 *:focus, * {
     outline: none !important;
 }
+
+::-webkit-input-placeholder { /* Chrome */
+    color: red;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: red;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: red;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: red;
+    opacity: 1;
+  }
+

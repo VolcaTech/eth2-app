@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
 import { connect } from 'react-redux';
 import { sendTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
@@ -13,6 +11,13 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Spinner from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
+import E2PCarousel from './E2PCarousel';
+
+const styles = {
+    title: { width: 309, height: 48, display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', marginBottom: 14, marginTop: 27 },
+    text1: { width: 252, height: 68, display: 'block', margin: 'auto', fontSize: 14, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 36 },
+    blue: '#0099ff'
+}
 
 
 class Tab extends Component {
@@ -22,9 +27,6 @@ class Tab extends Component {
             amount: 0,
             errorMessage: "",
 	    fetching: false,
-            currentSlide: 0,
-            nextButtonStyle: {},
-            backButtonStyle: styles.buttonHidden
         };
     }
 
@@ -62,7 +64,7 @@ class Tab extends Component {
 
     }
 
-
+    
     _onSubmit() {
 
         // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
@@ -98,101 +100,55 @@ class Tab extends Component {
     };
 
     _renderForm() {
-       return (	
-	       <div>
-	       <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
-	       <div>
-	       <NumberInput
-           onChange={({ target }) => {
-               const amount = target.value;
-               this.setState({ amount });
-           }}
-           disabled={false}
-           fontColor='black'
-           backgroundColor='#fff'
-           placeholder="amount (ETH)"
-               />
-	   
-	   </div>
-	       <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginTop: 28, marginBottom: 28 }}>
-               <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
-	   </div>
-	   
-	       <div>
-               <ButtonPrimary
-	   handleClick={this._onSubmit.bind(this)}
-	   buttonColor={e2pColors.blue}
-	   disabled={this.state.fetching}
-	       >		    
-           Send
-	   </ButtonPrimary>
-	       <div style={{ height: 28, textAlign: 'center'}}>
-	   { this.state.fetching ?
-	     <div style={{marginTop:10}}>
-	     <Spinner/>
-	     </div>:
-	     <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
-	   }		
-	   </div>	
-	   </div>
-	   
-	       <div style={{}}>
-               <CheckBox />
-	   </div>
-	   </div> 
-       );
+        return (
+            <div>
+              <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
+              <div style={styles.text1}>You can send ether to any person,
+		verifying him by phone number.<br/>
+		He could then receive the assets using
+		special link and any Ethereum address.</div>
+              <div>
+                <NumberInput
+                   onChange={({target}) => (this.setState({amount: target.value}))}
+                  disabled={false}
+                  fontColor='#000000'
+                  backgroundColor='#fff'
+                  style={{ touchInput: 'manipulation' }}
+                  placeholder="ETH amount"
+                  />
+</div>
+<div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 19, marginTop: 19 }}>
+  <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+</div>
+
+<div>
+  <ButtonPrimary
+     handleClick={this._onSubmit.bind(this)}
+     buttonColor={styles.blue}
+     disabled={this.state.fetching}
+     >
+    Send
+  </ButtonPrimary>
+  <div style={{ height: 28, textAlign: 'center', marginTop: 10}}>
+    { this.state.fetching ?
+	<div style={{width: 20, margin: 'auto'}}>
+	      <Spinner/>
+	    </div>:
+	    <span style={{color: '#ef4234', fontSize: 12}}>{this.state.errorMessage}</span>
+	    }
+  </div>
+</div>
+
+</div>
+	);
     }
 
     render() {
+	const SendForm = this._renderForm();
         return (
-	    <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}>
-              <CarouselProvider
-                 naturalSlideWidth={window.innerWidth}
-                 naturalSlideHeight={window.innerHeight - 150}
-                 totalSlides={2}
-                 orientation='vertical'
-                 currentSlide={this.state.currentSlide}
-		 touchEnabled={false}
-		 dragEnabled={false}
-                 >
-
-		<div style={this.state.backButtonStyle}>
-                  <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={{ fontSize: 16, color: '#0099ff' }}></i></ButtonBack>
-		  <div style={styles.backButtonTitle}>Back</div>
-		</div>
-
-		<Slider>
-		  <Slide index={0}>			
-		    {this._renderForm()}
-		  </Slide>
-		  <Slide index={1}>
-		    <HistoryScreen />
-		  </Slide>		  
-		</Slider>
-		
-		<div style={this.state.nextButtonStyle}>
-		  <div style={styles.nextButtonTitle}>Transaction history</div>
-		  <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}><i className="fas fa-angle-down" style={{ fontSize: 16, marginTop: 3, color: '#0099ff' }}></i></ButtonNext>
-		</div>
-
-		
-	      </CarouselProvider>
-	    </div>
-        );
+	    <E2PCarousel slides={[SendForm, HistoryScreen]}/>
+	);
     }
-}
-
-const styles = {
-    backButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center', marginTop: 14 },
-    nextButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center', marginBottom: 24 },
-    backButtonTitle: { width: 250, height: 15, margin: 'auto', marginTop: 15, marginBottom: 55, display: 'block', textAlign: 'center', fontSize: 12, fontFamily: 'SF Display Bold', opacity: 0.4 },
-    nextButtonTitle: { width: 250, height: 15, margin: 'auto', marginBottom: 15, display: 'block', textAlign: 'center', fontSize: 12, fontFamily: 'SF Display Bold', opacity: 0.4 },
-    buttonHidden: { width: 0, height: 0, overflow: 'hidden' },
-}
-
-const e2pColors = {
-    blue: '#0099ff',
-    green: '#2bc64f'
 }
 
 
