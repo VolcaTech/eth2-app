@@ -72,18 +72,18 @@ class Tab extends Component {
         }, 0);
     };
 
-    _numberInputHandlet({target}) {
+    _numberInputHandlet({ target }) {
         const amount = target.value;
-                                            this.setState({ amount });
+        this.setState({ amount });
     }
-    
+
 
     _renderForm() {
         return (
             <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
                 <CarouselProvider
                     naturalSlideWidth={window.innerWidth}
-                    naturalSlideHeight={window.innerHeight - 150}
+                    naturalSlideHeight={window.innerHeight - 280}
                     totalSlides={2}
                     orientation='vertical'
                     currentSlide={this.state.currentSlide}
@@ -96,18 +96,23 @@ class Tab extends Component {
                     <Slider>
                         <Slide index={0}>
                             <div>
-                                <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
+                                <div style={styles.title}>Send Ethereum to everyone.<br />Easy. Secure. No wallet needed.</div>
+                                <div style={styles.text1}>You can send Ether to any person,
+verifying him by phone number.<br/>
+He could then receive the assets using
+special link and any Ethereum address.</div>
                                 <div>
                                     <NumberInput
                                         onChange={(target) => (this._numberInputHandlet(target))}
                                         disabled={false}
-                                        fontColor='black'
+                                        fontColor='rgba(0, 0, 0, 0.2)'
                                         backgroundColor='#fff'
-                                        style={{touchInput: 'manipulation'}}
+                                        style={{ touchInput: 'manipulation' }}
+                                        placeholder="ETH amount"
                                     />
 
                                 </div>
-                                <div style={{ height: 28, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
+                                <div style={{ height: 21, color: '#ef4234', fontSize: 9, textAlign: 'center', paddingTop: 8 }}>
                                     {this.state.errorMessage}
                                 </div>
                                 <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 25 }}>
@@ -122,18 +127,22 @@ class Tab extends Component {
                                         Send
 		                            </ButtonPrimary>
                                 </div>
-                                <div style={{}}>
-                                    <CheckBox />
-                                </div>
                             </div>
                         </Slide>
                         <Slide index={1}><HistoryScreen />
                         </Slide>
                     </Slider>
                     <div style={this.state.nextButtonStyle}>
-                        <div style={styles.nextButtonTitle}>Transaction history</div>
+                    <div style={{width: 162, heigh: 23, display: 'flex', margin: 'auto', marginBottom: 53,}}>
+                        <div style={styles.nextButtonTitle}>Recent transactions</div>
                         <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}><i className="fas fa-angle-down" style={{ fontSize: 16, marginTop: 3, color: '#0099ff' }}></i></ButtonNext>
                     </div>
+                    <div style={{width: 175, height: 18, display: 'flex', margin: 'auto', justifyContent: 'space-between', fontSize: 14, fontFamily: 'SF Display Bold', color: '#0099ff'}}>
+                    <div style={styles.infoIcon}>i</div><div>More about Eth2Phone
+                    </div>                           
+                        </div>   
+                    </div>
+                                     
                 </CarouselProvider>
             </div>
         );
@@ -150,10 +159,24 @@ class Tab extends Component {
 
 const styles = {
     backButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center', marginTop: 14 },
-    nextButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center', marginBottom: 24 },
+    nextButton: { display: 'block', margin: 'auto', width: 23, height: 23, borderRadius: 12, borderWidth: 0, backgroundColor: '#f5f5f5', textAlign: 'center' },
     backButtonTitle: { width: 250, height: 15, margin: 'auto', marginTop: 15, marginBottom: 55, display: 'block', textAlign: 'center', fontSize: 12, fontFamily: 'SF Display Bold', opacity: 0.4 },
-    nextButtonTitle: { width: 250, height: 15, margin: 'auto', marginBottom: 15, display: 'block', textAlign: 'center', fontSize: 12, fontFamily: 'SF Display Bold', opacity: 0.4 },
+    nextButtonTitle: { width: 250, height: 23, margin: 'auto', paddingTop: 3, display: 'block', textAlign: 'center', fontSize: 14, fontFamily: 'SF Display Bold' },
     buttonHidden: { width: 0, height: 0, overflow: 'hidden' },
+    title: { width: 309, height: 48, display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', marginBottom: 14, marginTop: 27 },
+    text1: { width: 252, height: 68, display: 'block', margin: 'auto', fontSize: 14, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 36 },
+    infoIcon: {
+	    width: 18,
+        height: 18,
+        marginTop: 1,
+	    border: '2px solid #33aeff',
+	    color: '#33aeff',
+	    borderRadius: 9,
+	    textAlign: 'center',
+	    lineHeight: 1,
+	    fontSize: 14,
+        fontFamily: 'SF Display Bold'
+	}
 }
 
 const e2pColors = {

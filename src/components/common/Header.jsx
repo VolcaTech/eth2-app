@@ -22,19 +22,18 @@ class e2pHeader extends React.Component {
 
     render() {
         return (
-            <div style={{borderBottom: '1px solid #f5f5f5'}}>
+            <div>
                 <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
-                    <Col xs={3}>
+                    <Col xs={6}>
                         <Link style={{ textDecoration: 'none' }} to="/">
-                            <div style={{ width: 55, height: 29, fontFamily: "SF Display Black", color: "black", fontSize: 24, textTransform: 'uppercase', letterSpacing: 3.1, textAlign: 'center', marginTop: 9 }}>
-                                E2P
-		</div>
+                            <div style={{ width: 55, height: 29, fontFamily: "SF Display Black", color: "black", fontSize: 24, letterSpacing: 1, textAlign: 'center', marginTop: 9 }}>
+                                Eth2<div style={{letterSpacing: 0, display: 'inline', color: '#2bc64f'}}>Phone</div></div>
 
         
                         </Link>
                     </Col>
-                    <Col xs={6}>
-                        <div style={{ marginTop: 13, textAlign: 'center' }}>
+                    <Col style={{display: 'flex'}} xs={6}>
+                        <div style={{ marginTop: 13, marginRight: 10, textAlign: 'center' }}>
 			  
                           <AddressButton
 			     className={'addressButton'}
@@ -48,8 +47,7 @@ class e2pHeader extends React.Component {
 			    })}
 			    address={this.props.address} />                             
                         </div>
-                    </Col>
-                    <Col xs={3} style={{paddingLeft:0}}>
+
                         <div style={{ right: 0, marginTop: 16, float: 'right', fontFamily: "SF Display Bold" }}>
                             <div style={{ float: "left", fontSize: 12 }}>
                                 {this.props.balance}
