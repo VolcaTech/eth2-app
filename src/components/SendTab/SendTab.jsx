@@ -107,9 +107,6 @@ class Tab extends Component {
                const amount = target.value;
                this.setState({ amount });
            }}
-
-	   onClick={(params) => console.log({params})}          
-	   onFocus={(params) => console.log({params})}
            disabled={false}
            fontColor='black'
            backgroundColor='#fff'
@@ -164,18 +161,14 @@ class Tab extends Component {
 		  <div style={styles.backButtonTitle}>Back</div>
 		</div>
 
-		
 		<Slider>
 		  <Slide index={0}>			
 		    {this._renderForm()}
 		  </Slide>
-		  
 		  <Slide index={1}>
 		    <HistoryScreen />
-		  </Slide>
-		  
+		  </Slide>		  
 		</Slider>
-
 		
 		<div style={this.state.nextButtonStyle}>
 		  <div style={styles.nextButtonTitle}>Transaction history</div>
