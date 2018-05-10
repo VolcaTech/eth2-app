@@ -15,6 +15,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import getDeepLinkForTrustWallet from './services/trustDeepLinkService';
 
 
+
 class NotConnectedPage extends Component {
     constructor(props) {
 	super(props);
@@ -52,6 +53,7 @@ class NotConnectedPage extends Component {
 
 
 class App extends Component {
+    
 
     _renderNotConnected() {
 	return <NotConnectedPage/>;	
