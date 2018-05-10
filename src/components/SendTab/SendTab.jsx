@@ -98,93 +98,93 @@ class Tab extends Component {
     };
 
     _renderForm() {
-        return (
-	    <div>
-		<div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <CarouselProvider
-                     naturalSlideWidth={375}
-                    naturalSlideHeight={510}
-                    totalSlides={2}
-                    orientation='vertical'
-                    currentSlide={this.state.currentSlide}
-                    touchEnabled={false}
-                >
-                    <div style={this.state.backButtonStyle}>
-                        <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={{ fontSize: 16, color: '#0099ff' }}></i></ButtonBack>
-                        <div style={styles.backButtonTitle}>Back</div>
-                    </div>
-                    <Slider>
-                        <Slide index={0}>
-                            <div>
-                                <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
-                                <div>
-                                    <NumberInput
-                                        onChange={({ target }) => {
-                                            const amount = target.value;
-                                            this.setState({ amount });
-                                        }}
-                                        disabled={false}
-                                        fontColor='black'
-                                        backgroundColor='#fff'
-                                        placeholder="amount (ETH)"
-                                    />
+       return (	
+	       <div>
+	       <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
+	       <div>
+	       <NumberInput
+           onChange={({ target }) => {
+               const amount = target.value;
+               this.setState({ amount });
+           }}
 
-                                </div>
-                                <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 25 }}>
-                                  <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
-                                </div>
-				
-                <div>
-                  <ButtonPrimary
-		     handleClick={this._onSubmit.bind(this)}
-		     buttonColor={e2pColors.blue}
-		     disabled={this.state.fetching}
-		     >		    
-                    Send
-		  </ButtonPrimary>
-		  <div style={{ height: 28, textAlign: 'center'}}>
-		    { this.state.fetching ?
-			<div style={{marginTop:10}}>
-			      <Spinner/>
-			    </div>:
-			    <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
-			    }		
-		  </div>
-		  
-                </div>
-		
-                <div style={{ marginBottom: 28 }}>
-                  <ButtonPrimary
-                     handleClick={this._onSubmit.bind(this)}
-                     buttonColor={e2pColors.blue}
-                     disabled={this.state.disabled}
-                     >
-                    Send
-		  </ButtonPrimary>
-                </div>
-                                <div style={{}}>
-                                  <CheckBox />
-                                </div>
-                            </div>
-                        </Slide>
-                        <Slide index={1}><HistoryScreen />
-                        </Slide>
-                    </Slider>
-                    <div style={this.state.nextButtonStyle}>
-                        <div style={styles.nextButtonTitle}>Transaction history</div>
-                        <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}><i className="fas fa-angle-down" style={{ fontSize: 16, marginTop: 3, color: '#0099ff' }}></i></ButtonNext>
-                    </div>
-</CarouselProvider>
-</div>
-</div>
-        );
+	   onClick={(params) => console.log({params})}          
+	   onFocus={(params) => console.log({params})}
+           disabled={false}
+           fontColor='black'
+           backgroundColor='#fff'
+           placeholder="amount (ETH)"
+               />
+	   
+	   </div>
+	       <div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginTop: 28, marginBottom: 28 }}>
+               <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+	   </div>
+	   
+	       <div>
+               <ButtonPrimary
+	   handleClick={this._onSubmit.bind(this)}
+	   buttonColor={e2pColors.blue}
+	   disabled={this.state.fetching}
+	       >		    
+           Send
+	   </ButtonPrimary>
+	       <div style={{ height: 28, textAlign: 'center'}}>
+	   { this.state.fetching ?
+	     <div style={{marginTop:10}}>
+	     <Spinner/>
+	     </div>:
+	     <span style={{color: '#ef4234', fontSize: 9}}>{this.state.errorMessage}</span>
+	   }		
+	   </div>	
+	   </div>
+	   
+	       <div style={{}}>
+               <CheckBox />
+	   </div>
+	   </div> 
+       );
     }
 
     render() {
         return (
-            <div style={{ alignContent: 'center' }}>
-                {this._renderForm()}
-            </div>
+	    <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}>
+              <CarouselProvider
+                 naturalSlideWidth={window.innerWidth}
+                 naturalSlideHeight={window.innerHeight - 150}
+                 totalSlides={2}
+                 orientation='vertical'
+                 currentSlide={this.state.currentSlide}
+		 touchEnabled={false}
+		 dragEnabled={false}
+                 >
+
+		<div style={this.state.backButtonStyle}>
+                  <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} ><i className="fas fa-angle-up" style={{ fontSize: 16, color: '#0099ff' }}></i></ButtonBack>
+		  <div style={styles.backButtonTitle}>Back</div>
+		</div>
+
+		
+		<Slider>
+		  <Slide index={0}>			
+		    {this._renderForm()}
+		  </Slide>
+		  
+		  <Slide index={1}>
+		    <HistoryScreen />
+		  </Slide>
+		  
+		</Slider>
+
+		
+		<div style={this.state.nextButtonStyle}>
+		  <div style={styles.nextButtonTitle}>Transaction history</div>
+		  <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}><i className="fas fa-angle-down" style={{ fontSize: 16, marginTop: 3, color: '#0099ff' }}></i></ButtonNext>
+		</div>
+
+		
+	      </CarouselProvider>
+	    </div>
         );
     }
 }
