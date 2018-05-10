@@ -52,23 +52,6 @@ class Tab extends Component {
 
     async _sendTransfer(phone, phoneCode) {
         try {
-            // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
-            const phoneCode = this.phoneNumber.state.selectedCountry.dialCode;
-            let phone = this.phoneNumber.state.formattedNumber;
-            // remove formatting from phone number
-            phone = "+" + phone.replace(/\D+/g, "");
-
-            // check amount
-            if (this.state.amount <= 0) {
-                throw new Error("Amount should be more than 0");
-            };
-
-            // check that phone number is valid
-            if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-                throw new Error("Phone number is invalid");
-            };
-
-
             const transfer = await this.props.sendTransfer({
                 amount: this.state.amount,
                 phone,
