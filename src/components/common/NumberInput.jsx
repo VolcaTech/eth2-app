@@ -10,7 +10,7 @@ class e2pInput extends React.Component {
 	       disabled={this.props.disabled}
 	       componentClass='input'
 	       type={this.props.type || "number"} style={{
-                width: 290,
+                width: '100%',
                 height: 38,
                 borderRadius: 12,
                 border: '2px solid #f5f5f5',
@@ -22,7 +22,8 @@ class e2pInput extends React.Component {
                 display: 'block', 
                 margin: 'auto',
                 fontFamily: "SF Display Bold",                 
-                color: this.props.fontColor
+                color: this.props.fontColor,
+                WebkitBoxShadow: 'none'
             }} placeholder={this.props.placeholder}>
             </FormControl>
         );
