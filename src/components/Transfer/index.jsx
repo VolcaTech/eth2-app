@@ -10,13 +10,16 @@ import PendingTransferScreen from './PendingTransferScreen';
 import CancelledTransferScreen from './CancelledTransferScreen';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
-
+import TxErrorScreen from './TxErrorScreen';
 
 
 class PendingTransfer extends Component {
     _renderStepsContent() {
         const { transfer, currentStep } = this.props;
-
+	if (transfer.isError) {
+	    return (<TxErrorScreen transfer={transfer}/>);
+	}
+	
         switch (transfer.status) {
             case 'depositing':
                 return (
@@ -45,7 +48,6 @@ class PendingTransfer extends Component {
                 return (
                     <CancelledTransferScreen transfer={transfer} />
                 );
-
             default: {
                 alert("Unknown status: " + transfer.status);
             }

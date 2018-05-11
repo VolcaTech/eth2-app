@@ -7,7 +7,14 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 const StatusCell = ({transfer, cancelTransfer}) => {
-
+    if (transfer.isError) {
+        return (
+            <div style={styles.statusCell.container}>
+              <div style={{...styles.statusCell.pendingStatusText, color: 'red'}}>Error</div>
+	    </div>	    
+        );	    
+    }
+    
     switch (transfer.status) {
     case "depositing":
         return (
@@ -27,8 +34,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
     case "sent":
         return (
             <div style={styles.statusCell.container}>
-              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Sent</div>
-              
+              <div style={{...styles.statusCell.statusText, color: '#33aeff'}}>Sent</div>              
 	    </div>
 	);
         break;		
