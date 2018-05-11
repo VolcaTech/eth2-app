@@ -93,7 +93,7 @@ class E2PCarousel extends Component {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
         let height = window.INITIAL_HEIGHT - 130;
-        if (this.state.currentSlide === 1) height = (this.props.transfers.length * 50 + 50);
+        if (this.state.currentSlide === 1) height = (this.props.transfers.length * 50 + 100);
 
 
         return (

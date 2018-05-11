@@ -23,7 +23,7 @@ class CompletedSentScreen extends Component {
                     <div style={{ display: 'inline-block', color: '#2bc64f' }}>{transfer.amount} ETH</div>
                     <div>to&nbsp;<div style={{ display: 'inline-block', color: '#0099ff' }}>{transfer.receiverPhone}</div></div>
                 </div>
-                <div style={{ display: 'block', margin: 'auto', width: '100%' }}>
+                <div style={{ display: 'block', margin: 'auto', width: '78%' }}>
                     <ButtonPrimary buttonColor='#0099ff' handleClick={() => {
                         // copy share link to clipboard
                         copy(shareLink);
