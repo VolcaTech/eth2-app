@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import { sendTransfer } from '../../actions/transfer';
+import { Row, Col } from 'react-bootstrap';
 import { sendSmsToPhone } from '../../services/eth2phone';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
@@ -120,15 +119,17 @@ class Tab extends Component {
 	    phone: this.phoneParams.phone
 	};
         return (
-            <div className="col-sm-4 col-sm-offset-4" style={{ alignContent: 'center' }}>
-              <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
-	      
-	      <div>
-		{ this.state.step === 'confirm-details' ?
+	    <Row>
+              <Col sm={4} smOffset={4}>	
+		<div style={{ alignContent: 'center' }}>
+		  <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>		  
+		  <div>
+		    { this.state.step === 'confirm-details' ?
 		    this._renderConfirmDetailsForm() : <ConfirmSmsForm {...props}/> }
-	      </div>
-	      
-            </div>
+		  </div>		  
+		</div>
+	      </Col>
+	    </Row>
         );
     }
 }

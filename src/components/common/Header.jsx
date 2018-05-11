@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import AddressButton from './AddressButton';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { Button } from 'react-bootstrap';
-
 
 
 class e2pHeader extends React.Component {

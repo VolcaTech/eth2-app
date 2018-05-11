@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
 import { sendTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
@@ -12,6 +13,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Spinner from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
+
 
 const styles = {
     title: {
@@ -112,7 +114,8 @@ class Tab extends Component {
 
     _renderForm() {
         return (
-            <div className="col-sm-4 col-sm-offset-4">
+	    <Row>
+              <Col sm={4} smOffset={4}>
                 <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
                 <div style={styles.text1}>You can send ether to anyone using just a phone number. Person receives the assets to any Ethereum address with a special link.</div>
         <div style={{height: 155, display: 'flex', margin: 'auto', flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -147,7 +150,8 @@ class Tab extends Component {
                     </div>
                 </div>
                 </div>
-            </div>
+            </Col>
+	    </Row>
         );
     }
 
