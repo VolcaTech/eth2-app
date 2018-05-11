@@ -14,6 +14,7 @@ import TxErrorScreen from './TxErrorScreen';
 
 
 class PendingTransfer extends Component {
+    
     _renderStepsContent() {
         const { transfer, currentStep } = this.props;
 	if (transfer.isError) {
@@ -87,7 +88,7 @@ class PendingTransfer extends Component {
         )
 
         return (
-            <div><E2PCarousel slides={[TransferScreen, History]} /></div>
+            <div><E2PCarousel slides={[TransferScreen, History]} {...this.props} /></div>
         );
 
     }

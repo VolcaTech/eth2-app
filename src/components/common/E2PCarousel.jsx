@@ -87,8 +87,23 @@ class E2PCarousel extends Component {
         };
     }
 
+    
+    componentWillReceiveProps(nextProps) {
+	// slide up screen from history on change
+	if (nextProps.location !== this.props.location) {	    
+	    this._clickBackButton();
+	}
+    }
+
+    _clickBackButton() {
+	this.setState({
+	    currentSlide: 0,
+	    backButtonStyle: styles.buttonHidden,
+	    nextButtonStyle: {marginTop: 10}
+	});
+    }
+    
     render() {
-        console.log("CAROUSEL: ", this.props.transfers.length)
         const Slides = this.props.slides.map((slideComponent, index) => {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
@@ -108,7 +123,7 @@ class E2PCarousel extends Component {
                     dragEnabled={false}
                 >
                     <div style={this.state.backButtonStyle}>
-                        <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {marginTop: 10} })} style={styles.backButton} >
+                      <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
                             <div style={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
                                 <div style={styles.backButtonTitle}>Back</div>
                                 <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
