@@ -88,6 +88,13 @@ class Tab extends Component {
             return;
         };
 
+	// check amount maximum
+        if (this.state.amount > 1) {
+            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
+            return;
+        };
+
+	
         // check that phone number is valid
         if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
             this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
