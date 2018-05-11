@@ -47,7 +47,7 @@ class e2pHeader extends React.Component {
                                         networkName={this.props.networkName}
                                         networkId={this.props.networkId}
                                         handleClick={() => this.setState({
-                                            height: this.state.showDetails ? 0 : '127',
+                                            height: this.state.showDetails ? 0 : '137',
                                             showDetails: !this.state.showDetails
                                         })}
                                         address={this.props.address} />
@@ -81,8 +81,8 @@ class e2pHeader extends React.Component {
 
 const HeaderDetails = ({ height, address, contract, networkName, networkId, balance }) => {
     return (
-        <div style={{ height: height, width: "100%", paddingBottom: 17, paddingLeft: 15, overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
-            <div>
+        <div style={{ height: height, width: "100%", paddingLeft: 15, overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
+            <div style={{marginTop: 8}}>
                 <div style={styles.headerDetailsGrey}>
                     ADDRESS
 	      </div>
@@ -98,7 +98,7 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                     {contract}
                 </div>
             </div>
-            <div style={{display: 'flex', flexDirection: 'row', width: '72%', justifyContent: 'space-between'}}>
+            <div style={{display: 'flex', flexDirection: 'row', width: '72%', justifyContent: 'space-between', marginBottom: 17}}>
             <div>
                 <div style={styles.headerDetailsGrey}>
                     NETWORK

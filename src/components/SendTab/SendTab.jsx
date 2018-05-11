@@ -15,26 +15,27 @@ import E2PCarousel from './E2PCarousel';
 
 const styles = {
     title: {
-	width: 309,
-	height: 48,
-	display: 'block',
-	margin: 'auto',
-	fontSize: 18,
-	fontFamily: 'SF Display Black',
-	textAlign: 'center',
-	marginBottom: 14,
-	marginTop: 27
+        width: '90%',
+        height: 48,
+        display: 'block',
+        margin: 'auto',
+        fontSize: 22,
+        lineHeight: 1,
+        fontFamily: 'SF Display Black',
+        textAlign: 'center',
+        marginBottom: 14,
+        marginTop: 27
     },
     text1: {
-	width: 252,
-	height: 68,
-	display: 'block',
-	margin: 'auto',
-	fontSize: 14,
-	lineHeight: '17px',
-	fontFamily: 'SF Display Regular',
-	textAlign: 'center',
-	marginBottom: 36
+        width: '85%',
+        height: 68,
+        display: 'block',
+        margin: 'auto',
+        fontSize: 15,
+        lineHeight: '17px',
+        fontFamily: 'SF Display Regular',
+        textAlign: 'center',
+        marginBottom: 36
     },
     blue: '#0099ff'
 }
@@ -46,7 +47,7 @@ class Tab extends Component {
         this.state = {
             amount: 0,
             errorMessage: "",
-	    fetching: false,
+            fetching: false,
         };
     }
 
@@ -77,14 +78,14 @@ class Tab extends Component {
             this.props.history.push(`/transfers/${transfer.id}`);
         } catch (err) {
             console.log(err);
-	    let errorMsg = err.message;
-	    if (err.isOperational) errorMsg = "User denied transaction";
-            this.setState({fetching: false, errorMessage: errorMsg });	    
+            let errorMsg = err.message;
+            if (err.isOperational) errorMsg = "User denied transaction";
+            this.setState({ fetching: false, errorMessage: errorMsg });
         }
 
     }
 
-    
+
     _onSubmit() {
 
         // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
@@ -93,84 +94,83 @@ class Tab extends Component {
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
 
-	const formatter = new asYouType();
-	formatter.input(phone);
-	
-	const phoneCode = formatter.country_phone_code;
-	
+        const formatter = new asYouType();
+        formatter.input(phone);
+
+        const phoneCode = formatter.country_phone_code;
+
         // check amount
         if (this.state.amount <= 0) {
-	    this.setState({fetching:false, errorMessage: "Amount should be more than 0"});	    
-	    return;
-        };
-	
-        // check that phone number is valid
-        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-	    this.setState({fetching:false, errorMessage: "Phone number is invalid"});
-	    return;
+            this.setState({ fetching: false, errorMessage: "Amount should be more than 0" });
+            return;
         };
 
-	// disabling button
-	this.setState({fetching: true});
-	
-	// sending transfer
-	setTimeout(() => {  // let ui update
+        // check that phone number is valid
+        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
+            this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
+            return;
+        };
+
+        // disabling button
+        this.setState({ fetching: true });
+
+        // sending transfer
+        setTimeout(() => {  // let ui update
             this._sendTransfer(phone, phoneCode);
-	}, 100);
+        }, 100);
     };
 
     _renderForm() {
         return (
             <div>
-              <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
-              <div style={styles.text1}>You can send ether to any person,
-		verifying him by phone number.<br/>He could then receive the assets using
-		special link and any Ethereum address.</div>
-              <div>
-                <NumberInput
-                   onChange={({target}) => (this.setState({amount: target.value}))}
-                  disabled={false}
-                  fontColor='#000000'
-                  backgroundColor='#fff'
-                  style={{ touchInput: 'manipulation' }}
-                  placeholder="ETH amount"
-                  />
-</div>
-<div style={{ display: 'block', margin: 'auto', width: 295, height: 39, marginBottom: 19, marginTop: 19 }}>
-  <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
-</div>
-
-<div>
-  <ButtonPrimary
-     handleClick={this._onSubmit.bind(this)}
-     buttonColor={styles.blue}
-     disabled={this.state.fetching}
-     >
-    Send
-  </ButtonPrimary>
-  <div style={{ height: 28, textAlign: 'center', marginTop: 10}}>
-    { this.state.fetching ?
-	<div style={{width: 20, margin: 'auto'}}>
-	      <Spinner/>
-	    </div>:
-	    <span style={{color: '#ef4234', fontSize: 12}}>{this.state.errorMessage}</span>
-	    }
-  </div>
-</div>
-</div>
-	);
+                <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
+                <div style={styles.text1}>You can send ether to anyone using just a phone number. Person receives the assets to any Ethereum address with a special link.</div>
+        <div style={{height: 155, display: 'flex', margin: 'auto', flexDirection: 'column', justifyContent: 'space-between'}}>
+                <div>
+                    <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+                </div>
+                <div style={{ display: 'block', margin: 'auto', width: '78%', height: 39, marginBottom: 19, marginTop: 19 }}>
+                    <NumberInput
+                        onChange={({ target }) => (this.setState({ amount: target.value }))}
+                        disabled={false}
+                        fontColor='#000000'
+                        backgroundColor='#fff'
+                        style={{ touchInput: 'manipulation' }}
+                        placeholder="ETH amount"
+                    />
+                </div>
+                <div style={{width: '78%', display: 'block', margin: 'auto'}}>
+                    <ButtonPrimary
+                        handleClick={this._onSubmit.bind(this)}
+                        buttonColor={styles.blue}
+                        disabled={this.state.fetching}
+                    >
+                        Send
+                    </ButtonPrimary>
+                    <div style={{ height: 28, textAlign: 'center', marginTop: 10 }}>
+                        {this.state.fetching ?
+                            <div style={{ width: 20, margin: 'auto' }}>
+                                <Spinner />
+                            </div> :
+                            <span style={{ color: '#ef4234', fontSize: 12 }}>{this.state.errorMessage}</span>
+                        }
+                    </div>
+                </div>
+                </div>
+            </div>
+        );
     }
 
     render() {
-	const SendForm = this._renderForm();
-	const History = (
-	    <div style={{marginTop: 56}}>
-	      <HistoryScreen/>
-	    </div>
-	);
+        const SendForm = this._renderForm();
+        const History = (
+            <div style={{ marginTop: 56 }}>
+                <HistoryScreen />
+            </div>
+        );
         return (
-	    <E2PCarousel slides={[SendForm, History ]}/>
-	);
+            <E2PCarousel slides={[SendForm, History]} />
+        );
     }
 }
 
