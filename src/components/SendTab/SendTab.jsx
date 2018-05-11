@@ -112,7 +112,7 @@ class Tab extends Component {
 
     _renderForm() {
         return (
-            <div>
+            <div className="col-sm-4 col-sm-offset-4">
                 <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
                 <div style={styles.text1}>You can send ether to anyone using just a phone number. Person receives the assets to any Ethereum address with a special link.</div>
         <div style={{height: 155, display: 'flex', margin: 'auto', flexDirection: 'column', justifyContent: 'space-between'}}>

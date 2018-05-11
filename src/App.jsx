@@ -93,10 +93,11 @@ class App extends Component {
 
     
     render() {
+
         if (!this.props.loaded) {
             return (
-                <div>
-                    Loading web3...
+                <div className='centered-lds'>
+		  <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
 		</div>
             );
         }

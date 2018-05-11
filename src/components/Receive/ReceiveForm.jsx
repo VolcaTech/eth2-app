@@ -120,7 +120,7 @@ class Tab extends Component {
 	    phone: this.phoneParams.phone
 	};
         return (
-            <div style={{ alignContent: 'center' }}>
+            <div className="col-sm-4 col-sm-offset-4" style={{ alignContent: 'center' }}>
               <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>
 	      
 	      <div>
