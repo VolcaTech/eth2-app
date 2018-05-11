@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
+import {  getTransfersForActiveAddress } from './../../data/selectors';
 
 const styles = {
     backButton: {
@@ -80,22 +82,25 @@ class E2PCarousel extends Component {
         super(props);
         this.state = {
             currentSlide: 0,
-            nextButtonStyle: {},
+            nextButtonStyle: {marginTop: 10},
             backButtonStyle: styles.buttonHidden
         };
     }
 
     render() {
+        console.log("CAROUSEL: ", this.props.transfers.length)
         const Slides = this.props.slides.map((slideComponent, index) => {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
+        let height = window.INITIAL_HEIGHT - 130;
+        if (this.state.currentSlide === 1) height = (this.props.transfers.length * 50 + 50);
 
 
         return (
             <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
                 <CarouselProvider
                     naturalSlideWidth={window.innerWidth}
-                    naturalSlideHeight={window.INITIAL_HEIGHT - 130}
+                    naturalSlideHeight={height}
                     totalSlides={2}
                     orientation='vertical'
                     currentSlide={this.state.currentSlide}
@@ -103,7 +108,7 @@ class E2PCarousel extends Component {
                     dragEnabled={false}
                 >
                     <div style={this.state.backButtonStyle}>
-                        <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {} })} style={styles.backButton} >
+                        <ButtonBack onClick={() => this.setState({ currentSlide: 0, backButtonStyle: styles.buttonHidden, nextButtonStyle: {marginTop: 10} })} style={styles.backButton} >
                             <div style={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
                                 <div style={styles.backButtonTitle}>Back</div>
                                 <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
@@ -135,5 +140,12 @@ class E2PCarousel extends Component {
 //   </div>                           
 // </div>   
 
+function mapStateToProps(state) {
+    console.log({state});
+    return {
+        transfers: getTransfersForActiveAddress(state)
+    };
+}
 
-export default E2PCarousel;
+
+export default connect(mapStateToProps)(E2PCarousel);
