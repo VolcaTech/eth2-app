@@ -2,10 +2,6 @@ import { attr, Model } from 'redux-orm';
 import * as actions  from '../../../actions/types';
 
 
-// export const generateAssetTransferId = ({txHash, address, tokenAddress, direction}) => {
-//     return [txHash.toLowerCase(), address.toLowerCase(), tokenAddress.toLowerCase(), direction].join('-');
-// }
-
 export default class AssetTransfer extends Model {
     static modelName = 'Transfer';
     static fields = {
@@ -22,21 +18,15 @@ export default class AssetTransfer extends Model {
 	transitAddress: attr(),
 	receiverPhone: attr(),
 	receiverAddress: attr(),
-	status:  attr() // pending, sent, completed, canceled, error	
+	status:  attr(), // pending, sent, completed, canceled,
+	isError: attr() // if last tx is error
     }
     
     static reducer(action, model) {
 	switch (action.type) {
 	case actions.CREATE_TRANSFER: {
-	    const transfer = action.payload;
-	    
-	    // force address to be lowercased
-	    // transfer.address = transfer.address.toLowerCase();
-	    // transfer.tokenAddress = transfer.tokenAddress.toLowerCase();
-	    // transfer.counterpartyAddress = transfer.counterpartyAddress.toLowerCase();
-	    
-	    model.create(transfer);	    	 
-	    
+	    const transfer = action.payload;	    	    
+	    model.create(transfer);	    	 	    
 	    return undefined;
 	}
 	case actions.UPDATE_TRANSFER: {
@@ -45,9 +35,6 @@ export default class AssetTransfer extends Model {
 
 	    return undefined;
 	}
-	// case actions.DELETE_ASSET_TRANSFER: {
-	//     return model.withId(action.payload).delete();
-	// }
 	default:
 	    return undefined;
 	}

@@ -29,8 +29,11 @@ const subscribePendingTransferMined = (transfer, nextStatus, txHash) => {
     return async (dispatch, getState) => {
 	const web3 = web3Service.getWeb3();
 	const txReceipt = await web3.eth.getTransactionReceiptMined(txHash || transfer.txHash);
+	console.log({txReceipt});
+	const isError = (!(txReceipt.status === "0x1" && txReceipt.logs.length > 0));
 	dispatch(updateTransfer({
 	    status: nextStatus,
+	    isError,
 	    id: transfer.id
 	}));
 
