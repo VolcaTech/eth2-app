@@ -8,7 +8,7 @@ class HistoryScreen extends React.Component {
 
     render() {
         return (
-            <div style={{paddingTop: 0, height: 600}}>
+            <div style={{paddingTop: 0, height: 600, paddingBottom: 30}}>
               {this.props.transfers.map(transfer => <HistoryRow transfer={transfer} key={transfer.id}/>)}
             </div>
         );
