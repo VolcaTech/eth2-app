@@ -11,7 +11,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Spinner from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
-import E2PCarousel from './E2PCarousel';
+import E2PCarousel from './../common/E2PCarousel';
 
 const styles = {
     title: {

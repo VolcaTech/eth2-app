@@ -8,71 +8,86 @@ import CompletedReceivedScreen from './CompletedReceivedScreen';
 import PendingSentScreen from './PendingSentTransfer';
 import PendingTransferScreen from './PendingTransferScreen';
 import CancelledTransferScreen from './CancelledTransferScreen';
+import HistoryScreen from './../HistoryScreen';
+import E2PCarousel from './../common/E2PCarousel';
 
 
 
 class PendingTransfer extends Component {
     _renderStepsContent() {
-	const { transfer, currentStep } = this.props;
+        const { transfer, currentStep } = this.props;
 
-	switch (transfer.status) {
-	case 'depositing':
-	    return (
-		<PendingSentScreen transfer={transfer}/>
-	    );
-	case 'receiving':
-	    return (
-		<PendingTransferScreen transfer={transfer}/>
-	    );	    
-	case 'deposited':	    
-	case 'sent':	    
-	    return (
-		<CompletedSentScreen transfer={transfer}/>
-	    );	    
-	case 'received':	    
-	    return (
-		<CompletedReceivedScreen receiverAddress={transfer.receiverAddress}
-					 amount={transfer.amount}
-					 txHash={transfer.txHash}/>
-	    );
-	case 'cancelling':	    
-	    return (
-		<PendingTransferScreen transfer={transfer}/>
-	    );
-	case 'cancelled':	    
-	    return (
-		<CancelledTransferScreen transfer={transfer}/>
-	    );	    	    
-	    
-	default: {
-	    alert("Unknown status: " + transfer.status);
-	}
-	}
+        switch (transfer.status) {
+            case 'depositing':
+                return (
+                    <PendingSentScreen transfer={transfer} />
+                );
+            case 'receiving':
+                return (
+                    <PendingTransferScreen transfer={transfer} />
+                );
+            case 'deposited':
+            case 'sent':
+                return (
+                    <CompletedSentScreen transfer={transfer} />
+                );
+            case 'received':
+                return (
+                    <CompletedReceivedScreen receiverAddress={transfer.receiverAddress}
+                        amount={transfer.amount}
+                        txHash={transfer.txHash} />
+                );
+            case 'cancelling':
+                return (
+                    <PendingTransferScreen transfer={transfer} />
+                );
+            case 'cancelled':
+                return (
+                    <CancelledTransferScreen transfer={transfer} />
+                );
+
+            default: {
+                alert("Unknown status: " + transfer.status);
+            }
+        }
     }
-    
-    render() {
-	const { transfer, currentStep, error } = this.props;
-	console.log({ transfer, currentStep });
 
-	if (error) {
-	    return (<div style={{color: 'red'}}>{error}</div>);
-	}
-	
-	return (
-            <div style={{ alignContent: 'center' }}>
-              <div><img src={e2pLogo} style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28 }} /></div>	      
-	      
-	      <div>
-		<div style={{ marginBottom: 57 }}>
-		  <TransferStepsBar step={currentStep} />
-		</div>
-		<div style={{ textAlign: 'center' }}>
-		  {this._renderStepsContent()}
-		</div>	      
-	      </div>
-	    </div>
-	);
-	
+    render() {
+        const { transfer, currentStep, error } = this.props;
+        console.log({ transfer, currentStep });
+
+        if (error) {
+            return (<div style={{ color: 'red' }}>{error}</div>);
+        }
+
+        const History = (
+            <div style={{ marginTop: 25 }}>
+                <HistoryScreen />
+            </div>
+        );
+
+        const TransferScreen = (
+            <div>        
+        <div style={{ alignContent: 'center' }}>
+            <div style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28, width: 30 }}><img src={e2pLogo} /></div>
+
+            <div>
+                <div style={{ marginBottom: 57 }}>
+                    <TransferStepsBar step={currentStep} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    {this._renderStepsContent()}
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        )
+
+        return (
+            <div><E2PCarousel slides={[TransferScreen, History]} /></div>
+        );
+
     }
 }
 
@@ -84,22 +99,22 @@ const mapStateToProps = (state, props) => {
     const networkId = state.web3Data.networkId;
     const transfer = getAllTransfers(state).filter(transfer => transfer.id === transferId)[0] || {};
     if (transfer && (transfer.status === 'deposited' ||
-		     transfer.status === 'cancelled' ||
-		     transfer.status === 'received' ||
-		     transfer.status === 'sent'
-		    )) {
-	currentStep = 3;
+        transfer.status === 'cancelled' ||
+        transfer.status === 'received' ||
+        transfer.status === 'sent'
+    )) {
+        currentStep = 3;
     }
     let error = "";
     if (!transfer || !transfer.id) {
-	error = "Transfer not found. Check the url!";
+        error = "Transfer not found. Check the url!";
     }
-    
-    console.log({state, props});
+
+    console.log({ state, props });
     return {
-	transfer,
-	currentStep,
-	error
+        transfer,
+        currentStep,
+        error
     };
 }
 
