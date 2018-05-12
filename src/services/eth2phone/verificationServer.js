@@ -3,7 +3,9 @@ import sha3 from 'solidity-sha3';
 import urlGetter from './serverUrl';
 
 export const registerTransfer = ({transferId, phoneHash,
-				  transitAddress, transitKeystore}) =>
+				  transitAddress, transitKeystore,
+				  senderAddress, amount
+				 }) =>
     
     {
 	const serverUrl = urlGetter.getServerUrl();	
@@ -12,7 +14,9 @@ export const registerTransfer = ({transferId, phoneHash,
 	    transferId,
 	    phoneHash,
 	    transitAddress,
-	    transitKeystore
+	    transitKeystore,
+	    senderAddress,
+	    amount
 	};
 	
 	return fetch(`${serverUrl}/api/v1/sender/register-transfer`, { 
