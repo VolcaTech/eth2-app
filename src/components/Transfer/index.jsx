@@ -56,8 +56,10 @@ class PendingTransfer extends Component {
     }
 
     render() {
-        const { transfer, currentStep, error } = this.props;
+        let { transfer, currentStep, error } = this.props;
         console.log({ transfer, currentStep });
+
+        if (transfer.isError) currentStep = 'fail'
 
         if (error) {
             return (<div style={{ color: 'red' }}>{error}</div>);
