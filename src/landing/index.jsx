@@ -5,8 +5,6 @@ import JoinUs from './JoinUs';
 
 
 class e2pLanding extends React.Component {
-
-
     render() {
         return (
             <div>
