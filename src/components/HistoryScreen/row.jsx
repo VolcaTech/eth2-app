@@ -26,8 +26,7 @@ const StatusCell = ({transfer, cancelTransfer}) => {
     case "deposited":
         return (
             <div style={styles.statusCell.container}>
-              <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>
-              
+              <CancelButton transfer={transfer} cancelTransfer={cancelTransfer}/>              
 	    </div>
 	);
         break;
@@ -95,9 +94,21 @@ const CancelButton = ({transfer, cancelTransfer}) => {
 }
 
 
-const HistoryRow = ({transfer, cancelTransfer}) => {
-    let link = (<Link to={`/transfers/${transfer.id}`} style={styles.statusCell.infoIcon}>i</Link>);    
-     return (
+
+const HistoryRow = ({transfer, cancelTransfer, currentTransferId}) => {
+    let link = (<Link
+		onClick={() => {
+		    // hack for vertical spinner to go back to transfer page.
+		    // we reload the page as it doesn't go back when path is not changed
+		    if (currentTransferId === transfer.id) {
+    			window.location.reload();
+		    }		    
+		}}
+		to={`/transfers/${transfer.id}`}
+		style={styles.statusCell.infoIcon}>i</Link>);
+
+    
+    return (
         <div style={styles.row}>
           <div style={styles.amount}>{transfer.amount} ETH</div>
           <div style={styles.phone}>{transfer.receiverPhone}</div>

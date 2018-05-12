@@ -60,15 +60,16 @@ class PendingTransfer extends Component {
         let { transfer, currentStep, error } = this.props;
         console.log({ transfer, currentStep });
 
-        if (transfer.isError) currentStep = 'fail'
+        if (transfer.isError) currentStep = 'fail';
 
         if (error) {
             return (<div style={{ color: 'red' }}>{error}</div>);
         }
-
+	
+	
         const History = (
             <div style={{ marginTop: 25 }}>
-                <HistoryScreen />
+              <HistoryScreen {...this.props}/>
             </div>
         );
 
@@ -105,7 +106,6 @@ class PendingTransfer extends Component {
 
 
 const mapStateToProps = (state, props) => {
-    console.log(state.web3Data);
     let currentStep = 2;
     const transferId = props.match.params.transferId;
     const networkId = state.web3Data.networkId;
@@ -122,7 +122,6 @@ const mapStateToProps = (state, props) => {
         error = "Transfer not found. Check the url!";
     }
 
-    console.log({ state, props });
     return {
         transfer,
         currentStep,
