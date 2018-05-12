@@ -77,7 +77,7 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     // 2. sign address chosen by receiver with verification private key
     const { v, r, s } = getSignatureForReceiveAddress({
 	address: receiverAddress,
-	ksData: verResult.transfer.transitKeystore,
+	ksData: verResult.transitKeystore,
 	password: secretCode
     });
 
@@ -93,6 +93,6 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     }
 
     
-    return { txHash: result.txHash, amount: result.amount, transfer: verResult.transfer };
+    return { txHash: result.txHash, amount: result.amount, transferId };
 }
     

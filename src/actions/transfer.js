@@ -114,7 +114,7 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	const networkId = state.web3Data.networkId;
 	const receiverAddress = state.web3Data.address;
 	
-	const { txHash, transfer: transferFromServer, amount } = await e2pService.verifyPhoneAndWithdraw({
+	const { txHash, transferId, amount } = await e2pService.verifyPhoneAndWithdraw({
 	    phoneCode,
 	    phone,
 	    secretCode,
@@ -122,13 +122,13 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	    receiverAddress
 	});
 	
-	const id = `${transferFromServer.transferId}-IN`;
+	const id = `${transferId}-IN`;
 	const transfer = {
 	    id,
 	    txHash,
 	    secretCode,
-	    transferId: transferFromServer.transferId,
-	    transitAddress: transferFromServer.transitAddress.toLowerCase(),
+	    transferId: transferId,
+	    //transitAddress: transferFromServer.transitAddress.toLowerCase(),
 	    status: 'receiving',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
