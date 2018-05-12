@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
 import { sendTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
@@ -13,6 +12,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Spinner from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
+import { Row, Col } from 'react-bootstrap';
 
 
 const styles = {
@@ -79,10 +79,16 @@ class Tab extends Component {
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
 
+	// get dial code from phone number
         const formatter = new asYouType();
         formatter.input(phone);
-
         const phoneCode = formatter.country_phone_code;
+
+        // check that phone number is valid
+        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
+            this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
+            return;
+        };
 
         // check amount
         if (this.state.amount <= 0) {
@@ -91,18 +97,12 @@ class Tab extends Component {
         };
 
 	// check amount maximum
-        if (this.state.amount > 1) {
+        if (this.state.amount > 1 && this.state.networkId === "1") {
             this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
             return;
         };
 
 	
-        // check that phone number is valid
-        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-            this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
-            return;
-        };
-
         // disabling button
         this.setState({ fetching: true });
 
@@ -114,8 +114,10 @@ class Tab extends Component {
 
     _renderForm() {
         return (
-	    <Row>
+		<Row>
               <Col sm={4} smOffset={4}>
+	    
+	    <div>
                 <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
                 <div style={styles.text1}>You can send ether to anyone using just a phone number. Person receives the assets to any Ethereum address with a special link.</div>
         <div style={{height: 155, display: 'flex', margin: 'auto', flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -149,9 +151,11 @@ class Tab extends Component {
                         }
                     </div>
                 </div>
-                </div>
+        </div>
+	    </div>
             </Col>
 	    </Row>
+	    
         );
     }
 
@@ -169,4 +173,6 @@ class Tab extends Component {
 }
 
 
-export default connect(null, { sendTransfer })(Tab);
+export default connect(state => ({
+    networkId: state.web3Data.networkId
+}), { sendTransfer })(Tab);

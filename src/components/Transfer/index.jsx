@@ -11,6 +11,7 @@ import CancelledTransferScreen from './CancelledTransferScreen';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
 import TxErrorScreen from './TxErrorScreen';
+import { Row, Col } from 'react-bootstrap';
 
 
 class PendingTransfer extends Component {
@@ -72,21 +73,27 @@ class PendingTransfer extends Component {
         );
 
         const TransferScreen = (
+		<Row>
+              <Col sm={4} smOffset={4}>
+	    
             <div>        
-        <div style={{ alignContent: 'center' }}>
-            <div style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28, width: 30 }}><img src={e2pLogo} /></div>
-
+              <div style={{ alignContent: 'center' }}>
+		<div style={{ display: 'block', margin: 'auto', marginTop: 17, marginBottom: 28, width: 30 }}><img src={e2pLogo} /></div>
+		
             <div>
-                <div style={{ marginBottom: 57 }}>
-                    <TransferStepsBar step={currentStep} />
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    {this._renderStepsContent()}
-                </div>
+              <div style={{ marginBottom: 57 }}>
+                <TransferStepsBar step={currentStep} />
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                {this._renderStepsContent()}
+              </div>
             </div>
-        </div>
-        </div>
-        
+              </div>
+            </div>
+	    
+              </Col>
+	    </Row>
+
         )
 
         return (

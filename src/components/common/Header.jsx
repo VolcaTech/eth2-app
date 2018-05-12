@@ -45,7 +45,7 @@ class e2pHeader extends React.Component {
                                         networkName={this.props.networkName}
                                         networkId={this.props.networkId}
                                         handleClick={() => this.setState({
-                                            height: this.state.showDetails ? 0 : '137',
+                                            height: this.state.showDetails ? 0 : 137,
                                             showDetails: !this.state.showDetails
                                         })}
                                         address={this.props.address} />

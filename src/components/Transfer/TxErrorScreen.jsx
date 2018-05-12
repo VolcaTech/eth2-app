@@ -18,7 +18,7 @@ const PendingScreen = ({transfer}) => {
     return (
 	<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 200}}>
 	  <div style={styles.title}>Transaction failed</div>
-	  <div style={styles.text1}>Your <div style={{fontFamily: "SF Display Bold", display: 'inline-block', color: '#f04234'}}> transaction has failed </div>. Check transaction details on Etherescan.</div>
+	  <div style={styles.text1}>Your <div style={{fontFamily: "SF Display Bold", display: 'inline-block', color: '#f04234'}}> transaction has failed </div>. Check transaction details on Etherscan.</div>
 	  <div>
 	    <TxDetailsBox
 	       txHash={transfer.txHash}

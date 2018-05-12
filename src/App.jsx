@@ -15,7 +15,6 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import getDeepLinkForTrustWallet from './services/trustDeepLinkService';
 
 
-
 class NotConnectedPage extends Component {
     constructor(props) {
 	super(props);
@@ -114,23 +113,26 @@ class App extends Component {
 	    return this._renderNoAddress();
         }
 
-        return (
-            <Router>
+        return (	    
+		<Router>
                 <div>
-                  <Header
-		     address={this.props.address}
-		     networkName={this.props.networkName}
-		     contractAddress={this.props.contractAddress}
-		     networkId={this.props.networkId}
-		     balance={this.props.balance} />
-                    <Switch>
-                        <Route exact path="/" component={SendTab} />
-                        <Route exact path="/transfers/:transferId" component={TransferComponent} />
-                        <Route path="/receive" component={ReceiveForm} />
-                        <Route path="/history" component={HistoryScreen} />
-                    </Switch>
-                </div>
+                <Header
+	    address={this.props.address}
+	    networkName={this.props.networkName}
+	    contractAddress={this.props.contractAddress}
+	    networkId={this.props.networkId}
+	    balance={this.props.balance} />
+	    
+                <Switch>
+                <Route exact path="/" component={SendTab} />
+                <Route exact path="/transfers/:transferId" component={TransferComponent} />
+                <Route path="/receive" component={ReceiveForm} />
+                <Route path="/history" component={HistoryScreen} />
+            </Switch>
+	    
+            </div>	    
             </Router>
+	    
         );
     }
 }
