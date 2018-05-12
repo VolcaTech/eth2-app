@@ -7,7 +7,7 @@ import {
 import { sha3 } from 'web3-utils';
 
 
-export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
+export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress}) => {
 
     // 1. generate transit keystore, with private key encrypted with random code 
     const { address: transitAddress,
@@ -25,7 +25,9 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay}) => {
 	transferId,
 	phoneHash,
 	transitAddress,
-	transitKeystore
+	transitKeystore,
+	senderAddress,
+	amount: amountToPay
     });
 
     // if server error interrupt execution and don't send deposit to smart-contract

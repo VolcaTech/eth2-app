@@ -74,7 +74,10 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	const networkId = state.web3Data.networkId;	
 	const senderAddress = state.web3Data.address;
 
-	const { txHash, secretCode, transferId, transitAddress } = await e2pService.sendTransfer({phone, phoneCode, amountToPay: amount});
+	const { txHash, secretCode, transferId, transitAddress } = await e2pService.sendTransfer({phone,
+												  phoneCode,
+												  amountToPay: amount,
+												  senderAddress});
 	const id = `${transferId}-out`;
 
 	const transfer = {
