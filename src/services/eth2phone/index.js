@@ -61,6 +61,11 @@ export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
     return result;    
 }
 
+export const fetchTransferDetailsFromServer = ({phoneCode, phone, secretCode}) => {
+    const transferId = generateTransferId(phoneCode, phone, secretCode);
+    return verificationServer.fetchTransfer(transferId);
+}
+
 
 // verify code from SMS and withdraw transfer
 export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsCode, receiverAddress}) => {
