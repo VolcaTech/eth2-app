@@ -11,6 +11,11 @@
 }
 
 @font-face {
+    font-family: "SF Display Medium";
+    src: url("SanFranciscoDisplay-Medium.otf");
+  }
+
+@font-face {
   font-family: "SF Display Regular";
   src: url("SanFranciscoDisplay-Regular.otf");
 }
