@@ -147,8 +147,10 @@ class ReceiveScreen extends Component {
 	let infoMessage, txHash;
 	if (this.state.transfer.status === 'completed') {
 	    infoMessage = 'Transfer has been received';
-	    txHash = this._getReceiveTxHash();
-	    
+	    txHash = this._getTxHashForMinedEvent('withdraw');
+	} else if (this.state.transfer.status === 'cancelled') {
+	    infoMessage = 'Transfer has been cancelled';
+	    txHash = this._getTxHashForMinedEvent('cancel');	    
 	} else if (this.state.transfer.status === 'depositing') {
 	    txHash = this._getDepositTxHash();
 	    infoMessage = 'Transaction has been initiated recently and has not been processed yet, please wait...';
@@ -197,9 +199,9 @@ class ReceiveScreen extends Component {
     }
     
     
-    _getReceiveTxHash() {
+    _getTxHashForMinedEvent(eventName) {
 	const event = this.state.transfer.events
-		  .filter(event => event.eventName === 'withdraw' &&
+		  .filter(event => event.eventName === eventName &&
 			  event.txStatus === 'success')[0];
 	return event.txHash;	
     }
