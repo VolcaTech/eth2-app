@@ -9,7 +9,7 @@ import WorksWith from './WorksWith';
 class e2pLanding extends React.Component {
     render() {
         return (
-            <div>
+            <div style={{width: '100%'}}>
            <div style={{height: 200}}>Landing</div>
            <div style={{display: 'block', width: '100%', }}><WorksWith/></div>                      
            <div style={{display: 'block', width: '100%', }}><JoinUs/></div>           
