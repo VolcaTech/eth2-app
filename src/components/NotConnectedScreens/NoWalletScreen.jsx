@@ -20,26 +20,18 @@ class NoWalletScreen extends Component {
     constructor(props) {
 	super(props);
 	this.state = {
-	    disabled: false
+	    disabled: false,
+	    deepLink: true
 	};
+	
+	this._getDeepLink();	
     }
 
-    onSubmit() {
-	this.setState({disabled: true});
-	setTimeout(async () =>{
-	    this._redirectToTrust();
-	}, 100);
+    async _getDeepLink() {
+	const { url: deepLink } = await getDeepLinkForTrustWallet(window.location.href);
+	this.setState({deepLink});
     }
     
-    async _redirectToTrust() {
-	try { 
-	    const { url: deepLink } = await getDeepLinkForTrustWallet(window.location.href);
-	    window.location.href = deepLink;
-	} catch(err) {
-	    console.log(err);
-	    this.setState({disabled: false});
-	}
-    }
 
     
     render() {
@@ -52,11 +44,10 @@ class NoWalletScreen extends Component {
                 <div style={styles.instructionsText}> 1. Download Trust Wallet </div>
                 <div style={styles.instructionsText}> 2. Generate or import wallet . </div>
                 <div style={styles.instructionsText}> 3. Receive ether. </div>				
-		<div style={{marginTop: 20}}> 
-		  <ButtonPrimary disabled={this.state.disabled} buttonColor={styles.blueColor} handleClick={this.onSubmit.bind(this)}> Open Trust Wallet </ButtonPrimary>
-		  </div>
-                  <div style={styles.supported}>Supported wallets</div>
-		  
+		<a className={`btn btn-primary ${disabled}`} href={this.state.deepLink||"#"} style={{marginTop:20}}> Open Trust Wallet </a>
+		
+                <div style={styles.supported}>Supported wallets</div>
+		
                 <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
               </div>
             </div>

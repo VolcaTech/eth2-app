@@ -11,7 +11,7 @@ const getDeepLinkForTrustWallet = (url) => {
 	"data": {
 	    "$og_title": "Eth2phone",
 	    "$og_description": "Eth2phone - send ether to phone number",
-	    "$desktop_url": url, 
+	    "$desktop_url": "https://trustwalletapp.com/", 
 	    "url": url,
 	    "event": "openURL"
 	}
