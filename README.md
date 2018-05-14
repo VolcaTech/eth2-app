@@ -37,7 +37,7 @@ Load https://eth2phone.github.io/ and use the app.
 
 `./src/services/eth2phone/index` - all interaction of the web app with the escrow smart-contract and verification server is defined in this file.
 
-`./contracts/e2pEscrow` - the VerificationProxy Smart Contract, which locks ether from sender and withdraws ether on request from the owner to address signed by verification private key. Verification Server deploys the contract and controls smart contract's owner account.
+`./contracts/e2pEscrow` - the escrow smart contract, which locks ether from sender and withdraws ether on request from the owner to address signed by transit private key. Verification Server deploys the contract and controls smart contract's owner account.
 
 `./test` - tests for the VerificationProxy Smart Contract
 
