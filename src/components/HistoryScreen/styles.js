@@ -12,7 +12,7 @@ export default {
 	flex: 2,
 	height: 15,
 	textAlign: 'center',
-	fontSize: 12,
+	fontSize: 15,
 	fontFamily: 'SF Display Bold',
 	textTransform: 'uppercase'
     },
@@ -21,7 +21,7 @@ export default {
 	height: 15,
 	position: 'inline-block',
 	textAlign: 'center',
-	fontSize: 12,
+	fontSize: 15,
 	fontFamily: 'SF Display Regular',
 	textTransform: 'uppercase',
 	opacity: 0.4

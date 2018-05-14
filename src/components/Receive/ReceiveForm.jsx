@@ -83,7 +83,7 @@ class Tab extends Component {
     _renderConfirmDetailsForm() {
 	return (
 	    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 215}}>
-            <div style={{display: 'block', margin: 'auto', width: '70%', textAlign: 'center', fontSize: 12, lineHeight: 1, fontFamily: 'SF Display Regular'}}><div style={{fontFamily: 'SF Display Bold', display: 'inline'}}>Eth-2-phone</div> allows to send Ethereum to anybody by simply verifying phone number.</div>
+            <div style={{display: 'block', margin: 'auto', width: '70%', textAlign: 'center', fontSize: 15, lineHeight: 1, fontFamily: 'SF Display Regular',}}><div style={{fontFamily: 'SF Display Bold', display: 'inline'}}>Eth-2-phone</div> allows to send Ethereum to anybody by simply verifying phone number.</div>
 	      <div style={{width: '40%', margin: 'auto', textAlign: 'center', color: '#2bc64f', fontSize: 18, fontFamily: 'SF Display Black'}}>0.2423 ETH</div>
           <div style={{width: '78%', margin: 'auto'}}>
 		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
