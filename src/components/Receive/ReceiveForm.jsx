@@ -64,7 +64,7 @@ class ReceiveScreen extends Component {
 		secretCode: this.secretCode
 	    });
 
-	    console.log(result)
+	    console.log({result})
 	    if (!result.success) { throw new Error(result.errorMessage || "Server error");};
 	    console.log({result});
 	    this.setState({
@@ -131,7 +131,7 @@ class ReceiveScreen extends Component {
     _renderButtonOrInfo() {
 	// depending on status:
 	// 1) if sender's tx is mined, show button
-	if (this.state.transfer.status === 'deposited') { 
+	if (this.state.transfer.status === 'deposited'|| this.state.transfer.status === 'inited') { 
 	    return (
 		<div style={{width: '78%', margin: 'auto'}}>
 		  <ButtonPrimary
