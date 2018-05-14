@@ -27,11 +27,10 @@ class WorksWith extends React.Component {
                             <Col xs={6} md={4}>
                                 <img style={styles.logo} src={trustLogo}></img>
                                 <div style={styles.text}>Trust</div>
-                                <div style={{ display: 'flex', paddingLeft: 10 }}>
+                                <div style={{ display: 'flex'}}>
                                     <img style={{ marginTop: 2 }} src={goodLogo}></img>
-                                    <div style={{ display: 'inline', fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, width: '100%', textAlign: 'left', marginLeft: 10 }}>
-                                        <div style={{ whiteSpace: 'nowrap' }}>Deep integration,</div>
-                                        Partnership
+                                    <div style={{ fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, textAlign: 'left', marginLeft: 5, paddingTop: 10 }}>
+                                        Recommended
                                 </div>
                                 </div>
                             </Col>
@@ -58,8 +57,8 @@ const styles = {
     row: { textAlign: 'center', marginBottom: 50 },
     text: { fontSize: 24, fontFamily: 'SF Display Medium', marginTop: 15, },
     textWhite: { color: '#fff', fontSize: 23, fontFamily: 'SF Display Bold', display: 'inline', lineHeight: 1, marginTop: 3, marginLeft: 5 },
-    column1: { display: 'inline-block', float: 'none', margin: 10 },
-    column2: { display: 'inline-block', float: 'none', margin: 10, paddingBottom: 50 },
+    column1: { display: 'inline-block', float: 'none'},
+    column2: { display: 'inline-block', float: 'none', paddingBottom: 50 },
     gitColumn: { backgroundColor: '#0099ff', margin: 'auto', borderRadius: 10, paddingBottom: 2, paddingTop: 7 },
     logo: { marginLeft: 10 }
 }
