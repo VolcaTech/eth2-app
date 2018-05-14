@@ -11,12 +11,8 @@ const styles = {
 	fontFamily: "SF Display Bold",
 	letterSpacing: 1.94,
 	WebkitBoxShadow: 'none',
-	padding: 0,
-	textAlign: 'center',
+	//padding: 0,
 	border: '2px solid #f5f5f5',
-
-
-
     },
     flag: {
 	borderBottom: '2px solid #f5f5f5',
@@ -30,33 +26,21 @@ const styles = {
     },    
 }
 
+
 class e2pPhoneInput extends React.Component {
 
-    constructor(props) {
-	super(props);
-	this.state = {
-	    _phone: null
-	};
-    }
-    
     render() {
-	console.log({phoneState: this.state});			 	
         return (
             <div style={{display: 'block', margin: 'auto', width: '78%',}}>
               <Phone
 		 ref={this.props._ref}		 
 		 inputStyle={styles.input}
-		 onFocus={() => {
-		     if (!this.state._phone) {
-
-			 this.setState({_phone: this.state._phone || "+1"});
-		     }
-		}}
-		buttonStyle={styles.flag}
-		placeholder="Phone number"
-                value={this.state._phone}
+		 buttonStyle={styles.flag}
+		 placeholder='Phone number'
+		 defaultCountry={'us'}
+		 placeholder="Phone number"
                    />
-</div>
+	    </div>
         );
 
     }
