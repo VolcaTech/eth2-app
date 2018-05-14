@@ -7,16 +7,16 @@ const styles = {
     // },
     checkTransaction: {
 	color: '#000000',
-	fontSize: 12,	
+	fontSize: 15,	
 	fontFamily: 'SF Display Regular',
     },
     etherscanLink: {
-	fontSize: 12,		
+	fontSize: 14,		
 	color: '#33aeff',
 	fontFamily: 'SF Display Bold',
     },
     email: {
-	fontSize: 12,		
+	fontSize: 15,		
 	color: '#000000',
 	fontFamily: 'SF Display Regular',
     }

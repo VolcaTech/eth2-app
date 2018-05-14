@@ -7,8 +7,8 @@ import { TxDetailsBox } from './components';
 
 const styles = {
     title: { width: '50%', display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center' },
-    text1: { width: '90%', display: 'block', margin: 'auto', fontSize: 12, fontFamily: 'SF Display Regular', textAlign: 'center'},
-    text2: { width: '90%', display: 'block', margin: 'auto', fontSize: 12, fontFamily: 'SF Display Regular', textAlign: 'center'},
+    text1: { width: '90%', display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center'},
+    text2: { width: '90%', display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center'},
     link: { width: 259, height: 43, display: 'block', margin: 'auto', wordWrap: 'break-word', fontSize: 12, color: '#0099ff', lineHeight: 1.3, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 43 },    
 }
 
