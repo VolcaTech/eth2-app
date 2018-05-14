@@ -146,7 +146,7 @@ class Tab extends Component {
                             <div style={{ width: 20, margin: 'auto' }}>
                                 <Spinner />
                             </div> :
-                            <span style={{ color: '#ef4234', fontSize: 12 }}>{this.state.errorMessage}</span>
+                            <span style={{ color: '#ef4234', fontSize: 15 }}>{this.state.errorMessage}</span>
                         }
                     </div>
                 </div>
