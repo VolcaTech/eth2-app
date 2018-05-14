@@ -173,13 +173,6 @@ class ReceiveScreen extends Component {
 		   fontSize: 12   }}>
 		{ infoMessage }
 	      </div>
-	      <div style={{width: '78%', margin: 'auto'}}>
-		<ButtonPrimary
-		   disabled={true}		   
-		   buttonColor='#000'>
-		  Receive
-		</ButtonPrimary>
-	      </div>
 	      <div style={{marginTop: 56, textAlign: 'center'}}>
 		<TxDetailsBox
 		   txHash={txHash}
