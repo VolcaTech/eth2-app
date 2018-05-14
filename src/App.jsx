@@ -10,53 +10,19 @@ import ButtonPrimary from './components/common/ButtonPrimary';
 import HistoryScreen from './components/HistoryScreen';
 import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust-logo.png';
-import Landing from './landing'
+import Landing from './landing';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-import getDeepLinkForTrustWallet from './services/trustDeepLinkService';
+import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
 
-
-class NotConnectedPage extends Component {
-    constructor(props) {
-	super(props);
-	this.state = {
-	    deepLink: ''
-	};
-	this._getDeepLink();
-    }
-
-
-    async _getDeepLink() {
-	const { url: deepLink } = await getDeepLinkForTrustWallet(window.location.href);
-	this.setState({deepLink});
-    }
     
-    render() {
-	const disabled = this.state.deepLink ? "" : "disabled";
-        return (
-            <div style={{ alignContent: 'center' }}>
-              <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-              <div style={styles.title}>You need wallet to receive Ethereum</div>
-              <div style={styles.instructionsContainer}>
-                <div style={styles.instructionsText}> 1. Get Trust Wallet </div>
-                <div style={styles.instructionsText}> 2. Generate or import wallet . </div>
-                <div style={styles.instructionsText}> 3. Receive ether. </div>				
-		<a className={`btn btn-primary ${disabled}`} href={this.state.deepLink||"#"} style={{marginTop:20}}> Go To Trust Wallet </a>
-                  <div style={styles.supported}>Supported wallets</div>
-		  
-                <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
-              </div>
-            </div>
-        );
-    }
-}
 
 
 class App extends Component {
     
 
     _renderNotConnected() {
-	return <NotConnectedPage/>;	
+	return <NoWalletScreen />;	
     }
 
     _renderWrongNetwork() {
