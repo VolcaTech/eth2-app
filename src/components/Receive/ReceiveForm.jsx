@@ -41,7 +41,12 @@ const styles = {
     numberInput: {
 	width: '78%',
 	margin: 'auto'
-    }    
+    },
+    button: {
+	width: '78%',
+	margin: 'auto'
+    },
+    green: '#2bc64f'    
 }
 
 
@@ -53,7 +58,6 @@ class ReceiveScreen extends Component {
 	
 	// parse phone params
 	const phone = `+${queryParams.phone}`;
-	//const phoneIsValid = isValidPhoneNumber(phone);
 	const formatter = new asYouType();
 	formatter.input(phone);	
 	
@@ -63,32 +67,33 @@ class ReceiveScreen extends Component {
 	    //  phoneIsValid,
 	};
 	
-	this.secretCode = queryParams.code;
 	this.networkId = queryParams.chainId || "1";	
 
         this.state = {
             errorMessage: "",
-	    fetching: true,
+	    fetching: false,
 	    transfer: null,
-	    hasCode: false
+	    hasCode: false,
+	    secretCode: queryParams.code
         };
 
     }
 
     componentDidMount() {
-	if (this.secretCode) { 
-	    this.fetchTransferFromServer();
+	if (this.state.secretCode) {
+	    this.setState({fetching: true });
+	    this._fetchTransferFromServer();
 	}
     }
     
-    async fetchTransferFromServer() {
+    async _fetchTransferFromServer() {
 	try {
 	    this._checkNetwork();
 	    
-	    const result  = await e2pService.fetchTransferDetailsFromServer({
+	    const result = await e2pService.fetchTransferDetailsFromServer({
 		phone: this.phoneParams.phone,
 		phoneCode: this.phoneParams.phoneCode,
-		secretCode: this.secretCode
+		secretCode: this.state.secretCode
 	    });
 
 	    if (!result.success) { throw new Error(result.errorMessage || "Server error");};
@@ -132,10 +137,10 @@ class ReceiveScreen extends Component {
     
     _onSubmit() {
 	// // disabling button
-	// this.setState({fetching: true});
+	this.setState({fetching: true});
 	
 	// // sending request for sms-code
-	// this._sendSmsToPhone();
+	this._fetchTransferFromServer();
     }
 
         
@@ -146,8 +151,20 @@ class ReceiveScreen extends Component {
 		<div style={styles.title}>Receive ether</div>
 	      </div>
 		  <div style={styles.numberInput}>
+		    <NumberInput type="text" disabled={false} placeholder="Paste Code Here" onChange={({target}) => this.setState({secretCode: target.value})} />
+		  </div>
+		  <div style={styles.numberInput}>
 		    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
 		  </div>
+		  <div style={styles.button}>
+		    <ButtonPrimary
+		       handleClick={this._onSubmit.bind(this)}
+		       disabled={this.state.fetching}		   
+		       buttonColor={styles.green}>
+		      Confirm
+		    </ButtonPrimary>
+		  </div>
+		  
 		  <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
 	    </div>
 	);
@@ -156,7 +173,7 @@ class ReceiveScreen extends Component {
     render() {
 	const props = {
 	    ...this.props,
-	    secretCode:this.secretCode,
+	    secretCode:this.state.secretCode,
 	    phoneCode:this.phoneParams.phoneCode,
 	    phone: this.phoneParams.phone,
 	    transfer: this.state.transfer,
@@ -171,7 +188,7 @@ class ReceiveScreen extends Component {
 		  <div>
 		    { this.state.hasCode ?
 			<ConfirmTransfer {...props}/>
-		    : this._renderPasteCodeForm() } 
+			: this._renderPasteCodeForm() } 
 		  </div>		  
 		</div>
 	      </Col>

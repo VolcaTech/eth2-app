@@ -84,27 +84,15 @@ class ConfirmTrasfer extends Component {
 	this._sendSmsToPhone();
     }
 
-    _renderButtonOrInfo() {
-	// depending on status:
-	// 1) if sender's tx is mined, show button
-	if (this.props.transferStatus === 'deposited'||
-	    this.props.transferStatus === 'inited') { 
-	    return (
-		<div style={styles.button}>
-		  <ButtonPrimary
-		     handleClick={this._onSubmit.bind(this)}
-		     disabled={this.state.fetching}		   
-		     buttonColor={styles.green}>
-		    Receive
-		  </ButtonPrimary>
-		</div>
-	    );
-	}
-
+    
+    _renderTransferStatusInfo() {
 	const { infoMessage, txHash } = getInfoMessageAndTxHashForStatus(this.props.transfer);
-	if (!txHash) { return null; }
+	if (!txHash) {
+	    // if something is wrong render button,
+	    // so user can try to withdraw
+	    return null;
+	}
 	return (
-
 	    <div>
 	      <div style={styles.infoMessage}>
 		{ infoMessage }
@@ -121,6 +109,12 @@ class ConfirmTrasfer extends Component {
 
     
     _renderConfirmDetailsForm() {
+	// don't show button for next statuses
+	const notWithdrawable = (this.props.transferStatus === 'completed'||
+				 this.props.transferStatus === 'cancelled' ||
+				 this.props.transferStatus === 'error' ||
+				this.props.transferStatus === 'depositing');
+	
 	return (
 	    <div>
 	      <div style={styles.amount}>
@@ -131,14 +125,27 @@ class ConfirmTrasfer extends Component {
 		<div style={styles.phone}>
 		  <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.props.phone} />
 		</div>
-		{ this._renderButtonOrInfo() } 		
-		<SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
+		{ notWithdrawable ? null :
+		    <div style={styles.button}>
+			  <ButtonPrimary
+				 handleClick={this._onSubmit.bind(this)}
+				 disabled={this.state.fetching}		   
+				 buttonColor={styles.green}>
+				Confirm
+			      </ButtonPrimary>
+			</div>
+		    }
+
+		    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
+		    { this._renderTransferStatusInfo() }
+		    
 	      </div>
 	    </div>
 	);
     }
     
     render() {
+
         return (
 		<div>
 		  { this.state.step === 'confirm-details' ?
