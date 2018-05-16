@@ -18,7 +18,6 @@ class WorksWith extends React.Component {
                 </Row>
 
                 <Row style={styles.row}>
-                    <div style={{ margin: 'auto', alignContent: 'center' }}>
                         <Col xs={12} md={4} mdOffset={2} style={styles.column1}>
                             <Col xs={6} md={6}>
                                 <img style={styles.logo} src={metamaskLogo}></img>
@@ -45,7 +44,6 @@ class WorksWith extends React.Component {
                                 <div style={styles.text}>Toshi</div>
                             </Col>
                         </Col>
-                    </div>
                 </Row>
             </div>
         )

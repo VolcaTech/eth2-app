@@ -59,7 +59,7 @@ const styles = {
     container: { display: 'flex', flexDirection: 'column', justifyContent: 'space-between' },
     row: { textAlign: 'center', marginBottom: 50, padding: 10 },
     text: { fontSize: 24, fontFamily: 'SF Display Bold', marginTop: 30, marginBottom: 30},
-    text2: { fontSize: 16, fontFamily: 'SF Display Regular', lineHeight: 1, marginTop: 10 },
+    text2: { fontSize: 16, fontFamily: 'SF Display Regular', lineHeight: 1, marginTop: 10, textAlign: 'left' },
     column: {  verticalAlign: 'top', marginTop: 10, marginBottom: 10, paddingRight: 5, paddingLeft: 5 },
     logo: {height: 117, alignContent: 'center'}
 
