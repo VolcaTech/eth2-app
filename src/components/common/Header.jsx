@@ -118,9 +118,9 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
 }
 
 const styles = {
-    headerDetailsBlack: { display: 'flex', flexDirection: 'row', fontSize: 14, fontFamily: "SF Display Bold", lineHeight: 1.1, marginRight: 2 },
-    headerDetailsGrey: { fontSize: 14, fontFamily: "SF Display Bold", color: '#a9a9a9', lineHeight: 1.1 },
-    headerDetailsGreen: { fontSize: 14, fontFamily: "SF Display Bold", color: "#2bc64f", lineHeight: 1.1 }
+    headerDetailsBlack: { display: 'flex', flexDirection: 'row', fontSize: 24, fontFamily: "SF Display Bold", lineHeight: 1.1, marginRight: 2 },
+    headerDetailsGrey: { fontSize: 24, fontFamily: "SF Display Bold", color: '#a9a9a9', lineHeight: 1.1 },
+    headerDetailsGreen: { fontSize: 24, fontFamily: "SF Display Bold", color: "#2bc64f", lineHeight: 1.1 }
 
 
 }
