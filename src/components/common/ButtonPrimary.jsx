@@ -5,10 +5,13 @@ import { Button } from 'react-bootstrap';
 class e2pButtonPrimary extends React.Component {
 
     render() {
+        let height = 38;
+        this.props.buttonHeight ? height = this.props.buttonHeight : "";
+
         return (
             <Button disabled={this.props.disabled} style={{
 			width: '100%',
-			height: 38,
+			height: height,
 			borderRadius: 12,
 			borderColor: this.props.buttonColor,                
 			backgroundColor: this.props.buttonColor,
