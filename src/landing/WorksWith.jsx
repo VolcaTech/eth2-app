@@ -18,16 +18,15 @@ class WorksWith extends React.Component {
                 </Row>
 
                 <Row style={styles.row}>
-                    <div style={{ margin: 'auto' }}>
-                        <Col xs={12} md={4} style={styles.column1}>
+                        <Col xs={12} md={4} mdOffset={2} style={styles.column1}>
                             <Col xs={6} md={6}>
                                 <img style={styles.logo} src={metamaskLogo}></img>
                                 <div style={styles.text}>Metamask</div>
                             </Col>
-                            <Col xs={6} md={4}>
+                            <Col xs={6} md={6}>
                                 <img style={styles.logo} src={trustLogo}></img>
                                 <div style={styles.text}>Trust</div>
-                                <div style={{ display: 'flex'}}>
+                                <div>
                                     <img style={{ marginTop: 2 }} src={goodLogo}></img>
                                     <div style={{ fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, textAlign: 'left', marginLeft: 5, paddingTop: 10 }}>
                                         Recommended
@@ -45,7 +44,6 @@ class WorksWith extends React.Component {
                                 <div style={styles.text}>Toshi</div>
                             </Col>
                         </Col>
-                    </div>
                 </Row>
             </div>
         )
@@ -57,10 +55,10 @@ const styles = {
     row: { textAlign: 'center', marginBottom: 50 },
     text: { fontSize: 24, fontFamily: 'SF Display Medium', marginTop: 15, },
     textWhite: { color: '#fff', fontSize: 23, fontFamily: 'SF Display Bold', display: 'inline', lineHeight: 1, marginTop: 3, marginLeft: 5 },
-    column1: { display: 'inline-block', float: 'none'},
-    column2: { display: 'inline-block', float: 'none', paddingBottom: 50 },
+    column1: { display: 'inline-block', float: 'center'},
+    column2: { display: 'inline-block', float: 'center'},
     gitColumn: { backgroundColor: '#0099ff', margin: 'auto', borderRadius: 10, paddingBottom: 2, paddingTop: 7 },
-    logo: { marginLeft: 10 }
+    logo: { marginLeft: 10, height: 117, }
 }
 
 export default WorksWith;

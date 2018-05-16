@@ -101,7 +101,6 @@ class Tab extends Component {
             this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
             return;
         };
-
 	
         // disabling button
         this.setState({ fetching: true });

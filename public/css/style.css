@@ -272,3 +272,45 @@ li:focus,
       margin-top: -35px;
       margin-left: -35px;
   }
+
+
+  .react-tel-input .selected-flag .arrow {
+      display: none !important;
+  }
+
+  .form-control { 
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+      -webkit-transition: none !important;
+      -o-transition: none !important;
+      transition: none !important;
+      transition: none !important;
+      transition: none !important;
+  }
+
+  input[type=text] {
+      /* Remove First */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* Then Style */
+      outline: none;
+  }
+
+  input[type=tel] {
+      /* Remove First */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* Then Style */
+      outline: none;
+  }
+
+  input[type=number] {
+      /* Remove First */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* Then Style */
+      outline: none;
+  }

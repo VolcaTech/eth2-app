@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AddressButton from './AddressButton';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Grid } from 'react-bootstrap';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
@@ -19,23 +19,22 @@ class e2pHeader extends React.Component {
     }
 
     render() {
+
         const balance = this.props.balance < 1 ? this.props.balance.toFixed(4) : this.props.balance.toFixed(2);
 
         return (
-            <div>
+	      <Grid>
                 <Row>
                     <Col xs={12} sm={8} smOffset={2}>
 
                         <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
-                            <Col xs={6}>
+                          <Col xs={6} style={{padding:0}}>
                                 <Link style={{ textDecoration: 'none' }} to="/">
                                     <div style={{ width: 55, height: 29, fontFamily: "SF Display Black", color: "black", fontSize: 24, letterSpacing: 1, textAlign: 'center', marginTop: 9 }}>
                                         Eth2<div style={{ letterSpacing: 0, display: 'inline', color: '#2bc64f' }}>Phone</div></div>
-
-
                                 </Link>
                             </Col>
-                            <Col style={{ display: 'flex', justifyContent: 'flex-end', paddingLeft: 0 }} xs={6}>
+                            <Col style={{ display: 'flex', justifyContent: 'flex-end', padding: 0 }} xs={6}>
                                 <div style={{ marginTop: 13, marginRight: 10, textAlign: 'center' }}>
 
                                     <AddressButton
@@ -70,8 +69,7 @@ class e2pHeader extends React.Component {
                             balance={this.props.balance} />
                     </Col>
                 </Row>
-
-            </div>
+	    </Grid>
 
         );
     }
@@ -79,7 +77,7 @@ class e2pHeader extends React.Component {
 
 const HeaderDetails = ({ height, address, contract, networkName, networkId, balance }) => {
     return (
-        <div style={{ height: height, width: "100%", paddingLeft: 15, overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
+        <div style={{ height: height, width: "100%", overflow: 'hidden', display: 'flex', justifyContent: 'space-between', boxShadow: '0px 30px 30px -35px rgba(0, 0, 0, 0.1)', alignItems: 'left', flexDirection: 'column', margin: "auto", textAlign: "left", marginBottom: 15 }}>
             <div style={{marginTop: 8}}>
                 <div style={styles.headerDetailsGrey}>
                     ADDRESS

@@ -87,3 +87,10 @@ export const confirmTx = (transferId, receiverAddress, v, r, s) => {
         body: JSON.stringify(data)	
     }).then((response)  => response.json());
 }
+
+
+export const fetchTransfer = (transferId) => {
+    const serverUrl = urlGetter.getServerUrl();    
+    return fetch(`${serverUrl}/api/v1/transfers/${transferId}`)
+	.then((response)  => response.json());
+}

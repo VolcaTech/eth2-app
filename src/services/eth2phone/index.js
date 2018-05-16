@@ -61,6 +61,11 @@ export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
     return result;    
 }
 
+export const fetchTransferDetailsFromServer = ({phoneCode, phone, secretCode}) => {
+    const transferId = generateTransferId(phoneCode, phone, secretCode);
+    return verificationServer.fetchTransfer(transferId);
+}
+
 
 // verify code from SMS and withdraw transfer
 export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsCode, receiverAddress}) => {
@@ -77,7 +82,7 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     // 2. sign address chosen by receiver with verification private key
     const { v, r, s } = getSignatureForReceiveAddress({
 	address: receiverAddress,
-	ksData: verResult.transfer.transitKeystore,
+	ksData: verResult.transitKeystore,
 	password: secretCode
     });
 
@@ -93,6 +98,6 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
     }
 
     
-    return { txHash: result.txHash, amount: result.amount, transfer: verResult.transfer };
+    return { txHash: result.txHash, amount: result.amount, transferId };
 }
     
