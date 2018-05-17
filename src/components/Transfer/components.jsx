@@ -1,10 +1,10 @@
 import React from 'react';
+import copy from 'copy-to-clipboard';
+import ButtonPrimary from './../common/ButtonPrimary';
+const ETH2PHONE_HOST = 'https://eth2phone.github.io';
+
 
 const styles = {
-    // checkTransactionBox: {
-    // 	width: 538,
-    // 	height: 68,
-    // },
     checkTransaction: {
 	color: '#000000',
 	fontSize: 15,	
@@ -19,19 +19,24 @@ const styles = {
 	fontSize: 15,		
 	color: '#000000',
 	fontFamily: 'SF Display Regular',
-    }
-    
+    },
+    shareLinkContainer: {
+	display: 'block',
+	margin: 'auto',
+	width: '78%'
+    },
 }
 
-const shortHash = (hash, num, showEnd = true) =>{
+
+const shortHash = (hash, num, showEnd = true) => {
     const sanitized = (hash).substring(2);
     const shorten = `${sanitized.slice(0, 3)}...${showEnd ? sanitized.slice(-num) : ''}`;
     return '0x'.concat(shorten);
 };
 
 
+
 export const TxDetailsBox = ({txHash, networkId, style}) =>{
-    console.log("erer")
     let subdomain = '';
     if (networkId == "3") {
 	subdomain = 'ropsten.';
@@ -52,3 +57,37 @@ export const TxDetailsBox = ({txHash, networkId, style}) =>{
 	</div>
     );
 }
+
+
+export const ShareButton = ({transfer}) => {
+    
+    const phoneNumberWithoutPlus = (transfer.receiverPhone || "").substring(1); // remove '+' from number
+    let shareLink = `${ETH2PHONE_HOST}/#/receive?phone=${phoneNumberWithoutPlus}`;
+
+    let shareText = `Hi, I've sent you ${transfer.amount} eth.`;
+    if (transfer.amount > 0.1) {
+	shareText += `\nSecret code: ${transfer.secretCode}`;
+    } else {
+	shareLink += `&code=${transfer.secretCode}`;
+    }
+
+    // add network id to url params if not mainnet
+    if (transfer.networkId != "1") {
+        shareLink += `&chainId=${transfer.networkId}`;
+    }
+    
+    shareText += `\nTo receive follow the link: ${shareLink}`;
+    
+    return (
+        <div style={styles.shareLinkContainer}>
+	  <ButtonPrimary buttonColor='#0099ff' handleClick={() => {
+                // copy share link to clipboard
+                copy(shareText);
+                alert("This link is copied to you clipboard. Share this link with receiver by sending link via messenger or email.");
+            }}>
+            Copy link
+	  </ButtonPrimary>
+        </div>
+    );
+}
+
