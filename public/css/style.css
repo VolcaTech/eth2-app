@@ -314,3 +314,9 @@ li:focus,
       /* Then Style */
       outline: none;
   }
+
+ .errorInput ::placeholder {
+      color: #E64437 !important;
+  }
+  
+ 

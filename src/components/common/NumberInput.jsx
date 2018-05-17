@@ -11,21 +11,21 @@ class e2pInput extends React.Component {
 	       componentClass='input'
 	       value={this.props.value}
 	       type={this.props.type || "number"} style={{
-                width: '100%',
-                height: 38,
-                borderRadius: 12,
-                border: '2px solid #f5f5f5',
-                backgroundColor: this.props.backgroundColor,
-                fontSize: 16,
-                letterSpacing: 1,
-                textAlign: 'center',
-                boxShadow: 0,
-                display: 'block', 
-                margin: 'auto',
-                fontFamily: "SF Display Bold",                 
-                color: this.props.fontColor,
-                WebkitBoxShadow: 'none'
-            }} placeholder={this.props.placeholder}>
+                   width: '100%',
+                   height: 38,
+                   borderRadius: 12,
+                   border: this.props.error ? '2px solid #E64437' :  '2px solid #f5f5f5',
+                   color: this.props.error ? '#E64437' : this.props.fontColor,		   
+                   backgroundColor: this.props.backgroundColor,
+                   fontSize: 16,
+                   letterSpacing: 1,
+                   textAlign: 'center',
+                   boxShadow: 0,
+                   display: 'block', 
+                   margin: 'auto',
+                   fontFamily: "SF Display Bold",                 
+                   WebkitBoxShadow: 'none'
+               }} placeholder={this.props.placeholder}>
             </FormControl>
         );
     }

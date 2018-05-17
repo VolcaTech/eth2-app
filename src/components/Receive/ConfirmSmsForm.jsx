@@ -4,11 +4,12 @@ import { withdrawTransfer } from '../../actions/transfer';
 import { sendSmsToPhone } from '../../services/eth2phone';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
-import Button from './../common/ButtonSmall';
+import ButtonPrimary from './../common/ButtonPrimary';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import Timer from '../common/Timer';
 import PropTypes from 'prop-types';
-import Spinner from './../common/Spinner';
+import { SpinnerOrError, Loader } from './../common/Spinner';
+import { parse, format, asYouType } from 'libphonenumber-js';
 
 
 const Countdown = (props, context) => {
@@ -17,7 +18,7 @@ const Countdown = (props, context) => {
         seconds: d.getUTCSeconds(),
     };
     return (
-        <p>{`${seconds}`}</p>
+        <span style={{fontFamily: 'SF Display Bold'}}>{seconds}</span>
     );
 };
 
@@ -26,11 +27,58 @@ Countdown.contextTypes = {
 };
 
 
-const e2pColors = {
+const styles = {
+    container: { alignItems: 'center' },
+    titleContainer: {
+	textAlign: 'center',	
+	marginTop: 84,
+	marginBottom: 12
+    },
+    title:{
+	fontSize: 20,
+	fontFamily: 'SF Display Bold'
+    },
+    phone: {
+	fontFamily: 'SF Display Bold'
+    },
+    instructions: {
+	height: 17,
+	display: 'block',
+	margin: 'auto',
+	textAlign: 'center',
+	fontSize: 14,
+	fontFamily: 'SF Display Regular',
+	marginBottom: 53
+    },
+    numberInput: {
+	width: '78%',
+	margin: 'auto',
+	marginBottom: 21
+    },
+    button: {
+	width: '78%',
+	margin: 'auto'
+    },
+    sendAgainContainer: {
+	height: 28,
+	margin: 'auto',
+	marginBottom: 46,
+	marginTop: 20,
+	textAlign: 'center',
+	fontSize: 12,
+	fontFamily: 'SF Display Regular'
+    },
+    sendAgain: {
+	fontFamily: 'SF Display Bold'
+    },
+    sendAgainLink: {
+	fontFamily: 'SF Display Bold',
+	color: '#0099ff'
+    },
+    timer: { display: 'inline-block' },
     blue: '#0099ff',
-    green: '#2bc64f'
+    green: '#2bc64f'    
 }
-
 
 
 class ConfirmSmsForm extends Component {
@@ -72,10 +120,9 @@ class ConfirmSmsForm extends Component {
     }
 
     _sendSmsAgain() {
-        this.setState({ timer: false, smsButtonDisabled: true, fetching: true });
+        this.setState({ timer: false, smsButtonDisabled: true, fetching: true, errorMessage: false });
         setTimeout(async () => {
             console.log("sending sms");
-
             try {
                 const result = await sendSmsToPhone({
                     phone: this.props.phone,
@@ -93,36 +140,45 @@ class ConfirmSmsForm extends Component {
 
 
     render() {
-        return (
-            <div style={{ width: 290, margin: 'auto' }}>
-                <div style={{ display: 'block', margin: 'auto', width: '70%', textAlign: 'center', fontSize: 15, lineHeight: 1, fontFamily: 'SF Display Regular', marginBottom: 20 }}><div style={{ fontFamily: 'SF Display Bold', display: 'inline' }}>Eth-2-phone</div> allows to send Ethereum to anybody by simply verifying phone number.</div>
-                <div style={{ height: 22, width: 286, display: 'block', margin: 'auto', marginBottom: 28, textAlign: 'center', fontSize: 18, fontFamily: 'SF Display Regular'  }}>Enter SMS code you've received</div>
-                <NumberInput type='tel' placeholder="Code from SMS" onChange={({ target }) => this.setState({ smsCode: target.value })} />
-                <div style={{ height: 28, textAlign: 'center', paddingTop: 8 }}>
-                    {this.state.fetching ?
-                        <div style={{ width: 20, margin: 'auto' }}>
-                            <Spinner />
-                        </div> :
-                        <span style={{ color: '#ef4234', fontSize: 15, fontFamily: 'SF Display Regular'  }}>{this.state.errorMessage}</span>
-                    }
-                </div>
 
-                <div style={{ width: 285, height: 38, display: 'block', margin: 'auto', marginTop: 11, marginBottom: 43 }}>
-                    <div style={{ display: 'inline-block', float: 'left' }}>
-                        <Button
-                            buttonColor='#0099ff'
-                            disabled={this.state.smsButtonDisabled || this.state.fetching}
-                            onClick={this._sendSmsAgain.bind(this)}>Send again</Button>
-                    </div>
-                    <div style={{ display: 'inline-block', float: 'right' }}>
-                        <Button buttonColor='#2bc64f' onClick={this._onSubmit.bind(this)} disabled={this.state.fetching}>Receive</Button>
-                    </div>
-                </div>
-                {this.state.timer ?
-                    <div style={{ height: 28, width: 210, margin: 'auto', marginBottom: 46, display: this.state.timer ? 'block' : 'none', textAlign: 'center', fontSize: 15, fontFamily: 'SF Display Regular'  }}>Send code again in  seconds <Timer style={{ display: 'inline-block' }} afterComplete={() => this.setState({ smsButtonDisabled: false, timer: false })} interval={1000} remaining={60000}>
-                        <Countdown />
-                    </Timer>
-                    </div> : null}
+        return (
+            <div style={styles.container}>
+	      <div style={styles.titleContainer}>
+		<span style={styles.title}>Verify your phone number</span>
+	      </div>
+	      
+              <div style={styles.instructions}>
+		We sent you an SMS with a confirmation<br/>
+		code to: <span style={styles.phone}>{this.props.phoneFormatted}</span>
+	      </div>
+	      <div style={styles.numberInput} className={this.state.errorMessage ? "errorInput" : null}>
+                <NumberInput
+		   type='tel'
+		   placeholder="Code from SMS"
+		   error={this.state.errorMessage}
+		   onChange={({ target }) => this.setState({ smsCode: target.value, errorMessage: null })} />
+	      </div>
+	      <div style={styles.button}>
+		<ButtonPrimary
+		   handleClick={this._onSubmit.bind(this)}
+		   disabled={this.state.fetching||this.state.errorMessage}		   
+		   buttonColor={styles.green}>
+		  Confirm
+		</ButtonPrimary>
+	      </div>
+
+	      <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
+	      
+              {this.state.timer ?
+                  <div style={styles.sendAgainContainer}>
+			<span style={styles.sendAgain}>Send code again</span> in <Timer style={styles.timer} afterComplete={() => this.setState({ smsButtonDisabled: false, timer: false })} interval={1000} remaining={60000}> <Countdown /> seconds
+			</Timer>
+                      </div> :
+
+		      <div style={styles.sendAgainContainer}>
+			    <span style={styles.sendAgainLink} onClick={this._sendSmsAgain.bind(this)}>Send code again</span> if you have not received the code.
+			  </div>
+		      }
             </div>
         );
     }

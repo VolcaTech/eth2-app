@@ -5,16 +5,19 @@ const Spinner = () => (
 );
 
 
-export const SpinnerOrError = ({fetching, error }) => (
+export const SpinnerOrError = ({fetching, error }) => {
+    if (!(fetching || error)) { return null; }
+    return (
 	    <div style={{ height: 28, textAlign: 'center', paddingTop: 8 }}>
 	      { fetching ?
 		  <div style={{width: 20, margin: 'auto'}}>
 			<Spinner/>			
 		      </div> :
-		      <span style={{color: '#ef4234', fontSize: 9}}>{error}</span>
+		      <span style={{color: '#E64437', fontSize: 15}}>{error}</span>
 		      }			   
-	    </div>		
-);
+	    </div>
+    );
+}
 
 export const Loader = ({text="Loading page...", textLeftMarginOffset=-15}) => (
     <div>

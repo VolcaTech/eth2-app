@@ -64,7 +64,7 @@ class ConfirmTrasfer extends Component {
 	    hideScreen: false
         };
 	
-	if (!props.codeFromUrl) {
+	if (!props.codeFromUrl && this._isWithdrawable()) {
 	    this.state.hideScreen = true;
 	    this._sendSmsToPhone();
 	}
@@ -117,14 +117,16 @@ class ConfirmTrasfer extends Component {
 	);	
     }
 
+    _isWithdrawable() {
+	return (!(this.props.transferStatus === 'completed'||
+		  this.props.transferStatus === 'cancelled' ||
+		  this.props.transferStatus === 'error' ||
+		  this.props.transferStatus === 'depositing'));
+    }
+    
     
     _renderConfirmDetailsForm() {
-	// don't show button for next statuses
-	const notWithdrawable = (this.props.transferStatus === 'completed'||
-				 this.props.transferStatus === 'cancelled' ||
-				 this.props.transferStatus === 'error' ||
-				this.props.transferStatus === 'depositing');
-	
+	// don't show button for next statuses	
 	return (
 	    <div>
 	      <div style={styles.titleContainer}>
@@ -137,9 +139,12 @@ class ConfirmTrasfer extends Component {
 	      
 	      <div style={styles.formContainer}>
 		<div style={styles.phone}>
-		  <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.props.phone} />
+		  <NumberInput
+		     backgroundColor='#f5f5f5'
+		     disabled={true}
+		     placeholder={this.props.phoneFormatted} />
 		</div>
-		{ notWithdrawable ? null :
+		{ this._isWithdrawable() ?
 		    <div style={styles.button}>
 			  <ButtonPrimary
 				 handleClick={this._onSubmit.bind(this)}
@@ -147,7 +152,7 @@ class ConfirmTrasfer extends Component {
 				 buttonColor={styles.green}>
 				Confirm
 			      </ButtonPrimary>
-			</div>
+			</div> : null
 		    }
 		    
 		    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>

@@ -8,7 +8,7 @@ import ButtonPrimary from './../common/ButtonPrimary';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
-import { parse, format, asYouType } from 'libphonenumber-js';
+import { parse, format, formatNumber, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 const qs = require('querystring');
 import { TxDetailsBox } from '../Transfer/components';
@@ -57,8 +57,9 @@ class ReceiveScreen extends Component {
 	    phone,
 	    phoneCode: formatter.country_phone_code,
 	    //  phoneIsValid,
+	    phoneFormatted: format(phone, 'International')
 	};
-	
+	console.log(this.phoneParams);
 	this.networkId = queryParams.chainId || "1";	
 
         this.state = {
@@ -70,6 +71,7 @@ class ReceiveScreen extends Component {
 	    secretCode: queryParams.code,
 	    codeFromUrl: (queryParams.code && queryParams.code.length > 10)
         };
+
 
     }
 
@@ -144,18 +146,19 @@ class ReceiveScreen extends Component {
 	return (
 	    <div>
 	      <div style={styles.titleContainer}>
-		<span style={styles.title}>Receive</span>
+		<span style={styles.title}>Receive ether</span>
 	      </div>
 
-	      <div style={styles.numberInput}>
+	      <div style={styles.numberInput} className={this.state.errorMessage ? "errorInput" : null}>
 		<NumberInput type="text"
 			     disabled={false}
 			     placeholder="Paste Code Here"
+			     error={this.state.errorMessage}
 			     value={this.state.secretCode}
 			     onChange={({target}) => this.setState({secretCode: target.value})} />
 	      </div>
 	      <div style={styles.numberInput}>
-		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
+		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
 	      </div>
 	      <div style={styles.button}>
 		<ButtonPrimary
@@ -174,9 +177,8 @@ class ReceiveScreen extends Component {
     render() {
 	const props = {
 	    ...this.props,
+	    ...this.phoneParams,
 	    secretCode:this.state.secretCode,
-	    phoneCode:this.phoneParams.phoneCode,
-	    phone: this.phoneParams.phone,
 	    transfer: this.state.transfer,
 	    transferStatus: this.state.transferStatus,
 	    codeFromUrl: this.state.codeFromUrl
