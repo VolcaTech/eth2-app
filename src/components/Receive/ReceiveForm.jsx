@@ -97,6 +97,7 @@ class ReceiveScreen extends Component {
 	    this.setState({
 		fetching: false,
 		hasCode: true,
+		firstLoading: false,
 		transfer: result.transfer,
 		transferStatus: result.transfer.status
 	    });
