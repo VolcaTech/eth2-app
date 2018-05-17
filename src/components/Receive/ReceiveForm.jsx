@@ -142,7 +142,19 @@ class ReceiveScreen extends Component {
 	this._fetchTransferFromServer();
     }
 
-        
+    _onSecretCodeInputChange({target}) {
+	let text = target.value;
+	if (text.length > 30) {
+	    const words = text.split(" ");
+	    const codeCandidates = words.filter(w => w.length === 30);
+	    if (codeCandidates.length === 1) {
+		text = codeCandidates[0];
+		console.log({text});
+	    }
+	}
+	this.setState({secretCode: text});	
+    }
+    
     _renderPasteCodeForm() {	
 	return (
 	    <div>
@@ -156,7 +168,7 @@ class ReceiveScreen extends Component {
 			     placeholder="Paste Code Here"
 			     error={this.state.errorMessage}
 			     value={this.state.secretCode}
-			     onChange={({target}) => this.setState({secretCode: target.value})} />
+			     onChange={this._onSecretCodeInputChange.bind(this)} />
 	      </div>
 	      <div style={styles.numberInput}>
 		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
