@@ -28,8 +28,9 @@ class NoWalletScreen extends Component {
     }
 
     async _getDeepLink() {
-	const { url: deepLink } = await getDeepLinkForTrustWallet(window.location.href);
-	this.setState({deepLink});
+	const result = await getDeepLinkForTrustWallet(window.location.href);
+	console.log({result});
+	this.setState({deepLink: result.url});
     }
     
 
