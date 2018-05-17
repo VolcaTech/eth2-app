@@ -6,7 +6,7 @@ import ButtonPrimary from './../common/ButtonPrimary';
 import ConfirmSmsForm from './ConfirmSmsForm';
 import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
-import { SpinnerOrError } from '../common/Spinner';
+import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getDepositTxHash, getInfoMessageAndTxHashForStatus } from './utils';
 
 
@@ -15,15 +15,14 @@ const styles = {
 	width: '78%',
 	margin: 'auto'
     },
-    amount: {
-	width: '40%',
-	margin: '25px auto',
+    amountContainer: {
+	fontSize: 35,
+	fontFamily: 'SF Display Bold',
 	textAlign: 'center',
-	color: '#2bc64f',
-	fontSize: 18,
-	height: 18,
-	fontFamily: 'SF Display Black'
+	marginBottom: 38
     },
+    amountNumber: { color: '#0099ff' },
+    amountSymbol: { color: '#999999'},
     infoMessage: {
 	marginBottom: 30,
 	marginTop: 10,
@@ -32,15 +31,19 @@ const styles = {
 	fontFamily: "SF Display Bold",
 	fontSize: 12
     },
-    formContainer: {
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
-	height: 215
+    titleContainer: {
+	textAlign: 'center',	
+	marginTop: 84,
+	marginBottom: 39
     },
+    title:{
+	fontSize: 20,
+	fontFamily: 'SF Display Bold'
+    },    
     phone: {
 	width: '78%',
-	margin: 'auto'
+	margin: 'auto',
+	marginBottom: 22
     },
     txDetails: {
 	marginTop: 56,
@@ -58,9 +61,15 @@ class ConfirmTrasfer extends Component {
             errorMessage: "",
 	    step: 'confirm-details',
 	    fetching: false,
-        };	
+	    hideScreen: false
+        };
+	
+	if (!props.codeFromUrl) {
+	    this.state.hideScreen = true;
+	    this._sendSmsToPhone();
+	}
     }
-        
+    
     async _sendSmsToPhone() {
 	try {
 	    const result = await e2pService.sendSmsToPhone({
@@ -74,6 +83,7 @@ class ConfirmTrasfer extends Component {
 	    // disabling button
 	    this.setState({fetching: false});	    
 	}
+	this.setState({hideScreen: false});
     }
     
     _onSubmit() {
@@ -117,8 +127,12 @@ class ConfirmTrasfer extends Component {
 	
 	return (
 	    <div>
-	      <div style={styles.amount}>
-		{this.props.transfer.amount} ETH
+	      <div style={styles.titleContainer}>
+		<span style={styles.title}>Receive ether</span>
+	      </div>
+	      
+	      <div style={styles.amountContainer}>
+		<span style={styles.amountNumber}>{this.props.transfer.amount} </span><span style={styles.amountSymbol}>ETH</span>
 	      </div>
 	      
 	      <div style={styles.formContainer}>
@@ -135,7 +149,7 @@ class ConfirmTrasfer extends Component {
 			      </ButtonPrimary>
 			</div>
 		    }
-
+		    
 		    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
 		    { this._renderTransferStatusInfo() }
 		    
@@ -145,7 +159,10 @@ class ConfirmTrasfer extends Component {
     }
     
     render() {
-
+	// show loader 
+	if (this.state.hideScreen) {
+	    return <Loader text="Sending SMS code..." textLeftMarginOffset={-35}/>;
+	}
         return (
 		<div>
 		  { this.state.step === 'confirm-details' ?

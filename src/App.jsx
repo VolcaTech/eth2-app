@@ -6,6 +6,7 @@ import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import TransferComponent from './components/Transfer';
 import Header from './components/common/Header.jsx';
+import { Loader } from './components/common/Spinner.jsx';
 import ButtonPrimary from './components/common/ButtonPrimary';
 import HistoryScreen from './components/HistoryScreen';
 import e2pLogo from './assets/images/eth2phone-logo.png';
@@ -61,11 +62,7 @@ class App extends Component {
     render() {
 
         if (!this.props.loaded) {
-            return (
-                <div className='centered-lds'>
-		  <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
-		</div>
-            );
+            return (<Loader/>);
         }
 
         if (!this.props.connected) {

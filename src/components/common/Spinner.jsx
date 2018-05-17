@@ -16,6 +16,15 @@ export const SpinnerOrError = ({fetching, error }) => (
 	    </div>		
 );
 
+export const Loader = ({text="Loading page...", textLeftMarginOffset=-15}) => (
+    <div>
+      <div className='centered-lds'>
+	<div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+	<div style={{color: '#0099FF', marginLeft: textLeftMarginOffset }}>{text}</div>	
+    </div>
+    </div>
+
+)
 
 
 export default Spinner;

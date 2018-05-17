@@ -158,7 +158,6 @@ class E2PCarousel extends Component {
 // </div>   
 
 function mapStateToProps(state) {
-    console.log({state});
     return {
         transfers: getTransfersForActiveAddress(state)
     };

@@ -5,7 +5,7 @@ import * as e2pService from '../../services/eth2phone';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
-import { SpinnerOrError } from './../common/Spinner';
+import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, asYouType } from 'libphonenumber-js';
@@ -17,30 +17,22 @@ import ConfirmTransfer from './ConfirmTransfer';
 import { getDepositTxHash } from './utils';
 
 
+
 const styles = {
     container: { alignContent: 'center' },
-    formContainer: {
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
-	height: 215
-    },
     titleContainer: {
-	display: 'block',
-	margin: 'auto',
-	width: '70%',
-	textAlign: 'center',
-	fontSize: 12,
-	lineHeight: 1,
-	fontFamily: 'SF Display Regular'
+	textAlign: 'center',	
+	marginTop: 84,
+	marginBottom: 39
     },
     title:{
-	fontFamily: 'SF Display Bold',
-	display: 'inline'
+	fontSize: 20,
+	fontFamily: 'SF Display Bold'
     },
     numberInput: {
 	width: '78%',
-	margin: 'auto'
+	margin: 'auto',
+	marginBottom: 21
     },
     button: {
 	width: '78%',
@@ -71,19 +63,22 @@ class ReceiveScreen extends Component {
 
         this.state = {
             errorMessage: "",
+	    firstLoading: true,
 	    fetching: false,
 	    transfer: null,
 	    hasCode: false,
-	    secretCode: queryParams.code
+	    secretCode: queryParams.code,
+	    codeFromUrl: (queryParams.code && queryParams.code.length > 10)
         };
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 	if (this.state.secretCode) {
 	    this.setState({fetching: true });
-	    this._fetchTransferFromServer();
+	    await this._fetchTransferFromServer();
 	}
+	this.setState({firstLoading: false });	
     }
     
     async _fetchTransferFromServer() {
@@ -122,7 +117,8 @@ class ReceiveScreen extends Component {
 	    }		    
 	} catch(err) {
 	    this.setState({ fetching: false, errorMessage: err.message });	    
-	}	
+	}
+	this.setState({firstLoading: false});
     }
 
     
@@ -146,26 +142,31 @@ class ReceiveScreen extends Component {
         
     _renderPasteCodeForm() {	
 	return (
-	    <div style={styles.formContainer}>
-              <div style={styles.titleContainer}>
-		<div style={styles.title}>Receive ether</div>
+	    <div>
+	      <div style={styles.titleContainer}>
+		<span style={styles.title}>Receive</span>
 	      </div>
-		  <div style={styles.numberInput}>
-		    <NumberInput type="text" disabled={false} placeholder="Paste Code Here" onChange={({target}) => this.setState({secretCode: target.value})} />
-		  </div>
-		  <div style={styles.numberInput}>
-		    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
-		  </div>
-		  <div style={styles.button}>
-		    <ButtonPrimary
-		       handleClick={this._onSubmit.bind(this)}
-		       disabled={this.state.fetching}		   
-		       buttonColor={styles.green}>
-		      Confirm
-		    </ButtonPrimary>
-		  </div>
-		  
-		  <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
+
+	      <div style={styles.numberInput}>
+		<NumberInput type="text"
+			     disabled={false}
+			     placeholder="Paste Code Here"
+			     value={this.state.secretCode}
+			     onChange={({target}) => this.setState({secretCode: target.value})} />
+	      </div>
+	      <div style={styles.numberInput}>
+		<NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phone} />
+	      </div>
+	      <div style={styles.button}>
+		<ButtonPrimary
+		   handleClick={this._onSubmit.bind(this)}
+		   disabled={this.state.fetching}		   
+		   buttonColor={styles.green}>
+		  Confirm
+		</ButtonPrimary>
+	      </div>
+	      
+	      <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
 	    </div>
 	);
     }
@@ -177,8 +178,14 @@ class ReceiveScreen extends Component {
 	    phoneCode:this.phoneParams.phoneCode,
 	    phone: this.phoneParams.phone,
 	    transfer: this.state.transfer,
-	    transferStatus: this.state.transferStatus
+	    transferStatus: this.state.transferStatus,
+	    codeFromUrl: this.state.codeFromUrl
 	};
+	
+	
+	if (this.state.firstLoading) {
+	    return <Loader text="Getting transfer details..." textLeftMarginOffset={-40}/>;
+	}
 	
         return (
 	    <Grid>
