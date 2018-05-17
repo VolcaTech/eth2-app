@@ -24,15 +24,15 @@ class e2pAddressButton extends React.Component {
         return (
             <Button style={{
             //width: 100,
-            width: 85,
-			height: 22,
+            width: 104,
+			height: 28,
 			borderRadius: 6,
 			borderWidth: 2,
 			borderColor: this.props.color,                
 			backgroundColor: (this.props.active ? this.props.color: "#fff"),
 			color: (this.props.active ? "#fff": this.props.color),
 			fontFamily: "SF Display Regular", 
-			fontSize: 12,
+			fontSize: 16,
 			padding: 0,
 			paddingTop: 2,
 			paddingLeft:5,
