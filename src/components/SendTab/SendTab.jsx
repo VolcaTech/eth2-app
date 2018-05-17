@@ -97,7 +97,7 @@ class Tab extends Component {
         };
 
 	// check amount maximum
-        if (this.state.amount > 1 && this.state.networkId === "1") {
+        if (this.state.amount > 1 && this.state.networkId == "1") {
             this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
             return;
         };
