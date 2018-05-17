@@ -3,7 +3,10 @@ import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-re
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
-import {  getTransfersForActiveAddress } from './../../data/selectors';
+import { getTransfersForActiveAddress } from './../../data/selectors';
+import iLogo from './../../assets/images/i.png';
+import qLogo from './../../assets/images/q.png';
+
 
 const styles = {
     backButton: {
@@ -24,6 +27,11 @@ const styles = {
         fontSize: 16,
         color: '#0099ff',
         padding: '4px 7px 4px 7px',
+    },
+    backButtonRow: { 
+        margin: 'auto', 
+        display: 'flex', 
+        flexDirection: 'row' 
     },
     backButtonIcon: {
         display: 'inline',
@@ -48,7 +56,21 @@ const styles = {
         fontFamily: 'SF Display Bold',
         lineHeight: 1,
         paddingTop: 4,
-        marginRight: 8
+        marginRight: 20
+    },
+    footer:{
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    nextButtonContainer: {
+        margin: 'auto',
+        marginRight: 18,
+        display: 'flex',
+        flexDirection: 'row',
+        padding: "8px 16px",
+        boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.1)',
+        borderRadius: 50,
     },
     nextButtonTitle: {
         // width: 250,
@@ -57,9 +79,10 @@ const styles = {
         // paddingTop: 3,
         // display: 'block',
         // textAlign: 'center',
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'SF Display Bold',
-        marginRight: 7
+        marginRight: 7,
+        paddingTop: 2
     },
     buttonHidden: { width: 0, height: 0, overflow: 'hidden' },
     infoIcon: {
@@ -73,6 +96,10 @@ const styles = {
         lineHeight: 1,
         fontSize: 14,
         fontFamily: 'SF Display Bold'
+    },
+    logo: {
+        height: 59, 
+        width: 59
     }
 }
 
@@ -82,35 +109,35 @@ class E2PCarousel extends Component {
         super(props);
         this.state = {
             currentSlide: 0,
-            nextButtonStyle: {marginTop: 10},
+            nextButtonStyle: {},
             backButtonStyle: styles.buttonHidden
         };
     }
-    
+
     componentWillReceiveProps(nextProps) {
-	// slide up screen from history on change
-	if (nextProps.location !== this.props.location) {	    
-	    this._clickBackButton();
-	}
+        // slide up screen from history on change
+        if (nextProps.location !== this.props.location) {
+            this._clickBackButton();
+        }
     }
 
     _clickBackButton() {
-	this.setState({
-	    currentSlide: 0,
-	    backButtonStyle: styles.buttonHidden,
-	    nextButtonStyle: {marginTop: 10}
-	});
+        this.setState({
+            currentSlide: 0,
+            backButtonStyle: styles.buttonHidden,
+            nextButtonStyle: {}
+        });
     }
-    
+
     render() {
         const Slides = this.props.slides.map((slideComponent, index) => {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
-        let height = window.INITIAL_HEIGHT - 130;
+        let height = window.INITIAL_HEIGHT - 140;
         if (this.state.currentSlide === 1) {
-	    const rowsHeight = (this.props.transfers.length * 50 + 100);
-	    height = Math.max(height, rowsHeight);
-	}
+            const rowsHeight = (this.props.transfers.length * 50 + 100);
+            height = Math.max(height, rowsHeight);
+        }
 
 
         return (
@@ -125,8 +152,8 @@ class E2PCarousel extends Component {
                     dragEnabled={false}
                 >
                     <div style={this.state.backButtonStyle}>
-                      <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
-                            <div style={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>
+                        <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
+                            <div style={styles.backButtonRow}>
                                 <div style={styles.backButtonTitle}>Back</div>
                                 <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
                             </div>
@@ -138,12 +165,18 @@ class E2PCarousel extends Component {
                     </Slider>
 
                     <div style={this.state.nextButtonStyle}>
-                            <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                            <div style={{ margin: 'auto', display: 'flex', flexDirection: 'row' }}>                            
-                                <span style={styles.nextButtonTitle}>Recent transactions</span>
+                        <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
+                            <div style={styles.footer}>
+                            <div style={styles.nextButtonContainer}>
+                                <span style={styles.nextButtonTitle}>Transactions</span>
                                 <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+                            </div>
+                            <Link to="/about">
+                            <img src={iLogo} style={styles.logo} onLoad={() => {window.dispatchEvent(new Event('resize'));}} />
+                            </Link>
+                                <img style={{}} src={qLogo}></img> 
                                 </div>
-                            </ButtonNext>
+                        </ButtonNext>
                     </div>
                 </CarouselProvider>
             </div>
