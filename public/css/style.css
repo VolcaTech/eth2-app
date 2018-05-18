@@ -319,4 +319,11 @@ li:focus,
       color: #E64437 !important;
   }
   
+ .codeInput ::placeholder {
+     padding-left: 30px;
+     font-size: 16px;
+ }
  
+ .hover:hover {
+     cursor: pointer;
+ }

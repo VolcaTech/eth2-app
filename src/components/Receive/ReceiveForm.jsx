@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Grid } from 'react-bootstrap';
 import * as e2pService from '../../services/eth2phone';
+import CodeInput from './../common/CodeInput';
 import NumberInput from './../common/NumberInput';
-import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
@@ -163,7 +163,7 @@ class ReceiveScreen extends Component {
 	      </div>
 
 	      <div style={styles.numberInput} className={this.state.errorMessage ? "errorInput" : null}>
-		<NumberInput type="text"
+		<CodeInput type="text"
 			     disabled={false}
 			     placeholder="Paste Code Here"
 			     error={this.state.errorMessage}
