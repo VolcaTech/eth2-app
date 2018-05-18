@@ -15,8 +15,8 @@ const styles = {
 	height: 38,
 	borderBottomLeftRadius: 0,
 	borderTopLeftRadius: 0,
+	padding: 7.5,
 	backgroundColor: 'white',
-	paddingTop: 6,
 	textAlign: 'center'
     },    
 }
@@ -42,23 +42,25 @@ class e2pPhoneInput extends React.Component {
                      borderColor: this.props.error ?  '#E64437' : '#f5f5f5',
                      color: this.props.error ? '#E64437' : this.props.fontColor,		   
                      backgroundColor: this.props.backgroundColor,
-                     fontSize: 10,
+                     fontSize: 16,
                      letterSpacing: 1,
                      textAlign: 'center',
                      boxShadow: 0,
                      display: 'inline-block', 
-                     margin: 'auto',
                      fontFamily: "SF Display Bold",                 
                      WebkitBoxShadow: 'none',
 		     borderRight: 0,
 		     borderTopRightRadius: 0,
-		     borderBottomRightRadius: 0		     
+		     borderBottomRightRadius: 0,
+		     margin: 0,
+		     padding: 0
 		 }}>
             </FormControl>
-	      <div style={{
-		       ...styles.icon,
-		       borderColor: this.props.error ?  '#E64437' : '#f5f5f5',
-		       }
+	      <div
+		 style={{
+		     ...styles.icon,
+		     borderColor: this.props.error ?  '#E64437' : '#f5f5f5',
+		     }
 		   }>
 		<span
 		   className="hover"
