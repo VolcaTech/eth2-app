@@ -315,17 +315,19 @@ li:focus,
       outline: none;
   }
 
- .errorInput ::placeholder {
-      color: #E64437 !important;
-  }
-  
  .codeInput ::placeholder {
-     padding-left: 30px !important;
+     padding-left: 15px !important;
      font-size: 16px !important;
      height: 38px !important;
      lineHeight: 16px !important;
+     color: #0099ff !important;
  }
- 
+
+  .errorInput ::placeholder {
+      color: #E64437 !important;
+  }
+  
+
  .hover:hover {
      cursor: pointer;
  }

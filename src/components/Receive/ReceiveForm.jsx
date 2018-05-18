@@ -25,6 +25,14 @@ const styles = {
 	marginTop: 84,
 	marginBottom: 39
     },
+    amountContainer: {
+	fontSize: 35,
+	fontFamily: 'SF Display Bold',
+	textAlign: 'center',
+	marginBottom: 38
+    },
+    amountNumber: { color: '#0099ff' },
+    amountSymbol: { color: '#999999'},    
     title:{
 	fontSize: 20,
 	fontFamily: 'SF Display Bold'
@@ -83,20 +91,20 @@ class ReceiveScreen extends Component {
 	this.setState({firstLoading: false });	
     }
     
-    async _fetchTransferFromServer() {
+    async _fetchTransferFromServer(code=null, hasCode=true) {
 	try {
 	    this._checkNetwork();
 	    
 	    const result = await e2pService.fetchTransferDetailsFromServer({
 		phone: this.phoneParams.phone,
 		phoneCode: this.phoneParams.phoneCode,
-		secretCode: this.state.secretCode
+		secretCode: code || this.state.secretCode
 	    });
 
 	    if (!result.success) { throw new Error(result.errorMessage || "Server error");};
 	    this.setState({
 		fetching: false,
-		hasCode: true,
+		hasCode,
 		firstLoading: false,
 		transfer: result.transfer,
 		transferStatus: result.transfer.status
@@ -119,7 +127,7 @@ class ReceiveScreen extends Component {
 		}
 	    }		    
 	} catch(err) {
-	    this.setState({ fetching: false, errorMessage: err.message });	    
+	    this.setState({ fetching: false, errorMessage: err.message, transfer: null });	    
 	}
 	this.setState({firstLoading: false});
     }
@@ -152,7 +160,12 @@ class ReceiveScreen extends Component {
 		console.log({text});
 	    }
 	}
-	this.setState({secretCode: text, errorMessage: null});	
+	this.setState({secretCode: text, errorMessage: null});
+
+	// try fetch transfer if code is right length
+	if (text.length === 30) {
+	    this._fetchTransferFromServer(text, false);
+	}
     }
     
     _renderPasteCodeForm() {	
@@ -162,10 +175,17 @@ class ReceiveScreen extends Component {
 		<span style={styles.title}>Receive ether</span>
 	      </div>
 
+	      { this.state.transfer && this.state.transfer.amount ?
+		  <div style={styles.amountContainer}>
+			<span style={styles.amountNumber}>{this.state.transfer.amount} </span><span style={styles.amountSymbol}>ETH</span>
+		      </div>: null
+		  }
+		      
+	      
 	      <div style={styles.numberInput} className={this.state.errorMessage ? "errorInput" : null}>
 		<CodeInput type="text"
 			     disabled={false}
-			     placeholder="Paste Code Here"
+			     placeholder="Paste message with code"
 			     error={this.state.errorMessage}
 			     value={this.state.secretCode}
 			     onChange={this._onSecretCodeInputChange.bind(this)} />
