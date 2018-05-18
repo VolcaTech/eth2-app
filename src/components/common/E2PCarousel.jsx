@@ -21,9 +21,6 @@ const styles = {
     },
     nextButtonIcon: {
         display: 'inline',
-        borderRadius: 16,
-        borderWidth: 0,
-        backgroundColor: '#f5f5f5',
         fontSize: 16,
         color: '#0099ff',
         padding: '4px 7px 4px 7px',
