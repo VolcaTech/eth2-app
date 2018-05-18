@@ -66,7 +66,8 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         padding: "8px 16px",
-        boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+        webkitBoxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',	
         borderRadius: 50,
     },
     nextButtonTitle: {
