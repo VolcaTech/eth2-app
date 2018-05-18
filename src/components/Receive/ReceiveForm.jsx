@@ -152,7 +152,7 @@ class ReceiveScreen extends Component {
 		console.log({text});
 	    }
 	}
-	this.setState({secretCode: text});	
+	this.setState({secretCode: text, errorMessage: null});	
     }
     
     _renderPasteCodeForm() {	

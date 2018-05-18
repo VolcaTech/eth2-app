@@ -16,7 +16,8 @@ const styles = {
 	borderBottomLeftRadius: 0,
 	borderTopLeftRadius: 0,
 	backgroundColor: 'white',
-	paddingTop: 6
+	paddingTop: 6,
+	textAlign: 'center'
     },    
 }
 
