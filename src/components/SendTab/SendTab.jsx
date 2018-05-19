@@ -25,7 +25,7 @@ const styles = {
         lineHeight: 1,
         fontFamily: 'SF Display Black',
         textAlign: 'center',
-        marginBottom: 14,
+        marginBottom: 50,
         marginTop: 27
     },
     text1: {
@@ -39,6 +39,40 @@ const styles = {
         textAlign: 'center',
         marginBottom: 36
     },
+    container: {
+        height: 155,
+        display: 'flex',
+        margin: 'auto',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+    numberInput: {
+        display: 'block',
+        margin: 'auto',
+        width: '78%',
+        height: 39,
+        marginBottom: 19,
+        marginTop: 19
+    },
+    sendButton: {
+        width: '78%',
+        display: 'block',
+        margin: 'auto'
+    },
+    spinner: { 
+        height: 28, 
+        textAlign: 'center', 
+        marginTop: 10 
+    },
+    betaText: { 
+        fontSize: 12, 
+        fontFamily: 'SF Display Regular', 
+        opacity: 0.4, 
+        textAlign: 'center' 
+    },
+    betaBold: { 
+        display: 'inline', 
+        fontFamily: 'SF Display Bold' },
     blue: '#0099ff'
 }
 
@@ -79,7 +113,7 @@ class Tab extends Component {
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
 
-	// get dial code from phone number
+        // get dial code from phone number
         const formatter = new asYouType();
         formatter.input(phone);
         const phoneCode = formatter.country_phone_code;
@@ -96,12 +130,12 @@ class Tab extends Component {
             return;
         };
 
-	// check amount maximum
+        // check amount maximum
         if (this.state.amount > 1 && this.props.networkId == "1") {
             this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
             return;
         };
-	
+
         // disabling button
         this.setState({ fetching: true });
 
@@ -113,48 +147,49 @@ class Tab extends Component {
 
     _renderForm() {
         return (
-		<Row>
-              <Col sm={4} smOffset={4}>
-	    
-	    <div>
-                <div style={styles.title}>Send ether to everyone.<br />Easy. Secure. No wallet needed.</div>
-                <div style={styles.text1}>You can send ether to anyone using just a phone number. Person receives the assets to any Ethereum address with a special link.</div>
-        <div style={{height: 155, display: 'flex', margin: 'auto', flexDirection: 'column', justifyContent: 'space-between'}}>
-                <div>
-                    <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
-                </div>
-                <div style={{ display: 'block', margin: 'auto', width: '78%', height: 39, marginBottom: 19, marginTop: 19 }}>
-                    <NumberInput
-                        onChange={({ target }) => (this.setState({ amount: target.value }))}
-                        disabled={false}
-                        fontColor='#000000'
-                        backgroundColor='#fff'
-                        style={{ touchInput: 'manipulation' }}
-                        placeholder="ETH amount"
-                    />
-                </div>
-                <div style={{width: '78%', display: 'block', margin: 'auto'}}>
-                    <ButtonPrimary
-                        handleClick={this._onSubmit.bind(this)}
-                        buttonColor={styles.blue}
-                        disabled={this.state.fetching}
-                    >
-                        Send
+            <Row>
+                <Col sm={4} smOffset={4}>
+
+                    <div>
+                        <div style={styles.title}>Send Ether to everyone<br />just by phone number</div>
+                        <div style={styles.container}>
+                            <div>
+                                <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+                            </div>
+                            <div style={styles.numberInput}>
+                                <NumberInput
+                                    onChange={({ target }) => (this.setState({ amount: target.value }))}
+                                    disabled={false}
+                                    fontColor='#000000'
+                                    backgroundColor='#fff'
+                                    style={{ touchInput: 'manipulation' }}
+                                    placeholder="ETH amount"
+                                />
+                            </div>
+                            <div style={styles.sendButton}>
+                                <ButtonPrimary
+                                    handleClick={this._onSubmit.bind(this)}
+                                    buttonColor={styles.blue}
+                                    disabled={this.state.fetching}
+                                >
+                                    Send
                     </ButtonPrimary>
-                    <div style={{ height: 28, textAlign: 'center', marginTop: 10 }}>
-                        {this.state.fetching ?
-                            <div style={{ width: 20, margin: 'auto' }}>
-                                <Spinner />
-                            </div> :
-                            <span style={{ color: '#ef4234', fontSize: 15 }}>{this.state.errorMessage}</span>
-                        }
+                                <div style={styles.spinner}>
+                                    {this.state.fetching ?
+                                        <div style={{ width: 20, margin: 'auto' }}>
+                                            <Spinner />
+                                        </div> :
+                                        <span style={{ color: '#ef4234', fontSize: 15 }}>{this.state.errorMessage}</span>
+                                    }
+                                </div>
+                            </div>
+                            <div style={styles.betaText}>*In beta you can send &nbsp;<div style={styles.betaBold}>&nbsp;1 ETH</div> max</div>
+                            <CheckBox />
+                        </div>
                     </div>
-                </div>
-        </div>
-	    </div>
-            </Col>
-	    </Row>
-	    
+                </Col>
+            </Row>
+
         );
     }
 

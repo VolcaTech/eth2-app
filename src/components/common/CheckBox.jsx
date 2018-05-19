@@ -10,7 +10,8 @@ class CheckBox extends React.Component {
             <div style={{width: 225, height: 64, display: 'block', margin: 'auto'}}>
               <div style={{verticalAlign: 'text-top', display: 'inline-block', height: 15, width: 15, marginRight: 5}}>
 		<Checkbox checked readOnly>
-		  <div style={{ width: 205, textAlign: 'center', display: 'inline-block', verticalAlign: 'text-top', fontSize: 12, fontFamily: 'SF Display Regular'}}>I understand I am using alpha software, at my own risk, provided under MIT liscence.</div>
+		  <div style={{ width: 205, textAlign: 'center', display: 'inline-block', verticalAlign: 'text-top', fontSize: 12, fontFamily: 'SF Display Regular'}}>I understand I am using beta software,
+at my own risk. <div style={{fontFamily: 'SF Display Bold', display: 'inline', color: '#0099ff'}}>Learn more</div></div>
 		</Checkbox>
 	      </div>
 	    </div>
