@@ -13,7 +13,7 @@ import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust.png';
 import Landing from './landing';
 import escrowContract from './services/eth2phone/escrowContract';
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
 
     
@@ -77,6 +77,8 @@ class App extends Component {
 	    return this._renderNoAddress();
         }
 
+	console.log({l: window.location});
+	
         return (	    
 		<Router>
                 <div>
@@ -91,6 +93,16 @@ class App extends Component {
                 <Route exact path="/" component={SendTab} />
                 <Route exact path="/transfers/:transferId" component={TransferComponent} />
                 <Route path="/receive" component={ReceiveForm} />
+		<Route path='/r' render={(props) => {
+		    console.log({props});
+		    return (
+			<Redirect to={{
+				      pathname: '/receive',
+				      search: props.location.search
+				  }}/>
+		    );
+		}}/>
+	    
                 <Route path="/history" component={HistoryScreen} />
                 <Route path="/about" component={Landing}/>
             </Switch>

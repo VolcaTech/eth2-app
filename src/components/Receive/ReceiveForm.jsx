@@ -57,7 +57,11 @@ class ReceiveScreen extends Component {
 	const queryParams = qs.parse(props.location.search.substring(1));
 	
 	// parse phone params
-	const phone = `+${queryParams.phone}`;
+	let phone = queryParams.phone||queryParams.p;
+	const secretCode = (queryParams.code || queryParams.c);
+	this.networkId = queryParams.chainId || queryParams.n || "1";	
+	
+	phone = `+${phone}`;
 	const formatter = new asYouType();
 	formatter.input(phone);	
 	
@@ -67,8 +71,7 @@ class ReceiveScreen extends Component {
 	    //  phoneIsValid,
 	    phoneFormatted: format(phone, 'International')
 	};
-	console.log(this.phoneParams);
-	this.networkId = queryParams.chainId || "1";	
+
 
         this.state = {
             errorMessage: "",
@@ -76,7 +79,7 @@ class ReceiveScreen extends Component {
 	    fetching: false,
 	    transfer: null,
 	    hasCode: false,
-	    secretCode: queryParams.code,
+	    secretCode, 
 	    codeFromUrl: (queryParams.code && queryParams.code.length > 10)
         };
 
