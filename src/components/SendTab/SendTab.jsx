@@ -84,6 +84,7 @@ class Tab extends Component {
             amount: 0,
             errorMessage: "",
             fetching: false,
+            buttonDisabled: true
         };
     }
 
@@ -170,7 +171,7 @@ class Tab extends Component {
                                 <ButtonPrimary
                                     handleClick={this._onSubmit.bind(this)}
                                     buttonColor={styles.blue}
-                                    disabled={this.state.fetching}
+                                    disabled={this.state.buttonDisabled}
                                 >
                                     Send
                     </ButtonPrimary>
@@ -184,7 +185,7 @@ class Tab extends Component {
                                 </div>
                             </div>
                             <div style={styles.betaText}>*In beta you can send &nbsp;<div style={styles.betaBold}>&nbsp;1 ETH</div> max</div>
-                            <CheckBox />
+                            <CheckBox onSubmit={() => this.setState({buttonDisabled: false})} />
                         </div>
                     </div>
                 </Col>
