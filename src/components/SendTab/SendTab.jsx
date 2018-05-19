@@ -69,6 +69,7 @@ const styles = {
         fontFamily: 'SF Display Regular',
         opacity: 0.4,
         textAlign: 'center',
+        margin: 10
     },
     betaBold: {
         display: 'inline',
@@ -87,7 +88,9 @@ class Tab extends Component {
             fetching: false,
             buttonDisabled: false,
             checked: false,
-            checkboxTextColor: '#000'
+            checkboxTextColor: '#000',
+            numberInputError: false,
+            phoneError: false
         };
     }
 
@@ -124,19 +127,19 @@ class Tab extends Component {
 
         // check that phone number is valid
         if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-            this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
+            this.setState({ fetching: false, errorMessage: "Phone number is invalid", phoneError: true });
             return;
         };
 
         // check amount
         if (this.state.amount <= 0) {
-            this.setState({ fetching: false, errorMessage: "Amount should be more than 0" });
+            this.setState({ fetching: false, errorMessage: "Amount should be more than 0", numberInputError: true });
             return;
         };
 
         // check amount maximum
-        if (this.state.amount > 1 && this.props.networkId == "1") {
-            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
+        if (this.state.amount > 1 && this.props.networkId === "1") {
+            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product.", numberInputError: true });
             return;
         };
 
@@ -163,16 +166,19 @@ class Tab extends Component {
                         <div style={styles.title}>Send Ether to everyone<br />just by phone number</div>
                         <div style={styles.container}>
                             <div>
-                                <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+                                <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
+                                 _ref={(ref) => { this.phoneNumber = ref; }} error={this.state.phoneError}/>
                             </div>
                             <div style={styles.numberInput}>
                                 <NumberInput
-                                    onChange={({ target }) => (this.setState({ amount: target.value }))}
+                                    onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: ""})
+                                )}
                                     disabled={false}
                                     fontColor='#000000'
                                     backgroundColor='#fff'
                                     style={{ touchInput: 'manipulation' }}
                                     placeholder="ETH amount"
+                                    error={this.state.numberInputError}
                                 />
                             </div>
                             <div style={styles.sendButton}>
