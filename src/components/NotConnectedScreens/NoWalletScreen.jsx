@@ -3,6 +3,8 @@ import getDeepLinkForTrustWallet from './../../services/trustDeepLinkService';
 import TrustLogo from './../../assets/images/trust-logo.png';
 import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import ButtonPrimary from '../../components/common/ButtonPrimary';
+import RetinaImage from 'react-retina-image';
+
 
 const styles = {
     e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },
@@ -49,7 +51,9 @@ class NoWalletScreen extends Component {
 		
                 <div style={styles.supported}>Supported wallets</div>
 		
-                <div><img src={TrustLogo} style={styles.trustLogo} /></div>                        
+                <div style={styles.trustLogo}>
+		  <RetinaImage src={TrustLogo} />
+		</div>                        
               </div>
             </div>
         );
