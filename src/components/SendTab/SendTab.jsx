@@ -59,20 +59,21 @@ const styles = {
         display: 'block',
         margin: 'auto'
     },
-    spinner: { 
-        height: 28, 
-        textAlign: 'center', 
-        marginTop: 10 
+    spinner: {
+        height: 28,
+        textAlign: 'center',
+        marginTop: 10
     },
-    betaText: { 
-        fontSize: 12, 
-        fontFamily: 'SF Display Regular', 
-        opacity: 0.4, 
-        textAlign: 'center' 
+    betaText: {
+        fontSize: 12,
+        fontFamily: 'SF Display Regular',
+        opacity: 0.4,
+        textAlign: 'center',
     },
-    betaBold: { 
-        display: 'inline', 
-        fontFamily: 'SF Display Bold' },
+    betaBold: {
+        display: 'inline',
+        fontFamily: 'SF Display Bold'
+    },
     blue: '#0099ff'
 }
 
@@ -84,7 +85,9 @@ class Tab extends Component {
             amount: 0,
             errorMessage: "",
             fetching: false,
-            buttonDisabled: true
+            buttonDisabled: false,
+            checked: false,
+            checkboxTextColor: '#000'
         };
     }
 
@@ -137,6 +140,11 @@ class Tab extends Component {
             return;
         };
 
+        if (this.state.checked === false) {
+            this.setState({ buttonDisabled: true, checkboxTextColor: '#e64437' })
+            return;
+        }
+
         // disabling button
         this.setState({ fetching: true });
 
@@ -185,7 +193,7 @@ class Tab extends Component {
                                 </div>
                             </div>
                             <div style={styles.betaText}>*In beta you can send &nbsp;<div style={styles.betaBold}>&nbsp;1 ETH</div> max</div>
-                            <CheckBox onSubmit={() => this.setState({buttonDisabled: false})} />
+                            <CheckBox onSubmit={() => this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} />
                         </div>
                     </div>
                 </Col>
