@@ -25,10 +25,10 @@ const styles = {
         color: '#0099ff',
         padding: '4px 7px 4px 7px',
     },
-    backButtonRow: { 
-        margin: 'auto', 
-        display: 'flex', 
-        flexDirection: 'row' 
+    buttonRow: {
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'row'
     },
     backButtonIcon: {
         display: 'inline',
@@ -36,7 +36,6 @@ const styles = {
         width: 23,
         borderRadius: 12,
         borderWidth: 0,
-        backgroundColor: '#f5f5f5',
         fontSize: 16,
         color: '#0099ff',
         padding: '3px 7px 4px 7px'
@@ -55,19 +54,19 @@ const styles = {
         paddingTop: 4,
         marginRight: 20
     },
-    footer:{
+    footer: {
         margin: 'auto',
         display: 'flex',
         flexDirection: 'row',
     },
-    nextButtonContainer: {
+    buttonContainer: {
         margin: 'auto',
         marginRight: 18,
         display: 'flex',
         flexDirection: 'row',
         padding: "8px 16px",
         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-        webkitBoxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',	
+        webkitBoxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
         borderRadius: 50,
     },
     nextButtonTitle: {
@@ -96,7 +95,7 @@ const styles = {
         fontFamily: 'SF Display Bold'
     },
     logo: {
-        height: 59, 
+        height: 59,
         width: 59
     }
 }
@@ -149,31 +148,34 @@ class E2PCarousel extends Component {
                     touchEnabled={false}
                     dragEnabled={false}
                 >
-                    <div style={this.state.backButtonStyle}>
-                        <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
-                            <div style={styles.backButtonRow}>
-                                <div style={styles.backButtonTitle}>Back</div>
-                                <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
-                            </div>
 
-                        </ButtonBack>
-                    </div>
                     <Slider>
                         {Slides}
                     </Slider>
 
+                    <div style={this.state.backButtonStyle}>
+                        <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
+                            <div style={styles.buttonRow}>
+                                <div style={styles.buttonContainer}>
+                                    <div style={styles.backButtonTitle}>Back</div>
+                                    <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
+                                </div>
+                            </div>
+                        </ButtonBack>
+                    </div>
+
                     <div style={this.state.nextButtonStyle}>
                         <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                            <div style={styles.footer}>
-                            <div style={styles.nextButtonContainer}>
-                                <span style={styles.nextButtonTitle}>Transactions</span>
-                                <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
-                            </div>
-                            <Link to="/about">
-                            <img src={iLogo} style={styles.logo} onLoad={() => {window.dispatchEvent(new Event('resize'));}} />
-                            </Link>
-                                <img style={{}} src={qLogo}></img> 
+                            <div style={styles.buttonRow}>
+                                <div style={styles.buttonContainer}>
+                                    <span style={styles.nextButtonTitle}>Transactions</span>
+                                    <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
                                 </div>
+                                <Link to="/about">
+                                    <img src={iLogo} style={styles.logo} onLoad={() => { window.dispatchEvent(new Event('resize')); }} />
+                                </Link>
+                                <img style={{}} src={qLogo}></img>
+                            </div>
                         </ButtonNext>
                     </div>
                 </CarouselProvider>
