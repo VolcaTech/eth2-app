@@ -155,12 +155,11 @@ class ReceiveScreen extends Component {
 
     _onSecretCodeInputChange({target}) {
 	let text = target.value;
-	if (text.length > 30) {
+	if (text.length > 20) {
 	    const words = text.split(" ");
-	    const codeCandidates = words.filter(w => w.length === 30);
+	    const codeCandidates = words.filter(w => w.length === 20);
 	    if (codeCandidates.length === 1) {
 		text = codeCandidates[0];
-		console.log({text});
 	    }
 	}
 	this.setState({secretCode: text, errorMessage: null});
