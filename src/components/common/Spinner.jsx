@@ -13,7 +13,8 @@ export const SpinnerOrError = ({fetching, error }) => {
 		  <div style={{width: 20, margin: 'auto'}}>
 			<Spinner/>			
 		      </div> :
-		      <span style={{color: '#E64437', fontSize: 15}}>{error}</span>
+		      <span style={{color: '#E64437', fontSize: 12,
+				    fontFamily: 'SF Display Regular'}}>{error}</span>
 		      }			   
 	    </div>
     );

@@ -9,7 +9,7 @@ import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-import Spinner from './../common/Spinner';
+import { SpinnerOrError } from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
 import { Row, Col } from 'react-bootstrap';
@@ -69,11 +69,13 @@ const styles = {
         fontSize: 12,
         fontFamily: 'SF Display Regular',
         opacity: 0.4,
-        textAlign: 'center',
-        margin: 10
+    },
+    betaContainer: {
+	paddingTop: 8,
+	height: 28,
+	textAlign: 'center',	
     },
     betaBold: {
-        display: 'inline',
         fontFamily: 'SF Display Bold'
     },
     blue: '#0099ff'
@@ -146,8 +148,8 @@ class Tab extends Component {
         };
 
         // check amount maximum
-        if (this.state.amount > 1 && this.props.networkId === "1") {
-            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product.", numberInputError: true });
+        if (this.state.amount > 1) {
+            this.setState({ fetching: false, errorMessage: (<span>*In beta you can send <span style={styles.betaBold}>1 ETH</span> max.</span>), numberInputError: true });
             return;
         };
 
@@ -172,13 +174,15 @@ class Tab extends Component {
         }, 100);
     };
 
+
+    
     _renderForm() {
         return (
             <Row>
                 <Col sm={4} smOffset={4}>
 
                     <div>
-                        <div style={styles.title}>Send Ether to everyone<br />just by phone number</div>
+                        <div style={styles.title}>Send Ether to anyone<br />simply by phone number</div>
                         <div style={styles.container}>
                             <div>
                                 <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
@@ -200,21 +204,21 @@ class Tab extends Component {
                                 <ButtonPrimary
                                     handleClick={this._onSubmit.bind(this)}
                                     buttonColor={styles.blue}
-                                    disabled={this.state.buttonDisabled}
-                                >
+                                   disabled={this.state.buttonDisabled}>
                                     Send
-                    </ButtonPrimary>
-                                <div style={styles.spinner}>
-                                    {this.state.fetching ?
-                                        <div style={{ width: 20, margin: 'auto' }}>
-                                            <Spinner />
-                                        </div> :
-                                        <span style={{ color: '#ef4234', fontSize: 15 }}>{this.state.errorMessage}</span>
-                                    }
-                                </div>
-                            </div>
-                            <div style={styles.betaText}>*In beta you can send &nbsp;<div style={styles.betaBold}>&nbsp;1 ETH</div> max</div>
-                            <CheckBox onSubmit={() => this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} disabled={this.state.checked}/>
+				</ButtonPrimary>
+				
+				{(this.state.fetching || this.state.errorMessage) ? (<SpinnerOrError
+								 fetching={this.state.fetching}
+											    error={this.state.errorMessage}/>) :
+				 <div style={styles.betaContainer}>
+				 <span style={styles.betaText}>
+				 *In beta you can send
+				 <span style={styles.betaBold}> 1 ETH</span> max
+				 </span>
+				 </div> }	  
+			    </div>
+			    <CheckBox onSubmit={() => this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} disabled={this.state.checked}/>
                         </div>
                     </div>
                 </Col>
