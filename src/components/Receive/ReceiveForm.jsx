@@ -166,7 +166,7 @@ class ReceiveScreen extends Component {
 	this.setState({secretCode: text, errorMessage: null});
 
 	// try fetch transfer if code is right length
-	if (text.length === 30) {
+	if (text.length === 20) {
 	    this._fetchTransferFromServer(text, false);
 	}
     }

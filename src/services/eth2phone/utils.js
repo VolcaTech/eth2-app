@@ -37,9 +37,7 @@ export const generateTransferId = (phoneCode, phone, secretCode) => {
 }
 
 const generateSecretCode = (n) => {
-    const secretCode = generateRandomString(30);
-    console.log({secretCode});
-
+    const secretCode = generateRandomString(20);
     return secretCode;
 }
 

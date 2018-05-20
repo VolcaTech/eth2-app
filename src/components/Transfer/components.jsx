@@ -1,7 +1,7 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import ButtonPrimary from './../common/ButtonPrimary';
-const ETH2PHONE_HOST = 'https://eth2phone.github.io';
+const ETH2PHONE_HOST = 'https://eth2.io';
 
 
 const styles = {
@@ -62,18 +62,18 @@ export const TxDetailsBox = ({txHash, networkId, style}) =>{
 export const ShareButton = ({transfer}) => {
     
     const phoneNumberWithoutPlus = (transfer.receiverPhone || "").substring(1); // remove '+' from number
-    let shareLink = `${ETH2PHONE_HOST}/#/receive?phone=${phoneNumberWithoutPlus}`;
+    let shareLink = `${ETH2PHONE_HOST}/#/receive?p=${phoneNumberWithoutPlus}`;
 
     let shareText = `Hi, I've sent you ${transfer.amount} eth.`;
     if (transfer.amount > 0.1) {
 	shareText += `\nSecret code: ${transfer.secretCode}`;
     } else {
-	shareLink += `&code=${transfer.secretCode}`;
+	shareLink += `&c=${transfer.secretCode}`;
     }
 
     // add network id to url params if not mainnet
     if (transfer.networkId != "1") {
-        shareLink += `&chainId=${transfer.networkId}`;
+        shareLink += `&n=${transfer.networkId}`;
     }
     
     shareText += `\nTo receive follow the link: ${shareLink}`;
