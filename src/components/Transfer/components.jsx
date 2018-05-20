@@ -63,20 +63,20 @@ export const ShareButton = ({transfer}) => {
     
     const phoneNumberWithoutPlus = (transfer.receiverPhone || "").substring(1); // remove '+' from number
     let shareLink = `${ETH2PHONE_HOST}/#/receive?p=${phoneNumberWithoutPlus}`;
-
-    let shareText = `Hi, I've sent you ${transfer.amount} eth.`;
-    if (transfer.amount > 0.1) {
-	shareText += `\nSecret code: ${transfer.secretCode}`;
-    } else {
-	shareLink += `&c=${transfer.secretCode}`;
-    }
-
     // add network id to url params if not mainnet
     if (transfer.networkId != "1") {
         shareLink += `&n=${transfer.networkId}`;
     }
-    
-    shareText += `\nTo receive follow the link: ${shareLink}`;
+
+    let shareText = `Hi, I've sent you ${transfer.amount} eth.`;
+    if (transfer.amount > 0.1) {
+	shareText += `\n**To receive it copy whole message to the form on** - ${shareLink}`;
+	shareText += `\n\nReceiver's code: ${transfer.secretCode}`;
+	shareText += `\n(Code will be extracted automatically)`;
+    } else {
+	shareLink += `&c=${transfer.secretCode}`;
+	shareText += `\nTo receive follow the link: ${shareLink}`;
+    }
     
     return (
         <div style={styles.shareLinkContainer}>
