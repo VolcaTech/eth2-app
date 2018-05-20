@@ -62,7 +62,7 @@ export const TxDetailsBox = ({txHash, networkId, style}) =>{
 export const ShareButton = ({transfer}) => {
     
     const phoneNumberWithoutPlus = (transfer.receiverPhone || "").substring(1); // remove '+' from number
-    let shareLink = `${ETH2PHONE_HOST}/#/receive?p=${phoneNumberWithoutPlus}`;
+    let shareLink = `${ETH2PHONE_HOST}/#/r?p=${phoneNumberWithoutPlus}`;
     // add network id to url params if not mainnet
     if (transfer.networkId != "1") {
         shareLink += `&n=${transfer.networkId}`;
