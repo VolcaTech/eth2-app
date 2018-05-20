@@ -71,7 +71,7 @@ export const ShareButton = ({transfer}) => {
     let shareText = `Hi, I've sent you ${transfer.amount} eth.`;
     if (transfer.amount > 0.1) {
 	shareText += `\n**To receive it copy whole message to the form on** - ${shareLink}`;
-	shareText += `\n\nReceiver's code: ${transfer.secretCode}`;
+	shareText += `\n\nReceive code: ${transfer.secretCode}`;
 	shareText += `\n(Code will be extracted automatically)`;
     } else {
 	shareLink += `&c=${transfer.secretCode}`;

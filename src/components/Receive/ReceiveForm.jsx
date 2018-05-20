@@ -80,7 +80,7 @@ class ReceiveScreen extends Component {
 	    transfer: null,
 	    hasCode: false,
 	    secretCode, 
-	    codeFromUrl: (queryParams.code && queryParams.code.length > 10)
+	    codeFromUrl: (secretCode && secretCode.length > 10)
         };
 
 
