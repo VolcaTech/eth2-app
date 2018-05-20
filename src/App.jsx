@@ -105,6 +105,12 @@ class App extends Component {
 	    
                 <Route path="/history" component={HistoryScreen} />
                 <Route path="/about" component={Landing}/>
+                <Route path="/faq" component={{}}/>
+                <Route path="/tos" component={{}}/>
+                <Route path="/policy" component={{}}/>
+                <Route path='/github' component={() => window.location = 'https://github.com/eth2phone/eth2phone.github.io'}/>
+                <Route path='/telegram' component={() => window.location = 'https://telegram.org/'}/>     
+                <Route path='/twitter' component={() => window.location = 'twitter.com'}/>                
             </Switch>
 	    
             </div>	    

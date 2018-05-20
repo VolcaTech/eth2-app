@@ -11,9 +11,19 @@ const styles = {
 	fontFamily: "SF Display Bold",
 	letterSpacing: 1.94,
 	WebkitBoxShadow: 'none',
-	//padding: 0,
 	border: '2px solid #f5f5f5',
     },
+    inputError: {	
+        width: '100%',
+        height: 38,
+        borderRadius: 12,
+        color: 'black',
+        fontSize: 16,
+        fontFamily: "SF Display Bold",
+        letterSpacing: 1.94,
+        WebkitBoxShadow: 'none',
+        border: '2px solid #E64437'
+        },
     flag: {
 	borderBottom: '2px solid #f5f5f5',
 	borderTop: '2px solid #f5f5f5',
@@ -23,22 +33,35 @@ const styles = {
 	borderBottomRightRadius: 0,
 	borderTopRightRadius: 0,
 	backgroundColor: 'white'
-    },    
+    },
+    flagError: {
+        borderBottom: '2px solid #E64437',
+        borderTop: '2px solid #E64437',
+        borderLeft: '2px solid #E64437',
+        borderRight: '0px',
+        borderRadius: 12,
+        borderBottomRightRadius: 0,
+        borderTopRightRadius: 0,
+        backgroundColor: 'white'
+        },    
 }
 
 
 class e2pPhoneInput extends React.Component {
 
     render() {
+        console.log(this.props)
         return (
             <div style={{display: 'block', margin: 'auto', width: '78%',}}>
               <Phone
+              onKeyDown={this.props.onChange}
 		 ref={this.props._ref}		 
-		 inputStyle={styles.input}
-		 buttonStyle={styles.flag}
+		 inputStyle={this.props.error ? styles.inputError :  styles.input}
+		 buttonStyle={this.props.error ? styles.flagError :  styles.flag}
 		 placeholder='Phone number'
 		 defaultCountry={'us'}
-		 placeholder="Phone number"
+         placeholder="Phone number"
+         
                    />
 	    </div>
         );

@@ -28,7 +28,7 @@ class WorksWith extends React.Component {
                                 <div style={styles.text}>Trust</div>
                                 <div>
                                     <img style={{ marginTop: 2 }} src={goodLogo}></img>
-                                    <div style={{ fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, textAlign: 'left', marginLeft: 5, paddingTop: 10 }}>
+                                    <div style={{ display: 'inline', fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, textAlign: 'left', marginLeft: 5, paddingTop: 10 }}>
                                         Recommended
                                 </div>
                                 </div>

@@ -13,6 +13,7 @@ import Spinner from './../common/Spinner';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
 import { Row, Col } from 'react-bootstrap';
+import web3Service from './../../services/web3Service';
 
 
 const styles = {
@@ -59,20 +60,22 @@ const styles = {
         display: 'block',
         margin: 'auto'
     },
-    spinner: { 
-        height: 28, 
-        textAlign: 'center', 
-        marginTop: 10 
+    spinner: {
+        height: 28,
+        textAlign: 'center',
+        marginTop: 10
     },
-    betaText: { 
-        fontSize: 12, 
-        fontFamily: 'SF Display Regular', 
-        opacity: 0.4, 
-        textAlign: 'center' 
+    betaText: {
+        fontSize: 12,
+        fontFamily: 'SF Display Regular',
+        opacity: 0.4,
+        textAlign: 'center',
+        margin: 10
     },
-    betaBold: { 
-        display: 'inline', 
-        fontFamily: 'SF Display Bold' },
+    betaBold: {
+        display: 'inline',
+        fontFamily: 'SF Display Bold'
+    },
     blue: '#0099ff'
 }
 
@@ -84,6 +87,11 @@ class Tab extends Component {
             amount: 0,
             errorMessage: "",
             fetching: false,
+            buttonDisabled: false,
+            checked: false,
+            checkboxTextColor: '#000',
+            numberInputError: false,
+            phoneError: false
         };
     }
 
@@ -118,23 +126,42 @@ class Tab extends Component {
         formatter.input(phone);
         const phoneCode = formatter.country_phone_code;
 
+        //format balance
+        let balance;
+        const web3 = web3Service.getWeb3();
+        if (this.props.balanceUnformatted) {
+        balance = web3.fromWei(this.props.balanceUnformatted, 'ether').toNumber();
+    }
+
         // check that phone number is valid
         if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
-            this.setState({ fetching: false, errorMessage: "Phone number is invalid" });
+            this.setState({ fetching: false, errorMessage: "Phone number is invalid", phoneError: true });
             return;
         };
 
         // check amount
         if (this.state.amount <= 0) {
-            this.setState({ fetching: false, errorMessage: "Amount should be more than 0" });
+            this.setState({ fetching: false, errorMessage: "Amount should be more than 0", numberInputError: true });
             return;
         };
 
         // check amount maximum
-        if (this.state.amount > 1 && this.props.networkId == "1") {
-            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product." });
+        if (this.state.amount > 1 && this.props.networkId === "1") {
+            this.setState({ fetching: false, errorMessage: "Maximum 1 eth is allowed at current stage of the product.", numberInputError: true });
             return;
         };
+
+        // check wallet has enough ether
+        if (this.state.amount > balance) {
+            this.setState({ fetching: false, errorMessage: "Not enough ETH on your balance.", numberInputError: true });
+            return;
+        };
+
+        // check if checkbox is submitted
+        if (this.state.checked === false) {
+            this.setState({ buttonDisabled: true, checkboxTextColor: '#e64437' })
+            return;
+        }
 
         // disabling button
         this.setState({ fetching: true });
@@ -154,23 +181,26 @@ class Tab extends Component {
                         <div style={styles.title}>Send Ether to everyone<br />just by phone number</div>
                         <div style={styles.container}>
                             <div>
-                                <PhoneInput _ref={(ref) => { this.phoneNumber = ref; }} />
+                                <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
+                                 _ref={(ref) => { this.phoneNumber = ref; }} error={this.state.phoneError}/>
                             </div>
                             <div style={styles.numberInput}>
                                 <NumberInput
-                                    onChange={({ target }) => (this.setState({ amount: target.value }))}
+                                    onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: ""})
+                                )}
                                     disabled={false}
                                     fontColor='#000000'
                                     backgroundColor='#fff'
                                     style={{ touchInput: 'manipulation' }}
                                     placeholder="ETH amount"
+                                    error={this.state.numberInputError}
                                 />
                             </div>
                             <div style={styles.sendButton}>
                                 <ButtonPrimary
                                     handleClick={this._onSubmit.bind(this)}
                                     buttonColor={styles.blue}
-                                    disabled={this.state.fetching}
+                                    disabled={this.state.buttonDisabled}
                                 >
                                     Send
                     </ButtonPrimary>
@@ -184,7 +214,7 @@ class Tab extends Component {
                                 </div>
                             </div>
                             <div style={styles.betaText}>*In beta you can send &nbsp;<div style={styles.betaBold}>&nbsp;1 ETH</div> max</div>
-                            <CheckBox />
+                            <CheckBox onSubmit={() => this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} disabled={this.state.checked}/>
                         </div>
                     </div>
                 </Col>
@@ -194,6 +224,8 @@ class Tab extends Component {
     }
 
     render() {
+        console.log(this.state)
+        
         const SendForm = this._renderForm();
         const History = (
             <div style={{ marginTop: 56 }}>
@@ -208,5 +240,6 @@ class Tab extends Component {
 
 
 export default connect(state => ({
-    networkId: state.web3Data.networkId
+    networkId: state.web3Data.networkId,
+    balanceUnformatted: state.web3Data.balance
 }), { sendTransfer })(Tab);

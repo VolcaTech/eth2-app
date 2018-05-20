@@ -28,10 +28,10 @@ He could then receive the assets using link and any Ethereum address of his choi
                             How it works?
                             </Col>
                             <Col xs={12} md={6} style={{float: 'right'}}>
-                            <div style={styles.gitContainer}>
+                            <Link to="/github" style={{ textDecoration: 'none', color: "#000" }}><div style={styles.gitContainer}>
                                 <img style={{paddingBottom: 5, marginRight: 5}} src={gitLogo}></img>
                                 <div style={styles.gitText}>View source</div>
-                            </div>
+                            </div></Link>
                             </Col>
                         </Row>
                         <div style={{marginBottom: 50}}><GotStuck/></div>
@@ -42,7 +42,7 @@ He could then receive the assets using link and any Ethereum address of his choi
                             <div style={{ fontSize: 24, fontFamily: 'SF Display Black' }}>Send Ether</div>
                             <div><img style={{width: '100%'}} src={sendLogo}></img></div>
                             <Link to="/">                            
-                            <ButtonPrimary buttonHeight="46" buttonColor="#0099ff">Send</ButtonPrimary>
+                            <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
                             </Link>
                             <div style={styles.greyText}>You should have metamask installed</div>
                         </div>
