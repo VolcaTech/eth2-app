@@ -12,7 +12,7 @@ const styles = {
     backButton: {
         display: 'block',
         margin: 'auto',
-        textAlign: 'center',
+        margin: '0px auto auto'
     },
     nextButton: {
         display: 'block',
@@ -28,7 +28,8 @@ const styles = {
     buttonRow: {
         margin: 'auto',
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+	height: 59
     },
     backButtonIcon: {
         display: 'inline',
@@ -100,8 +101,8 @@ const styles = {
         width: 59
     },
     buttonsRowContainer: {
-	position: 'absolute',
-	top: 600,
+	position: 'fixed',
+	bottom: 20,	
 	width:'100%'
     }
 }
@@ -138,7 +139,7 @@ class E2PCarousel extends Component {
         });
         let height = window.INITIAL_HEIGHT - 80;
         if (this.state.currentSlide === 1) {
-            const rowsHeight = (this.props.transfers.length * 50 + 100);
+            const rowsHeight = (this.props.transfers.length * 50 + 20);
             height = Math.max(height, rowsHeight);
         }
 
@@ -158,33 +159,33 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-		    <div style={{...styles.buttonsRowContainer, top: window.INITIAL_HEIGHT - 150} }>
+		    <div style={styles.buttonsRowContainer }>
                       <div style={this.state.backButtonStyle}>
-			<ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.backButton} >
+			<ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
                           <div style={styles.buttonRow}>
                             <div style={styles.buttonContainer}>
-                              <div style={styles.backButtonTitle}>Back</div>
-                              <i className="fas fa-angle-up" style={styles.backButtonIcon}></i>
-                            </div>
+                              <span style={styles.nextButtonTitle}>Back</span>
+                              <i className="fas fa-angle-up" style={styles.nextButtonIcon}></i>
+                            </div>			    
                           </div>
 			</ButtonBack>
                       </div>
 		      
 		      
-                    <div style={this.state.nextButtonStyle}>
-                      <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: { marginBottom: 15 }, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                        <div style={styles.buttonRow}>
-                          <div style={styles.buttonContainer}>
-                            <span style={styles.nextButtonTitle}>Transactions</span>
-                            <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+                      <div style={this.state.nextButtonStyle}>
+			<ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
+                          <div style={styles.buttonRow}>
+                            <div style={styles.buttonContainer}>
+                              <span style={styles.nextButtonTitle}>Transfers</span>
+                              <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+                            </div>
+                            <Link to="/about">
+                              <img src={iLogo} style={styles.logo} onLoad={() => { window.dispatchEvent(new Event('resize')); }} />
+                            </Link>
+                            <img style={{}} src={qLogo}></img>
                           </div>
-                          <Link to="/about">
-                            <img src={iLogo} style={styles.logo} onLoad={() => { window.dispatchEvent(new Event('resize')); }} />
-                          </Link>
-                          <img style={{}} src={qLogo}></img>
-                        </div>
-                      </ButtonNext>
-		    </div>
+			</ButtonNext>
+		      </div>
                     </div>
                 </CarouselProvider>
             </div>
