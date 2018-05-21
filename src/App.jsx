@@ -77,17 +77,11 @@ class App extends Component {
 	    return this._renderNoAddress();
         }
 
-	console.log({l: window.location});
 	
         return (	    
 		<Router>
                 <div>
-                <Header
-	    address={this.props.address}
-	    networkName={this.props.networkName}
-	    contractAddress={this.props.contractAddress}
-	    networkId={this.props.networkId}
-	    balance={this.props.balance} />
+                <Header {...this.props} />
 	    
                 <Switch>
                 <Route exact path="/" component={SendTab} />
