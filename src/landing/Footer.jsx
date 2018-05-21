@@ -3,28 +3,71 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
 
 
-class e2pLanding extends React.Component {
+const styles = {
+    container: {
+	display: 'flex',
+	alignContent: 'center' 
+    },
+    subcontainer: {
+	paddingLeft: '8%',
+	paddingBottom: '5%',
+	paddingTop: '5%',
+	paddingRight: '7%',
+	backgroundColor: '#f5f5f5',
+	
+    },
+    textLeft: {
+	fontSize: 16,
+	fontFamily: 'SF Display Regular',
+	display: 'inline-block',
+	verticalAlign: 'middle',
+	float: 'none'
+    },
+    textRight: {
+	display: 'flex',
+	flexDirection: 'row',
+	verticalAlign: 'middle',
+	float: 'none',
+	justifyContent: 'space-around',
+	alignItems: 'center',
+	fontFamily: 'SF Display Black',
+	fontSize: 20,
+	marginTop: 15
+    },
+    bold: {
+	fontFamily: 'SF Display Bold',
+	display: 'inline'
+    },
+    link: {
+	 color: "#000"
+    }
+}
+
+
+class Footer extends React.Component {
 
 
     render() {
         return (
-            <div style={{ display: 'flex', alignContent: 'center' }}>
+            <div style={styles.container}>
 
-                <Row style={styles.container}>
+                <Row style={styles.subcontainer}>
                     <Col xs={12} md={6}>
-                        <div style={styles.textLeft}><div style={{ fontFamily: 'SF Display Bold', display: 'inline' }}>Eth2Phone</div>&nbsp; serves the proof-of-concept reasons and is an aplha version. Please be aware that systems bugs are possible at that stage. We will appreciate if you inform us any of them to eth2phone@gmail.com</div>
+                      <div style={styles.textLeft}>
+			<span style={styles.bold}>Eth2Phone</span> serves the proof-of-concept reasons and is an aplha version. Please be aware that systems bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" style={{...styles.link, ...styles.bold}}>info@eth2.io</a>
+		      </div>
                     </Col>
                     <Col xs={12} md={6}>
                         <div style={styles.textRight}>
-                            <Link to="/faq" style={{ textDecoration: 'none', color: "#000" }}>
-                                <div>FAQ</div>
-                            </Link>
-                            <Link to="/tos" style={{ textDecoration: 'none', color: "#000" }}>
-                                <div>Terms of Use</div>
-                            </Link>
-                            <Link to="/policy" style={{ textDecoration: 'none', color: "#000" }}>
-                                <div>Privacy Policy</div>
-                            </Link>
+                          <Link to="/faq" style={styles.link}>
+                            <div>FAQ</div>
+                          </Link>
+                          <a href="/tos" style={styles.link}>
+                            <div>Terms of Use</div>
+                          </a>
+                          <a href="/policy" style={styles.link}>
+                            <div>Privacy Policy</div>
+                          </a>
                         </div>
                     </Col>
                 </Row>
@@ -34,11 +77,5 @@ class e2pLanding extends React.Component {
     }
 }
 
-const styles = {
-    container: { paddingLeft: '8%', paddingBottom: '5%', paddingTop: '5%', paddingRight: '7%', backgroundColor: '#f5f5f5' },
-    textLeft: { fontSize: 16, fontFamily: 'SF Display Regular', display: 'inline-block', verticalAlign: 'middle', float: 'none' },
-    textRight: { display: 'flex', flexDirection: 'row', verticalAlign: 'middle', float: 'none', justifyContent: 'space-around', alignItems: 'center', fontFamily: 'SF Display Black', fontSize: 20, marginTop: 15 }
 
-}
-
-export default e2pLanding;
+export default Footer;
