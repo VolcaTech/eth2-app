@@ -37,26 +37,38 @@ const styles = {
 	backgroundColor: colors.blue
     },    
     dot1: {
-	height: 20,
-	width: 20,
+	height: 15,
+	width: 15,
 	backgroundColor: colors.blue,
-	borderRadius: 40,
+	borderRadius: '50%',
+	top: 2.5,
+	marginLeft: -2.5,	
 	position: "absolute"
     },    
     dot2: {
-	height: 20,
-	width: 20,
+	height: 15,
+	width: 15,
 	backgroundColor: colors.gray,
-	borderRadius: 40,
+	borderRadius: '50%',
 	position: "absolute",
+	top: 2.5,
 	right: 127
     },
-    dot3: {
+    dot2Error: {
 	height: 20,
 	width: 20,
-	backgroundColor: colors.gray,
-	borderRadius: 40,
+	backgroundColor: colors.red,
+	borderRadius: '50%',
 	position: "absolute",
+	right: 127
+    },    
+    dot3: {
+	height: 15,
+	width: 15,
+	backgroundColor: colors.gray,
+	borderRadius: '50%',
+	position: "absolute",
+	top: 2.5,
 	right: 5
     },
     createdLabel: {
@@ -131,12 +143,12 @@ class e2pTransferBar extends React.Component {
     }
 
     
-    _getDot2Color() {
+    _getDot2Styles() {
 	const { status, isError } = this.props;
 	if (status === 'cancelled' || isError) {
-	    return colors.red;
+	    return styles.dot2Error;
 	} else {
-	    return colors.blue;
+	    return styles.dot2;
 	}
     }
 
@@ -193,13 +205,6 @@ class e2pTransferBar extends React.Component {
 	let offset;
 	const label = this._getLabel3Text();
  	const { status, isError } = this.props;	
-	/////// if ((label === 'Sent' && status !== 'deposited') || isError) {
-	///////     offset = 10;
-	/////// } else if (status === 'received' || status === 'sent') {
-	///////     offset = -15;
-	/////// } else {
-	///////     offset = 0;
-	/////// }
 	
 	return (
 	    <label style={{...styles.label3, color: this._getLabel3Color(), marginRight: offset}}>
@@ -241,8 +246,7 @@ class e2pTransferBar extends React.Component {
 		</div>
 	    );
 	}
-	const dot2Color = this._getDot2Color();	
-        const dot2Style = {...styles.dot2, backgroundColor: dot2Color };
+        const dot2Style = this._getDot2Styles();	
 
 	return (
 	    <div style={dot2Style}></div>
