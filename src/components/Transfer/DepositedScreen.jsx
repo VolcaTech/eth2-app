@@ -15,7 +15,7 @@ const styles = {
 	display: 'flex',
 	flexDirection: 'column',
 	justifyContent: 'space-between',
-	marginTop: 65,
+	marginTop: 30,
 	marginBottom: 12
     },
     title: {
@@ -33,8 +33,7 @@ const styles = {
     subTitle: {
 	fontSize: 14,	
 	lineHeight: 1.25
-    },
-    
+    },    
     button: {
 	width: '70%',
 	margin: 'auto',
@@ -57,7 +56,7 @@ const styles = {
 	lineHeight: 1.25
     },
     stepsBar: {
-	marginTop: 60
+	marginTop: 20
     },
     center: {
 	textAlign: 'center'
@@ -104,7 +103,7 @@ const DepositedScreen = ({transfer}) => {
 	    </div>
 
 	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>You can copy the link with the code below
+	      <div style={styles.subTitle}>You can copy the link with the code below<br/>
 	      and share it with the receiver</div>	      
 	    </div>
 

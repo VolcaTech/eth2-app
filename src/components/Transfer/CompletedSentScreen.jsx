@@ -92,7 +92,7 @@ const CompletedSentScreen = ({transfer}) => {
 	      </div>	      
 	    </div>
 	    <div style={styles.buttonContainer}>
-	      <Link to="/" >
+	      <Link to="/"  className="no-underline">
 		<div style={styles.button}>
 		  <span style={styles.buttonText}>Send more Ether</span>
 		</div>

@@ -111,9 +111,8 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
         }}
 		to={`/transfers/${transfer.id}`}
 		style={{width: 30, height:30}}
+		className="no-underline"
 		><span style={styles.statusCell.infoIcon}>i</span></Link>);
-
-
     return (
         <div>
         <Row style={{marginBottom: 15}}>
