@@ -427,7 +427,7 @@ li:focus,
 }
 @keyframes pulse {
     0% {
-	-moz-box-shadow: 0 0 0 0 rgba(0, 153, 255,, 0.5);
+	-moz-box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.5);
 	box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.4);
     }
     70% {
@@ -438,4 +438,11 @@ li:focus,
 	-moz-box-shadow: 0 0 0 0 rgba(0, 153, 255, 0);
 	box-shadow: 0 0 0 0 rgba(0, 153, 255, 0);
     }
+}
+
+checkbox {
+    border-color: red !important;
+    border-width: 2px;
+    height: 20px;
+    width: 30px
 }
