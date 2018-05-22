@@ -34,16 +34,23 @@ const shortHash = (hash, num, showEnd = true) => {
     return '0x'.concat(shorten);
 };
 
-
-
-export const TxDetailsBox = ({txHash, networkId, style}) =>{
+export const getEtherscanLink= ({txHash, networkId}) => {
     let subdomain = '';
     if (networkId == "3") {
 	subdomain = 'ropsten.';
     }
     const etherscanLink = `https://${subdomain}etherscan.io/tx/${txHash}`;
-    const shortLink = `${subdomain}etherscan.io/tx/${shortHash(txHash, 3)}`;
-    
+    return etherscanLink;
+}
+
+
+export const TxDetailsBox = ({txHash, networkId}) =>{
+    let subdomain = '';
+    if (networkId == "3") {
+	subdomain = 'ropsten.';
+    }    
+    const etherscanLink = getEtherscanLink({txHash, networkId});
+    const shortLink = `${subdomain}etherscan.io/tx/${shortHash(txHash, 3)}`;    
     return (
 	<div>
 	  <div>

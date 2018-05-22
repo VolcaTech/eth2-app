@@ -76,19 +76,8 @@ class PendingTransfer extends Component {
 
         const TransferScreen = (
 	    <Row>
-	      <Col sm={4} smOffset={4}>
-		
-		<div style={{ alignContent: 'center' }}>
-		  <div style={{ marginBottom: 57 }}>
-                    <TransferStepsBar
-		       status={transfer.status}
-		       direction={transfer.direction}
-		       isError={transfer.isError}/>
-		  </div>
-		  <div style={{ textAlign: 'center' }}>
-                    {this._renderTranferDetails()}
-		  </div>
-		</div>
+	      <Col sm={4} smOffset={4}>	
+                {this._renderTranferDetails()}		    
 	      </Col>
 	    </Row>
         )
