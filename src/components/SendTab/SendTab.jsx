@@ -22,7 +22,7 @@ const styles = {
         height: 48,
         display: 'block',
         margin: 'auto',
-        fontSize: 22,
+        fontSize: 24,
         lineHeight: 1,
         fontFamily: 'SF Display Black',
         textAlign: 'center',
@@ -66,7 +66,7 @@ const styles = {
         marginTop: 10
     },
     betaText: {
-        fontSize: 12,
+        fontSize: 13,
         fontFamily: 'SF Display Regular',
         opacity: 0.4,
     },
@@ -218,7 +218,7 @@ class Tab extends Component {
 				 </span>
 				 </div> }	  
 			    </div>
-			    <CheckBox onSubmit={() => this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} disabled={this.state.checked}/>
+			    <CheckBox onSubmit={() => this.state.checked === false ? this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' }) : this.setState({ checked: false, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} />
                         </div>
                     </div>
                 </Col>
