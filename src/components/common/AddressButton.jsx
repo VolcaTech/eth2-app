@@ -32,7 +32,7 @@ class e2pAddressButton extends React.Component {
 			backgroundColor: (this.props.active ? this.props.color: "#fff"),
 			color: (this.props.active ? "#fff": this.props.color),
 			fontFamily: "SF Display Regular", 
-			fontSize: 16,
+			fontSize: 15,
 			padding: 0,
 			paddingTop: 2,
 			paddingLeft:5
