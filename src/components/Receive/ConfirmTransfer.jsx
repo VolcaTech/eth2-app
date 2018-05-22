@@ -54,7 +54,7 @@ const styles = {
 }
 
 
-class ConfirmTrasfer extends Component {
+class ConfirmTransfer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -179,4 +179,4 @@ class ConfirmTrasfer extends Component {
 }
 
 
-export default ConfirmTrasfer;
+export default ConfirmTransfer;
