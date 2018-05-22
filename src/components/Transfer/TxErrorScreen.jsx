@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-const ETH2PHONE_HOST = 'https://eth2phone.github.io';
-import copy from 'copy-to-clipboard';
-import ButtonPrimary from './../common/ButtonPrimary';
 import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
 

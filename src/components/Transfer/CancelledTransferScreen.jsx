@@ -1,28 +1,76 @@
 import React, { Component } from 'react';
-const ETH2PHONE_HOST = 'https://eth2phone.github.io';
-import copy from 'copy-to-clipboard';
-import ButtonPrimary from './../common/ButtonPrimary';
-import { TxDetailsBox } from './components';
+import { getEtherscanLink } from './components';
+import TransferStepsBar from './../common/TransferStepsBar';
 
 
 const styles = {
-    title: { width: 225, height: 26, display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', marginBottom: 9 },
-    text1: { width: 340, height: 29, display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 18 },
-    text2: { width: 268, height: 15, display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 18 },
-    link: { width: 259, height: 43, display: 'block', margin: 'auto', wordWrap: 'break-word', fontSize: 12, color: '#0099ff', lineHeight: 1.3, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 43 },    
+    link: {
+	color: '#0099ff',
+	fontFamily: 'SF Display Bold',
+    },
+    titleContainer: {
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'space-between',
+	marginTop: 65,
+	marginBottom: 12
+    },
+    title: {
+	display: 'block',
+	margin: 'auto',
+	fontSize: 20,
+	fontFamily: 'SF Display Black',
+	textAlign: 'center',
+	lineHeight: '28px'
+    },
+    subTitleContainer: {
+	width: 300,
+	margin: 'auto',
+    },
+    subTitle: {
+	fontSize: 14,	
+	lineHeight: 1.25
+    },
+    helpContainer: {
+	marginTop: 31.5	
+    },
+    helpText: {
+	fontSize: 14,		
+	lineHeight: 1.25
+    },
+    stepsBar: {
+	marginTop: 60
+    },
+    center: {
+	textAlign: 'center'
+    }
 }
 
 
 const CancelledTransferScreen = ({transfer}) => {
+    const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});
     return (
 	<div>
-	  <div style={styles.title}>Transfer is cancelled</div>
-	  <div style={{marginTop:80}}>
-	    <TxDetailsBox
-	       txHash={transfer.txHash}
-	       networkId={transfer.networkId}
-	       />
-	  </div>	  
+	  <div style={styles.stepsBar}>
+            <TransferStepsBar
+	       status={transfer.status}
+	       direction={transfer.direction}
+	       isError={transfer.isError}/>
+	  </div>
+	  <div style={styles.center}>
+	    <div style={styles.titleContainer}>
+	      <div style={styles.title}>Transfer has been canceled</div>	      
+	    </div>
+	    <div style={styles.subTitleContainer}>
+	      <div style={styles.subTitle}>Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
+		we are there to help</div>
+	    </div>
+
+	    <div style={styles.helpContainer}>
+	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+	      </div>	      
+	    </div>
+	  </div>
 	</div>
     );
 }
