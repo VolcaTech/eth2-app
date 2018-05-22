@@ -78,6 +78,10 @@ const styles = {
     },
     labelsRow: {
 	textAlign: 'center'
+    },
+    pulsing: {
+	right: 122,
+	top: -4
     }
     
 }
@@ -229,7 +233,7 @@ class e2pTransferBar extends React.Component {
     _getDot2() {
 	if (this._isProcessing()) {
 	    return (
-		<div className="dot-pulse-outer" style={{right: 135}}>
+		<div className="dot-pulse-outer" style={styles.pulsing}>
 		  <div className="dot-pulse-middle">
 		    <div className="dot-pulse-inner pulse">		      
 		    </div>

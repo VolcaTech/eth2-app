@@ -373,7 +373,7 @@ li:focus,
      background-color: rgba(43, 198, 79, 0.25);
  }
 
-.step-dot-green  .step-dot-inner-3{
+.step-dot-green .step-dot-inner-3{
      background-color: #2bc64f;
   }
 
@@ -391,6 +391,7 @@ li:focus,
 
   .step-dot.step-dot-blue {
       background-color: rgba(0, 153, 255, 0.35);
+      right: 3px;
  }
 
 .step-dot-blue .step-dot-inner-3{
