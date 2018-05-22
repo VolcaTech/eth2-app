@@ -8,7 +8,9 @@ import DepositedScreen from './DepositedScreen';
 import CompletedReceivedScreen from './CompletedReceivedScreen';
 
 import PendingSentScreen from './PendingSentTransfer';
-import PendingTransferScreen from './PendingTransferScreen';
+
+import ReceivingScreen from './ReceivingScreen';
+import CancellingScreen from './CancellingScreen';
 import CancelledTransferScreen from './CancelledTransferScreen';
 import HistoryScreen from './../HistoryScreen';
 import E2PCarousel from './../common/E2PCarousel';
@@ -31,7 +33,7 @@ class PendingTransfer extends Component {
             );
         case 'receiving':
             return (
-                <PendingTransferScreen transfer={transfer} />
+                <ReceivingScreen transfer={transfer} />
             );
         case 'deposited':
             return (
@@ -47,7 +49,7 @@ class PendingTransfer extends Component {
             );
         case 'cancelling':
             return (
-                <PendingTransferScreen transfer={transfer} />
+                <CancellingScreen transfer={transfer} />
             );
         case 'cancelled':
             return (

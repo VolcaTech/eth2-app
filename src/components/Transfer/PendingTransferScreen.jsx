@@ -56,9 +56,14 @@ const styles = {
 
 
 const PendingScreen = ({transfer}) => {
-    let title;
+    let title, subtitle;
     if (transfer.status === "cancelling") {
 	title = (<div style={styles.title}>Canceling transfer...</div>);
+	const subtitle = (
+	    <div style={styles.subTitle}>Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
+	      we are there to help</div>
+	);
+
     } else {
 	title = (
 	    <div style={styles.title}>
@@ -67,6 +72,10 @@ const PendingScreen = ({transfer}) => {
 	      <span style={styles.gray}> ETH</span>
 	    </div>
 	);
+	subtitle = (
+	    <div style={styles.subTitle}>It may take 1-2 min. You can close the screen<br/>
+	      and check the status later in "Transfer"</div>)
+	;
     }
 
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
@@ -84,8 +93,7 @@ const PendingScreen = ({transfer}) => {
 	      <div style={styles.title}>{title}</div>	      
 	    </div>
 	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>It may take 1-2 min. You can close the screen<br/>
-	      and check the status later in "Transfer"</div>	      
+	      { subtitle } 
 	    </div>
 
 	    <div style={styles.helpContainer}>

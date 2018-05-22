@@ -59,7 +59,7 @@ const CancelledTransferScreen = ({transfer}) => {
 	  </div>
 	  <div style={styles.center}>
 	    <div style={styles.titleContainer}>
-	      <div style={styles.title}>Transfer has been canceled</div>	      
+	      <div style={styles.title}>You canceled the transfer</div>	      
 	    </div>
 	    <div style={styles.subTitleContainer}>
 	      <div style={styles.subTitle}>Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>

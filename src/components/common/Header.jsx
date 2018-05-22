@@ -19,15 +19,14 @@ class e2pHeader extends React.Component {
     }
 
     render() {
-        console.log(window.innerWidth)
-        const balance = this.props.balance < 1 ? this.props.balance.toFixed(4) : this.props.balance.toFixed(2);
+        const balance = this.props.balance < 1 ? this.props.balance.toFixed(3) : this.props.balance.toFixed(2);
         return (
             <Grid>
                 <Row>
                     <Col xs={12} sm={8} smOffset={2}>
 
                         <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
-                            <Col xs={6} style={{ padding: 0 }}>
+                            <Col xs={5} style={{ padding: 0 }}>
                                 <Link style={{ textDecoration: 'none' }} to="/" onClick={() => {
                                     if (window.location.hash && window.location.hash.length < 3) { window.location.reload(); }
                                 }}>
@@ -35,7 +34,7 @@ class e2pHeader extends React.Component {
                                         Eth2<div style={{ letterSpacing: 0, display: 'inline', color: '#2bc64f' }}>Phone</div></div>
                                 </Link>
                             </Col>
-                            <Col style={{ display: 'flex', justifyContent: 'flex-end', padding: 0 }} xs={6}>
+                            <Col style={{ display: 'flex', justifyContent: 'flex-end', padding: 0 }} xs={7}>
                                 <div style={{ marginTop: 13, marginRight: 10, textAlign: 'center' }}>
 
                                     <AddressButton
@@ -56,8 +55,8 @@ class e2pHeader extends React.Component {
                                         {balance}
                                     </div>
                                     {window.innerWidth > '321' ?
-                                        (<div style={{ float: "left", fontSize: 15, fontFamily: "SF Display Regular", fontWeight: 400, color: '#a9a9a9' }}>
-                                        ETH
+                                        (<div style={{ float: "left", fontSize: 15, fontFamily: "SF Display Regular", fontWeight: 400, color: '#a9a9a9', marginLeft: '2px' }}>
+                                         ETH
      </div>) : <div></div>}
                                 </div>
                             </Col>
@@ -111,7 +110,7 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                         BALANCE
               </div>
                     <div style={styles.headerDetailsBlack}>
-                        {balance} <div style={styles.headerDetailsGrey}>&nbsp;ETH</div>
+                        {balance} <span style={styles.headerDetailsGrey}>&nbsp;ETH</span>
                     </div>
                 </div>
             </div>
@@ -120,11 +119,26 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
 }
 
 const styles = {
-    headerDetailsBlack: { display: 'flex', flexDirection: 'row', fontSize: 14, fontFamily: "SF Display Bold", lineHeight: 1.1, marginRight: 2 },
-    headerDetailsGrey: { fontSize: 14, fontFamily: "SF Display Bold", color: '#a9a9a9', lineHeight: 1.1 },
-    headerDetailsGreen: { fontSize: 14, fontFamily: "SF Display Bold", color: "#2bc64f", lineHeight: 1.1 }
-
-
+    headerDetailsBlack: {
+	display: 'flex',
+	flexDirection: 'row',
+	fontSize: 14,
+	fontFamily: "SF Display Bold",
+	lineHeight: 1.1,
+	marginRight: 2
+    },
+    headerDetailsGrey: {
+	fontSize: 14,
+	fontFamily: "SF Display Bold",
+	color: '#a9a9a9',
+	lineHeight: 1.1
+    },
+    headerDetailsGreen: {
+	fontSize: 14,
+	fontFamily: "SF Display Bold",
+	color: "#2bc64f",
+	lineHeight: 1.1
+    }
 }
 
 

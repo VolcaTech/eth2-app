@@ -1,74 +1,128 @@
 import React, { Component } from 'react';
-import { TxDetailsBox, ShareButton } from './components';
+import { getEtherscanLink } from './components';
+import TransferStepsBar from './../common/TransferStepsBar';
+import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
+import { parse, format, asYouType } from 'libphonenumber-js';
+import { ShareButton } from './components';
 
 
-const styles = {
-    container: {
+const styles = {    
+    link: {
+	color: '#0099ff',
+	fontFamily: 'SF Display Bold',
+    },
+    titleContainer: {
 	display: 'flex',
 	flexDirection: 'column',
-	alignContent: 'space-between',
-	height: 220 
+	justifyContent: 'space-between',
+	marginTop: 30,
+	marginBottom: 12
     },
     title: {
-	width: '70%',
 	display: 'block',
 	margin: 'auto',
-	fontSize: 18,
+	fontSize: 20,
 	fontFamily: 'SF Display Black',
-	textAlign: 'center'
-    },
-    text1: {
-	width: '90%',
-	display: 'block',
-	margin: 'auto',
-	fontSize: 15,
-	fontFamily: 'SF Display Regular',
-	textAlign: 'center'
-    },
-    text2: {
-	width: '80%',
-	display: 'block',
-	margin: 'auto',
-	fontSize: 15,
-	fontFamily: 'SF Display Regular',
 	textAlign: 'center',
+	lineHeight: '28px'
     },
-    link: {
-	width: '80%',
-	display: 'block',
+    subTitleContainer: {
+	width: 300,
 	margin: 'auto',
-	wordWrap: 'break-word',
-	fontSize: 12,
+    },
+    subTitle: {
+	fontSize: 14,	
+	lineHeight: 1.25
+    },    
+    button: {
+	width: '70%',
+	margin: 'auto',
+	paddingTop: 5,
+	paddingBottom: 5,
+	borderRadius: 12,
+	border: '2px solid #0099ff',
+	backgroundColor: '#ffffff',
+    },
+    buttonText: {
 	color: '#0099ff',
-	lineHeight: 1.3,
-	fontFamily: 'SF Display Regular',
-	textAlign: 'center',
-	marginBottom: 43
+	fontFamily: 'SF Display Black',
+	fontSize: 18,
     },
-    bold: {
-	fontFamily: "SF Display Bold",
-	display: 'inline-block' 
+    helpContainer: {
+	marginTop: 27
     },
-    detailsBox: { marginTop: 60 }
+    helpText: {
+	fontSize: 14,		
+	lineHeight: 1.25
+    },
+    stepsBar: {
+	marginTop: 20
+    },
+    center: {
+	textAlign: 'center'
+    },
+    blue: {
+	color: '#0099ff'
+    },
+    gray: {
+	color: "#999999"
+    },
+    instructionsText: {
+	lineHeight: '25px',
+	color: '#000000',
+	fontFamily: 'SF Display Bold',
+	fontSize: 16,
+	fontWeight: 700,
+	marginBottom: 20,
+	marginTop: 46
+    }    
 }
 
 
-const PendingSentTransfer = ({ transfer }) => {
+
+const CompletedSentScreen = ({transfer}) => {
+
+    const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
+    const formattedPhone = format(transfer.receiverPhone, 'International');
+    
+    
     return (
-        <div>
-            <div style={styles.container}>
-                <div style={styles.title}>Transaction is processing</div>
-                <div style={styles.text1}>Your <span style={styles.bold}> transaction has been broadcast </span> to the Ethereum network. It’s waiting to be mined and confirmed.</div>
-		<ShareButton transfer={transfer} />
+	<div>
+	  <div style={styles.stepsBar}>
+            <TransferStepsBar
+	       status={transfer.status}
+	       direction={transfer.direction}
+	       isError={transfer.isError}/>
+	  </div>
+	  <div style={styles.center}>
+	    <div style={styles.titleContainer}>
+	      <div style={styles.title}>
+		Transaction is processing…
+	      </div>	      
 	    </div>
-            <div style={styles.detailsBox}>
-                <TxDetailsBox
-                    txHash={transfer.txHash}
-                    networkId={transfer.networkId}
-                />
-            </div>
-        </div>
+	    <div style={styles.subTitleContainer}>
+	      <div style={styles.subTitle}>
+		It may take 1-2 min. You can close the screen<br/>
+		and check the status later in "Transfers"<br/>
+		Taking too long? <Link to="/faq" style={styles.link}>Retry with a higher gas price</Link>
+	      </div>
+	    </div>
+
+	    
+	    <div style={styles.helpContainer}>
+	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+	      </div>	      
+	    </div>
+	    <div style={styles.instructionsText}>Copy link and share with receiver</div>
+	    <div style={styles.buttonContainer}>
+	      <ShareButton transfer={transfer}/>
+	    </div>	    
+
+	  
+	  </div>
+	</div>
     );
 }
 
-export default PendingSentTransfer;
+
+export default CompletedSentScreen;
