@@ -1,36 +1,98 @@
 import React, { Component } from 'react';
-const ETH2PHONE_HOST = 'https://eth2phone.github.io';
-import copy from 'copy-to-clipboard';
-import ButtonPrimary from './../common/ButtonPrimary';
-import { TxDetailsBox } from './components';
+import { getEtherscanLink } from './components';
+import TransferStepsBar from './../common/TransferStepsBar';
+
 
 
 const styles = {
-    title: { width: 225, display: 'block', margin: 'auto', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', marginBottom: 9 },
-    text1: { width: 340, height: 29, display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 18 },
-    text2: { width: 268, height: 15, display: 'block', margin: 'auto', fontSize: 15, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 18 },
-    link: { width: 259, height: 43, display: 'block', margin: 'auto', wordWrap: 'break-word', fontSize: 15, color: '#0099ff', lineHeight: 1.3, fontFamily: 'SF Display Regular', textAlign: 'center', marginBottom: 43 },    
+    link: {
+	color: '#0099ff',
+	fontFamily: 'SF Display Bold',
+    },
+    titleContainer: {
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'space-between',
+	marginTop: 65,
+	marginBottom: 12
+    },
+    title: {
+	display: 'block',
+	margin: 'auto',
+	fontSize: 20,
+	fontFamily: 'SF Display Black',
+	textAlign: 'center',
+	lineHeight: '28px'
+    },
+    subTitleContainer: {
+	width: 300,
+	margin: 'auto',
+    },
+    subTitle: {
+	fontSize: 14,	
+	lineHeight: 1.25
+    },
+    helpContainer: {
+	marginTop: 31.5	
+    },
+    helpText: {
+	fontSize: 14,		
+	lineHeight: 1.25
+    },
+    stepsBar: {
+	marginTop: 60
+    },
+    center: {
+	textAlign: 'center'
+    },
+    blue: {
+	color: '#0099ff'
+    },
+    gray: {
+	color: "#999999"
+    }
+    
 }
 
 
 const PendingScreen = ({transfer}) => {
     let title;
     if (transfer.status === "cancelling") {
-	title = (<div style={styles.title}>Cancelling transfer to {transfer.receiverPhone}</div>);
+	title = (<div style={styles.title}>Canceling transfer...</div>);
     } else {
-	title = (<div style={{fontSize: 18, marginBottom: 17 }}> Receiving <span style={{color: '#2bc64f'}}>{transfer.amount} ETH</span> </div>);
+	title = (
+	    <div style={styles.title}>
+	      Transaction is processing...<br/>
+	      Receiving <span style={styles.blue}>{transfer.amount}</span>
+	      <span style={styles.gray}> ETH</span>
+	    </div>
+	);
     }
+
+    const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
     
     return (
 	<div>
-	  {title}
-	  <div style={styles.text1}>Your <div style={{fontFamily: "SF Display Bold", display: 'inline-block'}}> transaction has been broadcast </div> to the Ethereum network. It’s waiting to be mined and confirmed.</div>
-	  <div style={{marginTop:80}}>
-	    <TxDetailsBox
-	       txHash={transfer.txHash}
-	       networkId={transfer.networkId}
-	       />
-	  </div>	  
+	  <div style={styles.stepsBar}>
+            <TransferStepsBar
+	       status={transfer.status}
+	       direction={transfer.direction}
+	       isError={transfer.isError}/>
+	  </div>
+	  <div style={styles.center}>
+	    <div style={styles.titleContainer}>
+	      <div style={styles.title}>{title}</div>	      
+	    </div>
+	    <div style={styles.subTitleContainer}>
+	      <div style={styles.subTitle}>It may take 1-2 min. You can close the screen<br/>
+	      and check the status later in "Transfer"</div>	      
+	    </div>
+
+	    <div style={styles.helpContainer}>
+	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+	      </div>	      
+	    </div>
+	  </div>
 	</div>
     );
 }
