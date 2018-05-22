@@ -16,7 +16,7 @@ import { Row, Col } from 'react-bootstrap';
 
 class PendingTransfer extends Component {
     
-    _renderStepsContent() {
+    _renderTranferDetails() {
         const { transfer, currentStep } = this.props;
 	if (transfer.isError) {
 	    return (<TxErrorScreen transfer={transfer}/>);
@@ -56,12 +56,13 @@ class PendingTransfer extends Component {
         }
     }
 
+    
+    
     render() {
         let { transfer, currentStep, error } = this.props;
-        console.log({ transfer, currentStep });
 
-        if (transfer.isError) currentStep = 'fail';
 
+	// if transfer not found
         if (error) {
             return (<div style={{ color: 'red' }}>{error}</div>);
         }
@@ -78,16 +79,16 @@ class PendingTransfer extends Component {
 	      <Col sm={4} smOffset={4}>
 		
 		<div style={{ alignContent: 'center' }}>
-		  <div>
-		  
-		    <div style={{ marginBottom: 57 }}>
-                      <TransferStepsBar step={currentStep} />
-		    </div>
-		    <div style={{ textAlign: 'center' }}>
-                      {this._renderStepsContent()}
-		    </div>
+		  <div style={{ marginBottom: 57 }}>
+                    <TransferStepsBar
+		       status={transfer.status}
+		       direction={transfer.direction}
+		       isError={transfer.isError}/>
 		  </div>
-		</div>	
+		  <div style={{ textAlign: 'center' }}>
+                    {this._renderTranferDetails()}
+		  </div>
+		</div>
 	      </Col>
 	    </Row>
         )

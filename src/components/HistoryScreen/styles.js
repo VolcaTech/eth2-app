@@ -52,13 +52,13 @@ export default {
         },
         statusText: {
             fontSize: 12,
-            fontFamily: "SF Display Black"
+            fontFamily: "SF Display Bold"
 
         },
         pendingStatusText: {
             fontSize: 12,
             color: '#33aeff',
-            fontFamily: "SF Display Black"
+            fontFamily: "SF Display Bold"
         },
         infoIcon: {
             height: 18,
