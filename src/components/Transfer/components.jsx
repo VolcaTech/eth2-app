@@ -44,28 +44,6 @@ export const getEtherscanLink= ({txHash, networkId}) => {
 }
 
 
-export const TxDetailsBox = ({txHash, networkId}) =>{
-    let subdomain = '';
-    if (networkId == "3") {
-	subdomain = 'ropsten.';
-    }    
-    const etherscanLink = getEtherscanLink({txHash, networkId});
-    const shortLink = `${subdomain}etherscan.io/tx/${shortHash(txHash, 3)}`;    
-    return (
-	<div>
-	  <div>
-	    <span style={styles.checkTransaction}>Transaction details: </span>
-	    <a style={styles.etherscanLink} href={etherscanLink} target="_blank">{shortLink}</a>
-	  </div>
-	  <div>
-	    <span style={styles.checkTransaction}> Have questions? Ask us: </span>
-	    <span style={styles.email} href={'#'} target="_blank"> eth2phone@gmail.com </span>
-	  </div>	  
-	</div>
-    );
-}
-
-
 export const ShareButton = ({transfer}) => {
     
     const phoneNumberWithoutPlus = (transfer.receiverPhone || "").substring(1); // remove '+' from number
@@ -90,7 +68,7 @@ export const ShareButton = ({transfer}) => {
 	  <ButtonPrimary buttonColor='#0099ff' handleClick={() => {
                 // copy share link to clipboard
                 copy(shareText);
-                alert("This link is copied to you clipboard. Share this link with receiver by sending link via messenger or email.");
+                alert("This link is copied to your clipboard. Share this link with receiver by sending link via messenger or email.");
             }}>
             Copy
 	  </ButtonPrimary>
