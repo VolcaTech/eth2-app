@@ -431,7 +431,7 @@ li:focus,
 }
 @keyframes pulse {
     0% {
-	-moz-box-shadow: 0 0 0 0 rgba(0, 153, 255,, 0.5);
+	-moz-box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.5);
 	box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.5);
     }
     70% {

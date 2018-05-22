@@ -22,7 +22,7 @@ const styles = {
 	marginBottom: 12,
 	marginLeft: 'auto',
 	marginRight: 'auto',
-	marginTop: 10 
+	marginTop: 20 
     },
     progressBarContainer: {
 	width: 260,
