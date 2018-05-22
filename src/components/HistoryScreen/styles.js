@@ -66,7 +66,6 @@ export default {
             color: '#33aeff',
             borderRadius: 12,
             textAlign: 'center',
-            marginRight: 15,
             lineHeight: 1,
             fontSize: 15,
             paddingTop: 1,

@@ -109,10 +109,11 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
                 window.location.reload();
             }
         }}
-        to={`/transfers/${transfer.id}`}
-        ><img src={infoLogo}></img></Link>);
+		to={`/transfers/${transfer.id}`}
+		style={{width: 30, height:30}}
+		><span style={styles.statusCell.infoIcon}>i</span></Link>);
 
-    console.log(address, transfer)
+
     return (
         <div>
         <Row style={{marginBottom: 15}}>
