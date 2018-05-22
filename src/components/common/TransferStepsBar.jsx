@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ProgressBar } from 'react-bootstrap';
 
 const colors = {
-    blue: "#33aeff",
+    blue: "#0099ff",
     gray: "#f5f5f5",
     red: '#e64437',
     green: '#2bc64f',
@@ -122,14 +122,6 @@ class e2pTransferBar extends React.Component {
 	
     }
 
- 	// case 'depositing':
-	// case 'receiving':	    
-	// case 'deposited':
-	// case 'sent':
-	// case 'received':
-	    
-	// case 'cancelling':
-	// case 'cancelled':
     
     _getDot2Color() {
 	const { status, isError } = this.props;
@@ -193,12 +185,11 @@ class e2pTransferBar extends React.Component {
 	let offset;
 	const label = this._getLabel3Text();
 	const { status, isError } = this.props;	
-	if (label === 'Sent') {
+	if ((label === 'Sent' && status !== 'deposited') || isError) {
 	    offset = 10;
-	} else {
+	} else if (status === 'received' || status === 'sent') {
 	    offset = -15;
-	}
-	if (status === 'deposited' || isError) {
+	} else {
 	    offset = 0;
 	}
 	return (
@@ -243,7 +234,7 @@ class e2pTransferBar extends React.Component {
                       <div className="progress-bar" role="progressbar" style={progBarStyle} ></div>
                     </div>
                     <div className="dot" style={styles.dot1}></div>
-                    <div className={this._isProcessing() ? 'dot scale-up-center' : 'dot'} style={dot2Style}></div>
+                    <div className={this._isProcessing() ? 'dot-pulse' : 'dot'} style={dot2Style}></div>
 		    { this._getDot3() }
                 </div>
                 <div>
