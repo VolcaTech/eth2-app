@@ -11,13 +11,13 @@ const colors = {
 
 const styles = {
     container: {
-	width: 320,
+	width: 300,
 	display: 'block',
 	margin: 'auto' 
     },
     subcontainer: {
 	height: 20,
-	width: 290,
+	width: 275,
 	position: "relative",
 	marginBottom: 12,
 	marginLeft: 'auto',
@@ -25,7 +25,7 @@ const styles = {
 	marginTop: 10 
     },
     progressBarContainer: {
-	width: 290,
+	width: 260,
 	height: 4,
 	position: "absolute",
 	marginTop: 8,
@@ -49,7 +49,7 @@ const styles = {
 	backgroundColor: colors.gray,
 	borderRadius: 40,
 	position: "absolute",
-	right: 135
+	right: 127
     },
     dot3: {
 	height: 20,
@@ -57,23 +57,27 @@ const styles = {
 	backgroundColor: colors.gray,
 	borderRadius: 40,
 	position: "absolute",
-	right: 0
+	right: 5
     },
     createdLabel: {
-	width: 60,
 	height: 15,
-	fontSize: 12
+	fontSize: 12,
+	float: 'left'
     },
     label2: {
-	width: 60,
+	width: 60,	
 	height: 15,
-	textAlign: "center",
 	fontSize: 12,
-	marginLeft: 65 
+	marginLeft: 10
     },
     label3: {
+	width: 60,
 	height: 15,
 	float: 'right',
+	// textAlign: 'right'
+    },
+    labelsRow: {
+	textAlign: 'center'
     }
     
 }
@@ -184,14 +188,15 @@ class e2pTransferBar extends React.Component {
     _getLabel3() {
 	let offset;
 	const label = this._getLabel3Text();
-	const { status, isError } = this.props;	
-	if ((label === 'Sent' && status !== 'deposited') || isError) {
-	    offset = 10;
-	} else if (status === 'received' || status === 'sent') {
-	    offset = -15;
-	} else {
-	    offset = 0;
-	}
+ 	const { status, isError } = this.props;	
+	/////// if ((label === 'Sent' && status !== 'deposited') || isError) {
+	///////     offset = 10;
+	/////// } else if (status === 'received' || status === 'sent') {
+	///////     offset = -15;
+	/////// } else {
+	///////     offset = 0;
+	/////// }
+	
 	return (
 	    <label style={{...styles.label3, color: this._getLabel3Color(), marginRight: offset}}>
 	      { label }
@@ -220,12 +225,28 @@ class e2pTransferBar extends React.Component {
 	}	
 	return 'Sent';
     }
+    
+    _getDot2() {
+	if (this._isProcessing()) {
+	    return (
+		<div className="dot-pulse-outer" style={{right: 135}}>
+		  <div className="dot-pulse-middle">
+		    <div className="dot-pulse-inner pulse">		      
+		    </div>
+		  </div>
+		</div>
+	    );
+	}
+	const dot2Color = this._getDot2Color();	
+        const dot2Style = {...styles.dot2, backgroundColor: dot2Color };
 
+	return (
+	    <div style={dot2Style}></div>
+	);
+    }
     
     render() {
 	const progBarStyle = this._getProgressBarStyle();
-	const dot2Color = this._getDot2Color();	
-        const dot2Style = {...styles.dot2, backgroundColor: dot2Color };
 	
         return (
             <div style={styles.container}>
@@ -234,10 +255,10 @@ class e2pTransferBar extends React.Component {
                       <div className="progress-bar" role="progressbar" style={progBarStyle} ></div>
                     </div>
                     <div className="dot" style={styles.dot1}></div>
-                    <div className={this._isProcessing() ? 'dot-pulse' : 'dot'} style={dot2Style}></div>
+                    { this._getDot2() }
 		    { this._getDot3() }
                 </div>
-                <div>
+                <div style={styles.labelsRow}>
                     <label style={styles.createdLabel}>Created</label>
                     <label style={{...styles.label2, color: this._getLabel2Color()}}>{this._getLabel2Text()}</label>
                     { this._getLabel3()}
