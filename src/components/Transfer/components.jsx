@@ -23,7 +23,7 @@ const styles = {
     shareLinkContainer: {
 	display: 'block',
 	margin: 'auto',
-	width: '78%'
+	width: '70%'
     },
 }
 
@@ -92,7 +92,7 @@ export const ShareButton = ({transfer}) => {
                 copy(shareText);
                 alert("This link is copied to you clipboard. Share this link with receiver by sending link via messenger or email.");
             }}>
-            Copy link
+            Copy
 	  </ButtonPrimary>
         </div>
     );

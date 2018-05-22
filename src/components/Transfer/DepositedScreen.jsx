@@ -3,8 +3,10 @@ import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { parse, format, asYouType } from 'libphonenumber-js';
+import { ShareButton } from './components';
 
-const styles = {
+
+const styles = {    
     link: {
 	color: '#0099ff',
 	fontFamily: 'SF Display Bold',
@@ -24,9 +26,15 @@ const styles = {
 	textAlign: 'center',
 	lineHeight: '28px'
     },
-    buttonContainer: {
-	marginTop: 70
-    },    
+    subTitleContainer: {
+	width: 300,
+	margin: 'auto',
+    },
+    subTitle: {
+	fontSize: 14,	
+	lineHeight: 1.25
+    },
+    
     button: {
 	width: '70%',
 	margin: 'auto',
@@ -59,12 +67,20 @@ const styles = {
     },
     gray: {
 	color: "#999999"
-    }
-    
+    },
+    instructionsText: {
+	lineHeight: '25px',
+	color: '#000000',
+	fontFamily: 'SF Display Bold',
+	fontSize: 16,
+	fontWeight: 700,
+	marginBottom: 20,
+	marginTop: 46
+    }    
 }
 
 
-const CompletedSentScreen = ({transfer}) => {
+const DepositedScreen = ({transfer}) => {
 
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
     const formattedPhone = format(transfer.receiverPhone, 'International');
@@ -81,22 +97,24 @@ const CompletedSentScreen = ({transfer}) => {
 	  <div style={styles.center}>
 	    <div style={styles.titleContainer}>
 	      <div style={styles.title}>
-		Receiver got <span style={styles.blue}>{transfer.amount}</span>
+		You've sent <span style={styles.blue}>{transfer.amount}</span>
 		<span style={styles.gray}> ETH</span><br/>
-		by {formattedPhone}
+		to {formattedPhone}
 	      </div>	      
+	    </div>
+
+	    <div style={styles.subTitleContainer}>
+	      <div style={styles.subTitle}>You can copy the link with the code below
+	      and share it with the receiver</div>	      
 	    </div>
 
 	    <div style={styles.helpContainer}>
 	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
 	      </div>	      
 	    </div>
+	    <div style={styles.instructionsText}>Copy link and share with receiver</div>
 	    <div style={styles.buttonContainer}>
-	      <Link to="/" >
-		<div style={styles.button}>
-		  <span style={styles.buttonText}>Send more Ether</span>
-		</div>
-	      </Link>
+	      <ShareButton transfer={transfer}/>
 	    </div>
 	    
 	  </div>
@@ -105,4 +123,4 @@ const CompletedSentScreen = ({transfer}) => {
 }
 
 
-export default CompletedSentScreen;
+export default DepositedScreen;

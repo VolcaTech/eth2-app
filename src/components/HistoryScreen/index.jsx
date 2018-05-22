@@ -21,7 +21,6 @@ class HistoryScreen extends React.Component {
         if (this.props.match && this.props.match.params) {
             currentTransferId = this.props.match.params.transferId;
         }
-        console.log(this.props.transfers)
         return (
             <div style={styles.screen}>
                 <div style={styles.transfers}>Transfers</div>

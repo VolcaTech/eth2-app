@@ -48,7 +48,7 @@ const styles = {
     dot2: {
 	height: 15,
 	width: 15,
-	backgroundColor: colors.gray,
+	backgroundColor: colors.blue,
 	borderRadius: '50%',
 	position: "absolute",
 	top: 2.5,
