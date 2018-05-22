@@ -78,7 +78,7 @@ const styles = {
         // paddingTop: 3,
         // display: 'block',
         // textAlign: 'center',
-        fontSize: 14,
+        fontSize: 15,
         fontFamily: 'SF Display Bold',
         marginRight: 7,
         paddingTop: 2
