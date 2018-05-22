@@ -331,3 +331,73 @@ li:focus,
  .hover:hover {
      cursor: pointer;
  }
+
+ .progress {
+     -webkit-box-shadow: none !important;
+     box-shadow: none !important;
+ }
+
+ .progress-bar {
+   -webkit-box-shadow: none !important;
+     box-shadow: none !important;
+ }
+
+ .step-dot {
+     width: 30px;
+     height: 30px;
+     border-radius: 30px;
+     position: absolute;
+     right: -15px;
+     top: -4px;
+ }
+
+
+ 
+.step-dot-inner-2{
+     width: 25px;
+     height: 25px;
+     border-radius: 25px;
+     margin: 2.5px;
+     position: absolute;
+}
+
+
+.step-dot-inner-3{
+     width: 20px;
+     height: 20px;
+     border-radius: 20px;
+     margin: 2.5px;
+     position: absolute;
+  }
+
+.step-dot.step-dot-green {
+     background-color: rgba(43, 198, 79, 0.25);
+ }
+
+.step-dot-green  .step-dot-inner-3{
+     background-color: #2bc64f;
+  }
+
+.step-dot-green .step-dot-inner-2{
+     background-color: rgba(43, 198, 79, 0.5);
+ }
+
+
+  .step-dot-inner-4 {
+      color: #ffffff;
+      margin: 5px;
+      font-size: 10px;
+  }
+
+
+  .step-dot.step-dot-blue {
+      background-color: rgba(0, 153, 255, 0.35);
+ }
+
+.step-dot-blue .step-dot-inner-3{
+     background-color: #0099ff;
+  }
+
+.step-dot-blue .step-dot-inner-2{
+     background-color: rgba(0, 153, 255, 0.5);
+ }
