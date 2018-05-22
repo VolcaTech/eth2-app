@@ -4,7 +4,6 @@ import copy from 'copy-to-clipboard';
 import ButtonPrimary from './../common/ButtonPrimary';
 import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 const styles = {
@@ -72,8 +71,8 @@ const TxErrorScreen = ({transfer}) => {
 	    </div>
 
 	    <div style={styles.helpContainer}>
-	      <div style={styles.helpText}>Also check <Link to="/faq" style={styles.link}>FAQ</Link> or text us<br/>
-		in Telegram so we can help</div>	      
+	      <div style={styles.helpText}>Also check or text us<br/>
+		in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a> so we can help</div>	      
 	    </div>
 	  </div>
 	</div>
