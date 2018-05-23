@@ -68,7 +68,8 @@ const CompletedSentScreen = ({transfer}) => {
 
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
     const formattedPhone = format(transfer.receiverPhone, 'International');
-    
+
+
     
     return (
 	<div>
@@ -80,12 +81,21 @@ const CompletedSentScreen = ({transfer}) => {
 	  </div>
 	  <div style={styles.center}>
 	    <div style={styles.titleContainer}>
-	      <div style={styles.title}>
-		You received <span style={styles.blue}>{transfer.amount}</span>
-		<span style={styles.gray}> ETH</span>
-	      </div>	      
+	      
+	      { transfer.status === 'received' ?     
+		  /* received status if user has received,
+		   completed - if someone else */
+		  <div style={styles.title}>
+			You received <span style={styles.blue}>{transfer.amount}</span>
+			    <span style={styles.gray}> ETH</span>
+		      </div> :
+		      <div style={styles.title}>
+			<span style={styles.blue}>{transfer.amount}</span> 
+			    <span style={styles.gray}> ETH</span> received
+			  </div>
+		  }
 	    </div>
-
+	    
 	    <div style={styles.helpContainer}>
 	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
 	      </div>	      

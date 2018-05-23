@@ -7,7 +7,8 @@ import ConfirmSmsForm from './ConfirmSmsForm';
 import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import { SpinnerOrError, Loader } from './../common/Spinner';
-import { getDepositTxHash, getInfoMessageAndTxHashForStatus } from './utils';
+import { TransferScreen } from '../Transfer';
+//import { getDepositTxHash, getInfoMessageAndTxHashForStatus } from './utils';
 
 
 const styles = {
@@ -95,40 +96,30 @@ class ConfirmTransfer extends Component {
     }
 
     
-    _renderTransferStatusInfo() {
-	const { infoMessage, txHash } = getInfoMessageAndTxHashForStatus(this.props.transfer);
-	if (!txHash) {
-	    // if something is wrong render button,
-	    // so user can try to withdraw
-	    return null;
-	}
-	return (
-	    <div>
-	      <div style={styles.infoMessage}>
-		{ infoMessage }
-              </div>
-	      <div style={styles.txDetails}>
-		<TxDetailsBox
-		   txHash={txHash}
-		   networkId={this.props.networkId}
-		   />
-		</div>
-	    </div>	    
-	);	
-    }
-
-    _isWithdrawable() {
-	return (!(this.props.transferStatus === 'completed'||
-		  this.props.transferStatus === 'cancelled' ||
-		  this.props.transferStatus === 'error' ||
-		  this.props.transferStatus === 'depositing'));
-    }
+    // _renderTransferStatusInfo() {
+    // 	const { infoMessage, txHash } = getInfoMessageAndTxHashForStatus(this.props.transfer);
+    // 	if (!txHash) {
+    // 	    // if something is wrong render button,
+    // 	    // so user can try to withdraw
+    // 	    return null;
+    // 	}
+    // 	return (
+    // 	    <div>
+    // 	      <div style={styles.infoMessage}>
+    // 		{ infoMessage }
+    //           </div>
+    // 	      <div style={styles.txDetails}>
+    // 		<TxDetailsBox
+    // 		   txHash={txHash}
+    // 		   networkId={this.props.networkId}
+    // 		   />
+    // 		</div>
+    // 	    </div>	    
+    // 	);	
+    // }
     
     
-    _renderConfirmDetailsForm() {
-
-	
-	
+    _renderConfirmDetailsForm() {		
 	// don't show button for next statuses	
 	return (
 	    <div>
@@ -147,20 +138,19 @@ class ConfirmTransfer extends Component {
 		     disabled={true}
 		     placeholder={this.props.phoneFormatted} />
 		</div>
-		{ this._isWithdrawable() ?
-		    <div style={styles.button}>
-			  <ButtonPrimary
-				 handleClick={this._onSubmit.bind(this)}
-				 disabled={this.state.fetching}		   
-				 buttonColor={styles.green}>
-				Confirm
-			      </ButtonPrimary>
-			</div> : null
-		    }
-		    
-		    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>
-		    { this._renderTransferStatusInfo() }
-		    
+		
+		<div style={styles.button}>
+		  <ButtonPrimary
+		     handleClick={this._onSubmit.bind(this)}
+		     disabled={this.state.fetching}		   
+		     buttonColor={styles.green}>
+		    Confirm
+		  </ButtonPrimary>
+		</div> 
+		
+		
+		<SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>		    
+		
 	      </div>
 	    </div>
 	);
@@ -172,9 +162,11 @@ class ConfirmTransfer extends Component {
 	    return <Loader text="Sending SMS code..." textLeftMarginOffset={-35}/>;
 	}
 
-
-	if (this.props.transfer.status === 'received') {
-	    
+	console.log({transfer: this.props.tranfser});
+	if (this.props.transfer.status === 'completed' ) {
+	    return (
+		<TransferScreen {...this.props}/>
+	    );
 	}
 	
         return (

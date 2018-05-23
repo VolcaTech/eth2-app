@@ -118,6 +118,7 @@ class e2pTransferBar extends React.Component {
 	case 'deposited':
 	case 'sent':
 	case 'received':
+	case 'completed':	    
 	    if (!isError) {
 		progBarStyle.width = 290;
 	    }
@@ -189,6 +190,7 @@ class e2pTransferBar extends React.Component {
 
 	case 'sent':
 	case 'received':
+	case 'completed':	    
 	    return (<div className="step-dot step-dot-green">
 		    <div className="step-dot-inner-2">
 		    <div className="step-dot-inner-3">
@@ -221,6 +223,7 @@ class e2pTransferBar extends React.Component {
 		return colors.blue;
 	    case 'sent':
 	    case 'received':
+	    case 'completed':		
 		return colors.green;
 	    }
 	}
@@ -229,7 +232,10 @@ class e2pTransferBar extends React.Component {
 
     _getLabel3Text() {
 	const { direction, status } = this.props;
-	if (direction === 'in' || status === 'sent') {
+	if (direction === 'in' ||
+	    status === 'sent' ||
+	    status === 'completed'
+	   ) {
 	    return 'Received';
 	}	
 	return 'Sent';

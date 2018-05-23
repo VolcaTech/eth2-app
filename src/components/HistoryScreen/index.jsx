@@ -28,7 +28,7 @@ class HistoryScreen extends React.Component {
                 {this.props.transfers.length === 0 ? (
                     <div style={styles.noTransfersContainer}>
                     <img src={noTransactionsLogo} style={styles.illustration}></img>
-                    <div style={styles.illustrationText}>Your future trasactions<br/>will appear here</div>
+                    <div style={styles.illustrationText}>Your future transfers<br/>will be here</div>
                     </div>
                 ) :
                     (
