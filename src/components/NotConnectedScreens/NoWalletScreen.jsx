@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
 import getDeepLinkForTrustWallet from './../../services/trustDeepLinkService';
-import TrustLogo from './../../../public/images/trust-logo.png';
-import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import ButtonPrimary from '../../components/common/ButtonPrimary';
 import RetinaImage from 'react-retina-image';
 import { Row, Col, Button, Grid } from 'react-bootstrap';
-import qLogo from './../../assets/images/q.png';
-import trustLogo from './../../assets/images/trust-mobile.png';
-import cipherLogo from './../../assets/images/cipher-mobile.png';
-import toshiLogo from './../../assets/images/toshi-mobile.png';
-import metamaskLogo from './../../assets/images/metamask-mobile.png';
-
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+// import qLogo from './../../assets/images/q.png';
+// import trustLogo from './../../assets/images/trust-mobile.png';
+// import cipherLogo from './../../assets/images/cipher-mobile.png';
+// import toshiLogo from './../../assets/images/toshi-mobile.png';
+// import metamaskLogo from './../../assets/images/metamask-mobile.png';
 
 
 
 const styles = {
-    e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },
-    trustLogo: { display: 'block', margin: 'auto', marginTop: 150, marginTop: 38 },
     title: {
         width: '90%',
         height: 48,
@@ -68,10 +64,17 @@ const styles = {
         fontFamily: 'SF Display Regular'
     },
     supported: { fontSize: 14, textAlign: 'center', fontFamily: "SF Display Bold" },
-    walletLogoContainer: { marginLeft: 3, marginRight: 3 },
+    walletLogoContainer: {
+	// marginLeft: 3,
+	// marginRight: 3
+	flex: 1
+    },
+    logo: {
+	margin: 'auto'
+    },
     instructionsText: { fontFamily: "SF Display Regular", fontSize: 14 },
     instructionsTextBold: { display: 'inline', fontFamily: 'SF Display Bold' },
-    instructionsContainer: { width: 285, display: "flex", margin: "auto", textAlign: 'left', verticalAlign: "text-top", marginTop: 25, marginBottom: 25, flexDirection: "column", justifyContent: "space-between" },
+    instructionsContainer: { width: 300, display: "flex", margin: "auto", textAlign: 'left', verticalAlign: "text-top", marginTop: 25, marginBottom: 25, flexDirection: "column", justifyContent: "space-between" },
 }
 
 
@@ -79,8 +82,8 @@ class NoWalletScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            disabled: false,
-            deepLink: true
+            disabled: true,
+            deepLink: false
         };
 
         this._getDeepLink();
@@ -88,7 +91,6 @@ class NoWalletScreen extends Component {
 
     async _getDeepLink() {
         const result = await getDeepLinkForTrustWallet(window.location.href);
-        console.log({ result });
         this.setState({ deepLink: result.url });
     }
 
@@ -98,19 +100,19 @@ class NoWalletScreen extends Component {
             <div>
                 <NoWalletHeader />
                 <div style={styles.title}>You need wallet to<br />receive Ether</div>
-                {window.innerWidth < 400 ?
+                {window.innerWidth < 769 ?
                     (
                         <div>
                             <div style={{ ...styles.instructionsText, textAlign: 'center' }}> We recommend Trust Wallet </div>
                             <div style={styles.instructionsContainer}>
-                                <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}><div style={{}}> How to: </div></div>
+                                <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}>How to:</div>
                                 <div style={styles.instructionsText}> 1. Download <div style={styles.instructionsTextBold}>Trust Wallet</div> (button below) </div>
                                 <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
                                 <div style={styles.instructionsText}> 3. Receive Ether (link will be open automatically) </div>
                             </div>
                             <div style={styles.buttonRow}>
                                 <a className={`btn btn-primary ${disabled}`} href={this.state.deepLink || "#"} style={styles.button}> Open Trust Wallet </a>
-                                <img style={{}} src={qLogo}></img>
+				<Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
                             </div>
                         </div>
                     ) :
@@ -118,14 +120,14 @@ class NoWalletScreen extends Component {
                         <div>
                             <div style={{ ...styles.instructionsText, textAlign: 'center' }}> On desktop we recommend Metamask </div>
                             <div style={styles.instructionsContainer}>
-                                <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}><div style={{}}> How to: </div></div>
+                                <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}>How to:</div>
                                 <div style={styles.instructionsText}> 1. Install Metamask Chrome Extension</div>
                                 <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
                                 <div style={styles.instructionsText}> 3. Receive Ether (link will be reload automatically) </div>
                             </div>
                             <div style={styles.buttonRow}>
-                                <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en" style={{...styles.button, backgroundColor: '#f5a623', borderColor: '#f5a623'}}> Install Metamask </a>
-                                <img style={{}} src={qLogo}></img>
+                                <a href="https://metamask.io/" style={{...styles.button, backgroundColor: '#f5a623', borderColor: '#f5a623'}} target="_blank"> Install Metamask </a>
+				<Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
                             </div>
                         </div>
                     )}
@@ -165,21 +167,21 @@ const WalletsList = () => {
                 <div style={styles.supported}>Supported wallets</div>
             </Row>
 
-            <div style={styles.row}>
+            <div style={{...styles.row, maxWidth: 400}}>
                 <div style={styles.walletLogoContainer}>
-                    <img style={styles.logo} src={trustLogo}></img>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/trust.png" />		  
                     <div style={styles.logoText}>Trust</div>
                 </div>
                 <div style={styles.walletLogoContainer}>
-                    <img style={styles.logo} src={metamaskLogo}></img>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/metamask.png" />		  		  
                     <div style={styles.logoText}>Metamask</div>
                 </div>
                 <div style={styles.walletLogoContainer}>
-                    <img style={styles.logo} src={cipherLogo}></img>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/cipher.png" />		  		  
                     <div style={styles.logoText}>Cipher</div>
                 </div>
                 <div style={styles.walletLogoContainer}>
-                    <img style={styles.logo} src={toshiLogo}></img>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/toshi.png" />		  		  
                     <div style={styles.logoText}>Toshi</div>
                 </div>
             </div>

@@ -121,7 +121,7 @@ class Form extends React.Component {
 He could then receive the assets using link and any Ethereum address of his choice.</div>
                         <Row>
                           <Col xs={12} md={6}>
-			    <Link style={styles.faqLink} to="/faq">
+			    <Link style={styles.faqLink} to="faq">
                               How it works?
 			    </Link>
                           </Col>
@@ -145,7 +145,7 @@ He could then receive the assets using link and any Ethereum address of his choi
                             <div>
 			      <img style={styles.sendLogo} src={sendLogo}></img>
 			    </div>
-                            <Link to="/" style={styles.sendButton}>                            
+                            <Link to="send" style={styles.sendButton}>                            
                               <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
                             </Link>
                             <div style={styles.greyText}>You should have metamask installed</div>

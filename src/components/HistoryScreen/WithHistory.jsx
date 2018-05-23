@@ -11,9 +11,9 @@ const WithHistory = (props) => {
     );
     
     return (
-        <E2PCarousel slides={[
-			 props.children
-		     , History]} {...props} />
+        <E2PCarousel
+	   slides={[ props.children, History]}
+	   {...props} />
     );
 
 }

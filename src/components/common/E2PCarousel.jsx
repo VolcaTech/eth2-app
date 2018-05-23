@@ -4,7 +4,6 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getTransfersForActiveAddress } from './../../data/selectors';
-//import qLogo from './../../assets/images/q.png';
 import RetinaImage from 'react-retina-image';
 
 
@@ -20,7 +19,6 @@ const styles = {
 	maxWidth: 400,
 	minWidth: 320,
 	width: '90%'
-	//width: 320
     },
     nextButtonIcon: {
         display: 'inline',
@@ -219,11 +217,6 @@ class E2PCarousel extends Component {
     }
 }
 
-
-// <div style={{width: 175, height: 18, display: 'flex', margin: 'auto', justifyContent: 'space-between', fontSize: 14, fontFamily: 'SF Display Bold', color: '#0099ff'}}>
-//   <div style={styles.infoIcon}>i</div><div>More about Eth2Phone
-//   </div>                           
-// </div>   
 
 function mapStateToProps(state) {
     return {

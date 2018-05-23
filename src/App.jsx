@@ -22,10 +22,6 @@ import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
 class App extends Component {
     
 
-    _renderNotConnected() {
-	return <NoWalletScreen />;	
-    }
-
     _renderWrongNetwork() {
         return (
             <div>
@@ -58,25 +54,39 @@ class App extends Component {
         );
     }
 
+
+    _renderStaticRouter() {
+	return (
+	    <Router>
+              <div>
+                <Switch>
+		  <Route exact path="/" component={Landing}/>						  
+                  <Route path="/about" component={Landing}/>
+		  <Route path="/faq" component={Landing}/>				
+            	  <Route component={NoWalletScreen}/>
+		</Switch>		
+              </div>	    
+            </Router>
+	);
+    }
     
     render() {
 
         if (!this.props.loaded) {
             return (<Loader/>);
         }
-
-        if (!this.props.connected) {
-	    return this._renderNotConnected();
-        }
-
-        if (this.props.networkId != "3" && this.props.networkId != "1") {
+	
+	if (!this.props.connected) {
+	    return this._renderStaticRouter();
+	}
+	
+	if (this.props.networkId != "3" && this.props.networkId != "1") {
 	    return this._renderWrongNetwork();
-        }
-
-        if (!this.props.address) {
+	}
+	
+	if (!this.props.address) {
 	    return this._renderNoAddress();
-        }
-
+	}
 	
         return (	    
 		<Router>
@@ -84,11 +94,11 @@ class App extends Component {
                 <Header {...this.props} />
 	    
                 <Switch>
-                <Route exact path="/" component={SendTab} />
                 <Route exact path="/transfers/:transferId" component={TransferComponent} />
+		<Redirect from='/send' to='/'/>
+	    
                 <Route path="/receive" component={ReceiveForm} />
 		<Route path='/r' render={(props) => {
-		    console.log({props});
 		    return (
 			<Redirect to={{
 				      pathname: '/receive',
@@ -99,6 +109,8 @@ class App extends Component {
 	    
                 <Route path="/history" component={HistoryScreen} />
                 <Route path="/about" component={Landing}/>
+		<Route path="/faq" component={Landing}/>
+		<Route component={SendTab}/>
             </Switch>
 	    
             </div>	    
@@ -107,9 +119,6 @@ class App extends Component {
         );
     }
 }
-// <Route path="/faq" component={{}}/>
-// <Route path="/tos" component={{}}/>
-// <Route path="/policy" component={{}}/>
 
 
 const styles = {
