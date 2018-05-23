@@ -4,8 +4,8 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getTransfersForActiveAddress } from './../../data/selectors';
-import iLogo from './../../assets/images/i.png';
-import qLogo from './../../assets/images/q.png';
+//import qLogo from './../../assets/images/q.png';
+import RetinaImage from 'react-retina-image';
 
 
 const styles = {
@@ -199,7 +199,7 @@ class E2PCarousel extends Component {
 				<span style={styles.nextButtonTitle}>About</span>
 			      </Link>
 			      <div style={{width: 59, height: 59}}>
-				<img src={qLogo}></img>
+				<RetinaImage src="https://eth2.io/images/q.png" />
 			      </div>
 			    </div>
 			  </div>
