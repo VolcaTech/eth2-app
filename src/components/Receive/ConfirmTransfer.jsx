@@ -146,9 +146,7 @@ class ConfirmTransfer extends Component {
 		     buttonColor={styles.green}>
 		    Confirm
 		  </ButtonPrimary>
-		</div> 
-		
-		
+		</div> 		
 		<SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>		    
 		
 	      </div>
@@ -163,7 +161,11 @@ class ConfirmTransfer extends Component {
 	}
 
 	console.log({transfer: this.props.tranfser});
-	if (this.props.transfer.status === 'completed' ) {
+	
+	switch(this.props.transfer.status) {
+	case 'completed':
+	case 'cancelled':
+	case 'error':
 	    return (
 		<TransferScreen {...this.props}/>
 	    );

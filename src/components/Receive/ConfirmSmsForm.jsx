@@ -161,7 +161,7 @@ class ConfirmSmsForm extends Component {
 	      <div style={styles.button}>
 		<ButtonPrimary
 		   handleClick={this._onSubmit.bind(this)}
-		   disabled={this.state.fetching||this.state.errorMessage}		   
+		   disabled={this.state.fetching||this.state.errorMessage.length > 1}		   
 		   buttonColor={styles.green}>
 		  Confirm
 		</ButtonPrimary>
@@ -174,7 +174,6 @@ class ConfirmSmsForm extends Component {
 			<span style={styles.sendAgain}>Send code again</span> in <Timer style={styles.timer} afterComplete={() => this.setState({ smsButtonDisabled: false, timer: false })} interval={1000} remaining={60000}> <Countdown /> seconds
 			</Timer>
                       </div> :
-
 		      <div style={styles.sendAgainContainer}>
 			    <span style={styles.sendAgainLink} onClick={this._sendSmsAgain.bind(this)}>Send code again</span> if you have not received the code.
 			  </div>

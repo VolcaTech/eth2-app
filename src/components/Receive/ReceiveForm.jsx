@@ -211,11 +211,14 @@ class ReceiveScreen extends Component {
     }
     
     render() {
+	// add flag that transfer fetched from server
+	const transfer = this.state.transfer && {...this.state.transfer, fetchedFromServer: true };
+	
 	const props = {
 	    ...this.props,
 	    ...this.phoneParams,
 	    secretCode:this.state.secretCode,
-	    transfer: this.state.transfer,
+	    transfer,
 	    transferStatus: this.state.transferStatus,
 	    codeFromUrl: this.state.codeFromUrl
 	};

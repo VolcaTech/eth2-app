@@ -49,6 +49,29 @@ const styles = {
 
 const CancelledTransferScreen = ({transfer}) => {
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});
+    let title, subtitle;
+    if (transfer.fetchedFromServer) { 
+	title = "Transfer is canceled";
+	subtitle = (
+	    <div style={styles.subTitle}>
+	      The sender has canceled the transfer.<br/>
+	      You can ask him about it. If you need help<br/>
+	      text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a>
+	    </div>
+	);
+    } else {
+	// from browser's localstorage
+	title = "You canceled the transfer";
+	subtitle = (
+	    <div style={styles.subTitle}>
+	      Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
+	      we are there to help
+	    </div>
+	);	
+    }
+
+
+    
     return (
 	<div>
 	  <div style={styles.stepsBar}>
@@ -59,11 +82,10 @@ const CancelledTransferScreen = ({transfer}) => {
 	  </div>
 	  <div style={styles.center}>
 	    <div style={styles.titleContainer}>
-	      <div style={styles.title}>You canceled the transfer</div>	      
+	      <div style={styles.title}>{title}</div>	      
 	    </div>
 	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
-		we are there to help</div>
+	      { subtitle } 
 	    </div>
 
 	    <div style={styles.helpContainer}>
