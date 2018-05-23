@@ -69,8 +69,6 @@ const CancelledTransferScreen = ({transfer}) => {
 	    </div>
 	);	
     }
-
-
     
     return (
 	<div>

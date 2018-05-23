@@ -17,8 +17,13 @@ import { Row, Col } from 'react-bootstrap';
 
 export class TransferScreen extends Component {
     
-    _renderTranferDetails() {
-        const { transfer, currentStep } = this.props;
+    render() {
+        const { transfer, currentStep, urlError } = this.props;
+	// if transfer not found
+        if (urlError) {
+            return (<div style={{ color: 'red' }}>{urlError}</div>);
+        }
+
 	if (transfer.isError) {
 	    return (<TxErrorScreen transfer={transfer}/>);
 	}
@@ -58,44 +63,30 @@ export class TransferScreen extends Component {
         }
         }
     }    
-    
-    render() {
-        let { transfer, currentStep, error } = this.props;
-	
-	// if transfer not found
-        if (error) {
-            return (<div style={{ color: 'red' }}>{error}</div>);
-        }
-	
-        return (
-
-	      <Row>
-		<Col sm={4} smOffset={4}>	
-                  {this._renderTranferDetails()}		    
-		</Col>
-	      </Row>
-
-        );
-    }
 }
 
 const TransferScreenWithHistory = (props) => (
     <WithHistory {...props}>
-      <TransferScreen {...props}/>
+      <Row>
+	<Col sm={4} smOffset={4}>		  
+	  <TransferScreen {...props}/>
+	</Col>
+      </Row>
+	  
     </WithHistory>
 );
 
 const mapStateToProps = (state, props) => {
     const transferId = props.match.params.transferId;
     const transfer = getAllTransfers(state).filter(transfer => transfer.id === transferId)[0] || {};
-    let error = "";
+    let urlError = "";
     if (!transfer || !transfer.id) {
-        error = "Transfer not found. Check the url!";
+        urlError = "Transfer not found. Check the url!";
     }
 
     return {
         transfer,
-        error
+        urlError
     };
 }
 

@@ -48,6 +48,7 @@ const styles = {
 
 
 const TxErrorScreen = ({transfer}) => {
+    let subtitle;
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});
     return (
 	<div>
@@ -61,17 +62,38 @@ const TxErrorScreen = ({transfer}) => {
 	    <div style={styles.titleContainer}>
 	      <div style={styles.title}>Transaction failed</div>	      
 	    </div>
-	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>Something went wrong. Check details on<br/>
-		<a href={etherscanLink} style={styles.link}>Etherscan</a> and if transaction is out of gas<br/>
-	      send Ether again with higher gas price</div>	      
-	    </div>
 
-	    <div style={styles.helpContainer}>
-	      <div style={styles.helpText}>Also check or text us<br/>
-		in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a> so we can help</div>	      
-	    </div>
-	  </div>
+	    { !transfer.fetchedFromServer ? (
+		<div>
+		  <div style={styles.subTitleContainer}>
+		    <div style={styles.subTitle}>
+		      Something went wrong. Check details on<br/>
+		      <a href={etherscanLink} style={styles.link}>Etherscan</a> and if transaction is out of gas<br/>
+		      send Ether again with higher gas price</div>	      	    	      
+		  </div>
+		  
+		  <div style={styles.helpContainer}>
+		    <div style={styles.helpText}>Also check FAQ or text us<br/>
+		      in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a> so we can help</div>	      
+		  </div>
+		</div>
+	    ) : (
+		  <div>
+		    <div style={styles.subTitleContainer}>
+		      <div style={styles.subTitle}>
+			Something went wrong. You can reach us<br/>
+			in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a> so we can help
+		    </div>
+		    
+		    <div style={styles.helpContainer}>
+		      <div style={styles.helpText}>
+			Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a>
+			</div>
+		      </div>
+		    </div>
+		  </div>
+	      )	}
+	</div>
 	</div>
     );
 }

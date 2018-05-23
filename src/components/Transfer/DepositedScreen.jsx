@@ -27,7 +27,7 @@ const styles = {
 	lineHeight: '28px'
     },
     subTitleContainer: {
-	width: 300,
+	width: 320,
 	margin: 'auto',
     },
     subTitle: {
@@ -104,7 +104,9 @@ const DepositedScreen = ({transfer}) => {
 
 	    <div style={styles.subTitleContainer}>
 	      <div style={styles.subTitle}>You can copy the link with the code below<br/>
-	      and share it with the receiver</div>	      
+		and share it with the receiver. You can cancel the<br/>
+		transfer later in "Transfers"
+	      </div>	      
 	    </div>
 
 	    <div style={styles.helpContainer}>

@@ -8,7 +8,7 @@ import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { TransferScreen } from '../Transfer';
-//import { getDepositTxHash, getInfoMessageAndTxHashForStatus } from './utils';
+import { getDepositTxHash } from './utils';
 
 
 const styles = {

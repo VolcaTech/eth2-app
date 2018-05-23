@@ -74,8 +74,10 @@ const CancellingScreen = ({transfer}) => {
 	      </div>	      
 	    </div>
 	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
-		we are there to help</div>	      
+	      <div style={styles.subTitle}>
+		It may take 1-2 min. You can close the screen<br/>
+		and check the status later in "Transfers"
+	      </div>	      
 	    </div>
 
 	    <div style={styles.helpContainer}>

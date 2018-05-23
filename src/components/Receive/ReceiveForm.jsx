@@ -14,7 +14,7 @@ const qs = require('querystring');
 import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import ConfirmTransfer from './ConfirmTransfer';
-import { getDepositTxHash } from './utils';
+import { getDepositTxHash, getTxHashForStatus } from './utils';
 import WithHistory from './../HistoryScreen/WithHistory';
 
 
@@ -105,7 +105,8 @@ class ReceiveScreen extends Component {
 	    });
 
 	    if (!result.success) { throw new Error(result.errorMessage || "Server error");};
-	    console.log({result});
+	    result.transfer.txHash = getTxHashForStatus(result.transfer);
+	    result.transfer.networkId = this.props.networkId;			    
 	    this.setState({
 		fetching: false,
 		hasCode,
@@ -119,9 +120,12 @@ class ReceiveScreen extends Component {
 		const web3 = web3Service.getWeb3();
 		const txHash = getDepositTxHash(result.transfer.events);
 		const txReceipt = await web3.eth.getTransactionReceiptMined(txHash);
+		result.transfer.txHash = txHash;
 		let transferStatus;
 		if (txReceipt.status === '0x0') { // if error
 		    result.transfer.status = 'error';
+		    result.transfer.isError = true;
+	
 		} else {
 		    result.transfer.status = 'deposited';
 		    this.setState({
