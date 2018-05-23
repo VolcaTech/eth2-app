@@ -70,6 +70,14 @@ class ConfirmTransfer extends Component {
 	    this._sendSmsToPhone();
 	}
     }
+
+    _isWithdrawable() {
+	return (!(this.props.transferStatus === 'completed'||
+		  this.props.transferStatus === 'cancelled' ||
+		  this.props.transferStatus === 'error' ||
+		  this.props.transferStatus === 'depositing'));
+    }
+    
     
     async _sendSmsToPhone() {
 	try {
