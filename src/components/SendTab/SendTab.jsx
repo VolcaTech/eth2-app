@@ -5,12 +5,11 @@ import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import CheckBox from './../common/CheckBox';
-import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { SpinnerOrError } from './../common/Spinner';
-import HistoryScreen from './../HistoryScreen';
+import WithHistory from './../HistoryScreen/WithHistory';
 import E2PCarousel from './../common/E2PCarousel';
 import { Row, Col } from 'react-bootstrap';
 import web3Service from './../../services/web3Service';
@@ -228,17 +227,11 @@ class Tab extends Component {
     }
 
     render() {
-        console.log(this.state)
-        
-        const SendForm = this._renderForm();
-        const History = (
-            <div style={{ marginTop: 56 }}>
-                <HistoryScreen />
-            </div>
-        );
-        return (
-            <E2PCarousel slides={[SendForm, History]} />
-        );
+	return (
+	    <WithHistory {...this.props}>
+	      { this._renderForm() } 
+	    </WithHistory>
+	);
     }
 }
 

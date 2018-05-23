@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { getAllTransfers } from '../../data/selectors';
-import e2pLogo from './../../assets/images/eth2phone-logo.png';
 import CompletedSentScreen from './CompletedSentScreen';
 import DepositedScreen from './DepositedScreen';
 import CompletedReceivedScreen from './CompletedReceivedScreen';
-
 import PendingSentScreen from './PendingSentTransfer';
-
 import ReceivingScreen from './ReceivingScreen';
 import CancellingScreen from './CancellingScreen';
 import CancelledTransferScreen from './CancelledTransferScreen';
+import WithHistory from './../HistoryScreen/WithHistory';
 import HistoryScreen from './../HistoryScreen';
-import E2PCarousel from './../common/E2PCarousel';
 import TxErrorScreen from './TxErrorScreen';
 import { Row, Col } from 'react-bootstrap';
 
 
-class PendingTransfer extends Component {
+export class TransferScreen extends Component {
     
     _renderTranferDetails() {
         const { transfer, currentStep } = this.props;
@@ -59,44 +56,36 @@ class PendingTransfer extends Component {
             alert("Unknown status: " + transfer.status);
         }
         }
-    }
-
-    
+    }    
     
     render() {
         let { transfer, currentStep, error } = this.props;
-
+	
 	// if transfer not found
         if (error) {
             return (<div style={{ color: 'red' }}>{error}</div>);
         }
-		
-        const History = (
-            <div style={{ marginTop: 25 }}>
-              <HistoryScreen {...this.props}/>
-            </div>
-        );
-
-        const TransferScreen = (
-	    <Row>
-	      <Col sm={4} smOffset={4}>	
-                {this._renderTranferDetails()}		    
-	      </Col>
-	    </Row>
-        );
-
+	
         return (
-            <div><E2PCarousel slides={[TransferScreen, History]} {...this.props} /></div>
-        );
 
+	      <Row>
+		<Col sm={4} smOffset={4}>	
+                  {this._renderTranferDetails()}		    
+		</Col>
+	      </Row>
+
+        );
     }
 }
 
+const TransferScreenWithHistory = (props) => (
+    <WithHistory {...props}>
+      <TransferScreen {...props}/>
+    </WithHistory>
+);
 
 const mapStateToProps = (state, props) => {
-    let currentStep = 2;
     const transferId = props.match.params.transferId;
-    const networkId = state.web3Data.networkId;
     const transfer = getAllTransfers(state).filter(transfer => transfer.id === transferId)[0] || {};
     let error = "";
     if (!transfer || !transfer.id) {
@@ -110,6 +99,6 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps)(PendingTransfer);
+export default connect(mapStateToProps)(TransferScreenWithHistory);
 
 

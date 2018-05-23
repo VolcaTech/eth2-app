@@ -126,6 +126,9 @@ class ConfirmTransfer extends Component {
     
     
     _renderConfirmDetailsForm() {
+
+	
+	
 	// don't show button for next statuses	
 	return (
 	    <div>
@@ -168,6 +171,12 @@ class ConfirmTransfer extends Component {
 	if (this.state.hideScreen) {
 	    return <Loader text="Sending SMS code..." textLeftMarginOffset={-35}/>;
 	}
+
+
+	if (this.props.transfer.status === 'received') {
+	    
+	}
+	
         return (
 		<div>
 		  { this.state.step === 'confirm-details' ?

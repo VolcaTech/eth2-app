@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { getTransfersForActiveAddress } from './../../data/selectors';
 import HistoryRow from './row';
 import { Row, Col } from 'react-bootstrap';
-import noTransactionsLogo from './../../assets/images/transfer_illustration.png'
+import noTransactionsLogo from './../../assets/images/transfer_illustration.png';
+
 
 const styles = {
     screen: { paddingTop: 0, height: 600, paddingBottom: 30 },
