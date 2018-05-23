@@ -165,6 +165,7 @@ class ConfirmTransfer extends Component {
 	switch(this.props.transfer.status) {
 	case 'completed':
 	case 'cancelled':
+	case 'depositing':	    
 	case 'error':
 	    return (
 		<TransferScreen {...this.props}/>

@@ -27,7 +27,6 @@ const styles = {
 	lineHeight: '28px'
     },
     subTitleContainer: {
-	width: 300,
 	margin: 'auto',
     },
     subTitle: {
@@ -80,12 +79,45 @@ const styles = {
 
 
 
-const CompletedSentScreen = ({transfer}) => {
+const DepoisitingScreen = ({transfer}) => {
 
-    const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
-    const formattedPhone = format(transfer.receiverPhone, 'International');
-    
-    
+    const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});
+
+    if (transfer.fetchedFromServer) {
+	return (
+	    <div>
+	      <div style={styles.stepsBar}>
+		<TransferStepsBar
+		   status={transfer.status}
+		   direction={transfer.direction}
+		   isError={transfer.isError}/>
+	      </div>
+	      <div style={styles.center}>
+		<div style={styles.titleContainer}>
+		  <div style={styles.title}>
+		    Sender's transaction<br/>
+		    is processing...
+		  </div>	      
+		</div>
+		<div style={styles.subTitleContainer}>
+		  <div style={styles.subTitle}>
+		    It may take 1-2 min. Then you can receive Ether.<br/>
+		    You can close this screen and check the status<br/>
+		    later  by sender's link
+		  </div>
+		</div>
+
+		
+		<div style={styles.helpContainer}>
+		  <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+		  </div>	      
+		</div>
+
+		
+	      </div>
+	    </div>
+	);
+    }
     return (
 	<div>
 	  <div style={styles.stepsBar}>
@@ -125,4 +157,4 @@ const CompletedSentScreen = ({transfer}) => {
 }
 
 
-export default CompletedSentScreen;
+export default DepoisitingScreen;
