@@ -15,9 +15,12 @@ const styles = {
         margin: '0px auto auto'
     },
     nextButton: {
-        display: 'block',
-        textAlign: 'center',
-        margin: '0px auto auto'
+        display: 'flex',
+        margin: '0px auto auto',
+	maxWidth: 400,
+	minWidth: 320,
+	width: '90%'
+	//width: 320
     },
     nextButtonIcon: {
         display: 'inline',
@@ -42,10 +45,6 @@ const styles = {
         padding: '3px 7px 4px 7px'
     },
     backButtonTitle: {
-        //marginTop: 14,
-        //width: 250,
-        //height: 15,
-        //margin: '15px auto auto',
         display: 'block',
         textAlign: 'center',
         display: 'block',
@@ -62,7 +61,6 @@ const styles = {
     },
     buttonContainer: {
         margin: 'auto',
-        marginRight: 18,
         display: 'flex',
         flexDirection: 'row',
         padding: "8px 16px",
@@ -71,16 +69,37 @@ const styles = {
         borderRadius: 50,
 	backgroundColor: '#fff'
     },
+    aboutContainer: {
+        margin: 'auto',
+	//marginLeft: 40,
+	marginRight: 10,
+	marginLeft: 0,
+        display: 'flex',
+        flexDirection: 'row',
+        padding: "8px 16px",
+        boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+        WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+        borderRadius: 50,
+	backgroundColor: '#fff'
+    },
+    transfersButtonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        padding: "8px 16px",
+        boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+        WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+        borderRadius: 50,
+	backgroundColor: '#fff',
+	float: 'right',
+	marginTop: 10,	
+	//marginRight: 40,
+	width: 127
+    },    
     nextButtonTitle: {
-        // width: 250,
-        // height: 23,
-        // margin: 'auto',
-        // paddingTop: 3,
-        // display: 'block',
-        // textAlign: 'center',
         fontSize: 15,
         fontFamily: 'SF Display Bold',
-        marginRight: 7,
+        marginRight: 5,
+	marginLeft: 5,
         paddingTop: 2
     },
     buttonHidden: { width: 0, height: 0, overflow: 'hidden' },
@@ -174,15 +193,22 @@ class E2PCarousel extends Component {
 		      
                       <div style={this.state.nextButtonStyle}>
 			<ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                          <div style={styles.buttonRow}>
-                            <div style={styles.buttonContainer}>
-                              <span style={styles.nextButtonTitle}>Transfers</span>
-                              <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+			  <div style={{flex: 1, alignItems: 'flex-start'}}>
+                            <div style={styles.buttonRow}>
+                              <Link to="/about" className='no-underline' style={{...styles.aboutContainer, color: '#0099ff'}}>			      
+				<span style={styles.nextButtonTitle}>About</span>
+			      </Link>
+			      <div style={{width: 59, height: 59}}>
+				<img src={qLogo}></img>
+			      </div>
+			    </div>
+			  </div>
+			  <div style={{flex: 1, alignItems: 'flex-end'}}>			    
+                            <div style={styles.transfersButtonContainer}>
+			      <span style={styles.nextButtonTitle}>Transfers</span>
+			      <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
                             </div>
-                            <Link to="/about">
-                              <img src={iLogo} style={styles.logo} onLoad={() => { window.dispatchEvent(new Event('resize')); }} />
-                            </Link>
-                            <img style={{}} src={qLogo}></img>
+			    
                           </div>
 			</ButtonNext>
 		      </div>
