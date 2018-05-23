@@ -15,7 +15,7 @@ import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import ConfirmTransfer from './ConfirmTransfer';
 import { getDepositTxHash } from './utils';
-
+import WithHistory from './../HistoryScreen/WithHistory';
 
 
 const styles = {
@@ -226,19 +226,21 @@ class ReceiveScreen extends Component {
 	}
 	
         return (
-	    <Grid>
-	      <Row>
-              <Col sm={4} smOffset={4}>	
-		<div style={styles.container}>
-		  <div>
-		    { this.state.hasCode ?
-			<ConfirmTransfer {...props}/>
-			: this._renderPasteCodeForm() } 
-		  </div>		  
-		</div>
-	      </Col>
-	      </Row>
-	    </Grid>
+	    <WithHistory {...this.props}>
+	      <Grid>
+		<Row>
+		  <Col sm={4} smOffset={4}>	
+		    <div style={styles.container}>
+		      <div>
+			{ this.state.hasCode ?
+			    <ConfirmTransfer {...props}/>
+			    : this._renderPasteCodeForm() } 
+		      </div>		  
+		    </div>
+		  </Col>
+		</Row>
+	      </Grid>
+	    </WithHistory>
         );
     }
 }
