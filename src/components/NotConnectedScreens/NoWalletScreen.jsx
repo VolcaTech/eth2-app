@@ -4,11 +4,6 @@ import ButtonPrimary from '../../components/common/ButtonPrimary';
 import RetinaImage from 'react-retina-image';
 import { Row, Col, Button, Grid } from 'react-bootstrap';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-// import qLogo from './../../assets/images/q.png';
-// import trustLogo from './../../assets/images/trust-mobile.png';
-// import cipherLogo from './../../assets/images/cipher-mobile.png';
-// import toshiLogo from './../../assets/images/toshi-mobile.png';
-// import metamaskLogo from './../../assets/images/metamask-mobile.png';
 
 
 

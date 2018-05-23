@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getTransfersForActiveAddress } from './../../data/selectors';
 import HistoryRow from './row';
 import { Row, Col } from 'react-bootstrap';
-import noTransactionsLogo from './../../assets/images/transfer_illustration.png';
+import RetinaImage from 'react-retina-image';
 
 
 const styles = {
@@ -27,7 +27,7 @@ class HistoryScreen extends React.Component {
                 <div style={styles.transfers}>Transfers</div>
                 {this.props.transfers.length === 0 ? (
                     <div style={styles.noTransfersContainer}>
-                    <img src={noTransactionsLogo} style={styles.illustration}></img>
+                    <RetinaImage src="https://eth2.io/images/transfer_illustration.png" style={styles.illustration} />
                     <div style={styles.illustrationText}>Your future transfers<br/>will be here</div>
                     </div>
                 ) :
