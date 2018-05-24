@@ -6,6 +6,7 @@ import SendTab from './components/SendTab/SendTab';
 import ReceiveForm from './components/Receive/ReceiveForm';
 import TransferComponent from './components/Transfer';
 import Header from './components/common/Header.jsx';
+import NoWalletHeader from './components/common/NoWalletHeader.jsx';
 import { Loader } from './components/common/Spinner.jsx';
 import ButtonPrimary from './components/common/ButtonPrimary';
 import HistoryScreen from './components/HistoryScreen';
@@ -16,12 +17,8 @@ import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
 
-    
-
 
 class App extends Component {
-    
-
     _renderWrongNetwork() {
         return (
             <div>
@@ -59,6 +56,7 @@ class App extends Component {
 	return (
 	    <Router>
               <div>
+		<NoWalletHeader />
                 <Switch>
 		  <Route exact path="/" component={Landing}/>						  
                   <Route path="/about" component={Landing}/>

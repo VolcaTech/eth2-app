@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import getDeepLinkForTrustWallet from './../../services/trustDeepLinkService';
 import ButtonPrimary from '../../components/common/ButtonPrimary';
 import RetinaImage from 'react-retina-image';
-import { Row, Col, Button, Grid } from 'react-bootstrap';
+import { Row, Col, Grid } from 'react-bootstrap';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-
 
 
 const styles = {
@@ -20,25 +19,6 @@ const styles = {
         marginBottom: 25,
         marginTop: 50
     },
-    notConnectedButton: {
-        width: 145,
-        height: 22,
-        borderRadius: 6,
-        marginTop: 15,
-        textAlign: 'center',
-        border: '2px solid #999999',
-        fontFamily: "SF Display Regular",
-        fontSize: 12,
-        color: '#999999',
-        padding: 0,
-        paddingTop: 1,
-        paddingLeft: 5
-    },
-    redDot: {
-        display: 'inline',
-        color: '#e64437',
-        marginLeft: 3
-    },
     row: {
         width: '80%',
         margin: 'auto',
@@ -47,29 +27,67 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    buttonRow: { display: 'flex', flexDirection: 'row', width: 300, margin: 'auto', marginBottom: 30, justifyContent: 'center' },
-    button: { display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', width: 243, height: 38, borderRadius: 12, marginTop: 'auto', marginBottom: 'auto', backgroundColor: '#0099ff', borderColor: '#0099ff', fontSize: 18, fontFamily: 'SF Display Black', textAlign: 'center', textDecoration: 'none', color: 'white' },
-    web3: { display: 'flex', justifyContent: 'flex-end', padding: 0 },
-    headerRow: { height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 },
-    headerLogo1: { width: 55, height: 29, fontFamily: "SF Display Black", color: "black", fontSize: 24, letterSpacing: 1, textAlign: 'center', marginTop: 9 },
-    headerLogo2: { letterSpacing: 0, display: 'inline', color: '#2bc64f' },
+    buttonRow: {
+	display: 'flex',
+	flexDirection: 'row',
+	width: 300,
+	margin: 'auto',
+	marginBottom: 30,
+	justifyContent: 'center'
+    },
+    button: {
+	display: 'flex',
+	flexDirection: 'column',
+	alignContent: 'center',
+	justifyContent: 'center',
+	width: 243,
+	height: 38,
+	borderRadius: 12,
+	marginTop: 'auto',
+	marginBottom: 'auto',
+	backgroundColor: '#0099ff',
+	borderColor: '#0099ff',
+	fontSize: 18,
+	fontFamily: 'SF Display Black',
+	textAlign: 'center',
+	textDecoration: 'none',
+	color: 'white'
+    },
     logoText: {
         textAlign: 'center',
         fontSize: 14,
         fontFamily: 'SF Display Regular'
     },
-    supported: { fontSize: 14, textAlign: 'center', fontFamily: "SF Display Bold" },
+    supported: {
+	fontSize: 14,
+	textAlign: 'center',
+	fontFamily: "SF Display Bold"
+    },
     walletLogoContainer: {
-	// marginLeft: 3,
-	// marginRight: 3
 	flex: 1
     },
     logo: {
 	margin: 'auto'
     },
-    instructionsText: { fontFamily: "SF Display Regular", fontSize: 14 },
-    instructionsTextBold: { display: 'inline', fontFamily: 'SF Display Bold' },
-    instructionsContainer: { width: 300, display: "flex", margin: "auto", textAlign: 'left', verticalAlign: "text-top", marginTop: 25, marginBottom: 25, flexDirection: "column", justifyContent: "space-between" },
+    instructionsText: {
+	fontFamily: "SF Display Regular",
+	fontSize: 14
+    },
+    instructionsTextBold: {
+	display: 'inline',
+	fontFamily: 'SF Display Bold'
+    },
+    instructionsContainer: {
+	width: 300,
+	display: "flex",
+	margin: "auto",
+	textAlign: 'left',
+	verticalAlign: "text-top",
+	marginTop: 25,
+	marginBottom: 25,
+	flexDirection: "column",
+	justifyContent: "space-between"
+    },
 }
 
 
@@ -93,7 +111,6 @@ class NoWalletScreen extends Component {
         const disabled = this.state.deepLink ? "" : "disabled";
         return (
             <div>
-                <NoWalletHeader />
                 <div style={styles.title}>You need wallet to<br />receive Ether</div>
                 {window.innerWidth < 769 ?
                     (
@@ -132,28 +149,6 @@ class NoWalletScreen extends Component {
     }
 }
 
-const NoWalletHeader = () => {
-    return (
-        <Grid>
-            <Row>
-                <Col xs={12}>
-                    <Row style={styles.headerRow}>
-                        <Col xs={6} style={{ padding: 0 }}>
-                            <div style={styles.headerLogo1}>
-                                Eth2<div style={styles.headerLogo2}>Phone</div></div>
-                        </Col>
-                        <Col style={styles.web3} xs={6}>
-                            <div style={styles.notConnectedButton}>
-                                Not connected to Web3
-                               <div style={styles.redDot}>&#9679;</div>
-                            </div>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-        </Grid>
-    )
-}
 
 const WalletsList = () => {
     return (
@@ -186,3 +181,4 @@ const WalletsList = () => {
 
 
 export default NoWalletScreen;
+
