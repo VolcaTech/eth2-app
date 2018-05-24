@@ -343,8 +343,8 @@ li:focus,
  }
 
  .step-dot {
-     width: 30px;
-     height: 30px;
+     width: 29.5px;
+     height: 29.5px;
      border-radius: 50%;
      position: absolute;
      right: 0;
@@ -353,8 +353,8 @@ li:focus,
 
 
 .step-dot-inner-2{
-     width: 25px;
-     height: 25px;
+     width: 24.5px;
+     height: 24.5px;
      border-radius: 50%;
      margin: 2.5px;
      position: absolute;
@@ -362,8 +362,8 @@ li:focus,
 
 
 .step-dot-inner-3{
-     width: 20px;
-     height: 20px;
+     width: 19.5px;
+     height: 19.5px;
      border-radius: 50%;
      margin: 2.5px;
      position: absolute;
@@ -407,8 +407,8 @@ li:focus,
 .dot-pulse-inner {
     display: block;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 19.5px;
+    height: 19.5px;
     border-radius: 50%;
     background: #0099ff;
     cursor: pointer;
@@ -448,8 +448,8 @@ li:focus,
 .dot-pulse-middle {
     display: block;
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 24.5px;
+    height: 24.5px;
     border-radius: 50%;
     background:  rgba(0, 153, 255, 0.5);
     cursor: pointer;
@@ -461,8 +461,8 @@ li:focus,
 .dot-pulse-outer {
     display: block;
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 29.5px;
+    height: 29.5px;
     border-radius: 50%;
     background:  rgba(0, 153, 255, 0.25);
     cursor: pointer;
@@ -475,3 +475,68 @@ li:focus,
 }
 
 
+.btn-inverted div {
+    width: 70%;
+    margin: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 12px;
+    border: 1px solid #0099ff;
+    background-color: #ffffff;
+}
+
+.btn-inverted:hover div,
+.btn-inverted:focus div {
+    background-color: rgba(0,153,255, 0.2)
+}
+
+.btn-inverted div span {
+    color: #0099ff;
+    font-family: 'SF Display Black';
+    font-size: 18px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+.title {
+    font-family: 'SF Display Black';
+    line-height: 28px   
+}
+
+
+.text {
+    color: #000000;
+    font-size: 14px;
+    font-family: "SF Display Regular";
+    font-weight: 400;
+    line-height: 1.25
+}
+
+
+.text-blue {
+    color: #0099ff;
+}
+
+.text-gray {
+    color: #999999;
+}
+
+a.link {
+    color: #0099ff;
+    font-family: 'SF Display Bold';   
+}
+
+@media only screen and (max-width: 374px) {
+    .title { 
+	font-size: 22px;
+    }
+}
+
+@media only screen and (min-width: 375px) {
+    .title { 
+	font-size: 24px;
+    }
+}
