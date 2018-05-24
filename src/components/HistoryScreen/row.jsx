@@ -38,7 +38,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "sent":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={{ ...styles.statusCell.statusText, color: '#33aeff' }}>Sent</div>
+                    <div style={{ ...styles.statusCell.statusText }}>Sent</div>
                 </div>
             );
             break;
@@ -125,7 +125,7 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
             </Col>
 
             <Col xs={5}>
-                <div style={{ flex: 2, display: 'flex', flexDirection: 'row', marginLeft: 10, marginRight: 15 }}>
+                <div style={{ width: 106, display: 'flex', flexDirection: 'row', margin: 'auto' }}>
                     <StatusCell transfer={transfer} cancelTransfer={cancelTransfer} />
                     <div style={{ display: 'inline', marginLeft: 'auto' }}>
                         {link}

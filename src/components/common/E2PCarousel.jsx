@@ -16,9 +16,9 @@ const styles = {
     nextButton: {
         display: 'flex',
         margin: '0px auto auto',
-	maxWidth: 400,
-	minWidth: 320,
-	width: '90%'
+        maxWidth: 400,
+        minWidth: 320,
+        width: '90%'
     },
     nextButtonIcon: {
         display: 'inline',
@@ -30,7 +30,7 @@ const styles = {
         margin: 'auto',
         display: 'flex',
         flexDirection: 'row',
-	height: 59
+        height: 59
     },
     backButtonIcon: {
         display: 'inline',
@@ -65,20 +65,20 @@ const styles = {
         boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         borderRadius: 50,
-	backgroundColor: '#fff'
+        backgroundColor: '#fff'
     },
     aboutContainer: {
         margin: 'auto',
-	//marginLeft: 40,
-	marginRight: 10,
-	marginLeft: 0,
+        //marginLeft: 40,
+        marginRight: 10,
+        marginLeft: 0,
         display: 'flex',
         flexDirection: 'row',
         padding: "8px 16px",
         boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         borderRadius: 50,
-	backgroundColor: '#fff'
+        backgroundColor: '#fff'
     },
     transfersButtonContainer: {
         display: 'flex',
@@ -87,17 +87,17 @@ const styles = {
         boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
         borderRadius: 50,
-	backgroundColor: '#fff',
-	float: 'right',
-	marginTop: 10,	
-	//marginRight: 40,
-	width: 127
-    },    
+        backgroundColor: '#fff',
+        float: 'right',
+        marginTop: 10,
+        //marginRight: 40,
+        width: 127
+    },
     nextButtonTitle: {
         fontSize: 15,
         fontFamily: 'SF Display Bold',
         marginRight: 5,
-	marginLeft: 5,
+        marginLeft: 5,
         paddingTop: 2
     },
     buttonHidden: { width: 0, height: 0, overflow: 'hidden' },
@@ -118,9 +118,9 @@ const styles = {
         width: 59
     },
     buttonsRowContainer: {
-	position: 'fixed',
-	bottom: 20,	
-	width:'100%'
+        position: 'absolute',
+        bottom: 20,
+        width: '100%'
     }
 }
 
@@ -154,7 +154,7 @@ class E2PCarousel extends Component {
         const Slides = this.props.slides.map((slideComponent, index) => {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
-        let height = window.INITIAL_HEIGHT - 80;
+        let height = window.INITIAL_HEIGHT - 70;
         if (this.state.currentSlide === 1) {
             const rowsHeight = (this.props.transfers.length * 50 + 20);
             height = Math.max(height, rowsHeight);
@@ -176,40 +176,40 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-		    <div style={styles.buttonsRowContainer }>
-                      <div style={this.state.backButtonStyle}>
-			<ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
-                          <div style={styles.buttonRow}>
-                            <div style={styles.buttonContainer}>
-                              <span style={styles.nextButtonTitle}>Back</span>
-                              <i className="fas fa-angle-up" style={styles.nextButtonIcon}></i>
-                            </div>			    
-                          </div>
-			</ButtonBack>
-                      </div>
-		      
-		      
-                      <div style={this.state.nextButtonStyle}>
-			<ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-			  <div style={{flex: 1, alignItems: 'flex-start'}}>
-                            <div style={styles.buttonRow}>
-                              <Link to="/about" className='no-underline' style={{...styles.aboutContainer, color: '#0099ff'}}>			      
-				<span style={styles.nextButtonTitle}>About</span>
-			      </Link>
-			      <div style={{width: 59, height: 59}}>
-				<RetinaImage src="https://eth2.io/images/q.png" />
-			      </div>
-			    </div>
-			  </div>
-			  <div style={{flex: 1, alignItems: 'flex-end'}}>			    
-                            <div style={styles.transfersButtonContainer}>
-			      <span style={styles.nextButtonTitle}>Transfers</span>
-			      <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
-                            </div>
-			    
-                          </div>
-			</ButtonNext>
-		      </div>
+                    <div style={styles.buttonsRowContainer}>
+                        <div style={this.state.backButtonStyle}>
+                            <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
+                                <div style={styles.buttonRow}>
+                                    <div style={styles.buttonContainer}>
+                                        <span style={styles.nextButtonTitle}>Back</span>
+                                        <i className="fas fa-angle-up" style={styles.nextButtonIcon}></i>
+                                    </div>
+                                </div>
+                            </ButtonBack>
+                        </div>
+
+
+                        <div style={this.state.nextButtonStyle}>
+                            <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
+                                <div style={{ flex: 1, alignItems: 'flex-start' }}>
+                                    <div style={styles.buttonRow}>
+                                        <Link to="/about" className='no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
+                                            <span style={styles.nextButtonTitle}>About</span>
+                                        </Link>
+                                        <div style={{ width: 59, height: 59 }}>
+                                            <RetinaImage src="https://eth2.io/images/q.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{ flex: 1, alignItems: 'flex-end' }}>
+                                    <div style={styles.transfersButtonContainer}>
+                                        <span style={styles.nextButtonTitle}>Transfers</span>
+                                        <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
+                                    </div>
+
+                                </div>
+                            </ButtonNext>
+                        </div>
                     </div>
                 </CarouselProvider>
             </div>
