@@ -343,8 +343,8 @@ li:focus,
  }
 
  .step-dot {
-     width: 30px;
-     height: 30px;
+     width: 29.5px;
+     height: 29.5px;
      border-radius: 50%;
      position: absolute;
      right: 0;
@@ -353,8 +353,8 @@ li:focus,
 
 
 .step-dot-inner-2{
-     width: 25px;
-     height: 25px;
+     width: 24.5px;
+     height: 24.5px;
      border-radius: 50%;
      margin: 2.5px;
      position: absolute;
@@ -362,8 +362,8 @@ li:focus,
 
 
 .step-dot-inner-3{
-     width: 20px;
-     height: 20px;
+     width: 19.5px;
+     height: 19.5px;
      border-radius: 50%;
      margin: 2.5px;
      position: absolute;
@@ -407,8 +407,8 @@ li:focus,
 .dot-pulse-inner {
     display: block;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 19.5px;
+    height: 19.5px;
     border-radius: 50%;
     background: #0099ff;
     cursor: pointer;
@@ -448,8 +448,8 @@ li:focus,
 .dot-pulse-middle {
     display: block;
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 24.5px;
+    height: 24.5px;
     border-radius: 50%;
     background:  rgba(0, 153, 255, 0.5);
     cursor: pointer;
@@ -461,8 +461,8 @@ li:focus,
 .dot-pulse-outer {
     display: block;
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 29.5px;
+    height: 29.5px;
     border-radius: 50%;
     background:  rgba(0, 153, 255, 0.25);
     cursor: pointer;
