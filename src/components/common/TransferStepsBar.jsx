@@ -73,19 +73,20 @@ const styles = {
     },
     createdLabel: {
 	height: 15,
-	fontSize: 12,
+	fontSize: 13,
 	float: 'left'
     },
     label2: {
 	width: 60,	
 	height: 15,
-	fontSize: 12,
+	fontSize: 13,
 	marginLeft: 10
     },
     label3: {
 	width: 60,
 	height: 15,
 	float: 'right',
+	fontSize: 13
 	// textAlign: 'right'
     },
     labelsRow: {
