@@ -36,7 +36,7 @@ export default {
     cancelButton: {
         width: 65,
         height: 22,
-        borderRadius: 10,
+        borderRadius: 8,
         borderColor: '#0099ff',
         backgroundColor: '#0099ff',
         color: '#fff',
@@ -62,7 +62,7 @@ export default {
         },
         infoIcon: {
             height: 18,
-            border: '2px solid #33aeff',
+            border: '1px solid #33aeff',
             color: '#33aeff',
             borderRadius: 12,
             textAlign: 'center',

@@ -25,7 +25,7 @@ const styles = {
         lineHeight: 1,
         fontFamily: 'SF Display Black',
         textAlign: 'center',
-        marginBottom: 50,
+        marginBottom: 30,
         marginTop: 27
     },
     text1: {
@@ -40,7 +40,6 @@ const styles = {
         marginBottom: 36
     },
     container: {
-        height: 155,
         display: 'flex',
         margin: 'auto',
         flexDirection: 'column',
