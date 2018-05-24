@@ -540,3 +540,25 @@ a.link {
 	font-size: 24px;
     }
 }
+
+.cancel-button {
+    width: 65px;
+    height: 22px;
+    border-radius: 8px !important;
+    border-color: #0099ff !important;
+    background-color: #0099ff !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    font-family: 'SF Display Black' !important;
+    text-align: 'center' !important;
+    padding: 0px !important;
+    line-height: 1 !important;
+}
+
+.cancel-button:hover, .cancel-button:focus {
+    background-color: #007acc !important
+}
+
+.back-button:hover, .back-button:focus {
+    background-color: #e6e6e6 !important; 
+}

@@ -8,10 +8,10 @@ import RetinaImage from 'react-retina-image';
 
 const styles = {
     screen: { paddingTop: 0, height: 600, paddingBottom: 30 },
-    transfers: { textAlign: 'center', fontSize: 20, fontFamily: 'SF Display Black', marginBottom: 30 },
+    transfers: { textAlign: 'center', fontSize: 24, fontFamily: 'SF Display Black', marginBottom: 30 },
     noTransfersContainer: {textAlign: 'center', marginTop: 100},
     illustration: {width: 'unset', marginBottom: 10},
-    illustrationText: {fontSize: 20, fontFamily: 'SF Display Bold', color: '#0099ff'}
+    illustrationText: {fontSize: 24, fontFamily: 'SF Display Bold', color: '#0099ff'}
 }
 
 class HistoryScreen extends React.Component {

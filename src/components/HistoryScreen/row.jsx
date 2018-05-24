@@ -10,8 +10,9 @@ import infoLogo from './../../assets/images/Info.png'
 
 
 
-
 const StatusCell = ({ transfer, cancelTransfer }) => {
+
+
     if (transfer.isError) {
         return (
             <div style={styles.statusCell.container}>
@@ -87,7 +88,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
 
 const CancelButton = ({ transfer, cancelTransfer }) => {
     return (
-        <Button style={styles.cancelButton} onClick={async () => {
+        <Button className="cancel-button" onClick={async () => {
             var r = confirm("Are you sure you want to cancel transfer?");
             if (r) {
                 await cancelTransfer(transfer);
@@ -110,21 +111,21 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
             }
         }}
 		to={`/transfers/${transfer.id}`}
-		style={{width: 30, height:30}}
+		style={{}}
 		className="no-underline"
 		><span style={styles.statusCell.infoIcon}>i</span></Link>);
     return (
         <div>
         <Row style={{marginBottom: 15}}>
-            <Col xs={4}>
+            <Col style={styles.colVertAlign} xs={4}>
                 <div style={styles.amount}><img src={address === transfer.senderAddress ? arrowUp : arrowDown} style={{ display: 'inline', width: 'unset', marginLeft: 12, marginRight: 4, paddingBottom: 3 }}></img>{transfer.amount}&nbsp;<div style={{color: '#999999', display: 'inline'}}>ETH</div></div>
             </Col>
 
-            <Col xs={3}>
+            <Col style={styles.colVertAlign} xs={3}>
                 <div style={styles.phone}>{transfer.receiverPhone}</div>
             </Col>
 
-            <Col xs={5}>
+            <Col style={styles.colVertAlign} xs={5}>
                 <div style={{ width: 106, display: 'flex', flexDirection: 'row', margin: 'auto' }}>
                     <StatusCell transfer={transfer} cancelTransfer={cancelTransfer} />
                     <div style={{ display: 'inline', marginLeft: 'auto' }}>

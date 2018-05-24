@@ -18,7 +18,7 @@ const styles = {
         margin: '0px auto auto',
         maxWidth: 400,
         minWidth: 320,
-        width: '90%'
+        width: '90%',
     },
     nextButtonIcon: {
         display: 'inline',
@@ -131,7 +131,9 @@ class E2PCarousel extends Component {
         this.state = {
             currentSlide: 0,
             nextButtonStyle: {},
-            backButtonStyle: styles.buttonHidden
+            backButtonStyle: styles.buttonHidden,
+            backButtonColor: '#fff',
+            
         };
     }
 
@@ -146,7 +148,7 @@ class E2PCarousel extends Component {
         this.setState({
             currentSlide: 0,
             backButtonStyle: styles.buttonHidden,
-            nextButtonStyle: {}
+            nextButtonStyle: {},
         });
     }
 
@@ -180,7 +182,7 @@ class E2PCarousel extends Component {
                         <div style={this.state.backButtonStyle}>
                             <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
                                 <div style={styles.buttonRow}>
-                                    <div style={styles.buttonContainer}>
+                                    <div className="back-button" style={styles.buttonContainer}>
                                         <span style={styles.nextButtonTitle}>Back</span>
                                         <i className="fas fa-angle-up" style={styles.nextButtonIcon}></i>
                                     </div>

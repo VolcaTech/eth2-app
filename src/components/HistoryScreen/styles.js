@@ -8,70 +8,59 @@ export default {
         margin: 'auto',
         marginBottom: 25
     },
+    colVertAlign: {
+        height: 24,
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center'},
     amount: {
-        flex: 2,
-        height: 15,
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 15,
         fontFamily: 'SF Display Bold',
         textTransform: 'uppercase',
         whiteSpace: 'nowrap'
     },
     phone: {
-        flex: 2,
-        height: 15,
         color: '#999999',
         position: 'inline-block',
         textAlign: 'left',
-        fontSize: 12,
+        fontSize: 15,
         fontFamily: 'SF Display Regular',
         textTransform: 'uppercase',
     },
     statusCellContainer: {
-        flex: 3,
     },
     infoLinkContainer: {
 
     },
-    cancelButton: {
-        width: 65,
-        height: 22,
-        borderRadius: 8,
-        borderColor: '#0099ff',
-        backgroundColor: '#0099ff',
-        color: '#fff',
-        fontSize: 12,
-        fontFamily: 'SF Display Black',
-        textAlign: 'center',
-        padding: 0,
-        lineHeight: 1,
-    },
+    
     statusCell: {
         container: {
-            height: 25,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
         },
         statusText: {
-            fontSize: 12,
+            fontSize: 15,
             fontFamily: "SF Display Bold"
 
         },
         pendingStatusText: {
-            fontSize: 12,
+            fontSize: 15,
             color: '#33aeff',
             fontFamily: "SF Display Bold"
         },
         infoIcon: {
-            height: 18,
             border: '1px solid #33aeff',
             color: '#33aeff',
             borderRadius: 12,
             textAlign: 'center',
             lineHeight: 1,
-            fontSize: 15,
-            paddingTop: 1,
+            fontSize: 16,
             paddingLeft: 8,
             paddingRight: 8,
-            fontFamily: 'SF Display Bold'
+            fontFamily: 'SF Display Regular',
+            verticalAlign: 'text-top'
         },
         arrow: { display: 'inline', width: 'unset', marginLeft: 12, marginRight: 4, paddingBottom: 3 }
     }
