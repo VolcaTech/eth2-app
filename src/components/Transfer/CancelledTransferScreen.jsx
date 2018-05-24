@@ -4,45 +4,19 @@ import TransferStepsBar from './../common/TransferStepsBar';
 
 
 const styles = {
-    link: {
-	color: '#0099ff',
-	fontFamily: 'SF Display Bold',
-    },
     titleContainer: {
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
 	marginTop: 65,
 	marginBottom: 12
-    },
-    title: {
-	display: 'block',
-	margin: 'auto',
-	fontSize: 20,
-	fontFamily: 'SF Display Black',
-	textAlign: 'center',
-	lineHeight: '28px'
     },
     subTitleContainer: {
 	width: 300,
 	margin: 'auto',
     },
-    subTitle: {
-	fontSize: 14,	
-	lineHeight: 1.25
-    },
     helpContainer: {
 	marginTop: 31.5	
     },
-    helpText: {
-	fontSize: 14,		
-	lineHeight: 1.25
-    },
     stepsBar: {
 	marginTop: 60
-    },
-    center: {
-	textAlign: 'center'
     }
 }
 
@@ -53,18 +27,18 @@ const CancelledTransferScreen = ({transfer}) => {
     if (transfer.fetchedFromServer) { 
 	title = "Transfer is canceled";
 	subtitle = (
-	    <div style={styles.subTitle}>
+	    <div className="text">
 	      The sender has canceled the transfer.<br/>
 	      You can ask him about it. If you need help<br/>
-	      text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a>
+	      text us in <a href="https://t.me/eth2phone" className="link">Telegram</a>
 	    </div>
 	);
     } else {
 	// from browser's localstorage
 	title = "You canceled the transfer";
 	subtitle = (
-	    <div style={styles.subTitle}>
-	      Having problems? Text us in <a href="https://t.me/eth2phone" style={styles.link}>Telegram</a><br/>
+	    <div className="text">
+	      Having problems? Text us in <a href="https://t.me/eth2phone" className="link">Telegram</a><br/>
 	      we are there to help
 	    </div>
 	);	
@@ -78,16 +52,16 @@ const CancelledTransferScreen = ({transfer}) => {
 	       direction={transfer.direction}
 	       isError={transfer.isError}/>
 	  </div>
-	  <div style={styles.center}>
+	  <div className="text-center">
 	    <div style={styles.titleContainer}>
-	      <div style={styles.title}>{title}</div>	      
+	      <div className="title">{title}</div>	      
 	    </div>
 	    <div style={styles.subTitleContainer}>
 	      { subtitle } 
 	    </div>
 
 	    <div style={styles.helpContainer}>
-	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
 	    </div>
 	  </div>

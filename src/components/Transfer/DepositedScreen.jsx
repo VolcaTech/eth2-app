@@ -7,65 +7,19 @@ import { ShareButton } from './components';
 
 
 const styles = {    
-    link: {
-	color: '#0099ff',
-	fontFamily: 'SF Display Bold',
-    },
     titleContainer: {
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
 	marginTop: 30,
 	marginBottom: 12
-    },
-    title: {
-	display: 'block',
-	margin: 'auto',
-	fontSize: 20,
-	fontFamily: 'SF Display Black',
-	textAlign: 'center',
-	lineHeight: '28px'
     },
     subTitleContainer: {
 	width: 320,
 	margin: 'auto',
     },
-    subTitle: {
-	fontSize: 14,	
-	lineHeight: 1.25
-    },    
-    button: {
-	width: '70%',
-	margin: 'auto',
-	paddingTop: 5,
-	paddingBottom: 5,
-	borderRadius: 12,
-	border: '2px solid #0099ff',
-	backgroundColor: '#ffffff',
-    },
-    buttonText: {
-	color: '#0099ff',
-	fontFamily: 'SF Display Black',
-	fontSize: 18,
-    },
     helpContainer: {
 	marginTop: 27
     },
-    helpText: {
-	fontSize: 14,		
-	lineHeight: 1.25
-    },
     stepsBar: {
 	marginTop: 20
-    },
-    center: {
-	textAlign: 'center'
-    },
-    blue: {
-	color: '#0099ff'
-    },
-    gray: {
-	color: "#999999"
     },
     instructionsText: {
 	lineHeight: '25px',
@@ -93,24 +47,25 @@ const DepositedScreen = ({transfer}) => {
 	       direction={transfer.direction}
 	       isError={transfer.isError}/>
 	  </div>
-	  <div style={styles.center}>
+	  <div className="text-center">
 	    <div style={styles.titleContainer}>
-	      <div style={styles.title}>
-		You've sent <span style={styles.blue}>{transfer.amount}</span>
-		<span style={styles.gray}> ETH</span><br/>
+	      <div className="title">
+		You've sent <span className="text-blue">{transfer.amount}</span>
+		<span className="text-gray"> ETH</span><br/>
 		to {formattedPhone}
 	      </div>	      
 	    </div>
 
 	    <div style={styles.subTitleContainer}>
-	      <div style={styles.subTitle}>You can copy the link with the code below<br/>
+	      <div className="text">
+		You can copy the link with the code below<br/>
 		and share it with the receiver. You can cancel the<br/>
 		transfer later in "Transfers"
 	      </div>	      
 	    </div>
 
 	    <div style={styles.helpContainer}>
-	      <div style={styles.helpText}>Transaction details on <a href={etherscanLink} style={styles.link}>Etherscan</a> 
+	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
 	    </div>
 	    <div style={styles.instructionsText}>Copy link and share with receiver</div>
