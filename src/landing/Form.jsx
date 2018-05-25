@@ -18,27 +18,37 @@ const styles = {
 	color: '#999999',
 	opacity: 0.8,
 	fontSize: 20,
-	fontFamily: 'SF Display Regular'
+	fontFamily: 'SF Display Regular',
+	textAlign: 'center',	
     },    
     formContainer: {
-	width: '80%',
+	maxWidth: 450,
 	margin: 'auto',
 	marginBottom: 50,
-	marginTop: 50,
+	marginTop: 120,
 	height: 350,
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
-	padding: 50,
+	paddingLeft: 57,
+	paddingRight: 57,
+	paddingTop: 43,
+	paddingBottom: 37,
 	borderRadius: 10,
 	boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.1)'
+    },
+    formTitle: {
+	fontSize: 24,
+	fontFamily: 'SF Display Black',
+	textAlign: 'center',
     },
     sendLogo: {
 	width: '100%'
     },
-    sendButton: {
-	textDecoration: 'none'
-    }
+    // sendButtonLink: {
+    // 	textDecoration: 'none'
+    // },
+    // sendButton: {
+    // 	width: 336,
+    // 	margin: 'auto'
+    // }
 }
 
 
@@ -75,7 +85,6 @@ const Buttons = () => (
 	      </div>
 	    </a>
 	  </div>
-	
 	</Col>
       </Row>
       <Row>
@@ -89,13 +98,15 @@ const Buttons = () => (
     
 const Form = () => (
       <div className="hidden-xs" style={styles.formContainer}>
-        <div style={{ fontSize: 24, fontFamily: 'SF Display Black' }}>Send Ether</div>
-        <div>
+        <div style={styles.formTitle}>Send Ether</div>
+        <div style={{marginTop: 37, marginBottom: 48}}>
 	  <img style={styles.sendLogo} src={sendLogo}></img>
 	</div>
-        <Link to="send" style={styles.sendButton}>                            
-          <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
-        </Link>
+	<div style={{marginBottom: 25}}>
+          <Link to="send" style={styles.sendButtonLink} className="send-button">
+            <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
+          </Link>
+	</div>
         <div style={styles.greyText}>You should have metamask installed</div>
       </div>
     
@@ -113,7 +124,7 @@ class FormBlock extends React.Component {
 		    <Buttons/>
 		  </div>
                 </Col>
-		<Col xs={12} sm={5}>
+		<Col xs={12} sm={6}>
 		  <Form/>
 		</Col>		
               </Row>
