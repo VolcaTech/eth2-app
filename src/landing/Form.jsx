@@ -42,21 +42,25 @@ const styles = {
     sendLogo: {
 	width: '100%'
     },
-    // sendButtonLink: {
-    // 	textDecoration: 'none'
-    // },
-    // sendButton: {
-    // 	width: 336,
-    // 	margin: 'auto'
-    // }
 }
 
+
+const SendButton = () => (
+    <Link to="send" className="send-button">
+      <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
+    </Link>    
+);
 
 const TitleBlock = () => (
     <div>
       <div className="title" style={styles.titleContainer}>
 	Send Ether to anyone<br/>
         simply by phone number
+      </div>
+      <div className="hidden-sm hidden-md hidden-lg">
+	<div style={{marginTop: 32.5, marginBottom: 2.5}}>
+	  <SendButton/>
+	</div>
       </div>
       <div className="text" style={styles.subTitleContainer}>
 	Eth2Phone allows you to send Ether to anyone just verifying him by phone number. The recipient even without a wallet could receive the assets using special link.
@@ -103,10 +107,8 @@ const Form = () => (
 	  <img style={styles.sendLogo} src={sendLogo}></img>
 	</div>
 	<div style={{marginBottom: 25}}>
-          <Link to="send" style={styles.sendButtonLink} className="send-button">
-            <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
-          </Link>
-	</div>
+	  <SendButton/>
+  	</div>
         <div style={styles.greyText}>You should have metamask installed</div>
       </div>
     
