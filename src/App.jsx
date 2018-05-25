@@ -44,8 +44,8 @@ class App extends Component {
                     <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
                     <div style={styles.title}>No ethereum address is found</div>
                     <div style={styles.instructionsContainer}>
-                        <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
-		  </div>
+                      <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
+		      </div>
                     </div>
                 </div>
             </div>
