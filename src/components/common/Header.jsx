@@ -25,7 +25,7 @@ class e2pHeader extends React.Component {
                 <Row>
                     <Col xs={12} sm={8} smOffset={2}>
 
-                        <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center', borderTop: '2px solid #f5f5f5', marginBottom: 10 }}>
+                        <Row style={{ height: 44, display: 'block', margin: 'auto', backgroundColor: 'white', alignItems: 'center',  marginBottom: 10 }}>
                             <Col xs={5} style={{ padding: 0 }}>
                                 <Link style={{ textDecoration: 'none' }} to="/" onClick={() => {
                                     if (window.location.hash && window.location.hash.length < 3) { window.location.reload(); }
