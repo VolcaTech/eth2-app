@@ -13,6 +13,7 @@ import HistoryScreen from './components/HistoryScreen';
 import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust.png';
 import Landing from './landing';
+import FAQ from './faq'
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
@@ -22,98 +23,98 @@ class App extends Component {
     _renderWrongNetwork() {
         return (
             <div>
-              <div style={{ alignContent: 'center' }}>
-                <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-                <div style={styles.title}>{this.props.networkName} network is not supported</div>
-                <div style={styles.instructionsContainer}>
-                  <div style={styles.instructionsText}>Change network to one of the following:
+                <div style={{ alignContent: 'center' }}>
+                    <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+                    <div style={styles.title}>{this.props.networkName} network is not supported</div>
+                    <div style={styles.instructionsContainer}>
+                        <div style={styles.instructionsText}>Change network to one of the following:
 		    <div style={styles.ethereum}> - Mainnet Ethereum (ETH)</div>
-		    <div style={styles.ethereum}> - Ropsten</div>			  
-		  </div>                       
+                            <div style={styles.ethereum}> - Ropsten</div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-	    </div>
+            </div>
         );
     }
 
     _renderNoAddress() {
         return (
             <div>
-              <div style={{ alignContent: 'center' }}>
-                <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-                <div style={styles.title}>No ethereum address is found</div>
-                <div style={styles.instructionsContainer}>
-                  <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
-		  </div>                       
+                <div style={{ alignContent: 'center' }}>
+                    <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+                    <div style={styles.title}>No ethereum address is found</div>
+                    <div style={styles.instructionsContainer}>
+                        <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
+		  </div>
+                    </div>
                 </div>
-              </div>
-	    </div>
+            </div>
         );
     }
 
 
     _renderStaticRouter() {
-	return (
-	    <Router>
-              <div>
-		<NoWalletHeader />
-                <Switch>
-		  <Route exact path="/" component={Landing}/>						  
-                  <Route path="/about" component={Landing}/>
-		  <Route path="/faq" component={Landing}/>				
-            	  <Route component={NoWalletScreen}/>
-		</Switch>		
-              </div>	    
+        return (
+            <Router>
+                <div>
+                    <NoWalletHeader />
+                    <Switch>
+                        <Route exact path="/" component={Landing} />
+                        <Route path="/about" component={Landing} />
+                        <Route path="/faq" component={FAQ} />
+                        <Route component={NoWalletScreen} />
+                    </Switch>
+                </div>
             </Router>
-	);
+        );
     }
-    
+
     render() {
 
         if (!this.props.loaded) {
-            return (<Loader/>);
+            return (<Loader />);
         }
-	
-	if (!this.props.connected) {
-	    return this._renderStaticRouter();
-	}
-	
-	if (this.props.networkId != "3" && this.props.networkId != "1") {
-	    return this._renderWrongNetwork();
-	}
-	
-	if (!this.props.address) {
-	    return this._renderNoAddress();
-	}
-	
-        return (	    
-		<Router>
+
+        if (!this.props.connected) {
+            return this._renderStaticRouter();
+        }
+
+        if (this.props.networkId != "3" && this.props.networkId != "1") {
+            return this._renderWrongNetwork();
+        }
+
+        if (!this.props.address) {
+            return this._renderNoAddress();
+        }
+
+        return (
+            <Router>
                 <div>
-                <Header {...this.props} />
-	    
-                <Switch>
-                <Route exact path="/transfers/:transferId" component={TransferComponent} />
-		<Redirect from='/send' to='/'/>
-	    
-                <Route path="/receive" component={ReceiveForm} />
-		<Route path='/r' render={(props) => {
-		    return (
-			<Redirect to={{
-				      pathname: '/receive',
-				      search: props.location.search
-				  }}/>
-		    );
-		}}/>
-	    
-                <Route path="/history" component={HistoryScreen} />
-                <Route path="/about" component={Landing}/>
-		<Route path="/faq" component={Landing}/>
-		<Route component={SendTab}/>
-            </Switch>
-	    
-            </div>	    
+                    <Header {...this.props} />
+
+                    <Switch>
+                        <Route exact path="/transfers/:transferId" component={TransferComponent} />
+                        <Redirect from='/send' to='/' />
+
+                        <Route path="/receive" component={ReceiveForm} />
+                        <Route path='/r' render={(props) => {
+                            return (
+                                <Redirect to={{
+                                    pathname: '/receive',
+                                    search: props.location.search
+                                }} />
+                            );
+                        }} />
+
+                        <Route path="/history" component={HistoryScreen} />
+                        <Route path="/about" component={Landing} />
+                        <Route path="/faq" component={FAQ} />
+                        <Route component={SendTab} />
+                    </Switch>
+
+                </div>
             </Router>
-	    
+
         );
     }
 }
@@ -121,7 +122,7 @@ class App extends Component {
 
 const styles = {
     e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },
-    trustLogo: { display: 'block', margin: 'auto', marginTop: 150, marginTop: 38 },    
+    trustLogo: { display: 'block', margin: 'auto', marginTop: 150, marginTop: 38 },
     title: { fontSize: 18, display: "block", margin: "auto", width: 319, fontFamily: "SF Display Black", textAlign: 'center' },
     supported: { fontSize: 18, display: "block", margin: "auto", width: 163, marginTop: 61, fontFamily: "SF Display Black" },
     instructionsText: { fontFamily: "SF Display Regular", fontSize: 12, opacity: 0.8 },
@@ -139,9 +140,9 @@ function mapStateToProps(state) {
     }
 
     if (state.web3Data.connected) {
-	contractAddress = escrowContract.getContractAddress();
+        contractAddress = escrowContract.getContractAddress();
     }
-    
+
     return {
         address: state.web3Data.address,
         contractAddress,
