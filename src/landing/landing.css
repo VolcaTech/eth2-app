@@ -1,0 +1,90 @@
+/* COMMON FOR MOBILE AND DESCTOP */
+.github-button {
+    text-decoration: none;
+    color: #000
+}
+
+
+.github-button .github-btn-container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    margin: auto;
+}
+
+.github-button .github-btn-container .text {
+    font-family: 'SF Display Bold';
+    display: inline-block;
+}
+
+
+/* FOR DESKTOP */
+@media only screen and (min-width: 767px) {
+    .landing .title {
+	font-size: 36px;
+    }
+
+
+    .landing .text {
+	font-size: 24px;
+    }
+
+    .github-button .github-btn-container img {
+	width: 30px;
+	height: 30px;
+	margin-right: 16px;
+	margin-bottom: 12px;		      
+    }
+
+    .github-button .github-btn-container {
+	width: 216px;
+	height:46px;
+    }
+
+    .github-button .github-btn-container .text {
+	display: inline-block;
+	line-height: 46px;	
+    }
+
+    .landing-title-container {
+	max-width:518px;
+    }
+
+    .buttons-row {
+	margin-top: 50px;
+	margin-bottom: 52px;	
+    }
+}
+
+/* FOR MOBILE */
+@media only screen and (max-width: 767px) {
+    .landing-title-container {
+	max-width:310px;
+	margin: auto;
+    }
+    
+    .github-button .github-btn-container img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	margin-bottom: 5px;		      
+    }
+
+    .github-button .github-btn-container {
+	width: 160px;
+	height: 37.5px;
+    }
+
+    .github-button .github-btn-container .text {
+	display: inline-block;
+	line-height: 37.5px;
+    }
+
+    .buttons-row {
+	margin-top: 30px;
+	margin-bottom: 33px;	
+    }
+
+}
+

@@ -7,17 +7,28 @@ class GotStuck extends React.Component {
     render() {
         return (
             <div style={styles.container}>
-                    <img style={{display: 'inline'}} src={telegramLogo}></img>
-                    <div style={styles.textContainer}>Got stuck? Having problems? Text us in <div style={styles.textBlue}>Telegram</div>, we are there to help</div>
-                    </div>                    
+              <img style={styles.tgLogo} src={telegramLogo}></img>
+              <div style={styles.textContainer} className="text">
+		Got stuck? Having problems? Text us<br/>
+		in <a className="link" href="https://t.me/eth2phone" target="_blank">Telegram</a>, we are there to help
+	    </div>
+            </div>                    
         );
     }
 }
 
 const styles = {
-    container: {textAlign: 'left', display: 'flex'},
-    textContainer: {display: 'inline', height: 48, width: '60%', fontSize: 20, fontFamily: "SF Display Regular", marginLeft: 20},
-    textBlue: {color: '#0099ff', fontFamily: 'SF Display Bold', display: 'inline'}
+    container: {
+	textAlign: 'left',
+	display: 'flex'
+    },
+    tgLogo: {
+	display: 'inline',
+	height: 40,
+	width: 40,
+	marginBottom: -5
+    },
+    textContainer: { marginLeft: 10 }
 }
 
 

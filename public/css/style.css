@@ -503,7 +503,7 @@ li:focus,
 
 .title {
     font-family: 'SF Display Black';
-    line-height: 28px   
+    line-height: 1.17;
 }
 
 
@@ -541,6 +541,9 @@ a.link {
     }
 }
 
+
+
+
 .cancel-button {
     width: 65px;
     height: 22px;
@@ -562,3 +565,6 @@ a.link {
 .back-button:hover, .back-button:focus {
     background-color: #e6e6e6 !important; 
 }
+
+
+
