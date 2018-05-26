@@ -50,8 +50,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div style={styles.container}>
-
-                <Row style={styles.subcontainer}>
+                <div style={styles.subcontainer}>
                     <Col xs={12} md={6}>
                       <div style={styles.textLeft}>
 			<span style={styles.bold}>Eth2Phone</span> serves the proof-of-concept reasons and is an aplha version. Please be aware that systems bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" style={{...styles.link, ...styles.bold}}>info@eth2.io</a>
@@ -70,7 +69,7 @@ class Footer extends React.Component {
                           </a>
                         </div>
                     </Col>
-                </Row>
+                </div>
             </div>
 
         )
