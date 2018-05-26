@@ -12,7 +12,7 @@ class WorksWith extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{marginTop: 120}}>
                 <Row style={styles.row}>
                     <div style={{ fontSize: 36, fontFamily: 'SF Display Black' }}>Works smooth with</div>
                 </Row>

@@ -18,6 +18,39 @@
     display: inline-block;
 }
 
+.features-block .title {
+    margin-top: 140px;
+    margin-bottom: 76px;
+    text-align: center;
+}
+
+.features-block div img {
+    margin: auto;
+}
+
+.features-block .img-container {
+    height: 117px;
+}
+
+.feature-title {
+    text-align: center;
+    font-size: 24px;
+    font-family: 'SF Display Bold';
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.features-text {
+    font-size: 16px;
+    font-family: 'SF Display Regular';
+    line-height: 1.4;
+    margin-top: 10px;
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+
+
 
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
