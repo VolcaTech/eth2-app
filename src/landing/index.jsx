@@ -10,17 +10,21 @@ import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
 class e2pLanding extends React.Component {
     render() {
         return (
-            <Grid className="landing">
-              <Row>
-                <Col xs={12}>		  
+	    <div>
+              <Grid className="landing">
+		<Row>
+                  <Col xs={12}>
+		    <div className="landing-xs-container">
 		    <Form/>
 		    <Features/>                                 
 		    <WorksWith/>
 		    <JoinUs/> 
-		    <Footer/>
-		</Col>		
-              </Row>
-	    </Grid>	    
+		    </div>
+		  </Col>		
+		</Row>
+	      </Grid>
+	      <Footer/>
+	    </div>
         );
     }
 }

@@ -12,9 +12,9 @@ class Features extends React.Component {
     render() {
         return (
             <div className="features-block">
-                <Row className="title-row">
+                <div className="title-row">
                     <div className="title">Features</div>
-                </Row>
+                </div>
 		
                 <Row>
                   <Col xs={12} sm={3}>
