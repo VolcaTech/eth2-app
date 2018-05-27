@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Footer from './Footer';
+import Footer from './../components/common/Footer';
 import JoinUs from './JoinUs';
 import WorksWith from './WorksWith';
 import Form from './Form';
