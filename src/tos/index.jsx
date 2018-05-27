@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import GotStuck from './../components/common/GotStuck';
 import Summary from './Summary';
+import Terms from './Terms';
 
 
 const styles = {
@@ -14,7 +15,14 @@ const styles = {
         fontFamily: 'SF Display Black',
         textAlign: 'left',
         lineHeight: 1,
-        marginBottom: 50,
+        marginBottom: 12,        
+    },
+    updated: {
+        fontSize: 24,
+        fontFamily: 'SF Display Regular',
+        color: '#999999',
+        textAlign: 'left',
+        marginBottom: 75,
     }
 }
 
@@ -23,8 +31,10 @@ class e2pTos extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.title}>Terms of Service</div>
+                <div style={styles.updated}>Last Updated: May 16, 2018</div>                
                 <div style={{ display: 'block', width: '100%', }}><Summary /></div>
-                <GotStuck />
+                <GotStuck/>                
+                <div style={{ display: 'block', width: '100%', marginTop: 134}}><Terms /></div>                
             </div>
         )
     }
