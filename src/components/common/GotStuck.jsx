@@ -24,7 +24,9 @@ const styles = {
 	textAlign: 'left',
     },
     textContainer: {
-	display: 'inline-block'
+    display: 'inline-block',
+    fontSize: 20,
+    fontFamily: 'SF Display Regular'
     }
 }
 
