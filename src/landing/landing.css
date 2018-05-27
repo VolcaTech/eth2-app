@@ -18,6 +18,9 @@
     display: inline-block;
 }
 
+.wallets-block .second-col {
+    padding: 0px;
+}
 
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
@@ -94,6 +97,31 @@
 	margin: auto;
     }
     
+    .wallets-block {
+	margin-top: 120px;
+    }
+
+    .wallets-block .title {
+	margin-bottom: 90px;
+	text-align: center;
+    }
+
+    .wallets-block .wallet-name {
+	font-size: 24px;
+	font-family: 'SF Display Medium';
+	margin-top: 15px;
+    }
+    
+    .recommended-wallet div {
+	display: inline-block;
+	font-size: 16px;
+	font-family: 'SF Display Regular';
+	color: #2bc64f;
+	height: 38px;
+	margin-left: 8px;
+	padding-top: 10px;
+    }
+
 }
 
 
@@ -133,9 +161,6 @@
 	margin-bottom: 35px;
     }
 
-    /* .features-block div img { */
-    /* 	margin: auto; */
-    /* } */
 
     .features-block .img-container img {
 	height: 90px;
@@ -155,6 +180,36 @@
 	text-align: left;
 	margin-bottom: 35px;	
     }
-    
+
+    .wallets-block {
+	margin-top: 75px;
+    }
+
+    .wallets-block .title {
+	margin-bottom: 50px;
+    }
+
+    .wallets-block .wallet-name {
+	font-size: 16px;
+	font-family: 'SF Display Medium';
+    }
+
+    .recommended-wallet div {
+	display: inline-block;
+	font-size: 14px;
+	font-family: 'SF Display Regular';
+	color: #2bc64f;
+	height: 38px;
+	margin-left: 8px;
+	padding-top: 10px;
+    }
+
+    .wallets-block .second-col {
+	margin-bottom: 30px;
+    }
+
+    .wallets-block .wallets-row {
+	margin-left: -60px;
+    }
 }
 
