@@ -68,7 +68,8 @@
 @media only screen and (min-width: 768px) {
     .header-big .balance {
 	right: 0;
-	margin-top: 34px;
+	margin-top: 26px;
+	padding-top: 3px;
 	/* padding-top: 1px; */
 	font-size: 24px;
     }
