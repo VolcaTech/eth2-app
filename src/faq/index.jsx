@@ -5,10 +5,6 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import './faq.css';
 
 
-
-
-
-
 class e2pFaq extends React.Component {
     render() {
         return (

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
-import faqLogo from './../../public/images/faqillustration.png';
-import GotStuck from './../components/common/GotStuck';
-import scrollToElement from "scroll-to-element";
+import RetinaImage from 'react-retina-image';
 const qs = require('querystring');
+import scrollToElement from "scroll-to-element";
+import GotStuck from './../components/common/GotStuck';
 import questions from './questions.jsx';
+
 
 
 const styles = {
@@ -77,7 +78,7 @@ class Faq extends React.Component {
 		
                 <Col xs={12} md={6}>
 		  <div className="faq-logo hidden-xs">
-                    <img src={faqLogo}></img>
+                    <RetinaImage src="https://eth2.io/images/faqillustration.png" />
 		    </div>
 		</Col>
 		
