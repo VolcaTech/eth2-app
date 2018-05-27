@@ -22,6 +22,10 @@
     padding: 0px;
 }
 
+.reach-us-block a {
+    text-decoration: none;    
+}
+
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
     .landing .title {
@@ -122,6 +126,38 @@
 	padding-top: 10px;
     }
 
+    .reach-us-block .title {
+	margin-top: 120px;
+	margin-bottom: 80px;
+	text-align: center;
+    }
+
+    .reach-us-row {
+	text-align: center;
+    }
+
+    .reach-us-block a span {
+	font-size: 23px;
+	font-family: 'SF Display Bold';
+	display: inline;
+	line-height: 1;
+	margin-left: 10px;	
+    }
+
+    .reach-us-block .third-col {
+	margin-top:72px;
+	margin-bottom:126px;
+    }
+
+    .gitButton {
+	background-color: #0099ff;
+	margin: auto;
+	border-radius: 10px;
+	padding-bottom: 2px;
+	padding-top: 7px;
+	width: 344px;
+    }
+    
 }
 
 
@@ -211,5 +247,37 @@
     .wallets-block .wallets-row {
 	margin-left: -60px;
     }
+
+    .reach-us-block .title {
+	margin-top: 75px;
+	margin-bottom: 35px;
+    }
+
+    .reach-us-block a span {
+	font-size: 16px;
+	font-family: 'SF Display Bold';
+	display: inline;
+	line-height: 1;
+	margin-left: 10px;
+    }
+
+    .reach-us-block .second-col {
+	margin-bottom:35px;
+	margin-top:35px;	
+    }
+
+    .reach-us-block .third-col {
+	margin-bottom:75px;
+    }
+
+    .gitButton {
+	background-color: #0099ff;
+	border-radius: 12px;
+	padding-bottom: 2px;
+	padding-top: 7px;
+	padding-left:10px;
+	width: 245px;
+    }
+
 }
 
