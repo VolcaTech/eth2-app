@@ -49,7 +49,7 @@ const TxErrorScreen = ({transfer}) => {
 		  <div style={styles.helpContainer}>
 		    <div className="text">
 		      Also check FAQ or text us<br/>
-		      in <a href="https://t.me/eth2phone" className="link">Telegram</a> so we can help
+		      in <a href="https://t.me/eth2io" className="link">Telegram</a> so we can help
 		    </div>	      
 		  </div>
 		</div>
@@ -58,7 +58,7 @@ const TxErrorScreen = ({transfer}) => {
 		    <div style={styles.subTitleContainer}>
 		      <div className="text">
 			Something went wrong. You can reach us<br/>
-			in <a href="https://t.me/eth2phone" className="link">Telegram</a> so we can help
+			in <a href="https://t.me/eth2io" className="link">Telegram</a> so we can help
 		    </div>
 		    
 		    <div style={styles.helpContainer}>

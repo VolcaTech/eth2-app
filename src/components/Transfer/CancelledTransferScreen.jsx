@@ -30,7 +30,7 @@ const CancelledTransferScreen = ({transfer}) => {
 	    <div className="text">
 	      The sender has canceled the transfer.<br/>
 	      You can ask him about it. If you need help<br/>
-	      text us in <a href="https://t.me/eth2phone" className="link">Telegram</a>
+	      text us in <a href="https://t.me/eth2io" className="link">Telegram</a>
 	    </div>
 	);
     } else {
@@ -38,7 +38,7 @@ const CancelledTransferScreen = ({transfer}) => {
 	title = "You canceled the transfer";
 	subtitle = (
 	    <div className="text">
-	      Having problems? Text us in <a href="https://t.me/eth2phone" className="link">Telegram</a><br/>
+	      Having problems? Text us in <a href="https://t.me/eth2io" className="link">Telegram</a><br/>
 	      we are there to help
 	    </div>
 	);	
