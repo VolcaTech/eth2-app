@@ -53,7 +53,7 @@ class Footer extends React.Component {
                 <div style={styles.subcontainer}>
                     <Col xs={12} md={6}>
                         <div style={styles.textLeft}>
-                            <span style={styles.bold}>Eth2Phone</span> serves the proof-of-concept reasons and is an aplha version. Please be aware that systems bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" style={{ ...styles.link, ...styles.bold }}>info@eth2.io</a>
+			  <span style={styles.bold}>© 2018 Eth2Phone</span> is in beta. Please be aware that some bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" style={{ ...styles.link, ...styles.bold }}>hi@eth2.io</a>
                         </div>
                     </Col>
                     <Col xs={12} md={6}>

@@ -23,16 +23,28 @@ class Features extends React.Component {
 		    </div>
                     <div className="feature-title">Secure</div>
                     <div className="feature-text">
-                      At no time any of the single element of the system has enough data to steal your assets. I.e. even if you hack the server, you still don’t have the transaction code, and same for other.
+		      Your funds are secured via Smart Contract before they are delivered to the receiver wallet. Even if our servers are compromised, attacker will not be able to steal your assets.		      
                     </div>
                   </Col>
+		  
+		  <Col xs={12} sm={3}>
+		    <div className="img-container">		    
+                      <img className="img-responsive" src={web3Logo} />
+		    </div>
+                    <div className="feature-title">Private</div>
+                    <div className="feature-text">
+                      Phone numbers are never stored in blockchain. Our verification servers only keep them in hashed form. If we are hacked, no one will be able to link phones to Ethereum addresses.		      
+                    </div>
+                  </Col>		  
+
+		  
                   <Col xs={12} sm={3}>
 		    <div className="img-container">
                       <img className="img-responsive" src={cancellableLogo} />
 		    </div>
                     <div className="feature-title">Cancellable</div>
                     <div className="feature-text">
-                      All the transactions could be cancelled until received. That means if you’ve messed something up, you can always get your Ether back if receiver hasn’t yet requested them. At the same time he can’t request the assets without the special link from you.
+		      All the transactions could be cancelled until received. That means if you’ve messed something up, you can always get your Ether back if receiver hasn’t yet requested them.
                     </div>
                   </Col>
 
@@ -42,26 +54,14 @@ class Features extends React.Component {
 		    </div>
                     <div className="feature-title">No wallet needed</div>
                     <div className="feature-text"> 
-                      You can send Ether even to those who don’t have a wallet yet. These people will simply install one of suggested or any compatible wallets and follow the link to receive the assets. 
+                      You can send Ether to your friends and family without Ethereum wallet. They will be instructed on how to create wallet easily and get the assets via our special link.
                     </div>
                   </Col>
-                  <Col xs={12} sm={3}>
-		    <div className="img-container">		    
-                      <img className="img-responsive" src={web3Logo} />
-		    </div>
-                    <div className="feature-title">Web3 compatible</div>
-                    <div className="feature-text">
-                      The solution works well with any Web3 wallet and provides same experience. However, there is a list of suggested web wallets and wallet apps that we recommend for using. 
-                    </div>
-                  </Col>		  
                 </Row>
             </div>
         );
     }
 }
 
-const styles = {
-
-}
 
 export default Features;

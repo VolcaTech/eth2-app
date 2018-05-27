@@ -63,7 +63,7 @@ const TitleBlock = () => (
 	</div>
       </div>
       <div className="text" style={styles.subTitleContainer}>
-	Eth2Phone allows you to send Ether to anyone just verifying him by phone number. The recipient even without a wallet could receive the assets using special link.
+	Eth2Phone lets you to send Ether to anyone even without Ethereum wallet. The receiver will get the special link and be verified using phone number	
       </div>
     </div>
 )
