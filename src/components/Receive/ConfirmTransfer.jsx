@@ -4,7 +4,6 @@ import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import ConfirmSmsForm from './ConfirmSmsForm';
-import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { TransferScreen } from '../Transfer';
@@ -101,31 +100,7 @@ class ConfirmTransfer extends Component {
 	
 	// sending request for sms-code
 	this._sendSmsToPhone();
-    }
-
-    
-    // _renderTransferStatusInfo() {
-    // 	const { infoMessage, txHash } = getInfoMessageAndTxHashForStatus(this.props.transfer);
-    // 	if (!txHash) {
-    // 	    // if something is wrong render button,
-    // 	    // so user can try to withdraw
-    // 	    return null;
-    // 	}
-    // 	return (
-    // 	    <div>
-    // 	      <div style={styles.infoMessage}>
-    // 		{ infoMessage }
-    //           </div>
-    // 	      <div style={styles.txDetails}>
-    // 		<TxDetailsBox
-    // 		   txHash={txHash}
-    // 		   networkId={this.props.networkId}
-    // 		   />
-    // 		</div>
-    // 	    </div>	    
-    // 	);	
-    // }
-    
+    }    
     
     _renderConfirmDetailsForm() {		
 	// don't show button for next statuses	

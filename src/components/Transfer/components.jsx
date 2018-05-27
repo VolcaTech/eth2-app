@@ -43,26 +43,6 @@ export const getEtherscanLink= ({txHash, networkId}) => {
     return etherscanLink;
 }
 
-export const TxDetailsBox = ({txHash, networkId}) =>{
-    let subdomain = '';
-    if (networkId == "3") {
-	subdomain = 'ropsten.';
-    }
-    const etherscanLink = getEtherscanLink({txHash, networkId});
-    const shortLink = `${subdomain}etherscan.io/tx/${shortHash(txHash, 3)}`;
-    return (
-	<div>
-	  <div>
-	    <span style={styles.checkTransaction}>Transaction details: </span>
-	    <a style={styles.etherscanLink} href={etherscanLink} target="_blank">{shortLink}</a>
-	  </div>
-	  <div>
-	    <span style={styles.checkTransaction}> Have questions? Ask us: </span>
-	    <span style={styles.email} href={'#'} target="_blank"> eth2phone@gmail.com </span>
-	  </div>
-	</div>
-    );
-}
 
 
 export const ShareButton = ({transfer}) => {

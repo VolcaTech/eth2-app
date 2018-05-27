@@ -198,9 +198,11 @@ class E2PCarousel extends Component {
                                         <Link to="/about" className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
                                             <span style={styles.nextButtonTitle}>About</span>
                                         </Link>
-                                        <div className="faq-icon" style={{ width: 59, height: 59 }}>
+                                        <Link to="/faq">					
+                                          <div className="faq-icon" style={{ width: 59, height: 59 }}>					 
                                             <RetinaImage src="https://eth2.io/images/q.png" />
-                                        </div>
+                                          </div>
+					</Link>
                                     </div>
                                 </div>
                                 <div style={{ flex: 1, alignItems: 'flex-end' }}>

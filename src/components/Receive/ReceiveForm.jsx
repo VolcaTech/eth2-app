@@ -11,7 +11,6 @@ import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, formatNumber, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 const qs = require('querystring');
-import { TxDetailsBox } from '../Transfer/components';
 import web3Service from "../../services/web3Service";
 import ConfirmTransfer from './ConfirmTransfer';
 import { getDepositTxHash, getTxHashForStatus } from './utils';
