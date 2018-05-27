@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import telegramLogo from './../../assets/images/telegram.png';
+import RetinaImage from 'react-retina-image';
+
 
 const styleCss = `
 
@@ -47,7 +48,7 @@ class GotStuck extends React.Component {
         return (
             <div className="got-stuck-box">
 	      <div className="telegram-logo">
-		<img src={telegramLogo} className="img-responsive" />
+		<RetinaImage src="https://eth2.io/images/telegram.png" className="img-responsive" />
 	      </div>
               <div className="text">
 		Got stuck? Having problems? Text us<br/>

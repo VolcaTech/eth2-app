@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
-import gitLogo from './../assets/images/git-black.png';
-import sendLogo from './../assets/images/send-logo.png';
 import ButtonPrimary from './../components/common/ButtonPrimary';
 import GotStuck from './../components/common/GotStuck';
 import './landing.css';
+import RetinaImage from 'react-retina-image';
+
 
 const styles = {
     titleContainer: {
@@ -84,7 +84,7 @@ const Buttons = () => (
 	  <div style={{display: 'inline-block', float: 'right'}}>
             <a href="https://github.com/eth2phone/eth2phone-dapp" target="_blank" className="github-button">
 	      <div className="github-btn-container">
-		<img src={gitLogo}></img>
+		<RetinaImage src="https://eth2.io/images/git-black.png" />
 		<div className="text">View source</div>
 	      </div>
 	    </a>
@@ -104,7 +104,7 @@ const Form = () => (
       <div className="hidden-xs" style={styles.formContainer}>
         <div style={styles.formTitle}>Send Ether</div>
         <div style={{marginTop: 37, marginBottom: 48}}>
-	  <img style={styles.sendLogo} src={sendLogo}></img>
+	  <RetinaImage style={styles.sendLogo} src="https://eth2.io/images/send-logo.png" />
 	</div>
 	<div style={{marginBottom: 25}}>
 	  <SendButton/>
@@ -115,8 +115,6 @@ const Form = () => (
 )
 
 class FormBlock extends React.Component {
-
-
     render() {
         return (
               <Row>
@@ -130,8 +128,7 @@ class FormBlock extends React.Component {
 		  <Form/>
 		</Col>		
               </Row>
-
-        )
+        );
     }
 }
 

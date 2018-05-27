@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
-import secureLogo from './../assets/images/secure.png';
-import cancellableLogo from './../assets/images/cancellable.png';
-import nowalletLogo from './../assets/images/nowallet.png';
-import web3Logo from './../assets/images/web3.png';
+import RetinaImage from 'react-retina-image';
 
 
 class Features extends React.Component {
-
-
     render() {
         return (
             <div className="features-block">
@@ -19,7 +14,7 @@ class Features extends React.Component {
                 <Row>
                   <Col xs={12} sm={3}>
 		    <div className="img-container">
-                      <img className="img-responsive" src={secureLogo} />
+                      <RetinaImage className="img-responsive" src="https://eth2.io/images/secure.png" />
 		    </div>
                     <div className="feature-title">Secure</div>
                     <div className="feature-text">
@@ -29,7 +24,7 @@ class Features extends React.Component {
 		  
 		  <Col xs={12} sm={3}>
 		    <div className="img-container">		    
-                      <img className="img-responsive" src={web3Logo} />
+                      <RetinaImage className="img-responsive" src="https://eth2.io/images/web3.png" />
 		    </div>
                     <div className="feature-title">Private</div>
                     <div className="feature-text">
@@ -40,7 +35,7 @@ class Features extends React.Component {
 		  
                   <Col xs={12} sm={3}>
 		    <div className="img-container">
-                      <img className="img-responsive" src={cancellableLogo} />
+                      <RetinaImage className="img-responsive" src="https://eth2.io/images/cancellable.png" />
 		    </div>
                     <div className="feature-title">Cancellable</div>
                     <div className="feature-text">
@@ -50,7 +45,7 @@ class Features extends React.Component {
 
                   <Col xs={12} sm={3}>
 		    <div className="img-container">		    
-                      <img  className="img-responsive" src={nowalletLogo} />
+                      <RetinaImage  className="img-responsive" src="https://eth2.io/images/nowallet.png" />
 		    </div>
                     <div className="feature-title">No wallet needed</div>
                     <div className="feature-text"> 

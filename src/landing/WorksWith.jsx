@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
-import metamaskLogo from './../assets/images/metamask.png';
-import trustLogo from './../assets/images/trust.png';
-import cipherLogo from './../assets/images/cipher.png';
-import toshiLogo from './../assets/images/toshi.png';
-import goodLogo from './../assets/images/good.png';
+import RetinaImage from 'react-retina-image';
 
 
 class WorksWith extends React.Component {
@@ -20,14 +16,14 @@ class WorksWith extends React.Component {
                 <Row style={styles.row}>
                         <Col xs={12} md={4} mdOffset={2} style={styles.column1}>
                             <Col xs={6} md={6}>
-                                <img style={styles.logo} src={metamaskLogo}></img>
+                                <RetinaImage style={styles.logo} src="https://eth2.io/images/metamask.png" />
                                 <div style={styles.text}>Metamask</div>
                             </Col>
                             <Col xs={6} md={6}>
-                                <img style={styles.logo} src={trustLogo}></img>
+                                <RetinaImage style={styles.logo} src="https://eth2.io/images/trust.png" />
                                 <div style={styles.text}>Trust</div>
                                 <div>
-                                    <img style={{ marginTop: 2 }} src={goodLogo}></img>
+                                    <RetinaImage style={{ marginTop: 2 }} src="https://eth2.io/images/good.png" />
                                     <div style={{ display: 'inline', fontSize: 16, fontFamily: 'SF Display Regular', color: '#2bc64f', height: 38, textAlign: 'left', marginLeft: 5, paddingTop: 10 }}>
                                         Recommended
                                 </div>
@@ -36,11 +32,11 @@ class WorksWith extends React.Component {
                         </Col>
                         <Col xs={12} md={4} style={styles.column2}>
                             <Col xs={6} md={6}>
-                                <img style={styles.logo} src={cipherLogo}></img>
-                                <div style={styles.text}>Cipher</div>
+                              <RetinaImage style={styles.logo} src="https://eth2.io/images/cipher.png" />
+                              <div style={styles.text}>Cipher</div>
                             </Col>
                             <Col xs={6} md={6}>
-                                <img style={styles.logo} src={toshiLogo}></img>
+                                <RetinaImage style={styles.logo} src="https://eth2.io/images/toshi.png" />
                                 <div style={styles.text}>Toshi</div>
                             </Col>
                         </Col>
