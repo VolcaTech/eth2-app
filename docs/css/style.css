@@ -524,31 +524,15 @@ a.link {
     background-color: #007acc !important
 }
 
-.back-button:hover, .back-button:focus {
+.history-button:hover, .history-button:focus {
     background-color: #e6e6e6 !important; 
 }
 
 
 
 
-/* FOR DESKTOP */
-@media only screen and (min-width: 768px) {
 
-    .got-stuck-box .telegram-logo {
-	height: 56px;
-	width: 56px;
-	margin-bottom: -10px;
-	margin-right: 24px;
-    }
+.faq-icon:hover img,
+.faq-icon:focus img {
+    filter: brightness(90%);
 }
-
-/* FOR MOBILE */
-@media only screen and (max-width: 767px) {
-   .got-stuck-box .telegram-logo {
-	height: 40px;
-	width: 40px;
-	margin-bottom: -7px;
-	margin-right: 10px;
-    }
-}
-
