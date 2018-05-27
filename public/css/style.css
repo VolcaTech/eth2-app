@@ -524,7 +524,7 @@ a.link {
     background-color: #007acc !important
 }
 
-.back-button:hover, .back-button:focus {
+.history-button:hover, .history-button:focus {
     background-color: #e6e6e6 !important; 
 }
 
@@ -552,3 +552,7 @@ a.link {
     }
 }
 
+.faq-icon:hover img,
+.faq-icon:focus img {
+    filter: brightness(90%);
+}

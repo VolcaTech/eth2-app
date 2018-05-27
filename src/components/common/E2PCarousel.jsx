@@ -182,7 +182,7 @@ class E2PCarousel extends Component {
                         <div style={this.state.backButtonStyle}>
                             <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
                                 <div style={styles.buttonRow}>
-                                    <div className="back-button" style={styles.buttonContainer}>
+                                    <div className="history-button" style={styles.buttonContainer}>
                                         <span style={styles.nextButtonTitle}>Back</span>
                                         <i className="fas fa-angle-up" style={styles.nextButtonIcon}></i>
                                     </div>
@@ -195,16 +195,16 @@ class E2PCarousel extends Component {
                             <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
                                 <div style={{ flex: 1, alignItems: 'flex-start' }}>
                                     <div style={styles.buttonRow}>
-                                        <Link to="/about" className='no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
+                                        <Link to="/about" className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
                                             <span style={styles.nextButtonTitle}>About</span>
                                         </Link>
-                                        <div style={{ width: 59, height: 59 }}>
+                                        <div className="faq-icon" style={{ width: 59, height: 59 }}>
                                             <RetinaImage src="https://eth2.io/images/q.png" />
                                         </div>
                                     </div>
                                 </div>
                                 <div style={{ flex: 1, alignItems: 'flex-end' }}>
-                                    <div style={styles.transfersButtonContainer}>
+                                    <div className="history-button" style={styles.transfersButtonContainer}>
                                         <span style={styles.nextButtonTitle}>Transfers</span>
                                         <i className="fas fa-angle-down" style={styles.nextButtonIcon}></i>
                                     </div>
