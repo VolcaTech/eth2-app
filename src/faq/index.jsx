@@ -9,7 +9,9 @@ class e2pFaq extends React.Component {
     render() {
         return (
             <div style={{width: '100%'}}>
-           <div style={{display: 'block', width: '100%', }}><Faq/></div>                                 
+              <div style={{display: 'block', width: '100%', }}>
+		<Faq {...this.props}/>
+	      </div>                                 
             </div>
         )
     }

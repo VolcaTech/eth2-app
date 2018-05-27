@@ -4,6 +4,8 @@ import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
 import faqLogo from './../../public/images/faqillustration.png';
 import GotStuck from './../components/common/GotStuck';
 import scrollToElement from "scroll-to-element";
+const qs = require('querystring');
+
 
 const styles = {
     container: { width: '75%', margin: 'auto' },
@@ -69,8 +71,18 @@ const questions = [
 
 
 
-class Form extends React.Component {
-
+class Faq extends React.Component {
+    componentDidMount() {
+	this.jumpToHash();
+    }
+    
+    jumpToHash() {
+	const queryParams = qs.parse(this.props.location.search.substring(1));
+	console.log({queryParams})
+	if (queryParams.q) {
+	    scrollToElement(`#q-${queryParams.q}`);
+	}
+    }
 
     render() {
         return (
@@ -79,10 +91,16 @@ class Form extends React.Component {
                     <div style={styles.container}>
                         <div style={styles.title}>FAQ</div>
                         <Col xs={12} md={6} style={styles.col1}>
-                            <div style={styles.questionLinkContainer}>{questions.map(question => (
-                                <div onClick={() => scrollToElement(`#question${questions.indexOf(question)}`)} style={styles.questionLink}>
-                                    {question.question}
-                                </div>
+                          <div style={styles.questionLinkContainer}>{questions.map((question, index) => (
+                              <Link to={{
+					pathname: '/faq',
+					search: `?q=${index}`
+				    }}
+				    className="no-underline"  key={index} onClick={() => scrollToElement(`#q-${index}`)} >
+                                <div style={styles.questionLink}>
+				  {question.question}
+				</div>
+                                </Link>
                             ))}</div>
                             <GotStuck />
                         </Col>
@@ -91,17 +109,17 @@ class Form extends React.Component {
                         </Col>
                     </div>
                 </Row>
-                {questions.map(question => (
-                    <div id={`question${questions.indexOf(question)}`} style={styles.questionContainer}>
-                        <div style={styles.question}>{question.question}</div>
-                        <div style={styles.answer}>{question.answer}</div>
-                    </div>
-                )
-                )}
+            {questions.map((question, index) => (
+                <div id={`q-${index}`} style={styles.questionContainer} key={index}>
+                  <div style={styles.question}>{question.question}</div>
+                  <div style={styles.answer}>{question.answer}</div>
+                </div>
+            )
+			  )}
             </div>
         )
     }
 }
 
 
-export default Form;
+export default Faq;
