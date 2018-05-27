@@ -14,6 +14,7 @@ import e2pLogo from './assets/images/eth2phone-logo.png';
 import TrustLogo from './assets/images/trust.png';
 import Landing from './landing';
 import FAQ from './faq';
+import TOS from './tos';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
@@ -62,6 +63,7 @@ class App extends Component {
                         <Route exact path="/" component={Landing} />
                         <Route path="/about" component={Landing} />
                         <Route path="/faq" component={FAQ} />
+                        <Route path="/tos" component={TOS} />                        
                         <Route component={NoWalletScreen} />
                     </Switch>
                 </div>
@@ -109,6 +111,7 @@ class App extends Component {
                         <Route path="/history" component={HistoryScreen} />
                         <Route path="/about" component={Landing} />
                         <Route path="/faq" component={FAQ} />
+                        <Route path="/tos" component={TOS} />                                                
                         <Route component={SendTab} />
                     </Switch>
 

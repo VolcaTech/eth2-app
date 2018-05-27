@@ -16,7 +16,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
     if (transfer.isError) {
         return (
             <div style={styles.statusCell.container}>
-                <div style={{ ...styles.statusCell.pendingStatusText, color: '#f04234' }}>Failed</div>
+                <div style={{ ...styles.statusCell.statusText, color: '#f04234' }}>Failed</div>
             </div>
         );
     }
@@ -25,7 +25,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "depositing":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={styles.statusCell.pendingStatusText}>Depositing...</div>
+                    <div style={styles.statusCell.statusText}>Depositing...</div>
                 </div>
             );
             break;
@@ -46,7 +46,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "receiving":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={styles.statusCell.pendingStatusText}>Receiving...</div>
+                    <div style={styles.statusCell.statusText}>Receiving...</div>
 
                 </div>
             );
@@ -62,7 +62,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "cancelling":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={styles.statusCell.pendingStatusText}>Cancelling...</div>
+                    <div style={styles.statusCell.pendingStatusText}>Canceling...</div>
 
                 </div>
             );
@@ -70,7 +70,7 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "cancelled":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={{ ...styles.statusCell.statusText }}>Cancelled</div>
+                    <div style={{ ...styles.statusCell.statusText }}>Canceled</div>
 
                 </div>
             );
