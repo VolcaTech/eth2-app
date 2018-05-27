@@ -23,8 +23,13 @@ class Faq extends React.Component {
     componentDidMount() {
 	this._jumpToHash();
     }
+
+    componentDidUpdate() {
+	this._jumpToHash();
+    }
     
     _jumpToHash() {
+	if (!this.props.location) { return null; }
 	const queryParams = qs.parse(this.props.location.search.substring(1));
 	if (queryParams.q) {
 	    scrollToElement(`#q-${queryParams.q}`);

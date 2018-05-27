@@ -15,7 +15,7 @@ class e2pFaq extends React.Component {
               <Grid className="landing">
 		<Row>
                   <Col xs={12}>
-		    <Faq/>
+		    <Faq {...this.props}/>
 		  </Col>		
 		</Row>
 	      </Grid>
