@@ -5,7 +5,7 @@ import faqLogo from './../../public/images/faqillustration.png';
 import GotStuck from './../components/common/GotStuck';
 import scrollToElement from "scroll-to-element";
 const qs = require('querystring');
-import questions from './questions';
+import questions from './questions.jsx';
 
 
 const styles = {
@@ -15,8 +15,6 @@ const styles = {
     },
     questionTitle: { marginBottom: 15 }
 }
-
-
 
 
 class Faq extends React.Component {
@@ -32,7 +30,7 @@ class Faq extends React.Component {
 	if (!this.props.location) { return null; }
 	const queryParams = qs.parse(this.props.location.search.substring(1));
 	if (queryParams.q) {
-	    scrollToElement(`#q-${queryParams.q}`);
+	    scrollToElement(`#q-${queryParams.q}`, {offset: -60});
 	}
     }
 
