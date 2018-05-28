@@ -24,15 +24,6 @@ const styles = {
         float: 'none'
     },
     textRight: {
-        display: 'flex',
-        flexDirection: 'row',
-        verticalAlign: 'middle',
-        float: 'none',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        fontFamily: 'SF Display Black',
-        fontSize: 20,
-        marginTop: 15
     },
     bold: {
         fontFamily: 'SF Display Bold',
@@ -52,12 +43,12 @@ class Footer extends React.Component {
             <div style={styles.container}>
                 <div style={styles.subcontainer}>
                     <Col xs={12} md={6}>
-                        <div style={styles.textLeft}>
-			  <span style={styles.bold}>© 2018 Eth2Phone</span> is in beta. Please be aware that some bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" style={{ ...styles.link, ...styles.bold }}>hi@eth2.io</a>
+                        <div style={styles.textLeft} className="footer-text">
+			  <span style={styles.bold}>© 2018 Eth2Phone</span> is in beta. Please be aware that some bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" className="link">hi@eth2.io</a>
                         </div>
                     </Col>
                     <Col xs={12} md={6}>
-                        <div style={styles.textRight}>
+                        <div className="footer-links">
                             <Link to="/faq" style={styles.link}>
                                 <div>FAQ</div>
                             </Link>
