@@ -536,3 +536,41 @@ a.link {
 .faq-icon:focus img {
     filter: brightness(90%);
 }
+
+/* DESKTOP */
+@media only screen and (min-width: 768px) {
+    .footer-links {
+	display: flex;
+	flex-direction: row;
+	vertical-align: middle;
+	float: none;
+	justify-content: space-around;
+	align-ttems: center;
+	font-family: 'SF Display Black';
+	font-size: 20px;
+	marginTop: 15px;
+    }
+
+    .footer-text {
+	font-size: 16px;
+    }
+}
+
+/* MOBLIE */
+@media only screen and (max-width: 767px) {
+    .footer-links {
+ 	font-family: 'SF Display Black';
+	font-size: 16px;
+	margin-top: 54px;
+	padding-bottom: 40px;
+    }
+
+    .footer-links a div {
+	margin-bottom: 30px;
+    }
+    
+    .footer-text {
+	font-size: 14px;
+    }
+
+}
