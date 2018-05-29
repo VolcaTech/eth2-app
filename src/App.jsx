@@ -19,22 +19,15 @@ import PrivacyPolicy from './privacy';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
+import UnsupportedNetwork from './components/NotConnectedScreens/UnsupportedNetwork';
 
 
 class App extends Component {
     _renderWrongNetwork() {
         return (
             <div>
-                <div style={{ alignContent: 'center' }}>
-                    <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-                    <div style={styles.title}>{this.props.networkName} network is not supported</div>
-                    <div style={styles.instructionsContainer}>
-                        <div style={styles.instructionsText}>Change network to one of the following:
-		    <div style={styles.ethereum}> - Mainnet Ethereum (ETH)</div>
-                            <div style={styles.ethereum}> - Ropsten</div>
-                        </div>
-                    </div>
-                </div>
+                <NoWalletHeader />
+                <UnsupportedNetwork />
             </div>
         );
     }
@@ -46,7 +39,7 @@ class App extends Component {
                     <div><img src={e2pLogo} style={styles.e2pLogo} /></div>
                     <div style={styles.title}>No ethereum address is found</div>
                     <div style={styles.instructionsContainer}>
-                      <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
+                        <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
 		      </div>
                     </div>
                 </div>
@@ -65,7 +58,7 @@ class App extends Component {
                         <Route path="/about" component={Landing} />
                         <Route path="/faq" component={FAQ} />
                         <Route path="/tos" component={TOS} />
-                        <Route path="/privacy" component={PrivacyPolicy} />                                                                        
+                        <Route path="/privacy" component={PrivacyPolicy} />
                         <Route component={NoWalletScreen} />
                     </Switch>
                 </div>
@@ -113,8 +106,8 @@ class App extends Component {
                         <Route path="/history" component={HistoryScreen} />
                         <Route path="/about" component={Landing} />
                         <Route path="/faq" component={FAQ} />
-                        <Route path="/privacy" component={PrivacyPolicy} />                                                                        
-                        <Route path="/tos" component={TOS} />                                                
+                        <Route path="/privacy" component={PrivacyPolicy} />
+                        <Route path="/tos" component={TOS} />
                         <Route component={SendTab} />
                     </Switch>
 
