@@ -35,7 +35,7 @@ const styles = {
 	marginBottom: 12
     },
     title:{
-	fontSize: 20,
+	fontSize: 24,
 	fontFamily: 'SF Display Bold'
     },
     phone: {
@@ -65,7 +65,7 @@ const styles = {
 	marginBottom: 46,
 	marginTop: 20,
 	textAlign: 'center',
-	fontSize: 12,
+	fontSize: 13,
 	fontFamily: 'SF Display Regular'
     },
     sendAgain: {
