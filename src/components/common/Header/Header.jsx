@@ -22,14 +22,16 @@ class e2pHeader extends React.Component {
     }
     
     render() {
-	let headerClass = 'header';
+    let headerClass = 'header';
+    let balance;
 	if (window.location &&
 	    window.location.hash === '#/about' ||
 	    window.location.hash === '#/faq' 
 	   ) {
 	       headerClass += " header-big";
 	   }
-        const balance = this.props.balance < 1 ? this.props.balance.toFixed(3) : this.props.balance.toFixed(2);
+        balance = this.props.balance < 1 ? this.props.balance.toFixed(3) : this.props.balance.toFixed(2);
+        if (this.props.balance === 0) balance = "0"
         return (
             <Grid className={headerClass}>
               <Row className="header-row">
