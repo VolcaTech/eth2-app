@@ -38,7 +38,7 @@
     height: 29px;
     font-size: 24px;
     margin-top: 9px;
-    letter-spacing: 1.55px;	        
+    letter-spacing: 0;	        
 }
 
 .header .eth2phone-logo span {
@@ -102,7 +102,7 @@
 	height: 69px;
 	font-size: 48px;
 	margin-top: 19px;
-	letter-spacing: 3.1px;
+	letter-spacing: 0;
     }
 
     .header:not(.header-big) {
