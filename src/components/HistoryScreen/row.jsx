@@ -126,7 +126,7 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
             </Col>
 
             <Col style={styles.colVertAlign} xs={5}>
-                <div style={{ width: 106, display: 'flex', flexDirection: 'row', margin: 'auto' }}>
+                <div style={{ width: 120, display: 'flex', flexDirection: 'row', margin: 'auto' }}>
                     <StatusCell transfer={transfer} cancelTransfer={cancelTransfer} />
                     <div style={{ display: 'inline', marginLeft: 'auto' }}>
                         {link}
