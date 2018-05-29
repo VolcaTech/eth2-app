@@ -153,7 +153,7 @@ class Tab extends Component {
 
         // check wallet has enough ether
         if (this.state.amount > balance) {
-            this.setState({ fetching: false, errorMessage: "Not enough ETH on your balance.", numberInputError: true });
+            this.setState({ fetching: false, errorMessage: "Not enough ETH on your balance", numberInputError: true });
             return;
         };
 
