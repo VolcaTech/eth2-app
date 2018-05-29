@@ -69,7 +69,7 @@ export const ShareButton = ({transfer}) => {
 	  <ButtonPrimary buttonColor='#0099ff' handleClick={() => {
                 // copy share link to clipboard
                 copy(shareText);
-                alert("This link is copied to your clipboard. Share this link with receiver by sending link via messenger or email.");
+                alert("The link is copied to your clipboard. Share the link with receiver");
             }}>
             Copy
 	  </ButtonPrimary>
