@@ -529,6 +529,9 @@ a.link {
 }
 
 
+.button-primary:hover, .button-primary:focus {
+    background-color: #007acc !important
+}
 
 
 

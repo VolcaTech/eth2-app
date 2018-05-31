@@ -6,7 +6,7 @@ class e2pButtonPrimary extends React.Component {
 
     render() {
         return (
-            <Button disabled={this.props.disabled} style={{
+            <Button className="button-primary" disabled={this.props.disabled} style={{
 			width: '100%',
 			height: this.props.buttonHeight || 38,
 			borderRadius: 12,
