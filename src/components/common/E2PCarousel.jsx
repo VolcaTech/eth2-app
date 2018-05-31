@@ -17,8 +17,8 @@ const styles = {
         display: 'flex',
         margin: '0px auto auto',
         maxWidth: 400,
-        minWidth: 320,
-        width: '90%',
+        minWidth: 300,
+        width: '78%',
     },
     nextButtonIcon: {
         display: 'inline',
