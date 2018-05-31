@@ -29,11 +29,17 @@ const styles = {
 	lineHeight: 1.1
     },
     headerDetailsGreen: {
-	fontSize: 14,
+	fontSize: 13,
 	fontFamily: "SF Display Bold",
 	color: "#2bc64f",
 	lineHeight: 1.1
-    }
+    },
+    headerDetailsOrange: {
+        fontSize: 13,
+        fontFamily: "SF Display Bold",
+        color: "orange",
+        lineHeight: 1.1
+        }
 }
 
 
@@ -45,7 +51,7 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                 <div style={styles.headerDetailsGrey}>
                     ADDRESS
 	      </div>
-                <div style={styles.headerDetailsGreen}>
+                <div style={(networkId == '1' ? styles.headerDetailsGreen : styles.headerDetailsOrange)}>
                     {address}
                 </div>
             </div>
@@ -57,13 +63,13 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                     {contract}
                 </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', width: '72%', justifyContent: 'space-between', marginBottom: 17 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 17 }}>
                 <div>
                     <div style={styles.headerDetailsGrey}>
                         NETWORK
               </div>
                     <div style={styles.headerDetailsBlack}>
-                        {networkName}
+                        {networkName === "Main" ? "Ethereum Main" : "Ropsten Test"}
                         <i style={{ color: (networkId == '1' ? '#2bc64f' : 'orange'), fontSize: 8, marginLeft: 5, paddingTop: 4 }} className="fa fa-circle"></i>
                     </div>
                 </div>

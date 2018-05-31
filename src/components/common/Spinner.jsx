@@ -44,6 +44,15 @@ export const SpinnerOrError = ({fetching, error }) => {
     );
 }
 
+export const Error = ({fetching, error }) => {
+    if (!(fetching || error)) { return null; }
+    return (
+	    <div style={styles.spinnerOrErrorContainer}>
+		      <span style={styles.error}>{error}</span>
+	    </div>
+    );
+}
+
 
 export const Loader = ({text="Loading page...", textLeftMarginOffset=-15}) => (
     <div>
@@ -52,6 +61,11 @@ export const Loader = ({text="Loading page...", textLeftMarginOffset=-15}) => (
 	<div style={{...styles.loaderText, marginLeft: textLeftMarginOffset }}>{text}</div>	
     </div>
     </div>
+
+)
+
+export const ButtonLoader = () => (
+	<div className="lds-button"><div></div><div></div><div></div><div></div></div>
 
 )
 

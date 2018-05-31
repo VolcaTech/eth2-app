@@ -8,7 +8,7 @@ import CheckBox from './../common/CheckBox';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { SpinnerOrError } from './../common/Spinner';
+import { Error, ButtonLoader } from './../common/Spinner';
 import WithHistory from './../HistoryScreen/WithHistory';
 import E2PCarousel from './../common/E2PCarousel';
 import { Row, Col } from 'react-bootstrap';
@@ -76,7 +76,8 @@ const styles = {
     betaBold: {
         fontFamily: 'SF Display Bold'
     },
-    blue: '#0099ff'
+    blue: '#0099ff',
+    blueOpacity: '#80ccff'
 }
 
 
@@ -198,15 +199,17 @@ class Tab extends Component {
                                     error={this.state.numberInputError}
                                 />
                             </div>
+                            
                             <div style={styles.sendButton}>
                                 <ButtonPrimary
                                     handleClick={this._onSubmit.bind(this)}
-                                    buttonColor={styles.blue}
+                                    buttonColor={this.state.fetching ? styles.blueOpacity : styles.blue}
                                    disabled={this.state.buttonDisabled}>
-                                    Send
+                {this.state.fetching ? <ButtonLoader/> : "Send"}
+                                   
 				</ButtonPrimary>
 				
-				{(this.state.fetching || this.state.errorMessage) ? (<SpinnerOrError
+				{(this.state.fetching || this.state.errorMessage) ? (<Error
 								 fetching={this.state.fetching}
 											    error={this.state.errorMessage}/>) :
 				 <div style={styles.betaContainer}>
