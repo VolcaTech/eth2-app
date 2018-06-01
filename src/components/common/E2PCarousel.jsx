@@ -178,7 +178,7 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-                    <div style={{...styles.buttonsRowContainer}}>
+                    <div style={styles.buttonsRowContainer}>
                         <div style={this.state.backButtonStyle}>
                             <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
                                 <div style={styles.buttonRow}>
