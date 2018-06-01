@@ -208,6 +208,24 @@ li:focus,
       animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
       border-color: #0099FF transparent transparent transparent;
   }
+  .lds-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 11px;
+    margin-right: 11px;
+}
+.lds-button div {
+    box-sizing: border-box;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    margin: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
   .lds-ring div:nth-child(1) {
       animation-delay: -0.45s;
   }
@@ -225,6 +243,23 @@ li:focus,
 	  transform: rotate(360deg);
       }
   }
+  .lds-button div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.lds-button div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-button div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-button {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
 
   .centered-lds {
       position: fixed; /* or absolute */
@@ -529,6 +564,9 @@ a.link {
 }
 
 
+.button-primary:hover, .button-primary:focus {
+    background-color: #007acc
+}
 
 
 
