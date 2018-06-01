@@ -16,7 +16,9 @@ const styles = {
         border: '2px solid #f5f5f5',
     },
     inputError: {
+        textAlign: 'center',	
         width: '100%',
+        paddingRight: 45,	
         height: 40,
         borderRadius: 12,
         color: '#E64437',
@@ -51,16 +53,25 @@ const styles = {
 
 class e2pPhoneInput extends React.Component {
 
+    state = {
+	focus: false
+    }
+
+    _onFocus() {
+	this.setState({focus: true});
+    }
+    
     render() {
-        console.log(this.props)
         return (
             <div style={{ display: 'block', margin: 'auto', width: '78%', }}>
                 <Phone
-                    onKeyDown={this.props.onChange}
-                    ref={this.props._ref}
-                    inputStyle={this.props.error ? styles.inputError : styles.input}
-                    buttonStyle={this.props.error ? styles.flagError : styles.flag}
-                    placeholder='Phone number'
+                   onKeyDown={this.props.onChange}
+		   onFocus={this._onFocus.bind(this)}
+                   ref={this.props._ref}
+                   inputStyle={this.props.error ? styles.inputError : styles.input}
+                   buttonStyle={this.props.error ? styles.flagError : styles.flag}
+                   placeholder='Phone number'
+		   defaultCountry={ this.state.focus ? 'us' : null } 
                 />
             </div>
         );
