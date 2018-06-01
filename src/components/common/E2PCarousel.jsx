@@ -118,8 +118,8 @@ const styles = {
         width: 59
     },
     buttonsRowContainer: {
-        position: 'absolute',
-        bottom: 20,
+        position: 'relative',
+        bottom: 70,
         width: '100%'
     }
 }
@@ -178,7 +178,7 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-                    <div style={{...styles.buttonsRowContainer, position: 'fixed'}}>
+                    <div style={{...styles.buttonsRowContainer}}>
                         <div style={this.state.backButtonStyle}>
                             <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
                                 <div style={styles.buttonRow}>
