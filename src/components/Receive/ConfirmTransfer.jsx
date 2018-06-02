@@ -33,7 +33,7 @@ const styles = {
     },
     titleContainer: {
 	textAlign: 'center',	
-	marginTop: 84,
+	marginTop:54,
 	marginBottom: 39
     },
     title:{
@@ -105,7 +105,8 @@ class ConfirmTransfer extends Component {
     _renderConfirmDetailsForm() {		
 	// don't show button for next statuses	
 	return (
-	    <div>
+	    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{height: 250}}>
 	      <div style={styles.titleContainer}>
 		<span style={styles.title}>Receive ether</span>
 	      </div>
@@ -131,7 +132,7 @@ class ConfirmTransfer extends Component {
 		  </ButtonPrimary>
 		</div> 		
 		<SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage}/>		    
-		
+        </div>		
 	      </div>
 	    </div>
 	);
