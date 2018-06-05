@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import RetinaImage from 'react-retina-image';
+import { Row, Col, Grid } from 'react-bootstrap';
+
 
 const styles = {
     container: {
@@ -51,6 +53,12 @@ const styles = {
     },
     linkLogo: {
         display: 'inline'
+    },
+    networkBalanceRow: {
+        marginBottom: 17
+    },
+    balanceContainer: {
+        paddingLeft: 0
     }
 }
 
@@ -75,8 +83,8 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                     {networkId == '1' ? <EnsDomain/> : contract}
                 </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 17 }}>
-                <div>
+            <Row style={styles.networkBalanceRow}>
+                <Col xs={6}>
                     <div style={styles.headerDetailsGrey}>
                         NETWORK
               </div>
@@ -84,16 +92,16 @@ const HeaderDetails = ({ height, address, contract, networkName, networkId, bala
                         {networkName === "Main" ? "Ethereum Main" : "Ropsten Test"}
                         <i style={{ color: (networkId == '1' ? '#2bc64f' : 'orange'), fontSize: 8, marginLeft: 5, paddingTop: 4 }} className="fa fa-circle"></i>
                     </div>
-                </div>
-                <div>
+                </Col>
+                <Col xs={6} style={styles.balanceContainer}>                
                     <div style={styles.headerDetailsGrey}>
                         BALANCE
               </div>
                     <div style={styles.headerDetailsBlack}>
                         {balance} <span style={styles.headerDetailsGrey}>&nbsp;ETH</span>
                     </div>
-                </div>
-            </div>
+                </Col>
+            </Row>
         </div>
     )
 }

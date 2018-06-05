@@ -23,7 +23,7 @@ export default {
     phone: {
         color: '#999999',
         position: 'inline-block',
-        textAlign: 'left',
+        textAlign: 'center',
         fontSize: 15,
         fontFamily: 'SF Display Regular',
         textTransform: 'uppercase',
@@ -38,7 +38,7 @@ export default {
         container: {
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center'
+            justifyContent: 'center',
         },
         statusText: {
             fontSize: 15,

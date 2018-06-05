@@ -19,7 +19,7 @@ const styles = {
         borderBottomLeftRadius: 0,
         borderTopLeftRadius: 0,
         backgroundColor: 'white',
-        textAlign: 'center',
+        textAlign: 'right',
         float: 'right'
     },
 }

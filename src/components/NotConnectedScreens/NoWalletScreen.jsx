@@ -104,7 +104,7 @@ class NoWalletScreen extends Component {
 
     async _getDeepLink() {
         const result = await getDeepLinkForTrustWallet(window.location.href);
-        this.setState({ deepLink: result.url });
+        this.setState({ deepLink: "https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=https://google.com" });
     }
 
     render() {
