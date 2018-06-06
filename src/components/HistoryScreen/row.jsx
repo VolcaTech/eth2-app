@@ -117,16 +117,16 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
     return (
         <div>
         <Row style={{marginBottom: 15}}>
-            <Col style={styles.colVertAlign} xs={4}>
+            <Col style={styles.colVertAlign} xs={3}>
                 <div style={styles.amount}><img src={address === transfer.senderAddress ? arrowUp : arrowDown} style={{ display: 'inline', width: 'unset', marginLeft: 12, marginRight: 4, paddingBottom: 3 }}></img>{transfer.amount}&nbsp;<div style={{color: '#999999', display: 'inline'}}>ETH</div></div>
             </Col>
 
-            <Col style={styles.colVertAlign} xs={3}>
+            <Col style={styles.colVertAlign} xs={4}>
                 <div style={styles.phone}>{transfer.receiverPhone}</div>
             </Col>
 
             <Col style={styles.colVertAlign} xs={5}>
-                <div style={{ width: 120, display: 'flex', flexDirection: 'row', margin: 'auto' }}>
+                <div style={{ width: 120, display: 'flex', flexDirection: 'row', margin: 'auto', paddingRight: 10 }}>
                     <StatusCell transfer={transfer} cancelTransfer={cancelTransfer} />
                     <div style={{ display: 'inline', marginLeft: 'auto' }}>
                         {link}

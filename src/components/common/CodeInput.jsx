@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Phone from 'react-phone-input-2';
 import { FormControl } from 'react-bootstrap';
-
+import infoLogo from './../../../public/images/Info.png'
 
 const styles = {
     icon: {
@@ -9,17 +9,19 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '15%',
+        width: 'auto',
         borderBottom: '2px solid #f5f5f5',
         borderTop: '2px solid #f5f5f5',
         borderRight: '2px solid #f5f5f5',
         borderLeft: '0px',
         borderRadius: 12,
         height: 38,
+        width: '11%',
+        paddingRight: 4,
         borderBottomLeftRadius: 0,
         borderTopLeftRadius: 0,
         backgroundColor: 'white',
-        textAlign: 'center',
+        textAlign: 'right',
         float: 'right'
     },
 }
@@ -38,7 +40,7 @@ class e2pPhoneInput extends React.Component {
                     type={this.props.type || "number"}
                     placeholder={this.props.placeholder}
                     style={{
-                        width: '85%',
+                        width: '89%',
                         height: 38,
                         borderRadius: 12,
                         border: '2px solid',
@@ -56,32 +58,16 @@ class e2pPhoneInput extends React.Component {
                         borderTopRightRadius: 0,
                         borderBottomRightRadius: 0,
                         margin: 0,
-                        padding: 0
+                        padding: 0,
+                        paddingRight: 5,
+                        paddingLeft: 5
                     }}>
                 </FormControl>
-                <div
-                    style={{
-                        ...styles.icon,
-                        borderColor: this.props.error ? '#E64437' : '#f5f5f5',
-                    }
-                    }>
-                    <span
-                        className="hover"
-                        onClick={() => {
-                            alert("Please paste secret code from the sender's message.");
-                        }}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            border: "1px solid #0099ff",
-                            borderRadius: 20,
-                            color: '#0099ff',
-                            paddingLeft: 5,
-                            paddingRight: 6,
-                            paddingBottom: 1
-                        }}>?</span>
-                </div>
-
+                    <div className="hover" style={{...styles.icon, borderColor: this.props.error ? '#E64437' : '#f5f5f5'}} onClick={() => {
+                            alert("Please paste message with code from the sender.");
+                        }}>
+                    <img style={{width: 'auto'}} src={infoLogo}></img>
+            </div>
             </div>
         );
 

@@ -28,7 +28,7 @@ class Features extends React.Component {
 		    </div>
                     <div className="feature-title">Private</div>
                     <div className="feature-text">
-                      Phone numbers are never stored in blockchain. Our verification servers only keep them in hashed form. If we are hacked, no one will be able to link phones to Ethereum addresses.		      
+                      Phone numbers are never stored in blockchain. Our verification servers only keep them in hashed form. If we are hacked, no one will be able to link phones to ethereum addresses.		      
                     </div>
                   </Col>		  
 
@@ -39,7 +39,7 @@ class Features extends React.Component {
 		    </div>
                     <div className="feature-title">Cancellable</div>
                     <div className="feature-text">
-		      All the transactions could be cancelled until received. That means if you’ve messed something up, you can always get your Ether back if receiver hasn’t yet requested them.
+		      All the transactions could be cancelled until received. That means if you’ve messed something up, you can always get your ether back if receiver hasn’t yet requested them.
                     </div>
                   </Col>
 
@@ -49,7 +49,7 @@ class Features extends React.Component {
 		    </div>
                     <div className="feature-title">No wallet needed</div>
                     <div className="feature-text"> 
-                      You can send Ether to your friends and family without Ethereum wallet. They will be instructed on how to create wallet easily and get the assets via our special link.
+                      You can send ether to your friends and family without ethereum wallet. They will be instructed on how to create wallet easily and get the assets via our special link.
                     </div>
                   </Col>
                 </Row>

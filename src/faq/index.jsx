@@ -8,20 +8,20 @@ import './faq.css';
 class e2pFaq extends React.Component {
     render() {
         return (
-	    <div>
-              <Grid className="landing">
-		<Row>
-                  <Col xs={12}>
-		    <Faq {...this.props}/>
-		  </Col>		
-		</Row>
-	      </Grid>
-	      <Footer/>
-	    </div>
+            <div>
+                <Grid className="landing">
+                    <Row>
+                        <Col xs={12}>
+                            <div className="landing-xs-container">
+                                <Faq {...this.props} />
+                            </div>
+                        </Col>
+                    </Row>
+                </Grid>
+                <Footer />
+            </div>
         )
     }
 }
-
-
 
 export default e2pFaq;

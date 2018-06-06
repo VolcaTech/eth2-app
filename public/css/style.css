@@ -313,7 +313,7 @@ li:focus,
 
  .codeInput ::placeholder {
      padding-left: 15px !important;
-     font-size: 16px !important;
+     font-size: 12px !important;
      height: 38px !important;
      lineHeight: 16px !important;
      color: #0099ff !important;
