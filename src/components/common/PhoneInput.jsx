@@ -73,7 +73,6 @@ class e2pPhoneInput extends React.Component {
 		   defaultCountry={ this.state.focus ? 'us' : null } 		   
                    placeholder={this.props.placeholder ? this.props.placeholder : 'Phone number'}
                    disabled={this.props.disabled}
-
                 />
             </div>
         );
