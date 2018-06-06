@@ -105,7 +105,7 @@ class ConfirmTransfer extends Component {
     _renderConfirmDetailsForm() {		
 	// don't show button for next statuses	
 	return (
-	    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+	    <div style={{flexDirection: 'column', alignItems: 'center'}}>
         <div style={{height: 250}}>
 	      <div style={styles.titleContainer}>
 		<span style={styles.title}>Receive ether</span>

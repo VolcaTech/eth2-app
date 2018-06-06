@@ -89,7 +89,6 @@ class ConfirmSmsForm extends Component {
             timer: true,
             smsButtonDisabled: true,
             fetching: false,
-            remaining: 6000,
             errorMessage: ""
         };
     }
@@ -120,7 +119,7 @@ class ConfirmSmsForm extends Component {
     }
 
     _sendSmsAgain() {
-        this.setState({ timer: false, smsButtonDisabled: true, fetching: true, errorMessage: false });
+        this.setState({ timer: false, smsButtonDisabled: true, fetching: true, errorMessage: "" });
         setTimeout(async () => {
             console.log("sending sms");
             try {
@@ -129,10 +128,8 @@ class ConfirmSmsForm extends Component {
                     secretCode: this.props.secretCode,
                     phoneCode: this.props.phoneCode
                 });
-                console.log({ result });
                 this.setState({ fetching: false, timer: true });
             } catch (err) {
-                console.log({ err });
                 this.setState({ errorMessage: err.message, fetching: false, timer: true });
             }
         }, 100);
@@ -156,7 +153,7 @@ class ConfirmSmsForm extends Component {
 		   type='tel'
 		   placeholder="Code from SMS"
 		   error={this.state.errorMessage}
-		   onChange={({ target }) => this.setState({ smsCode: target.value, errorMessage: null })} />
+		   onChange={({ target }) => this.setState({ smsCode: target.value, errorMessage: "" })} />
 	      </div>
 	      <div style={styles.button}>
 		<ButtonPrimary
