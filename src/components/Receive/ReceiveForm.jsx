@@ -4,6 +4,7 @@ import { Row, Col, Grid } from 'react-bootstrap';
 import * as e2pService from '../../services/eth2phone';
 import CodeInput from './../common/CodeInput';
 import NumberInput from './../common/NumberInput';
+import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
@@ -33,7 +34,7 @@ const styles = {
     amountNumber: { color: '#0099ff' },
     amountSymbol: { color: '#999999' },
     title: {
-        fontSize: 20,
+        fontSize: 24,
         fontFamily: 'SF Display Bold'
     },
     numberInput: {
@@ -59,16 +60,14 @@ class ReceiveScreen extends Component {
         let phone = queryParams.phone || queryParams.p;
         const secretCode = (queryParams.code || queryParams.c);
         this.networkId = queryParams.chainId || queryParams.n || "1";
-
         phone = `+${phone}`;
         const formatter = new asYouType();
         formatter.input(phone);
-
         this.phoneParams = {
             phone,
             phoneCode: formatter.country_phone_code,
             //  phoneIsValid,
-            phoneFormatted: format(phone, 'International')
+            phoneFormatted: "+" + formatter.country_phone_code + " " + format(phone, 'National')
         };
 
 
@@ -178,7 +177,7 @@ class ReceiveScreen extends Component {
         return (
             <div>            
                 <div style={styles.titleContainer}>
-                    <span style={styles.title}>Receive ether</span>
+                    <span style={{...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24}}>Receive ether</span>
                 </div>
 
                 {this.state.transfer && this.state.transfer.amount ?
@@ -196,9 +195,10 @@ class ReceiveScreen extends Component {
                         value={this.state.secretCode}
                         onChange={this._onSecretCodeInputChange.bind(this)} />
                 </div>
-                <div style={styles.numberInput}>
-                    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
+                <div style={{...styles.numberInput, width: '100%'}}>
+                    <PhoneInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
                 </div>
+
                 <div style={styles.button}>
                     <ButtonPrimary
                         handleClick={this._onSubmit.bind(this)}

@@ -60,7 +60,8 @@ class e2pPhoneInput extends React.Component {
                     ref={this.props._ref}
                     inputStyle={this.props.error ? styles.inputError : styles.input}
                     buttonStyle={this.props.error ? styles.flagError : styles.flag}
-                    placeholder='Phone number'
+                    placeholder={this.props.placeholder ? this.props.placeholder : 'Phone number'}
+                    disabled={this.props.disabled}
                 />
             </div>
         );

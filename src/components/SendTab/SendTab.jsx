@@ -185,7 +185,7 @@ class Tab extends Component {
                         <div style={styles.container}>
                             <div>
                                 <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
-                                 _ref={(ref) => { this.phoneNumber = ref; }} error={this.state.phoneError}/>
+                                 _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError}/>
                             </div>
                             <div style={styles.numberInput}>
                                 <NumberInput
