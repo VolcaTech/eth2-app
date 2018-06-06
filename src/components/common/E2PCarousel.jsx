@@ -117,11 +117,14 @@ const styles = {
         height: 59,
         width: 59
     },
-    buttonsRowContainer: {
+    nextButtonsRowContainer: {
         position: 'relative',
-        bottom: 70,
         width: '100%'
-    }
+    },
+    backButtonsRowContainer: {
+        position: 'fixed',
+	bottom: 35
+    }    
 }
 
 
@@ -156,12 +159,12 @@ class E2PCarousel extends Component {
         const Slides = this.props.slides.map((slideComponent, index) => {
             return (<Slide key={index} index={index}>{slideComponent}</Slide>);
         });
-        let height = window.INITIAL_HEIGHT - 70;
+        let height = window.INITIAL_HEIGHT - 150;
         if (this.state.currentSlide === 1) {
             const rowsHeight = (this.props.transfers.length * 50 + 20);
             height = Math.max(height, rowsHeight);
         }
-
+	const backButtonOffset = window.innerWidth / 2 - 50;
 
         return (
             <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
@@ -178,9 +181,9 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-                    <div style={styles.buttonsRowContainer}>
+                    <div style={{...styles.backButtonsRowContainer, left: backButtonOffset}}>
                         <div style={this.state.backButtonStyle}>
-                            <ButtonBack onClick={this._clickBackButton.bind(this)} style={styles.nextButton} >
+                            <ButtonBack onClick={this._clickBackButton.bind(this)} >
                                 <div style={styles.buttonRow}>
                                     <div className="history-button" style={styles.buttonContainer}>
                                         <span style={styles.nextButtonTitle}>Back</span>
@@ -189,8 +192,8 @@ class E2PCarousel extends Component {
                                 </div>
                             </ButtonBack>
                         </div>
-
-
+		    </div>
+		    <div style={styles.nextButtonsRowContainer}>
                         <div style={this.state.nextButtonStyle}>
                             <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
                                 <div style={{ flex: 1, alignItems: 'flex-start' }}>
