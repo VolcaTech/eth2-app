@@ -31,7 +31,7 @@ class WorksWith extends React.Component {
 			<div className="wallet-name">Trust</div>
 			<div className="recommended-wallet">
 			  <RetinaImage style={{ verticalAlign: 'baseline'}} src="https://eth2.io/images/good.png" />
-			  <div>
+			  <div style={{textAlign: 'left'}}>
                             Integration &<br/> Partnership
 			  </div>
 			</div>

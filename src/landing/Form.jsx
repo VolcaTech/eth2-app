@@ -17,7 +17,7 @@ const styles = {
     greyText: {
 	color: '#999999',
 	opacity: 0.8,
-	fontSize: 20,
+	fontSize: 16,
 	fontFamily: 'SF Display Regular',
 	textAlign: 'center',	
     },    
@@ -47,7 +47,7 @@ const styles = {
 
 const SendButton = () => (
     <Link to="send" className="send-button">
-      <ButtonPrimary buttonColor="#0099ff">Send</ButtonPrimary>
+      <ButtonPrimary buttonColor="#0099ff" fontSize={24}>Send</ButtonPrimary>
     </Link>    
 );
 

@@ -236,13 +236,11 @@ class ReceiveScreen extends Component {
                 <Grid>
                     <Row>
                         <Col sm={4} smOffset={4}>
-                            <div style={styles.container}>
                                 <div>
                                     {this.state.hasCode ?
                                         <ConfirmTransfer {...props} />
                                         : this._renderPasteCodeForm()}
                                 </div>
-                            </div>
                         </Col>
                     </Row>
                 </Grid>
