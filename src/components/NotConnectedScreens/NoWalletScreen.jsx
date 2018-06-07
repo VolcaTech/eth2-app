@@ -103,8 +103,8 @@ class NoWalletScreen extends Component {
     }
 
     async _getDeepLink() {
-        const result = await getDeepLinkForTrustWallet(window.location.href);
-        this.setState({ deepLink: "https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=https://google.com" });
+        const { url: deepLink }  = await getDeepLinkForTrustWallet(window.location.href);
+        this.setState({ deepLink });
     }
 
     render() {
@@ -123,7 +123,7 @@ class NoWalletScreen extends Component {
                                 <div style={styles.instructionsText}> 3. Receive Ether (link will be open automatically) </div>
                             </div>
                             <div style={styles.buttonRow}>
-                                <a className={`btn btn-primary ${disabled}`} href={this.state.deepLink || "#"} style={styles.button}> Open Trust Wallet </a>
+                                <a className={`btn btn-primary ${disabled}`} href={this.state.deepLink || "#"} style={styles.button}> Use Trust Wallet </a>
 				<Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
                             </div>
                         </div>
