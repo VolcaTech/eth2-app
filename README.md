@@ -15,10 +15,9 @@ You can play with beta at https://eth2.io. The DApp supports Ethereum Main and R
 ## Transfer details
 ### Send
 ![Send](/public/eth2phone_send.png)
-1. Sender generates transit private-public key pair.
-2. Sender deposits ether to escrow smart contract and assigns transit public key to the deposit. On withdrawal escrow smart-contract verifies that receiver's address is signed by the transit private key.
-3. Sender encrypts transit private key with random secret code and sends encrypted transit private key to verification server.
-4. Sender passes the secret code to receiver by the way he chooses (voice, sms, e-mail, etc.)
+1. Sender generates transit private-public key pair, deposits ether to escrow smart contract and assigns transit public key to the deposit. On withdrawal escrow smart-contract verifies that receiver's address is signed by the transit private key.
+2. Sender encrypts transit private key with random secret code and sends encrypted transit private key to verification server.
+3. Sender passes the secret code to receiver by the way he chooses (voice, sms, e-mail, etc.)
 
 ### Receive
 ![Receive](/public/eth2phone_receive.png)
