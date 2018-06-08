@@ -164,6 +164,10 @@ class E2PCarousel extends Component {
             const rowsHeight = (this.props.transfers.length * 50 + 20);
             height = Math.max(height, rowsHeight);
         }
+
+	// minimum 550px
+	height = Math.max(height, 500);
+
 	const backButtonOffset = window.innerWidth / 2 - 50;
 
         return (
