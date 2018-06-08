@@ -171,7 +171,7 @@ class E2PCarousel extends Component {
 	const backButtonOffset = window.innerWidth / 2 - 50;
 
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', touchAction: 'none' }}>
+            <div style={{ display: 'flex', flexDirection: 'column'}}>
                 <CarouselProvider
                     naturalSlideWidth={window.innerWidth}
                     naturalSlideHeight={height}
