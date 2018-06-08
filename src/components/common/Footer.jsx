@@ -6,15 +6,15 @@ import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
 const styles = {
     container: {
         display: 'flex',
-        alignContent: 'center'
+        alignContent: 'center',
     },
     subcontainer: {
+        width: '100%',        
         paddingLeft: '8%',
         paddingBottom: '5%',
         paddingTop: '5%',
         paddingRight: '7%',
         backgroundColor: '#f5f5f5',
-
     },
     textLeft: {
         fontSize: 16,

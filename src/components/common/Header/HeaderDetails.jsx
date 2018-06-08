@@ -52,7 +52,9 @@ const styles = {
         marginRight: 2
     },
     linkLogo: {
-        display: 'inline'
+        display: 'inline',
+        paddingBottom: 2,
+        paddingLeft: 1,
     },
     networkBalanceRow: {
         marginBottom: 17
