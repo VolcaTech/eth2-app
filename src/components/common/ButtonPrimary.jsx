@@ -15,7 +15,7 @@ class e2pButtonPrimary extends React.Component {
 			opacity: this.props.disabled ? 0.5 : 1,
 			display: 'block', 
 			color: "#fff",
-			fontSize: 18,
+			fontSize: this.props.fontSize ? this.props.fontSize : 18,
 			fontFamily: "SF Display Black",                 
             }} onClick={this.props.handleClick}>
                 {this.props.children}

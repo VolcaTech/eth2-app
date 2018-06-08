@@ -195,8 +195,8 @@ class ReceiveScreen extends Component {
                         value={this.state.secretCode}
                         onChange={this._onSecretCodeInputChange.bind(this)} />
                 </div>
-                <div style={{...styles.numberInput, width: '100%'}}>
-                    <PhoneInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
+                <div style={styles.numberInput}>
+                    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
                 </div>
 
                 <div style={styles.button}>
@@ -236,13 +236,11 @@ class ReceiveScreen extends Component {
                 <Grid>
                     <Row>
                         <Col sm={4} smOffset={4}>
-                            <div style={styles.container}>
                                 <div>
                                     {this.state.hasCode ?
                                         <ConfirmTransfer {...props} />
                                         : this._renderPasteCodeForm()}
                                 </div>
-                            </div>
                         </Col>
                     </Row>
                 </Grid>
