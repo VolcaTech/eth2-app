@@ -24,7 +24,7 @@ class Features extends React.Component {
 		  
 		  <Col xs={12} sm={3}>
 		    <div className="img-container">		    
-                      <RetinaImage className="img-responsive" src="https://eth2.io/images/web3.png" />
+                      <RetinaImage className="img-responsive" src="https://eth2.io/images/private.png" />
 		    </div>
                     <div className="feature-title">Private</div>
                     <div className="feature-text">
