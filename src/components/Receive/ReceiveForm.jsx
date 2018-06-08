@@ -195,8 +195,8 @@ class ReceiveScreen extends Component {
                         value={this.state.secretCode}
                         onChange={this._onSecretCodeInputChange.bind(this)} />
                 </div>
-                <div style={{...styles.numberInput, width: '100%'}}>
-                    <PhoneInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
+                <div style={styles.numberInput}>
+                    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
                 </div>
 
                 <div style={styles.button}>
