@@ -29,19 +29,19 @@ You can play with beta at https://eth2.io. The DApp supports Ethereum Main and R
 5. Verification server tries to withdraw ether from escrow smart-contract to signed address. If signature is correct, the transaction is executed and receiver gets the ether.
 
 ## Running on Ropsten or Mainnet
-Works best with Trust Wallet on mobile. You can also use a Desktop Browser with installed Metamask or any Web3 compatible browsers. Go to https://eth2.io to use the DApp.
+Works best with [Trust Wallet](http://trustwalletapp.com) on mobile. You can also use a Desktop Browser with installed Metamask or any Web3 compatible browsers. Go to https://eth2.io to use the DApp.
 
 
 ## Code structure
 `./src` - all Javascript/React code is located in this folder.
 
-`./src/services/eth2phone/index` - all interaction of the web app with the escrow smart-contract and verification server is defined in this file.
+`./src/services/eth2phone/index` - all interaction of the web app with the Escrow Smart Contract and Verification Server is defined in this file.
 
-`./contracts/e2pEscrow` - the escrow smart contract, which locks ether from sender and withdraws ether on request from the owner to address signed by transit private key. Verification Server deploys the contract and controls smart contract's owner account.
+`./contracts/e2pEscrow` - the Escrow Smart Contract, which locks ether from sender and withdraws ether on request from the owner to address signed by transit private key. Verification Server deploys the contract and controls smart contract's owner account.
 
 `./test` - tests for the Escrow Smart Contract
 
-This repo contains front-end code + smart-contracts. Verification server's code is located in the separate repository - https://github.com/eth2phone/eth2phone-server
+This repo contains Front-End code + Smart-Contracts. Verification Server's code is located in the separate [repository](https://github.com/eth2phone/eth2phone-server)
 
 
 ## License
