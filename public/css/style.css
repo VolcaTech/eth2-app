@@ -595,10 +595,6 @@ a.link {
 
 /* MOBLIE */
 @media only screen and (max-width: 767px) {
-    body {
-        overflow-y: scroll;
-    }
-    
     .footer-links {
  	font-family: 'SF Display Black';
 	font-size: 16px;
