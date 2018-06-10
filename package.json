@@ -89,12 +89,13 @@
     "web3": "^0.20.1",
     "web3-utils": "^1.0.0-beta.17"
   },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "deploy": "npm run build&&gh-pages -d build"
-  },
+    "scripts": {
+	"start": "node scripts/start.js",
+      "build": "node scripts/build.js",
+	"test": "node scripts/test.js --env=jsdom",
+	"deploy": "npm run build&&gh-pages -d build",
+	"libphonenumber-metadata": "libphonenumber-generate-metadata metadata.full.json"
+    },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
