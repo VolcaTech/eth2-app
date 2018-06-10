@@ -522,6 +522,10 @@ a.link {
     color: #0099ff;
     font-family: 'SF Display Bold';   
 }
+a.link:hover {
+    color: #007acc !important;
+    text-decoration: none !important
+}
 
 /* IPHONE 5 */
 @media only screen and (max-width: 374px) {
@@ -533,6 +537,15 @@ a.link {
 	display: none !important;
     }
     
+}
+
+.footer-links-text {
+    color: #000;
+}
+
+.footer-links-text:hover {
+    color: #007acc !important;
+    text-decoration: none
 }
 
 @media only screen and (min-width: 375px) {

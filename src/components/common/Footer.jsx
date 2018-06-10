@@ -41,13 +41,13 @@ class Footer extends React.Component {
                     </Col>
                     <Col xs={12} md={6}>
                         <div className="footer-links">
-                            <Link to="/faq" style={styles.link}>
+                            <Link to="/faq" className="footer-links-text">
                                 <div>FAQ</div>
                             </Link>
-                            <Link to="/tos" style={styles.link}>
+                            <Link to="/tos" className="footer-links-text">
                                 <div>Terms of Use</div>
                             </Link>
-                            <Link to="/privacy" style={styles.link}>
+                            <Link to="/privacy" className="footer-links-text">
                                 <div>Privacy Policy</div>
                             </Link>
                         </div>

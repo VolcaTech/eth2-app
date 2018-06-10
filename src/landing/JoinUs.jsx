@@ -6,7 +6,6 @@ import RetinaImage from 'react-retina-image';
 
 const styles = {
     text: { color: '#0099ff', marginTop: 15, },
-    textWhite: { color: '#fff', marginTop: 3, marginLeft: 5 },
     //logo: { marginLeft: 10 }
 }
 
@@ -38,7 +37,7 @@ class JoinUs extends React.Component {
                           <a href="https://github.com/eth2phone">
                             <div className="gitButton" >
                               <RetinaImage style={{ marginRight: 10 }} src="https://eth2.io/images/git.png" />
-                              <span style={styles.textWhite}>Feel free to PR on Github</span>
+                              <div className="git-text-white">Feel free to PR on Github</div>
                             </div>
                           </a>
                         </Col>			
