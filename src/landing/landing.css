@@ -143,6 +143,7 @@
     }
 
     .reach-us-block a span {
+    vertical-align: middle;
 	font-size: 23px;
 	font-family: 'SF Display Bold';
 	display: inline;
@@ -161,7 +162,8 @@
 	border-radius: 10px;
 	padding-bottom: 2px;
 	padding-top: 7px;
-	width: 344px;
+    width: 344px;
+    height: 46px;
     }
     
 }

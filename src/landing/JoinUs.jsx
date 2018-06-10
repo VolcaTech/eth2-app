@@ -37,7 +37,7 @@ class JoinUs extends React.Component {
                         <Col xs={12} sm={4} smOffset={4}  className="third-col">	  
                           <a href="https://github.com/eth2phone">
                             <div className="gitButton" >
-                              <RetinaImage style={{ marginBottom: 6, marginRight: 5 }} src="https://eth2.io/images/git.png" />
+                              <RetinaImage style={{ marginRight: 10 }} src="https://eth2.io/images/git.png" />
                               <span style={styles.textWhite}>Feel free to PR on Github</span>
                             </div>
                           </a>
