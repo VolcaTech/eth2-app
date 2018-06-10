@@ -67,8 +67,7 @@
     }
 
     .send-button button {
-    height: 46px !important;
-    font-size: 24px !important     
+	height: 46px !important;
     }
 
     .features-block .title {
@@ -158,7 +157,6 @@
 	padding-top: 7px;
 	width: 344px;
     }
-
     
 }
 
@@ -280,5 +278,6 @@
 	padding-left:10px;
 	width: 245px;
     }
+
 }
 
