@@ -119,20 +119,23 @@ class Tab extends Component {
         // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
         let phone = this.phoneNumber.state.formattedNumber;
 
+	console.log({phone})
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
+
 
         // get dial code from phone number
         const formatter = new asYouType();
         formatter.input(phone);
         const phoneCode = formatter.country_phone_code;
-
+	
+	console.log({phone, phoneCode})	
         //format balance
         let balance;
         const web3 = web3Service.getWeb3();
         if (this.props.balanceUnformatted) {
-        balance = web3.fromWei(this.props.balanceUnformatted, 'ether').toNumber();
-    }
+            balance = web3.fromWei(this.props.balanceUnformatted, 'ether').toNumber();
+	}
 
         // check that phone number is valid
         if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
