@@ -47,7 +47,7 @@ const styles = {
 
 const SendButton = () => (
     <Link to="send" className="send-button">
-      <ButtonPrimary buttonColor="#0099ff" fontSize={24}>Send</ButtonPrimary>
+      <ButtonPrimary buttonColor="#0099ff" className="landing-send">Send</ButtonPrimary>
     </Link>    
 );
 
