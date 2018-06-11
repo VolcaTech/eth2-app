@@ -4,18 +4,7 @@ import { Row, Col, Grid } from 'react-bootstrap';
 
 const styles = {
     notConnectedButton: {
-        width: 145,
-        height: 22,
-        borderRadius: 6,
-        marginTop: 15,
-        textAlign: 'center',
-        border: '2px solid #999999',
-        fontFamily: "SF Display Regular",
-        fontSize: 12,
-        color: '#999999',
-        padding: 0,
-        paddingTop: 1,
-        paddingLeft: 5
+        
     },
     redDot: {
         display: 'inline',
@@ -70,11 +59,11 @@ const NoWalletHeader = () => {
             <Col xs={12}>
               <Row style={styles.headerRow}>
                 <Col xs={6} style={{ padding: 0 }}>
-                  <div style={styles.headerLogo1}>
+                  <div className="no-wallet-header-logo">
                     Eth2<div style={styles.headerLogo2}>Phone</div></div>
                 </Col>
                 <Col style={styles.web3} xs={6}>
-                  <div style={styles.notConnectedButton}>
+                  <div className="not-connected-button">
                     Not connected to Web3
                     <div style={styles.redDot}>&#9679;</div>
                   </div>
