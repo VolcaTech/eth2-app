@@ -4,6 +4,9 @@
     color: #000
 }
 
+.gitButton:hover {
+    background-color: #007acc !important;    
+}
 
 .github-button .github-btn-container {
     text-align: center;
@@ -12,6 +15,15 @@
     border: 2px solid #000000;
     margin: auto;
 }
+
+/* .github-button .github-btn-container:hover {
+border: 2px solid #007ACC !important;
+
+} */
+
+/* .github-button :hover {
+    color: #007ACC;
+} */
 
 .github-button .github-btn-container .text {
     font-family: 'SF Display Bold';
@@ -26,6 +38,14 @@
     text-decoration: none;    
 }
 
+.send-button button:hover {
+    background-color: #007acc !important;
+    border-color: #007acc !important    
+    }
+
+.reach-us-block a span:hover {
+    color: #007acc !important;
+}
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
     .landing .title {
@@ -67,7 +87,7 @@
     }
 
     .send-button button {
-	height: 46px !important;
+    height: 46px !important;
     }
 
     .features-block .title {
@@ -77,15 +97,21 @@
     }
 
     .features-block div img {
-	margin: auto;
     }
 
+    .features-block .img-container {
+        width: 220px;
+        margin: auto
+        }
+
     .features-block .img-container img {
-	height: 117px;
+    height: 117px;
     }
 
     .feature-title {
-	text-align: center;
+    width: 220px;
+    margin: auto;
+	text-align: left;
 	font-size: 24px;
 	font-family: 'SF Display Bold';
 	margin-top: 30px;
@@ -137,6 +163,7 @@
     }
 
     .reach-us-block a span {
+    vertical-align: middle;
 	font-size: 23px;
 	font-family: 'SF Display Bold';
 	display: inline;
@@ -155,7 +182,20 @@
 	border-radius: 10px;
 	padding-bottom: 2px;
 	padding-top: 7px;
-	width: 344px;
+    width: 344px;
+    height: 46px;
+    }
+
+    .git-text-white { 
+        color: #fff;
+        margin-top: 3px;
+        margin-left: 5px;
+        font-size: 23px;
+        font-family: 'SF Display Bold';
+        display: inline;
+        line-height: 1;
+        margin-left: 10px;
+        vertical-align: middle
     }
     
 }
@@ -172,8 +212,8 @@
     .github-button .github-btn-container img {
 	width: 25px;
 	height: 25px;
-	margin-right: 10px;
-	margin-bottom: 5px;		      
+    margin-bottom: 5px;
+    margin-right: 10px;	      
     }
 
     .github-button .github-btn-container {
@@ -276,8 +316,21 @@
 	padding-bottom: 2px;
 	padding-top: 7px;
 	padding-left:10px;
-	width: 245px;
+    width: 245px;
+    height: 44px;
     }
+
+    .git-text-white { 
+        color: #fff;
+        margin-top: 3px;
+        margin-left: 5px;
+        font-size: 16px;
+        font-family: 'SF Display Bold';
+        display: inline;
+        line-height: 1;
+        vertical-align: middle
+    }
+    
 
 }
 

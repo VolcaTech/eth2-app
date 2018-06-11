@@ -8,14 +8,6 @@ const styles = {
         display: 'flex',
         alignContent: 'center',
     },
-    subcontainer: {
-        width: '100%',        
-        paddingLeft: '8%',
-        paddingBottom: '5%',
-        paddingTop: '5%',
-        paddingRight: '7%',
-        backgroundColor: '#f5f5f5',
-    },
     textLeft: {
         fontSize: 16,
         fontFamily: 'SF Display Regular',
@@ -41,7 +33,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div style={styles.container}>
-                <div style={styles.subcontainer}>
+                <div className="footer-subcontainer">
                     <Col xs={12} md={6}>
                         <div style={styles.textLeft} className="footer-text">
 			  <span style={styles.bold}>© 2018 Eth2Phone</span> is in beta. Please be aware that some bugs are possible at that stage. We will appreciate if you inform us any of them to <a href="mailto:info@eth2.io" className="link">hi@eth2.io</a>
@@ -49,13 +41,13 @@ class Footer extends React.Component {
                     </Col>
                     <Col xs={12} md={6}>
                         <div className="footer-links">
-                            <Link to="/faq" style={styles.link}>
+                            <Link to="/faq" className="footer-links-text">
                                 <div>FAQ</div>
                             </Link>
-                            <Link to="/tos" style={styles.link}>
+                            <Link to="/tos" className="footer-links-text">
                                 <div>Terms of Use</div>
                             </Link>
-                            <Link to="/privacy" style={styles.link}>
+                            <Link to="/privacy" className="footer-links-text">
                                 <div>Privacy Policy</div>
                             </Link>
                         </div>
