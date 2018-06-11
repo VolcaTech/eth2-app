@@ -111,7 +111,7 @@ class NoWalletScreen extends Component {
         const disabled = this.state.deepLink ? "" : "disabled";
         return (
             <div>
-                <div style={styles.title}>You need wallet to<br />receive Ether</div>
+                <div style={styles.title}>You need wallet to<br />send or receive Ether</div>
                 {window.innerWidth < 769 ?
                     (
                         <div>
