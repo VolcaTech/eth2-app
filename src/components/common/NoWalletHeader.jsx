@@ -55,7 +55,7 @@ const NoWalletHeader = () => {
     }
     return (
         <Grid className={headerClass}>
-            <Row className="header-row">
+            <Row className="container header-row">
                 <Col xs={12}>
                     <Row style={styles.headerRow}>
                         <Col xs={6} style={{ padding: 0 }}>
