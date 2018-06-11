@@ -6,10 +6,6 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import CheckBox from './../common/CheckBox';
 import { parse, format, asYouType } from 'libphonenumber-js';
-//import { isValidNumber } from 'libphonenumber-js/custom';
-//import metadata from 'libphonenumber-js/metadata.full.json';
-
-// import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Error, ButtonLoader } from './../common/Spinner';
 import WithHistory from './../HistoryScreen/WithHistory';
@@ -141,10 +137,8 @@ class Tab extends Component {
 	}
 
         // check that phone number is valid
-	const parsedPhone = parse(phone);
-	const phoneNumberisValid = parsedPhone !== {};
-	console.log(parsedPhone);
-        if (!phoneNumberisValid) {
+	const isValidNumber = (phone || "").length >= 9;
+        if (!isValidNumber) {
             this.setState({ fetching: false, errorMessage: "Phone number is invalid", phoneError: true });
             return;
         };
