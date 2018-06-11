@@ -46,7 +46,9 @@ const styles = {
 const NoWalletHeader = () => {
     let headerLogoClass = 'no-wallet-header-logo';
     let headerButtonClass = 'not-connected-button';
+    
     if (window.location &&
+        window.location.hash === '#/' ||        
         window.location.hash === '#/about' ||
         window.location.hash === '#/faq' ||
         window.location.hash === '#/tos'
