@@ -8,8 +8,8 @@ Eth2Phone allows to send ether to anyone even without Ethereum wallet. The recei
 You can play with beta at https://eth2.io. The DApp supports Ethereum Main and Ropsten Test networks right now.
 
 ## Video: 
-* [Sending demo](https://screencast-o-matic.com/watch/cbQoD1IbCD)
-* [Receiving demo](https://screencast-o-matic.com/watch/cbQoDXIbCp)
+* [Sending demo](https://www.youtube.com/watch?v=FeqQyFrmptA)
+* [Receiving demo](https://www.youtube.com/watch?v=qp3kkXKIHP8)
 
 
 ## Transfer details
