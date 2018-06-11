@@ -72,6 +72,7 @@ class e2pPhoneInput extends React.Component {
                    buttonStyle={this.props.error ? styles.flagError : styles.flag}
 		   defaultCountry={ this.state.focus ? 'us' : null } 		   
                    placeholder={this.props.placeholder ? this.props.placeholder : 'Phone number'}
+		   enableLongNumbers={true}
                    disabled={this.props.disabled}
 
                 />

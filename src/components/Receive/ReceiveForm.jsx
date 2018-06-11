@@ -9,8 +9,8 @@ import ButtonPrimary from './../common/ButtonPrimary';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
 import ConfirmSmsForm from './ConfirmSmsForm';
-import { parse, format, formatNumber, asYouType } from 'libphonenumber-js';
-import { isValidPhoneNumber } from 'react-phone-number-input';
+import { parse, format, formatNumber, asYouType, isValidNumber } from 'libphonenumber-js';
+// import { isValidPhoneNumber } from 'react-phone-number-input';
 const qs = require('querystring');
 import web3Service from "../../services/web3Service";
 import ConfirmTransfer from './ConfirmTransfer';
@@ -66,7 +66,6 @@ class ReceiveScreen extends Component {
         this.phoneParams = {
             phone,
             phoneCode: formatter.country_phone_code,
-            //  phoneIsValid,
             phoneFormatted: "+" + formatter.country_phone_code + " " + format(phone, 'National')
         };
 
