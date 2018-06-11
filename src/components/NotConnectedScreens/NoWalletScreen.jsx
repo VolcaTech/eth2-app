@@ -181,4 +181,3 @@ const WalletsList = () => {
 
 
 export default NoWalletScreen;
-

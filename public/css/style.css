@@ -548,6 +548,56 @@ a.link:hover {
     text-decoration: none
 }
 
+.no-wallet-header-logo {
+    width: 55px;
+    height: 29px;
+    font-family: "SF Display Black";
+    color: black;
+    font-size: 24px;
+    letter-spacing: 1;
+    text-align: center;
+    margin-top: 9px;
+}
+
+.not-connected-button {
+    width: 145px;
+    height: 22px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+    border: 2px solid #999999;
+    font-family: "SF Display Regular";
+    font-size: 12px;
+    color: #999999;
+    padding: 0;
+    padding-top: 1px;
+    padding-left: 5px;
+}
+
+.no-wallet-header-logo-desktop {
+    width: 55px;
+    height: 29px;
+    font-family: "SF Display Black";
+    color: black;
+    font-size: 46px;
+    letter-spacing: 1;
+    text-align: center;
+    margin-top: 9px;
+}
+
+.not-connected-button-desktop {
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    border: 2px solid #999999;
+    font-family: "SF Display Regular";
+    font-size: 24px;
+    color: #999999;
+    padding: 0;
+    padding-top: 1px;
+    padding-left: 5px;
+}
+
 @media only screen and (min-width: 375px) {
     .title { 
 	font-size: 24px;

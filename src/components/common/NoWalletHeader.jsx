@@ -40,11 +40,22 @@ const styles = {
         display: 'inline',
         color: '#2bc64f'
     }
-}    
+}
 
 
 const NoWalletHeader = () => {
-    let headerClass = 'header';
+    let headerLogoClass = 'no-wallet-header-logo';
+    let headerButtonClass = 'not-connected-button';
+    
+    if (window.location &&
+        window.location.hash === '#/' ||        
+        window.location.hash === '#/about' ||
+        window.location.hash === '#/faq' ||
+        window.location.hash === '#/tos'
+    ) {
+        headerLogoClass = "no-wallet-header-logo-desktop";
+        headerButtonClass = "not-connected-button-desktop";
+    }
     return (
         <Grid>
             <Row className="header-row">
@@ -56,12 +67,12 @@ const NoWalletHeader = () => {
                                     window.location.reload();
                                 }
                             }}>
-                                <div className="no-wallet-header-logo">
+                                <div className={headerLogoClass}>
                                     Eth2<div style={styles.headerLogo2}>Phone</div></div>
                             </Link>
                         </Col>
                         <Col style={styles.web3} xs={6}>
-                            <div className="not-connected-button">
+                            <div className={headerButtonClass}>
                                 Not connected to Web3
                     <div style={styles.redDot}>&#9679;</div>
                             </div>
