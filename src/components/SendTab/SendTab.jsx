@@ -6,7 +6,6 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import CheckBox from './../common/CheckBox';
 import { parse, format, asYouType } from 'libphonenumber-js';
-import { isValidPhoneNumber } from 'react-phone-number-input';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Error, ButtonLoader } from './../common/Spinner';
 import WithHistory from './../HistoryScreen/WithHistory';
@@ -119,7 +118,7 @@ class Tab extends Component {
         // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
         let phone = this.phoneNumber.state.formattedNumber;
 
-	console.log({phone})
+	console.log({phone, })
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
 
@@ -138,7 +137,8 @@ class Tab extends Component {
 	}
 
         // check that phone number is valid
-        if (!isValidPhoneNumber(phone) && phone !== "+71111111111") {
+	const isValidNumber = (phone || "").length >= 9;
+        if (!isValidNumber) {
             this.setState({ fetching: false, errorMessage: "Phone number is invalid", phoneError: true });
             return;
         };
