@@ -20,7 +20,6 @@ const styles = {
     headerRow: {
         height: 44,
         display: 'block',
-        margin: 'auto',
         backgroundColor: 'white',
         alignItems: 'center',
         borderTop: '2px solid #f5f5f5',
