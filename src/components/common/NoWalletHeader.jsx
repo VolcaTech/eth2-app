@@ -46,16 +46,9 @@ const styles = {
 
 const NoWalletHeader = () => {
     let headerClass = 'header';
-    if (window.location &&
-        window.location.hash === '#/about' ||
-        window.location.hash === '#/faq' ||
-        window.location.hash === '#/tos'
-    ) {
-        headerClass += " header-big";
-    }
     return (
-        <Grid className={headerClass}>
-            <Row className="container header-row">
+        <Grid>
+            <Row className="header-row">
                 <Col xs={12}>
                     <Row style={styles.headerRow}>
                         <Col xs={6} style={{ padding: 0 }}>
