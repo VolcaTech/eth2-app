@@ -4,7 +4,7 @@ import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
 import RetinaImage from 'react-retina-image';
 const qs = require('querystring');
 import scrollToElement from "scroll-to-element";
-import GotStuck from './../components/common/GotStuck';
+import GotStuck from './../../components/common/GotStuck';
 import questions from './questions.jsx';
 
 

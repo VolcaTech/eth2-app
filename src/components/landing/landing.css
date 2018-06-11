@@ -4,6 +4,10 @@
     color: #000
 }
 
+.gitButton:hover {
+    background-color: #007acc
+}
+
 .github-button .github-btn-container:hover {
     background-color: #f5f5f5 !important;    
 }

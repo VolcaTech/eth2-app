@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Grid, Row, Col, Clearfix } from 'react-bootstrap';
-import ButtonPrimary from './../components/common/ButtonPrimary';
-import GotStuck from './../components/common/GotStuck';
+import ButtonPrimary from './../../components/common/ButtonPrimary';
+import GotStuck from './../../components/common/GotStuck';
 import './landing.css';
 import RetinaImage from 'react-retina-image';
 
