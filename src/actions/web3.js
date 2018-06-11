@@ -45,10 +45,11 @@ export const setupWeb3 = () => {
 		await escrowContract.setup(web3);
 		verificationUrlGetter.setNetwork(networkId);
 	    } catch(err) {
-		console.log("Error while setupping contract");
+		console.log("Error while setuping contract");
 		console.log(err);
 	    }
 
+	    console.log("here")
 	    dispatch(updateWeb3Details(web3Details));
 
 	} catch(err) {
@@ -79,7 +80,11 @@ export const setupWeb3ChangeListener = () => {
 		const {networkName, networkId } = detectNetwork(web3);
 		
 		if (oldAddress !== address || oldNetworkId !== networkId) {
-		    const balance = await web3.eth.getBalancePromise(address);
+		    let balance = 0;
+		    if (address) {
+			balance = await web3.eth.getBalancePromise(address);
+		    }
+
 		    dispatch(updateWeb3Details({
 			balance,
 			address,

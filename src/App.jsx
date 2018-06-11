@@ -10,12 +10,11 @@ import NoWalletHeader from './components/common/NoWalletHeader';
 import { Loader } from './components/common/Spinner';
 import ButtonPrimary from './components/common/ButtonPrimary';
 import HistoryScreen from './components/HistoryScreen';
+import Landing from './components/landing';
+import FAQ from './components/faq';
+import TOS from './components/tos';
 import e2pLogo from './assets/images/eth2phone-logo.png';
-import TrustLogo from './assets/images/trust.png';
-import Landing from './landing';
-import FAQ from './faq';
-import TOS from './tos';
-import PrivacyPolicy from './privacy';
+import PrivacyPolicy from './components/privacy';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
@@ -33,14 +32,19 @@ class App extends Component {
     }
 
     _renderNoAddress() {
-        return (
-            <div>
-                <NoWalletHeader />
-                <NoWalletScreen />
-            </div>
-        );
+	return (
+	    <div>
+	      <div style={{ alignContent: 'center' }}>
+		<div><img src={e2pLogo} style={styles.e2pLogo} /></div>
+		<div style={styles.title}>Web3 wallet is locked</div>
+		<div style={styles.instructionsContainer}>
+		  <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
+		  </div>
+		</div>
+	      </div>
+	    </div>
+	);
     }
-
 
     _renderStaticRouter() {
         return (
@@ -61,7 +65,6 @@ class App extends Component {
     }
 
     render() {
-
         if (!this.props.loaded) {
             return (<Loader />);
         }
@@ -114,8 +117,7 @@ class App extends Component {
 
 
 const styles = {
-    e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },
-    trustLogo: { display: 'block', margin: 'auto', marginTop: 150, marginTop: 38 },
+    e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },    
     title: { fontSize: 18, display: "block", margin: "auto", width: 319, fontFamily: "SF Display Black", textAlign: 'center' },
     supported: { fontSize: 18, display: "block", margin: "auto", width: 163, marginTop: 61, fontFamily: "SF Display Black" },
     instructionsText: { fontFamily: "SF Display Regular", fontSize: 12, opacity: 0.8 },
@@ -126,6 +128,7 @@ const styles = {
 
 
 function mapStateToProps(state) {
+    console.log({state});    
     let balance, contractAddress;
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {

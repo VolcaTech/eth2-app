@@ -38,7 +38,7 @@ const loaded = (state = false, action) => {
 
 const connected = (state = false, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_WEB3_DETAILS:
+  case actionTypes.UPDATE_WEB3_DETAILS:
       return action.payload.connected;
     default:
       return state;
@@ -48,7 +48,7 @@ const connected = (state = false, action) => {
 
 const networkName = (state = null, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_WEB3_DETAILS:
+  case actionTypes.UPDATE_WEB3_DETAILS:
       return action.payload.networkName;
     default:
       return state;

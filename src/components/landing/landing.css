@@ -1,0 +1,340 @@
+/* COMMON FOR MOBILE AND DESCTOP */
+.github-button {
+    text-decoration: none;
+    color: #000
+}
+
+.gitButton:hover {
+    background-color: #007acc
+}
+
+.github-button .github-btn-container:hover {
+    background-color: #f5f5f5 !important;    
+}
+
+.github-button .github-btn-container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    margin: auto;
+}
+
+/* .github-button .github-btn-container:hover {
+border: 2px solid #007ACC !important;
+
+} */
+
+/* .github-button :hover {
+    color: #007ACC;
+} */
+
+.github-button .github-btn-container .text {
+    font-family: 'SF Display Bold';
+    display: inline-block;
+}
+
+.wallets-block .second-col {
+    padding: 0px;
+}
+
+.reach-us-block a {
+    text-decoration: none;    
+}
+
+.send-button button:hover {
+    background-color: #007acc !important;
+    border-color: #007acc !important    
+    }
+
+.reach-us-block a span:hover {
+    color: #007acc !important;
+}
+/* FOR DESKTOP */
+@media only screen and (min-width: 768px) {
+    .landing .title {
+	font-size: 36px;
+    }
+
+    .landing .text {
+	font-size: 24px;
+    }
+    
+    .github-button .github-btn-container img {
+	width: 30px;
+	height: 30px;
+	margin-right: 16px;
+	margin-bottom: 12px;		      
+    }
+
+    .github-button .github-btn-container {
+	width: 216px;
+	height:46px;
+    }
+
+    .github-button .github-btn-container .text {
+	display: inline-block;
+	line-height: 46px;	
+    }
+
+    .landing-title-container {
+	max-width:518px;
+    }
+
+    .buttons-row {
+	margin-top: 50px;
+	margin-bottom: 52px;	
+    }
+
+    .send-button {
+	text-decoration: none !important;	
+    }
+
+    .send-button button {
+    height: 46px !important;
+    }
+
+    .features-block .title {
+	margin-top: 140px;
+	margin-bottom: 76px;
+	text-align: center;
+    }
+
+    .features-block div img {
+    }
+
+    .features-block .img-container {
+        width: 220px;
+        margin: auto
+        }
+
+    .features-block .img-container img {
+    height: 117px;
+    }
+
+    .feature-title {
+    width: 220px;
+    margin: auto;
+	text-align: left;
+	font-size: 24px;
+	font-family: 'SF Display Bold';
+	margin-top: 30px;
+	margin-bottom: 18px;
+    }
+
+    .feature-text {
+	font-size: 16px;
+	font-family: 'SF Display Regular';
+	line-height: 1.4;
+	text-align: left;
+	width: 220px;
+	margin: auto;
+    }
+    
+    .wallets-block {
+	margin-top: 120px;
+    }
+
+    .wallets-block .title {
+	margin-bottom: 90px;
+	text-align: center;
+    }
+
+    .wallets-block .wallet-name {
+	font-size: 24px;
+	font-family: 'SF Display Medium';
+	margin-top: 15px;
+    }
+    
+    .recommended-wallet div {
+	display: inline-block;
+	font-size: 16px;
+	font-family: 'SF Display Regular';
+	color: #2bc64f;
+	height: 38px;
+	margin-left: 8px;
+	padding-top: 10px;
+    }
+
+    .reach-us-block .title {
+	margin-top: 120px;
+	margin-bottom: 80px;
+	text-align: center;
+    }
+
+    .reach-us-row {
+	text-align: center;
+    }
+
+    .reach-us-block a span {
+    vertical-align: middle;
+	font-size: 23px;
+	font-family: 'SF Display Bold';
+	display: inline;
+	line-height: 1;
+	margin-left: 10px;	
+    }
+
+    .reach-us-block .third-col {
+	margin-top:72px;
+	margin-bottom:126px;
+    }
+
+    .gitButton {
+	background-color: #0099ff;
+	margin: auto;
+	border-radius: 10px;
+	padding-bottom: 2px;
+	padding-top: 7px;
+    width: 344px;
+    height: 46px;
+    }
+
+    .git-text-white { 
+        color: #fff;
+        margin-top: 3px;
+        margin-left: 5px;
+        font-size: 23px;
+        font-family: 'SF Display Bold';
+        display: inline;
+        line-height: 1;
+        margin-left: 10px;
+        vertical-align: middle
+    }
+    
+}
+
+
+/* FOR MOBILE */
+@media only screen and (max-width: 767px) {
+    .landing-xs-container,    
+    .landing-title-container {
+	max-width:310px;
+	margin: auto;
+    }
+    
+    .github-button .github-btn-container img {
+	width: 25px;
+	height: 25px;
+    margin-bottom: 5px;
+    margin-right: 10px;	      
+    }
+
+    .github-button .github-btn-container {
+	width: 160px;
+	height: 37.5px;
+    }
+
+    .github-button .github-btn-container .text {
+	display: inline-block;
+	line-height: 37.5px;
+    }
+
+    .buttons-row {
+	margin-top: 30px;
+	margin-bottom: 33px;	
+    }
+
+
+    .features-block .title {
+	margin-top: 70px;
+	margin-bottom: 35px;
+    }
+
+
+    .features-block .img-container img {
+	height: 90px;
+    }
+
+    .feature-title {
+	font-size: 16px;
+	font-family: 'SF Display Bold';
+	margin-top: 15px;
+	margin-bottom: 14px;
+    }
+
+    .feature-text {
+	font-size: 14px;
+	font-family: 'SF Display Regular';
+	line-height: 1.4;
+	text-align: left;
+	margin-bottom: 35px;	
+    }
+
+    .wallets-block {
+	margin-top: 75px;
+    }
+
+    .wallets-block .title {
+	margin-bottom: 50px;
+    }
+
+    .wallets-block .wallet-name {
+	font-size: 16px;
+	font-family: 'SF Display Medium';
+    }
+
+    .recommended-wallet div {
+	display: inline-block;
+	font-size: 14px;
+	font-family: 'SF Display Regular';
+	color: #2bc64f;
+	height: 38px;
+	margin-left: 8px;
+	padding-top: 10px;
+    }
+
+    .wallets-block .second-col {
+	margin-bottom: 30px;
+    }
+
+    .wallets-block .wallets-row {
+	margin-left: -60px;
+    }
+
+    .reach-us-block .title {
+	margin-top: 75px;
+	margin-bottom: 35px;
+    }
+
+    .reach-us-block a span {
+	font-size: 16px;
+	font-family: 'SF Display Bold';
+	display: inline;
+	line-height: 1;
+	margin-left: 10px;
+    }
+
+    .reach-us-block .second-col {
+	margin-bottom:35px;
+	margin-top:35px;	
+    }
+
+    .reach-us-block .third-col {
+	margin-bottom:75px;
+    }
+
+    .gitButton {
+	background-color: #0099ff;
+	border-radius: 12px;
+	padding-bottom: 2px;
+	padding-top: 7px;
+	padding-left:10px;
+    width: 245px;
+    height: 44px;
+    }
+
+    .git-text-white { 
+        color: #fff;
+        margin-top: 3px;
+        margin-left: 5px;
+        font-size: 16px;
+        font-family: 'SF Display Bold';
+        display: inline;
+        line-height: 1;
+        vertical-align: middle
+    }
+    
+
+}
+
