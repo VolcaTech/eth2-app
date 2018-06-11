@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Faq from './Faq';
-import Footer from './../components/common/Footer';
+import Footer from './../../components/common/Footer';
 import { Grid, Row, Col } from 'react-bootstrap';
 import './faq.css';
 

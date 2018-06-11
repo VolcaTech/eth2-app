@@ -1,5 +1,5 @@
 import React from "react";
-import GotStuck from './../components/common/GotStuck';
+import GotStuck from './../../components/common/GotStuck';
 import Summary from './Summary';
 import Terms from './Terms';
 
