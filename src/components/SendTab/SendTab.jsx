@@ -104,7 +104,6 @@ class Tab extends Component {
             });
             this.props.history.push(`/transfers/${transfer.id}`);
         } catch (err) {
-            console.log(err);
             let errorMsg = err.message;
             if (err.isOperational) errorMsg = "User denied transaction";
             this.setState({ fetching: false, errorMessage: errorMsg });
@@ -118,7 +117,6 @@ class Tab extends Component {
         // hack for issue with phonenumber lib - https://github.com/bl00mber/react-phone-input-2/issues/10	
         let phone = this.phoneNumber.state.formattedNumber;
 
-	console.log({phone, })
         // remove formatting from phone number
         phone = "+" + phone.replace(/\D+/g, "");
 
@@ -128,7 +126,6 @@ class Tab extends Component {
         formatter.input(phone);
         const phoneCode = formatter.country_phone_code;
 	
-	console.log({phone, phoneCode})	
         //format balance
         let balance;
         const web3 = web3Service.getWeb3();

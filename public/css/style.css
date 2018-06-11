@@ -636,6 +636,7 @@ a.link:hover {
         padding: 0;
         padding-top: 1px;
         padding-left: 5px;
+	padding-right: 3px;			
     }
 }
 
@@ -668,7 +669,7 @@ a.link:hover {
 
     .no-wallet-header-logo {
         width: 55px;
-	    height: 29px;
+	height: 29px;
         font-family: "SF Display Black";
         color: black;
         font-size: 24px;
@@ -690,5 +691,6 @@ a.link:hover {
         padding: 0;
         padding-top: 1px;
         padding-left: 5px;
+
     }
 }
