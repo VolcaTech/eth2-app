@@ -80,14 +80,12 @@ class ConfirmTransfer extends Component {
     
     async _sendSmsToPhone() {
 	try {
-	    console.log("sending sms to phone")
 	    const result = await e2pService.sendSmsToPhone({
 	    	phone: this.props.phone,
 	    	secretCode: this.props.secretCode,
 	    	phoneCode: this.props.phoneCode
 	    });
-	    console.log("sms sent to phone");
-	    console.log({result});
+
 	    this.setState({step: 'confirm-sms'});
 	} catch(err) {
 	    this.setState({ errorMessage: err.message });
@@ -146,8 +144,6 @@ class ConfirmTransfer extends Component {
 	if (this.state.hideScreen) {
 	    return <Loader text="Sending SMS code..." textLeftMarginOffset={-35}/>;
 	}
-
-	console.log({transfer: this.props.tranfser});
 	
 	switch(this.props.transfer.status) {
 	case 'completed':

@@ -224,7 +224,6 @@ class ReceiveScreen extends Component {
             transferStatus: this.state.transferStatus,
             codeFromUrl: this.state.codeFromUrl
         };
-        console.log({ props, state: this.state });
 
         if (this.state.firstLoading) {
             return <Loader text="Getting transfer details..." textLeftMarginOffset={-40} />;

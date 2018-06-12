@@ -2,7 +2,7 @@ export function getQueryParams(search) {
     var key = false, res = {}, itm = null;
     // get the query string without the ?
     var qs = search.substring(1);
-    console.log({qs});
+
     // check for the key as an argument
     if (arguments.length > 0 && arguments[0].length > 1)
 	key = arguments[0];

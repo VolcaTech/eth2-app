@@ -101,9 +101,9 @@ class ConfirmSmsForm extends Component {
                 secretCode: this.props.secretCode,
                 smsCode: this.state.smsCode
             };
-            console.log({ withdrawParams });
+
             const transfer = await this.props.withdrawTransfer(withdrawParams);
-            console.log({ transfer });
+
             this.props.history.push(`/transfers/${transfer.id}`);
         } catch (err) {
             console.log({ err });
@@ -121,7 +121,6 @@ class ConfirmSmsForm extends Component {
     _sendSmsAgain() {
         this.setState({ timer: false, smsButtonDisabled: true, fetching: true, errorMessage: "" });
         setTimeout(async () => {
-            console.log("sending sms");
             try {
                 const result = await sendSmsToPhone({
                     phone: this.props.phone,

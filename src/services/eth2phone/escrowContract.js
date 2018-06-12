@@ -6,7 +6,7 @@ import web3Service from "../web3Service";
 
 const EscrowContractService = () => {
     var web3, contractInstance, deployed, contractWeb3;    
-    const FIXED_COMMISSION = 0.01;
+    const FIXED_COMMISSION = 0;
 
     function _parseTransfer(result) {
 	return {
@@ -36,7 +36,6 @@ const EscrowContractService = () => {
 	const commission = web3.toWei(FIXED_COMMISSION, 'ether');
 	const amountWithCommissionWei = web3Service.toBigNumber(web3Service.toWei(amount, "ether")).plus(commission);
 	const amountWithCommission = web3Service.fromWei(amountWithCommissionWei, 'ether');
-	console.log({commission, amountWithCommissionWei, amountWithCommission});
 	return {commission, amountWithCommission};
     }
     
@@ -61,7 +60,6 @@ const EscrowContractService = () => {
     
     function getWithdrawalEvents(address, fromBlock){
 	return new Promise((resolve, reject) => {
-	    console.log({contractInstance, address});
 	    const eventsGetter = contractWeb3.LogWithdraw({'sender': address}, { fromBlock, toBlock: 'latest', address: contractInstance.address });
 	    eventsGetter.get((error, response) => {
 		if (error) { return reject(error); }

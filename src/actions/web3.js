@@ -49,7 +49,6 @@ export const setupWeb3 = () => {
 		console.log(err);
 	    }
 
-	    console.log("here")
 	    dispatch(updateWeb3Details(web3Details));
 
 	} catch(err) {

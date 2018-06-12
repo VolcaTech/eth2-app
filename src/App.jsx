@@ -97,7 +97,6 @@ class App extends Component {
 
 
 function mapStateToProps(state) {
-    console.log({state});    
     let balance, contractAddress;
     const web3 = web3Service.getWeb3();
     if (state.web3Data.balance) {

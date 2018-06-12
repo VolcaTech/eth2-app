@@ -37,7 +37,6 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress
     }
     
     // 3. send deposit to smart contract
-    console.log({result, amountToPay, transitAddress, contract: escrowContract.getContractAddress()});
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
     return { txHash, secretCode, transferId, transitAddress };
 }
@@ -92,7 +91,7 @@ export const verifyPhoneAndWithdraw = async ({phoneCode, phone, secretCode, smsC
 	receiverAddress,
 	v, r, s);
 
-    console.log({result});
+
     if (!result.success) {
 	throw new Error((result.errorMessage || "Server error on withdrawal!"));
     }
