@@ -22,7 +22,6 @@ const styles = {
         display: 'block',
         backgroundColor: 'white',
         alignItems: 'center',
-        borderTop: '2px solid #f5f5f5',
         marginBottom: 10
     },
     headerLogo1: {
