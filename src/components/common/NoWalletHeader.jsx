@@ -4,9 +4,6 @@ import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-route
 
 
 const styles = {
-    notConnectedButton: {
-
-    },
     redDot: {
         display: 'inline',
         color: '#e64437',
@@ -50,7 +47,8 @@ const NoWalletHeader = () => {
         window.location.hash === '#/' ||        
         window.location.hash === '#/about' ||
         window.location.hash === '#/faq' ||
-        window.location.hash === '#/tos'
+        window.location.hash === '#/tos' ||
+        window.location.hash === '#/privacy'
     ) {
         headerLogoClass = "no-wallet-header-logo-desktop";
         headerButtonClass = "not-connected-button-desktop";
@@ -59,7 +57,7 @@ const NoWalletHeader = () => {
         <Grid>
             <Row className="header-row">
                 <Col xs={12}>
-                    <Row style={styles.headerRow}>
+                    <Row className="no-wallet-header-row">
                         <Col xs={6} style={{ padding: 0 }}>
                             <Link className="no-underline" to="/" onClick={() => {
                                 if (window.location.hash && window.location.hash.length < 3) {
