@@ -3,7 +3,7 @@ import React from "react";
 const questions = [
     {
         question: "What is Eth2phone about?",
-        answer: "Eth2Phone service allows you to send Ether to anyone simply identifying them by the phone number. The only requirement for this transaction is for you to have the Web3 compatible Ethereum wallet with sufficient balance and the phone number of the person you are willing to send Ether to. You will have to share a special message with the receiver with the link containing all the instructions, following which she or he will download the wallet (or use existing one) and receive assets to it. For more info on sending and receiving Ether please check the questions below."
+        answer: "Eth2Phone service allows you to send ether to anyone simply identifying them by the phone number. The only requirement for this transaction is for you to have the Web3 compatible Ethereum wallet with sufficient balance and the phone number of the person you are willing to send ether to. You will have to share a special message with the receiver with the link containing all the instructions, following which she or he will download the wallet (or use existing one) and receive assets to it. For more info on sending and receiving ether please check the questions below."
     },
     {
         question: "How to send Ether?",
@@ -96,7 +96,7 @@ Press “Confirm” to proceed<br/>
         answer: (
 <div>
   (for the sender if his transaction was failed)<br/><br/>
-  If your transaction has failed one of the most common reasons is that you haven’t set enough GAS for it. The right way to correct it is to send Ether using our system again, but this time you should set the higher gas price in the transaction settings when sending.<br/><br/>
+  If your transaction has failed one of the most common reasons is that you haven’t set enough GAS for it. The right way to correct it is to send ether using our system again, but this time you should set the higher gas price in the transaction settings when sending.<br/><br/>
   According to the wallet that you are using — please pay attention to the GWEI section and set it up to 20 to be sure that your transaction will be mined and thus successful.
 </div>
 )
@@ -105,15 +105,15 @@ Press “Confirm” to proceed<br/>
         answer: "As written above, we provide what we call “deep integration” with wallet services. We look forward to making as many users use the service as possible and will be happy to cooperate with your wallet if you have an intention to integrate Eth2Phone in. We also have many ideas on how the solution can be useful to you as wallet project owner, enhance user retention and bring potential of future profits. Please contact us at info@eth2.io if that refers to you."
     }, {
         question: "Is Eth2Phone fully trustless?",
-        answer: "We acknowledge that our solution is not fully decentralized. You have to trust centralised entity to perform verification (SMS-verification), but Ether transfers are trustless."
+        answer: "We acknowledge that our solution is not fully decentralized. You have to trust centralised entity to perform verification (SMS-verification), but ether transfers are trustless."
     }, {
-        question: "How Ether transfers are trustless?",
+        question: "How ether transfers are trustless?",
         answer: (
 <div>
 Before transferring Ether, Sender generates Transit Ethereum address and corresponding private key. <br/><br/>
 
 
-Then Sender deposit Ether to Escrow Smart Contract and assigns the Transit Address. Escrow Smart Contract is designed in such way that on withdrawal Recipient’s address should be signed by the Transit Private Key.<br/><br/>
+Then Sender deposit ether to Escrow Smart Contract and assigns the Transit Address. Escrow Smart Contract is designed in such way that on withdrawal Recipient’s address should be signed by the Transit Private Key.<br/><br/>
 
 
 Sender encrypts Transit Private Key with random secret code, transmits the code to the Receiver and Transit Keystore (private key encrypted with the code)  to Verification Server.<br/><br/>
@@ -122,7 +122,7 @@ Sender encrypts Transit Private Key with random secret code, transmits the code 
 After Receiver confirms his phone number via SMS-auth, the Verification Server provides Transit Keystore to Receiver. Now Receiver is able to decrypt it and get the Transit Private Key.<br/><br/>
 
 
-Then Receiver signs address of his choice with the Transit Private Key and sends signed address to the Verification Server, which calls Escrow Smart Contract to initiate the withdrawal. Not at any point in time Verification Server has the Verification Private Key, thus not able to withdraw the Ether to illegal address.<br/><br/>
+Then Receiver signs address of his choice with the Transit Private Key and sends signed address to the Verification Server, which calls Escrow Smart Contract to initiate the withdrawal. Not at any point in time Verification Server has the Verification Private Key, thus not able to withdraw the ether to illegal address.<br/><br/>
 
 </div>
 )
@@ -131,7 +131,7 @@ Then Receiver signs address of his choice with the Transit Private Key and sends
         answer: "Attacker should get Transit Keystore from Verification Server in order to withdraw Ether. Without confirming phone number she will not get Transit Keystore from Verification Server."
     }, {
         question: "What if our server is compromised?",
-        answer: "The Verification Server has no control over Ether locked in Escrow Smart Contract. Even if verification server is compromised, in worst case scenario, receiver will not be able to receive transfer. At the same time, sender can cancel transfer with a call to Escrow Smart Contract and get the Ether back."
+        answer: "The Verification Server has no control over ether locked in Escrow Smart Contract. Even if verification server is compromised, in worst case scenario, receiver will not be able to receive transfer. At the same time, sender can cancel transfer with a call to Escrow Smart Contract and get the ether back."
     }, {
         question: "Will my phone be stored on blockchain and linked to my Ethereum address?",
         answer: "No, verification is done off-chain."
