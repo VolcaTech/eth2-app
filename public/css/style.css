@@ -577,7 +577,7 @@ a.link:hover {
 
 @media only screen and (min-width: 375px) {
     .title { 
-	font-size: 24px;
+	font-size: 36px !important;
     }
 }
 
@@ -641,6 +641,15 @@ a.link:hover {
         background-color: #f5f5f5;
     }
 
+    .no-wallet-header-row {
+        height: 70px;
+        display: block;
+        background-color: white;
+        align-items: center;
+        border-top: 2px solid #f5f5f5;
+        margin-bottom: 87px;
+    }
+
     .no-wallet-header-logo-desktop {
 	width: 55px;
 	height: 29px;
@@ -694,6 +703,15 @@ a.link:hover {
         padding-top: '5%';
         padding-right: '7%';
         background-color: #f5f5f5;
+    }
+
+    .no-wallet-header-row {
+        height: 44px;
+        display: block;
+        background-color: white;
+        align-items: center;
+        border-top: 2px solid #f5f5f5;
+        margin-bottom: 53px;
     }
 
     .no-wallet-header-logo-desktop {

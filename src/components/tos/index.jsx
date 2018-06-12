@@ -30,7 +30,7 @@ class e2pTos extends React.Component {
     render() {
         return (
             <div style={styles.container}>
-                <div style={styles.title}>Terms of Service</div>
+                <div className="title">Terms of Service</div>
                 <div style={styles.updated}>Last Updated: May 16, 2018</div>                
                 <div style={{ display: 'block', width: '100%', }}><Summary /></div>
                 <GotStuck/>                

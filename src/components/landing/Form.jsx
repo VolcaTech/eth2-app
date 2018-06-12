@@ -9,7 +9,6 @@ import RetinaImage from 'react-retina-image';
 
 const styles = {
     titleContainer: {
-	marginTop: 41
     },
     subTitleContainer: {
 	marginTop: 25

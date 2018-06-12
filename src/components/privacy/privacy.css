@@ -1,0 +1,14 @@
+.privacy-container {
+    width: 75%;
+    margin: auto
+}
+
+/* FOR DESKTOP */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* FOR MOBILE */
+@media only screen and (max-width: 767px) {
+
+}
