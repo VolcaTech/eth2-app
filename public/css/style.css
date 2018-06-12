@@ -498,6 +498,7 @@ li:focus,
 .title {
     font-family: 'SF Display Black';
     line-height: 1.17;
+    margin-top: 41px;
 }
 
 
@@ -577,7 +578,7 @@ a.link:hover {
 
 @media only screen and (min-width: 375px) {
     .title { 
-	font-size: 36px !important;
+	font-size: 24px
     }
 }
 
@@ -641,13 +642,16 @@ a.link:hover {
         background-color: #f5f5f5;
     }
 
+    .title {
+        font-size: 36px;
+    }
+
     .no-wallet-header-row {
         height: 70px;
         display: block;
         background-color: white;
         align-items: center;
         border-top: 2px solid #f5f5f5;
-        margin-bottom: 87px;
     }
 
     .no-wallet-header-logo-desktop {
@@ -711,7 +715,6 @@ a.link:hover {
         background-color: white;
         align-items: center;
         border-top: 2px solid #f5f5f5;
-        margin-bottom: 53px;
     }
 
     .no-wallet-header-logo-desktop {
