@@ -66,9 +66,7 @@
 
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
-    .header-row {
-        margin-bottom: 87px;        
-    }
+
 
     .header-big .balance {
 	right: 0;
@@ -119,9 +117,7 @@
 
 /* FOR MOBILE */
 @media only screen and (max-width: 767px) {
-    .header-row {
-        margin-bottom: 35px;        
-    }
+
 
     .address-btn {
     }

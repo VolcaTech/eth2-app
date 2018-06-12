@@ -42,7 +42,7 @@ const styles = {
 const NoWalletHeader = () => {
     let headerLogoClass = 'no-wallet-header-logo';
     let headerButtonClass = 'not-connected-button';
-    
+    let headerClass = 'header';
     if (window.location &&
         window.location.hash === '#/' ||        
         window.location.hash === '#/about' ||
@@ -52,9 +52,10 @@ const NoWalletHeader = () => {
     ) {
         headerLogoClass = "no-wallet-header-logo-desktop";
         headerButtonClass = "not-connected-button-desktop";
+        headerClass += " header-big";
     }
     return (
-        <Grid>
+        <Grid className={headerClass}>
             <Row className="header-row">
                 <Col xs={12}>
                     <Row className="no-wallet-header-row">
