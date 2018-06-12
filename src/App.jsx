@@ -13,7 +13,6 @@ import HistoryScreen from './components/HistoryScreen';
 import Landing from './components/landing';
 import FAQ from './components/faq';
 import TOS from './components/tos';
-import e2pLogo from './assets/images/eth2phone-logo.png';
 import PrivacyPolicy from './components/privacy';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
@@ -29,21 +28,6 @@ class App extends Component {
                 <UnsupportedNetwork />
             </div>
         );
-    }
-
-    _renderNoAddress() {
-	return (
-	    <div>
-	      <div style={{ alignContent: 'center' }}>
-		<div><img src={e2pLogo} style={styles.e2pLogo} /></div>
-		<div style={styles.title}>Web3 wallet is locked</div>
-		<div style={styles.instructionsContainer}>
-		  <div style={styles.instructionsText}>Check that your web3 wallet (i.e. Metamask) is unlocked.
-		  </div>
-		</div>
-	      </div>
-	    </div>
-	);
     }
 
     _renderStaticRouter() {
@@ -69,16 +53,12 @@ class App extends Component {
             return (<Loader />);
         }
 
-        if (!this.props.connected) {
+        if (!this.props.connected || !this.props.address) {
             return this._renderStaticRouter();
         }
 
         if (this.props.networkId != "3" && this.props.networkId != "1") {
             return this._renderWrongNetwork();
-        }
-
-        if (!this.props.address) {
-            return this._renderNoAddress();
         }
 
         return (
@@ -113,17 +93,6 @@ class App extends Component {
 
         );
     }
-}
-
-
-const styles = {
-    e2pLogo: { display: 'block', margin: 'auto', marginTop: 150, marginBottom: 35 },    
-    title: { fontSize: 18, display: "block", margin: "auto", width: 319, fontFamily: "SF Display Black", textAlign: 'center' },
-    supported: { fontSize: 18, display: "block", margin: "auto", width: 163, marginTop: 61, fontFamily: "SF Display Black" },
-    instructionsText: { fontFamily: "SF Display Regular", fontSize: 12, opacity: 0.8 },
-    instructionsContainer: { width: 290, height: 41, display: "flex", margin: "auto", textAlign: 'center', verticalAlign: "text-top", marginTop: 33, flexDirection: "column", justifyContent: "space-between" },
-    linkText: { display: "inline-block", fontSize: 12, fontFamily: "SF Display Bold", color: "#0099ff" },
-    ethereum: { display: "block", fontSize: 12, fontFamily: "SF Display Bold", opacity: 1, marginLeft: 3 }
 }
 
 
