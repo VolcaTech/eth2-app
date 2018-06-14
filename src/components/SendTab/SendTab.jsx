@@ -181,8 +181,45 @@ class Tab extends Component {
                 <Col sm={4} smOffset={4}>
 
                     <div>
+                        <div style={styles.title}>Send ether to anyone<br />simply by phone number</div>
                         <div style={styles.container}>
-			  <div className="text">Service is at maintenance. Deposits are temporarily stopped. </div>
+                            <div>
+                                <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
+                                 _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError}/>
+                            </div>
+                            <div style={styles.numberInput}>
+                                <NumberInput
+                                    onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: ""})
+                                )}
+                                    disabled={false}
+                                    fontColor='#000000'
+                                    backgroundColor='#fff'
+                                    style={{ touchInput: 'manipulation' }}
+                                    placeholder="ETH amount"
+                                    error={this.state.numberInputError}
+                                />
+                            </div>
+                            
+                            <div style={styles.sendButton}>
+                                <ButtonPrimary
+                                    handleClick={this._onSubmit.bind(this)}
+                                    buttonColor={this.state.fetching ? styles.blueOpacity : styles.blue}
+                                   disabled={this.state.buttonDisabled}>
+                {this.state.fetching ? <ButtonLoader/> : "Send"}
+                                   
+				</ButtonPrimary>
+				
+				{(this.state.fetching || this.state.errorMessage) ? (<Error
+								 fetching={this.state.fetching}
+											    error={this.state.errorMessage}/>) :
+				 <div style={styles.betaContainer}>
+				 <span style={styles.betaText}>
+				 *In beta you can send
+				 <span style={styles.betaBold}> 1 ETH</span> max
+				 </span>
+				 </div> }	  
+			    </div>
+			    <CheckBox onSubmit={() => this.state.checked === false ? this.setState({ checked: true, buttonDisabled: false, checkboxTextColor: '#000' }) : this.setState({ checked: false, buttonDisabled: false, checkboxTextColor: '#000' })} textColor={this.state.checkboxTextColor} />
                         </div>
                     </div>
                 </Col>
