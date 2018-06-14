@@ -307,8 +307,8 @@ contract e2pEscrow is Stoppable, SafeMath {
     Transfer memory transferOrder = transferDct[_transitAddress];
 
     // verifying signature
-    (verifySignature(_transitAddress,
-		     _recipient, _v, _r, _s ));
+    require(verifySignature(_transitAddress,
+    		     _recipient, _v, _r, _s ));
 
     delete transferDct[_transitAddress];
 
