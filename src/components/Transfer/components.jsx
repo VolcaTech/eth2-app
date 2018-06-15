@@ -71,7 +71,7 @@ export const ShareButton = ({transfer}) => {
                 copy(shareText);
                 alert("The link is copied to your clipboard. Share the link with receiver");
             }}>
-            Copy
+            Copy & Share
 	  </ButtonPrimary>
         </div>
     );
