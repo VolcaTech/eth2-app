@@ -98,12 +98,16 @@ class NoWalletScreen extends Component {
             disabled: true,
             deepLink: false
         };
-
+    }
+    componentDidMount() {
         this._getDeepLink();
     }
-
+    
     async _getDeepLink() {
-        const { url: deepLink }  = await getDeepLinkForTrustWallet(window.location.href);
+        //const { url: deepLink }  = await getDeepLinkForTrustWallet(window.location.href );
+	console.log({location: window.location});
+	var dappUrl = window.location.origin + '/r.html' + window.location.hash.substring(3); // remove "/#/r" from hash'
+	const deepLink = `https://tokenpocket.github.io/applink?dappUrl=${dappUrl}`;
         this.setState({ deepLink });
     }
 
