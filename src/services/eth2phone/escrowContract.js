@@ -2,7 +2,7 @@ import Promise from "bluebird";
 import e2pEscrow from '../../../build/contracts/e2pEscrow.json';
 const contract = require('truffle-contract');
 import web3Service from "../web3Service";
-
+const CONTRACT_ADDRESS_V1 =  '0xef0469e78c6537a7239470b752653345c873a3fb'; // old contract
 
 const EscrowContractService = () => {
     var web3, contractInstance, deployed, contractWeb3;    
@@ -48,13 +48,20 @@ const EscrowContractService = () => {
 	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount});
     }
     
-    function cancel(transitAddress){	
+    function cancel(transitAddress, contractVersion = 2){	
 	if (!deployed) {
 	    alert("E2P Escrow Contract is not deployed to selected network!");
 	    return null;
-	}	
-	// return contractInstance.cancelTransfer( transferId, {from: web3.eth.accounts[0]});
-	return contractWeb3.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
+	}		
+	
+	if (contractVersion === 1) {
+	    // legacy contract
+	    const oldContract = web3.eth.contract(contractInstance.abi).at(CONTRACT_ADDRESS_V1);
+		Promise.promisifyAll(oldContract, { suffix: "Promise" });	    
+	    return oldContract.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
+	} else {
+	    return contractWeb3.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
+	}
     }
 
     

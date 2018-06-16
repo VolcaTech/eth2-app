@@ -149,8 +149,18 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 
 
 export const cancelTransfer = (transfer) => {
-    return async (dispatch, getState) => {		
-	const txHash = await e2pService.cancelTransfer(transfer.transitAddress);
+    return async (dispatch, getState) => {
+
+	const state = getState();
+	
+	// take contract redeploy into account
+	let contractVersion;
+	const contractRedeployTimestamp = 1529011666000;
+	if (transfer.timestamp && transfer.timestamp < contractRedeployTimestamp) {
+	    contractVersion = 1;
+	}
+	
+	const txHash = await e2pService.cancelTransfer(transfer.transitAddress, contractVersion);
 
 	dispatch(updateTransfer({
 	    status: "cancelling",

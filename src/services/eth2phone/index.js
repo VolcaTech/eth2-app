@@ -42,7 +42,7 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress
 }
 
 
-export const cancelTransfer = ((transitAddress) => escrowContract.cancel(transitAddress));
+export const cancelTransfer = ((transitAddress, contractVersion) => escrowContract.cancel(transitAddress, contractVersion));
 export const getAmountWithCommission = ((amount) => escrowContract.getAmountWithCommission(amount));
 export const getWithdrawalEvents = ((address, fromBlock) => escrowContract.getWithdrawalEvents(address, fromBlock));
 
