@@ -58,7 +58,7 @@ const DepositedScreen = ({transfer}) => {
 
 	    <div style={styles.subTitleContainer}>
 	      <div className="text">
-		You can copy the link with the code below<br/>
+		Copy the link with the code below<br/>
 		and share it with the receiver. You can cancel the<br/>
 		transfer later in "Transfers"
 	      </div>	      
