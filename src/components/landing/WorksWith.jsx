@@ -44,7 +44,7 @@ class WorksWith extends React.Component {
 			  <RetinaImage style={{ verticalAlign: 'baseline', marginBottom: -5}} src="https://eth2.io/images/featured_icon_blue.png" />
 			  <div className="recommended-text-block">
                             <div>Featured in</div>
-			    <div>Dapp store</div>
+			    <div>DApp store</div>
 			  </div>
 			</div>
 			
