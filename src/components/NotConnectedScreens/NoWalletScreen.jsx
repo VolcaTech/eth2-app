@@ -167,13 +167,14 @@ const WalletsList = () => {
                     <div style={styles.logoText}>Metamask</div>
                 </div>
                 <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/cipher.png" />		  		  
-                    <div style={styles.logoText}>Cipher</div>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/toshi.png" />		  		  
+                  <div style={styles.logoText}>Toshi</div>
                 </div>
                 <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/toshi.png" />		  		  
-                    <div style={styles.logoText}>Toshi</div>
+		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/token_pocket.png" />		  		  
+                    <div style={styles.logoText}>Token Pocket</div>
                 </div>
+		
             </div>
         </div>
     )

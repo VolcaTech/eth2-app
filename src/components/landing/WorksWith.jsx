@@ -50,8 +50,8 @@ class WorksWith extends React.Component {
 			
                       </Col>
 		        <Col xs={6} sm={3}>
-			  <RetinaImage style={styles.logo} src="https://eth2.io/images/cipher.png" />
-			  <div className="wallet-name">Cipher</div>
+			  <RetinaImage style={styles.logo} src="https://eth2.io/images/token_pocket.png" />
+			  <div className="wallet-name">Token Pocket</div>
 			</Col>
 
 		    </Row>
