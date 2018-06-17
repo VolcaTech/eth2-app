@@ -1,4 +1,4 @@
-/* COMMON FOR MOBILE AND DESCTOP */
+/* COMMON FOR MOBILE AND DESCTOP */.recommended-text-block
 .github-button {
     text-decoration: none;
     color: #000
@@ -50,6 +50,17 @@ border: 2px solid #007ACC !important;
 .reach-us-block a span:hover {
     color: #007acc !important;
 }
+
+.recommended-text-block {
+    font-family: 'SF Display Regular';
+    color: #2bc64f;
+}
+
+.recommended-wallet-blue .recommended-text-block {
+    color: #0099ff;
+}
+
+
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
     .landing .title {
@@ -146,16 +157,16 @@ border: 2px solid #007ACC !important;
 	margin-top: 15px;
     }
     
-    .recommended-wallet div {
+    .recommended-wallet .recommended-text-block {
 	display: inline-block;
 	font-size: 16px;
-	font-family: 'SF Display Regular';
-	color: #2bc64f;
-	height: 38px;
+	line-height: 16px;
 	margin-left: 8px;
 	padding-top: 10px;
+	text-align: left;
     }
 
+    
     .reach-us-block .title {
 	margin-top: 120px;
 	margin-bottom: 80px;
@@ -216,8 +227,8 @@ border: 2px solid #007ACC !important;
     .github-button .github-btn-container img {
 	width: 25px;
 	height: 25px;
-    margin-bottom: 5px;
-    margin-right: 10px;	      
+	margin-bottom: 5px;
+	margin-right: 10px;	      
     }
 
     .github-button .github-btn-container {
@@ -274,12 +285,10 @@ border: 2px solid #007ACC !important;
 	font-family: 'SF Display Medium';
     }
 
-    .recommended-wallet div {
+    .recommended-wallet .recommended-text-block {
 	display: inline-block;
 	font-size: 14px;
-	font-family: 'SF Display Regular';
-	color: #2bc64f;
-	height: 38px;
+	line-height: 14px;
 	margin-left: 8px;
 	padding-top: 10px;
     }

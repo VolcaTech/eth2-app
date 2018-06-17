@@ -30,21 +30,30 @@ class WorksWith extends React.Component {
 			<RetinaImage style={styles.logo} src="https://eth2.io/images/trust.png" />
 			<div className="wallet-name">Trust</div>
 			<div className="recommended-wallet">
-			  <RetinaImage style={{ verticalAlign: 'baseline'}} src="https://eth2.io/images/good.png" />
-			  <div style={{textAlign: 'left'}}>
-                            Integration &<br/> Partnership
+			  <RetinaImage style={{ verticalAlign: 'baseline', marginBottom: -5}} src="https://eth2.io/images/good.png" />
+			  <div className="recommended-text-block">
+                            <div>Integration &</div>
+			    <div>Partnership</div>
 			  </div>
 			</div>
                       </Col>
-		  
-                      <Col xs={6} sm={3}>
-			<RetinaImage style={styles.logo} src="https://eth2.io/images/cipher.png" />
-			<div className="wallet-name">Cipher</div>
-                      </Col>
-                      <Col xs={6} sm={3}>
+		      <Col xs={6} sm={3}>
 			<RetinaImage style={styles.logo} src="https://eth2.io/images/toshi.png" />
 			<div className="wallet-name">Toshi</div>
-                      </Col>		    
+			<div className="recommended-wallet recommended-wallet-blue">
+			  <RetinaImage style={{ verticalAlign: 'baseline', marginBottom: -5}} src="https://eth2.io/images/featured_icon_blue.png" />
+			  <div className="recommended-text-block">
+                            <div>Featured in</div>
+			    <div>Dapp store</div>
+			  </div>
+			</div>
+			
+                      </Col>
+		        <Col xs={6} sm={3}>
+			  <RetinaImage style={styles.logo} src="https://eth2.io/images/cipher.png" />
+			  <div className="wallet-name">Cipher</div>
+			</Col>
+
 		    </Row>
 		  </Col>
                 </Row>
