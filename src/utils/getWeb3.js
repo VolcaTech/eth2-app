@@ -13,11 +13,7 @@ const getWeb3 = () => {
 		console.log('Injected web3 detected.');
 		
 	    } else {
-		// Fallback to Infura node if no web3 injection.
-		// var provider = new Web3.providers.HttpProvider('https://ropsten.infura.io');
-		
-		// web3 = new Web3(provider);
-		console.log('No web3 instance injected, using Ropsten Web3.');	  	    
+		console.log('No web3 instance injected.');	  	    
 	    }
 	    
 	    resolve(web3);
