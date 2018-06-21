@@ -39,23 +39,21 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "sent":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={{ ...styles.statusCell.statusText }}>Sent</div>
+                    <div style={{ ...styles.statusCell.statusText }}>Claimed</div>
                 </div>
             );
             break;
         case "receiving":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={styles.statusCell.statusText}>Receiving...</div>
-
+                    <div style={styles.statusCell.statusText}>Claiming...</div>
                 </div>
             );
             break;
         case "received":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={{ ...styles.statusCell.statusText, color: '#2bc64f' }}>Received</div>
-
+                    <div style={{ ...styles.statusCell.statusText, color: '#2bc64f' }}>Claimed</div>
                 </div>
             );
             break;
