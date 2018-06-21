@@ -3,6 +3,7 @@ import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { parse, format, asYouType } from 'libphonenumber-js';
+import ButtonPrimary from './../../components/common/ButtonPrimary';
 
 const styles = {
     titleContainer: {
@@ -10,7 +11,9 @@ const styles = {
 	marginBottom: 12
     },
     buttonContainer: {
-	marginTop: 70
+	width: '70%',
+	margin: 'auto',
+	marginTop: 70,	
     },    
     helpContainer: {
 	marginTop: 27
@@ -38,9 +41,9 @@ const CompletedSentScreen = ({transfer}) => {
 	  <div className="text-center">
 	    <div style={styles.titleContainer}>
 	      <div className="title">
-		Receiver got <span className="text-blue">{transfer.amount}</span>
+		Receiver claimed <span className="text-blue">{transfer.amount}</span>
 		<span className="text-gray"> ETH</span><br/>
-		by {formattedPhone}
+		with {formattedPhone}
 	      </div>	      
 	    </div>
 
@@ -48,11 +51,9 @@ const CompletedSentScreen = ({transfer}) => {
 	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
 	    </div>
-	    <div style={styles.buttonContainer}>
-	      <Link to="/"  className="btn-inverted no-underline">
-		<div>
-		  <span>Send more Ether</span>
-		</div>
+	    <div style={styles.buttonContainer}>	      
+	      <Link to="/" className="send-button no-underline">
+		<ButtonPrimary buttonColor="#0099ff" className="landing-send">Send more Ether</ButtonPrimary>
 	      </Link>
 	    </div>
 	    

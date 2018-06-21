@@ -527,6 +527,12 @@ a.link:hover {
     text-decoration: none !important
 }
 
+.progress-bar-labels-row {
+    width: 320px;
+    margin-left: -10px;
+}
+
+
 /* IPHONE 5 */
 @media only screen and (max-width: 374px) {
     .title { 
@@ -535,6 +541,11 @@ a.link:hover {
 
     .hidden-iphone5 {
 	display: none !important;
+    }
+
+    .progress-bar-labels-row {
+	width: 310px;
+	margin-left: -5px;
     }
     
 }
@@ -614,6 +625,9 @@ a.link:hover {
 .faq-icon:focus img {
     filter: brightness(90%);
 }
+
+
+
 
 /* DESKTOP */
 @media only screen and (min-width: 768px) {
