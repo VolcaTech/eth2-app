@@ -42,6 +42,7 @@ export class TransferScreen extends Component {
                 <DepositedScreen transfer={transfer} />
             );	    
         case 'sent':
+        case 'completed':	    	    
             return (
                 <CompletedSentScreen transfer={transfer} />
             );

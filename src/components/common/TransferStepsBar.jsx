@@ -109,6 +109,7 @@ const styles = {
 //  - 'sent'
 //  - 'received'
 //  - 'cancelling'
+// - 'completed' (when redirected from URL)
 //  - 'cancelled'
 
 class e2pTransferBar extends React.Component {
@@ -121,6 +122,7 @@ class e2pTransferBar extends React.Component {
 	switch (status) {
 	case 'sent':
 	case 'received':
+	case 'completed':
 	case 'receiving':
 	    if (!isError) {
 		progBarStyle.width = 290;
@@ -182,7 +184,8 @@ class e2pTransferBar extends React.Component {
 	case 'received':
 	case 'receiving':
 	case 'sent':
-	case 'deposited':	    
+	case 'deposited':
+	case 'completed':	    	    
 	    return 'Deposited';
 	case 'cancelled':
 	    return 'Canceled';
@@ -214,7 +217,7 @@ class e2pTransferBar extends React.Component {
 	switch (status) { 
 	case 'sent': 
 	case 'received':
-	// case 'completed':	    
+	case 'completed':	    
 	    return (<div className="step-dot step-dot-green">
 		    <div className="step-dot-inner-2">
 		    <div className="step-dot-inner-3">
@@ -248,7 +251,7 @@ class e2pTransferBar extends React.Component {
 		return colors.black;
 	    case 'sent':
 	    case 'received':
-	    // case 'completed':		
+	    case 'completed':		
 		return colors.green;
 	    }
 	}

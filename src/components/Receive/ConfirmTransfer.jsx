@@ -109,7 +109,7 @@ class ConfirmTransfer extends Component {
 	    <div style={{flexDirection: 'column', alignItems: 'center'}}>
         <div style={{height: 250}}>
 	      <div style={styles.titleContainer}>
-		<span style={styles.title}>Receive ether</span>
+		<span style={styles.title}>Claim Ether</span>
 	      </div>
 	      
 	      <div style={styles.amountContainer}>
@@ -150,6 +150,7 @@ class ConfirmTransfer extends Component {
 	case 'cancelled':
 	case 'depositing':	    
 	case 'error':
+	    this.props.transfer.receiverPhone = this.props.phone;
 	    return (
 		<TransferScreen {...this.props}/>
 	    );

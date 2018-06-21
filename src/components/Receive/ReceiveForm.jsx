@@ -176,7 +176,7 @@ class ReceiveScreen extends Component {
         return (
             <div>            
                 <div style={styles.titleContainer}>
-                    <span style={{...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24}}>Receive ether</span>
+                    <span style={{...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24}}>Claim Ether</span>
                 </div>
 
                 {this.state.transfer && this.state.transfer.amount ?
