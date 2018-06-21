@@ -21,13 +21,17 @@ const styles = {
 	marginTop: 20
     },
     instructionsText: {
-	lineHeight: '25px',
+	lineHeight: '22px',
 	color: '#000000',
 	fontFamily: 'SF Display Bold',
 	fontSize: 16,
 	fontWeight: 700,
-	marginBottom: 20,
-	marginTop: 46
+	marginBottom: 15,
+	marginTop: 30
+    },
+    greenBold: {
+	color: '#2bc64f',
+	fontFamily: 'SF Display Bold'	
     }    
 }
 
@@ -84,7 +88,7 @@ const DepoisitingScreen = ({transfer}) => {
 	  <div className="text-center">
 	    <div style={styles.titleContainer}>
 	      <div className="title">
-		Transaction is processing…
+		Depositing Ether…
 	      </div>	      
 	    </div>
 
@@ -92,20 +96,34 @@ const DepoisitingScreen = ({transfer}) => {
 	      <div className="text">
 		It may take 1-2 min. You can close the screen<br/>
 		and check the status later in "Transfers"<br/>
-		Taking too long? <Link to="/faq" className="link">Retry with a higher gas price</Link>
 	      </div>
 	    </div>
 	    
-	    <div style={styles.helpContainer}>
+	    <div style={styles.instructionsText}>
+	      Receiver will need the link<br/>
+	      below to claim:
+	    </div>
+	    
+	    <div style={styles.buttonContainer}>
+	      <ShareButton transfer={transfer}/>
+	    </div>
+
+	    
+	    <div style={{...styles.subTitleContainer, marginTop: 15}}>
 	      <div className="text">
-		Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
+		We will not send the link to receiver<br/>
+		for security reasons. <span style={styles.greenBold}> You need to copy<br/>
+		and send the link directly to the receiver</span>
+	      </div>	      
+	    </div>
+
+	    <div style={styles.helpContainer} className="hidden-xs">
+	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
 	    </div>
 	    
-	    <div style={styles.instructionsText}>Copy link and share with receiver</div>
-	    <div style={styles.buttonContainer}>
-	      <ShareButton transfer={transfer}/>
-	    </div>	    	  
+
+	    
 	  </div>
 	</div>
     );

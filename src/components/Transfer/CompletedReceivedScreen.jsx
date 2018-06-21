@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { CAomponent } from 'react';
 import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import ButtonPrimary from './../../components/common/ButtonPrimary';
-import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 
 
 const styles = {
@@ -52,9 +51,9 @@ const CompletedReceivedScreen = ({transfer}) => {
 	      </div>	      
 	    </div>
 	    <div style={styles.buttonContainer}>
-	      <Link to="https://dapps.trustwalletapp.com/" className="send-button no-underline">
+	      <a href="https://dapps.trustwalletapp.com/" className="send-button no-underline">
 		<ButtonPrimary buttonColor="#0099ff" className="landing-send">How to spend</ButtonPrimary>		
-	      </Link>
+	      </a>
 	    </div>
 	    
 	  </div>
