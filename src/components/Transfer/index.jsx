@@ -52,7 +52,7 @@ export class TransferScreen extends Component {
             );
         case 'cancelling':
             return (
-                <cancellingscreen transfer={transfer} />
+                <CancellingScreen transfer={transfer} />
             );
         case 'cancelled':
             return (

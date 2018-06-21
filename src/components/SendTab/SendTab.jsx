@@ -181,7 +181,7 @@ class Tab extends Component {
                 <Col sm={4} smOffset={4}>
 
                     <div>
-                        <div style={styles.title}>Send ether to anyone<br />simply by phone number</div>
+                        <div style={styles.title}>Send Ether to anyone<br />simply by phone number</div>
                         <div style={styles.container}>
                             <div>
                                 <PhoneInput onChange={() => this.setState({phoneError: false, errorMessage: ""})}
