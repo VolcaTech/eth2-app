@@ -2,7 +2,7 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 import ButtonPrimary from './../common/ButtonPrimary';
 const ETH2PHONE_HOST = 'https://eth2.io';
-
+const shareIcon = require('../../../public/images/share_icon.png');
 
 const styles = {
     checkTransaction: {
@@ -25,6 +25,12 @@ const styles = {
 	margin: 'auto',
 	width: '70%'
     },
+    shareIcon: {
+	position: 'absolute',
+	marginLeft: 20,
+	marginTop: 3,
+	width: 22.5
+    }
 }
 
 
@@ -66,12 +72,13 @@ export const ShareButton = ({transfer}) => {
     
     return (
         <div style={styles.shareLinkContainer}>
-	  <ButtonPrimary buttonColor='#0099ff' handleClick={() => {
+	  <ButtonPrimary buttonColor='#2bc64f' handleClick={() => {
                 // copy share link to clipboard
                 copy(shareText);
                 alert("The link is copied to your clipboard. Share the link with receiver");
             }}>
-            Copy & Share
+            <span>Copy & Share Link</span>
+	    <img src={shareIcon} style={styles.shareIcon} className="hidden-iphone5" />
 	  </ButtonPrimary>
         </div>
     );
