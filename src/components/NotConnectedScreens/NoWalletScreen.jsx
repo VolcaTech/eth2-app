@@ -104,10 +104,10 @@ class NoWalletScreen extends Component {
     }
     
     async _getDeepLink() {
-        //const { url: deepLink }  = await getDeepLinkForTrustWallet(window.location.href );
-	console.log({location: window.location});
-	var dappUrl = window.location.origin + '/r.html' + window.location.hash.substring(3); // remove "/#/r" from hash'
-	const deepLink = `https://tokenpocket.github.io/applink?dappUrl=${dappUrl}`;
+	var dappUrl = encodeURIComponent(window.location);
+	const host = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url'; // trust wallet deep link
+	// const host = 'https://tokenpocket.github.io/applink?dappUrl'; // Token Poket deep link
+	const deepLink = `${host}=${dappUrl}`;
         this.setState({ deepLink });
     }
 
