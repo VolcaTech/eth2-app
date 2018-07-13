@@ -183,6 +183,7 @@ class Tab extends Component {
 
 
     _renderForm() {
+        const { sendMode } = this.props.sendMode
         return (
             <Row>
                 <Col sm={4} smOffset={4}>
@@ -191,10 +192,12 @@ class Tab extends Component {
                         <div style={styles.title}>Send <div style={{ display: 'inline', color: '#999999' }}>Ether</div> to anyone<br />
                             <div style={{ display: 'inline', verticalAlign: 'sub', marginRight: 6 }}>simply by</div><PhoneOrLink active={this.state.phoneOrLinkActive} height={this.state.phoneOrLinkActive === false ? 37.5 : 71} handleClick={this._onPhoneLinkButtonClick.bind(this)} /></div>
                         <div style={styles.container}>
-                            <div>
-                                <PhoneInput onChange={() => this.setState({ phoneError: false, errorMessage: "" })}
-                                    _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError} />
-                            </div>
+                            {sendMode === 'phone number' ?
+                                <div>
+                                    <PhoneInput onChange={() => this.setState({ phoneError: false, errorMessage: "" })}
+                                        _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError} />
+                                </div> : ""
+                            }
                             <div style={styles.numberInput}>
                                 <NumberInput
                                     onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: "" })
@@ -248,5 +251,6 @@ class Tab extends Component {
 
 export default connect(state => ({
     networkId: state.web3Data.networkId,
-    balanceUnformatted: state.web3Data.balance
+    balanceUnformatted: state.web3Data.balance,
+    sendMode: state.sendMode
 }), { sendTransfer })(Tab);
