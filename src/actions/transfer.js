@@ -101,9 +101,10 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    amount,	    
 	    fee: 0,
 	    direction: 'out'
-	};
-
-	dispatch(createLinkTransfer(transfer));
+    };
+    
+    
+	dispatch(createTransfer(transfer));
 
 	// subscribe
 	dispatch(subscribePendingTransferMined(transfer, 'deposited'));
@@ -141,8 +142,7 @@ export const sendSpecialLinkTransfer = ({amount}) => {
     
     console.log(transitPrivateKey)
 
-	dispatch(createTransfer(transfer));
-
+	dispatch(createLinkTransfer(transfer));
 	// subscribe
 	dispatch(subscribePendingTransferMined(transfer, 'deposited'));
 	

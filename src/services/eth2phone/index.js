@@ -46,10 +46,10 @@ export const sendLinkTransfer = async ({amountToPay, senderAddress}) => {
 
     const wallet = Wallet.generate();
 	const transitAddress = wallet.getChecksumAddressString();
-    const transitPrivateKey = wallet.getPrivateKey();
+    const transitPrivateKey = wallet.getPrivateKeyString();
     const transferId = sha3(transitPrivateKey)
     
-    
+    console.log(transitPrivateKey)
     // 3. send deposit to smart contract
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
     return { txHash, transitPrivateKey, transferId, transitAddress };
