@@ -16,6 +16,12 @@ const createTransfer = (payload) => {
     };
 }
 
+const createLinkTransfer = (payload) => {
+    return {
+        type: actionTypes.CREATE_LINK_TRANSFER,
+        payload
+    };
+}
 
 const updateTransfer = (payload) => {
     return {
@@ -96,6 +102,44 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	    fee: 0,
 	    direction: 'out'
 	};
+
+	dispatch(createLinkTransfer(transfer));
+
+	// subscribe
+	dispatch(subscribePendingTransferMined(transfer, 'deposited'));
+	
+	return transfer;
+    };
+}
+
+export const sendSpecialLinkTransfer = ({amount}) => {
+    return async (dispatch, getState) => {
+	
+	const state = getState();
+	const networkId = state.web3Data.networkId;	
+    const senderAddress = state.web3Data.address;
+
+	const { txHash, transitPrivateKey, transferId, transitAddress } = await e2pService.sendLinkTransfer({
+												  amountToPay: amount,
+												  senderAddress});
+	const id = `${transferId}-out`;
+
+	const transfer = {
+	    id,
+	    txHash,
+	    transitPrivateKey,
+	    transferId,
+	    transitAddress: transitAddress.toLowerCase(),
+	    networkId,
+	    senderAddress,
+	    status: 'depositing',
+	    timestamp: Date.now(),
+	    amount,	    
+	    fee: 0,
+	    direction: 'out'
+    };
+    
+    console.log(transitPrivateKey)
 
 	dispatch(createTransfer(transfer));
 

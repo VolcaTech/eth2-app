@@ -5,6 +5,7 @@ import {
     generateKeystoreWithSecret,
     generateTransferId, getSignatureForReceiveAddress } from './utils';
 import { sha3 } from 'web3-utils';
+const Wallet = require('ethereumjs-wallet');
 
 
 export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress}) => {
@@ -39,6 +40,19 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress
     // 3. send deposit to smart contract
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
     return { txHash, secretCode, transferId, transitAddress };
+}
+
+export const sendLinkTransfer = async ({amountToPay, senderAddress}) => {
+
+    const wallet = Wallet.generate();
+	const transitAddress = wallet.getChecksumAddressString();
+    const transitPrivateKey = wallet.getPrivateKey();
+    const transferId = sha3(transitPrivateKey)
+    
+    
+    // 3. send deposit to smart contract
+    const txHash = await escrowContract.deposit(transitAddress, amountToPay);
+    return { txHash, transitPrivateKey, transferId, transitAddress };
 }
 
 

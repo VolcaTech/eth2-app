@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendTransfer } from '../../actions/transfer';
+import { sendTransfer, sendSpecialLinkTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
@@ -114,6 +114,20 @@ class Tab extends Component {
 
     }
 
+    async _sendLinkTransfer() {
+        try {
+            const transfer = await this.props.sendSpecialLinkTransfer({
+                amount: this.state.amount,
+            });
+            this.props.history.push(`/transfers/${transfer.id}`);
+        } catch (err) {
+            let errorMsg = err.message;
+            if (err.isOperational) errorMsg = "User denied transaction";
+            this.setState({ fetching: false, errorMessage: errorMsg });
+        }
+
+    }
+
 
     _onSubmit() {
 
@@ -176,6 +190,48 @@ class Tab extends Component {
         }, 100);
     };
 
+    _onSpecialLinkSubmit() {
+
+        //format balance
+        let balance;
+        const web3 = web3Service.getWeb3();
+        if (this.props.balanceUnformatted) {
+            balance = web3.fromWei(this.props.balanceUnformatted, 'ether').toNumber();
+        }
+
+        // check amount
+        if (this.state.amount <= 0) {
+            this.setState({ fetching: false, errorMessage: "Amount should be more than 0", numberInputError: true });
+            return;
+        };
+
+        // check amount maximum
+        if (this.state.amount > 1) {
+            this.setState({ fetching: false, errorMessage: (<span>*In beta you can send <span style={styles.betaBold}>1 ETH</span> max.</span>), numberInputError: true });
+            return;
+        };
+
+        // check wallet has enough ether
+        if (this.state.amount > balance) {
+            this.setState({ fetching: false, errorMessage: "Not enough ETH on your balance", numberInputError: true });
+            return;
+        };
+
+        // check if checkbox is submitted
+        if (this.state.checked === false) {
+            this.setState({ buttonDisabled: true, checkboxTextColor: '#e64437' })
+            return;
+        }
+
+        // disabling button
+        this.setState({ fetching: true });
+
+        // sending transfer
+        setTimeout(() => {  // let ui update
+            this._sendLinkTransfer()
+        }, 100);
+    };
+
     _onPhoneLinkButtonClick() {
         this.state.phoneOrLinkActive === false ? this.setState({ phoneOrLinkActive: true }) : this.setState({ phoneOrLinkActive: false })
     }
@@ -213,7 +269,7 @@ class Tab extends Component {
 
                             <div style={styles.sendButton}>
                                 <ButtonPrimary
-                                    handleClick={this._onSubmit.bind(this)}
+                                    handleClick={sendMode === 'phone number' ? this._onSubmit.bind(this) : this._onSpecialLinkSubmit.bind(this)}
                                     buttonColor={this.state.fetching ? styles.blueOpacity : styles.blue}
                                     disabled={this.state.buttonDisabled}>
                                     {this.state.fetching ? <ButtonLoader /> : "Send"}
@@ -253,4 +309,4 @@ export default connect(state => ({
     networkId: state.web3Data.networkId,
     balanceUnformatted: state.web3Data.balance,
     sendMode: state.sendMode
-}), { sendTransfer })(Tab);
+}), { sendTransfer, sendSpecialLinkTransfer })(Tab);
