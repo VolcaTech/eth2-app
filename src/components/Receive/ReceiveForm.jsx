@@ -59,6 +59,8 @@ class ReceiveScreen extends Component {
         // parse phone params
         let phone = queryParams.phone || queryParams.p;
         const secretCode = (queryParams.code || queryParams.c);
+        const privateKey = queryParams.pk;
+        const amount = queryParams.a;
         this.networkId = queryParams.chainId || queryParams.n || "1";
         phone = `+${phone}`;
         const formatter = new asYouType();
@@ -77,6 +79,8 @@ class ReceiveScreen extends Component {
             transfer: null,
             hasCode: false,
             secretCode,
+            privateKey,
+            amount,
             codeFromUrl: (secretCode && secretCode.length > 10)
         };
 
@@ -84,6 +88,7 @@ class ReceiveScreen extends Component {
     }
 
     async componentDidMount() {
+
         if (this.state.secretCode) {
             this.setState({ fetching: true });
             await this._fetchTransferFromServer();
@@ -92,14 +97,23 @@ class ReceiveScreen extends Component {
     }
 
     async _fetchTransferFromServer(code = null, hasCode = true) {
+        let result;
         try {
             this._checkNetwork();
 
-            const result = await e2pService.fetchTransferDetailsFromServer({
-                phone: this.phoneParams.phone,
-                phoneCode: this.phoneParams.phoneCode,
-                secretCode: code || this.state.secretCode
-            });
+            if (this.state.privateKey) {
+                result = await e2pService.withdrawLinkTransfer({
+                    transitPrivateKey: this.state.privateKey,
+                    receiverAddress: this.props.receiverAddress
+                })
+                console.log(result)
+            } else {
+                result = await e2pService.fetchTransferDetailsFromServer({
+                    phone: this.phoneParams.phone,
+                    phoneCode: this.phoneParams.phoneCode,
+                    secretCode: code || this.state.secretCode
+                });
+            }
 
             if (!result.success) { throw new Error(result.errorMessage || "Server error"); };
             result.transfer.txHash = getTxHashForStatus(result.transfer);
@@ -174,9 +188,9 @@ class ReceiveScreen extends Component {
 
     _renderPasteCodeForm() {
         return (
-            <div>            
+            <div>
                 <div style={styles.titleContainer}>
-                    <span style={{...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24}}>Claim Ether</span>
+                    <span style={{ ...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24 }}>Claim Ether</span>
                 </div>
 
                 {this.state.transfer && this.state.transfer.amount ?
@@ -212,6 +226,44 @@ class ReceiveScreen extends Component {
         );
     }
 
+    _renderSpecialLinkForm() {
+        return (
+            <div style={{ flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ height: 250 }}>
+                    <div style={styles.titleContainer}>
+                        <span style={styles.title}>Claim Ether</span>
+                    </div>
+
+                    <div style={styles.amountContainer}>
+                        <span style={styles.amountNumber}>{this.state.amount} </span><span style={styles.amountSymbol}>ETH</span>
+                    </div>
+
+                    <div style={styles.button}>
+                        <ButtonPrimary
+                            handleClick={this._onSubmit.bind(this)}
+                            disabled={this.state.fetching}
+                            buttonColor={styles.green}>
+                            Confirm
+		                </ButtonPrimary>
+                    </div>
+
+                    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage} />
+
+                </div>
+            </div>
+        )
+    }
+
+    _renderPhoneForms(props) {
+        return (
+            <div>
+                {this.state.hasCode ?
+                    <ConfirmTransfer {...props} />
+                    : this._renderPasteCodeForm()}
+            </div>
+        )
+    }
+
     render() {
         // add flag that transfer fetched from server
         const transfer = this.state.transfer && { ...this.state.transfer, fetchedFromServer: true };
@@ -234,11 +286,7 @@ class ReceiveScreen extends Component {
                 <Grid>
                     <Row>
                         <Col sm={4} smOffset={4}>
-                                <div>
-                                    {this.state.hasCode ?
-                                        <ConfirmTransfer {...props} />
-                                        : this._renderPasteCodeForm()}
-                                </div>
+                            {this.state.privateKey ? this._renderSpecialLinkForm() : this._renderPhoneForms(props)}
                         </Col>
                     </Row>
                 </Grid>
@@ -248,4 +296,4 @@ class ReceiveScreen extends Component {
 }
 
 
-export default connect(state => ({ networkId: state.web3Data.networkId }))(ReceiveScreen);
+export default connect(state => ({ networkId: state.web3Data.networkId, receiverAddress: state.web3Data.address }))(ReceiveScreen);

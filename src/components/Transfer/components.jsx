@@ -74,7 +74,7 @@ export const ShareButton = ({ transfer }) => {
     }
 
     if (transfer.transitPrivateKey) {
-        shareLink = `${ETH2PHONE_HOST}/#/r?pk=${transfer.transitPrivateKey}`;
+        shareLink = `${ETH2PHONE_HOST}/#/r?pk=${transfer.transitPrivateKey}&a=${transfer.amount}`;
         shareText = `Hi, I've sent you ${transfer.amount} eth.`;
         // add network id to url params if not mainnet
         if (transfer.networkId != "1") {

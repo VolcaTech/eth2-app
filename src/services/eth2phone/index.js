@@ -3,9 +3,11 @@ import escrowContract from "./escrowContract";
 import * as verificationServer from "./verificationServer";
 import {
     generateKeystoreWithSecret,
-    generateTransferId, getSignatureForReceiveAddress } from './utils';
+    generateTransferId, getSignatureForReceiveAddress, getSignatureForLinkTransfer } from './utils';
 import { sha3 } from 'web3-utils';
+import getWeb3 from './../../utils/getWeb3'
 const Wallet = require('ethereumjs-wallet');
+
 
 
 export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress}) => {
@@ -48,8 +50,8 @@ export const sendLinkTransfer = async ({amountToPay, senderAddress}) => {
 	const transitAddress = wallet.getChecksumAddressString();
     const transitPrivateKey = wallet.getPrivateKeyString();
     const transferId = sha3(transitPrivateKey)
+    console.log(transferId)
     
-    console.log(transitPrivateKey)
     // 3. send deposit to smart contract
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
     return { txHash, transitPrivateKey, transferId, transitAddress };
@@ -77,6 +79,28 @@ export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
 export const fetchTransferDetailsFromServer = ({phoneCode, phone, secretCode}) => {
     const transferId = generateTransferId(phoneCode, phone, secretCode);
     return verificationServer.fetchTransfer(transferId);
+}
+
+export const withdrawLinkTransfer = async ({transitPrivateKey, receiverAddress}) => {
+    const transferId = sha3(transitPrivateKey)
+    
+    const { v, r, s } = getSignatureForLinkTransfer({
+        address: receiverAddress,
+        transitPrivateKey: transitPrivateKey.substring(2)
+        });
+    const result = await verificationServer.confirmLinkTx(
+        transitPrivateKey.substring(2),
+        receiverAddress,
+        v, r, s);
+        console.log(result)
+    
+    
+        if (!result.success) {
+        throw new Error((result.errorMessage || "Server error on withdrawal!"));
+        }
+    
+        
+        return { txHash: result.txHash, amount: result.amount, transferId };
 }
 
 
