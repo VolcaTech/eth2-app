@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withdrawLinkTransfer } from './../../actions/transfer'
 import { Row, Col, Grid } from 'react-bootstrap';
 import * as e2pService from '../../services/eth2phone';
 import CodeInput from './../common/CodeInput';
@@ -101,19 +102,11 @@ class ReceiveScreen extends Component {
         try {
             this._checkNetwork();
 
-            if (this.state.privateKey) {
-                result = await e2pService.withdrawLinkTransfer({
-                    transitPrivateKey: this.state.privateKey,
-                    receiverAddress: this.props.receiverAddress
-                })
-                console.log(result)
-            } else {
-                result = await e2pService.fetchTransferDetailsFromServer({
-                    phone: this.phoneParams.phone,
-                    phoneCode: this.phoneParams.phoneCode,
-                    secretCode: code || this.state.secretCode
-                });
-            }
+            result = await e2pService.fetchTransferDetailsFromServer({
+                phone: this.phoneParams.phone,
+                phoneCode: this.phoneParams.phoneCode,
+                secretCode: code || this.state.secretCode
+            });
 
             if (!result.success) { throw new Error(result.errorMessage || "Server error"); };
             result.transfer.txHash = getTxHashForStatus(result.transfer);
@@ -132,7 +125,6 @@ class ReceiveScreen extends Component {
                 const txHash = getDepositTxHash(result.transfer.events);
                 const txReceipt = await web3.eth.getTransactionReceiptMined(txHash);
                 result.transfer.txHash = txHash;
-                let transferStatus;
                 if (txReceipt.status === '0x0') { // if error
                     result.transfer.status = 'error';
                     result.transfer.isError = true;
@@ -144,7 +136,24 @@ class ReceiveScreen extends Component {
                         transfer: result.transfer
                     });
                 }
+
             }
+
+
+        } catch (err) {
+            this.setState({ fetching: false, errorMessage: err.message, transfer: null });
+        }
+        this.setState({ firstLoading: false });
+    }
+
+    async _withdrawWithPK() {
+        let result;
+        try {
+            this._checkNetwork()
+            const transitPrivateKey = this.state.privateKey;
+            const result = await this.props.withdrawLinkTransfer({transitPrivateKey})
+            this.props.history.push(`/transfers/${result.id}`);
+
         } catch (err) {
             this.setState({ fetching: false, errorMessage: err.message, transfer: null });
         }
@@ -161,12 +170,20 @@ class ReceiveScreen extends Component {
         }
     }
 
-    _onSubmit() {
+    _withoutSecretSubmit() {
         // // disabling button
         this.setState({ fetching: true });
 
         // // sending request for sms-code
         this._fetchTransferFromServer();
+    }
+
+    _withPKSubmit() {
+        // // disabling button
+        this.setState({ fetching: true });
+
+        // // sending request for sms-code
+        this._withdrawWithPK();
     }
 
     _onSecretCodeInputChange({ target }) {
@@ -214,7 +231,7 @@ class ReceiveScreen extends Component {
 
                 <div style={styles.button}>
                     <ButtonPrimary
-                        handleClick={this._onSubmit.bind(this)}
+                        handleClick={this._withoutSecretSubmit.bind(this)}
                         disabled={this.state.fetching}
                         buttonColor={styles.green}>
                         Confirm
@@ -240,7 +257,7 @@ class ReceiveScreen extends Component {
 
                     <div style={styles.button}>
                         <ButtonPrimary
-                            handleClick={this._onSubmit.bind(this)}
+                            handleClick={this._withPKSubmit.bind(this)}
                             disabled={this.state.fetching}
                             buttonColor={styles.green}>
                             Confirm
@@ -280,7 +297,7 @@ class ReceiveScreen extends Component {
         if (this.state.firstLoading) {
             return <Loader text="Getting transfer details..." textLeftMarginOffset={-40} />;
         }
-
+        withdrawLinkTransfer
         return (
             <WithHistory {...this.props}>
                 <Grid>
@@ -296,4 +313,4 @@ class ReceiveScreen extends Component {
 }
 
 
-export default connect(state => ({ networkId: state.web3Data.networkId, receiverAddress: state.web3Data.address }))(ReceiveScreen);
+export default connect(state => ({ networkId: state.web3Data.networkId, receiverAddress: state.web3Data.address }), {withdrawLinkTransfer})(ReceiveScreen);

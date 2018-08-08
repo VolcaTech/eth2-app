@@ -191,6 +191,42 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
     };
 }
 
+export const withdrawLinkTransfer = ({transitPrivateKey}) => {
+    return async (dispatch, getState) => {
+	
+	const state = getState();
+	const networkId = state.web3Data.networkId;
+	const receiverAddress = state.web3Data.address;
+    
+    const result = await e2pService.withdrawLinkTransfer({
+        transitPrivateKey,
+        receiverAddress
+    })
+
+	
+	const id = `${result.transferId}-IN`;
+    const txHash = result.txHash
+    const amount = result.amount
+    const transfer = {
+	    id,
+	    txHash,
+	    transferId: result.transferId,
+	    status: 'receiving',
+	    networkId,
+	    receiverAddress,
+	    timestamp: Date.now(),
+	    amount,	    
+	    fee: 0,
+	    direction: 'in'
+	};
+	dispatch(createTransfer(transfer));
+
+	// // subscribe
+	dispatch(subscribePendingTransferMined(transfer, 'received'));	
+	return transfer;
+    };
+}
+
 
 export const cancelTransfer = (transfer) => {
     return async (dispatch, getState) => {
