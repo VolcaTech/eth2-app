@@ -21,7 +21,7 @@ const styles = {
         height: 100,
         display: 'block',
         margin: 'auto',
-        fontSize: 20,
+        fontSize: 24,
         lineHeight: 1.4,
         fontFamily: 'SF Display Black',
         textAlign: 'center',
