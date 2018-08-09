@@ -87,14 +87,15 @@ export const sendTransfer = ({phone,  phoneCode, amount}) => {
 	const id = `${transferId}-out`;
 
 	const transfer = {
-	    id,
+        id,
+        verificationType: 'phone',
 	    txHash,
 	    secretCode,
 	    transferId,
 	    transitAddress: transitAddress.toLowerCase(),
 	    networkId,
 	    senderAddress,
-	    status: 'depositing',
+        status: 'depositing',
 	    receiverPhone: phone,
 	    receiverPhoneCode: phoneCode,
 	    timestamp: Date.now(),
@@ -126,22 +127,21 @@ export const sendSpecialLinkTransfer = ({amount}) => {
 	const id = `${transferId}-out`;
 
 	const transfer = {
-	    id,
+        id,
+        verificationType: 'none',        
 	    txHash,
 	    transitPrivateKey,
 	    transferId,
 	    transitAddress: transitAddress.toLowerCase(),
 	    networkId,
 	    senderAddress,
-	    status: 'depositing',
+        status: 'depositing',
 	    timestamp: Date.now(),
 	    amount,	    
 	    fee: 0,
 	    direction: 'out'
     };
     
-    console.log(transitPrivateKey)
-
 	dispatch(createLinkTransfer(transfer));
 	// subscribe
 	dispatch(subscribePendingTransferMined(transfer, 'deposited'));
@@ -168,7 +168,8 @@ export const withdrawTransfer = ({phone,  phoneCode, secretCode, smsCode }) => {
 	
 	const id = `${transferId}-IN`;
 	const transfer = {
-	    id,
+        id,
+        verificationType: 'phone',                
 	    txHash,
 	    secretCode,
 	    transferId: transferId,
@@ -208,7 +209,8 @@ export const withdrawLinkTransfer = ({transitPrivateKey}) => {
     const txHash = result.txHash
     const amount = result.amount
     const transfer = {
-	    id,
+        id,
+        verificationType: 'none',                
 	    txHash,
 	    transferId: result.transferId,
 	    status: 'receiving',

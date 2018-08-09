@@ -5,7 +5,8 @@ import * as actions  from '../../../actions/types';
 export default class AssetTransfer extends Model {
     static modelName = 'Transfer';
     static fields = {
-	id: attr(),
+    id: attr(),
+    verificationType: attr(), // 'none', 'email', 'phone'
 	txHash: attr(),
 	senderAddress: attr(),
 	direction: attr(),
