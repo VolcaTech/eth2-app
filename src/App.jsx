@@ -37,7 +37,7 @@ class App extends Component {
                     <NoWalletHeader />
                     <Switch>
                         <Route exact path="/" component={Landing} />
-                        <Route path="/about" component={Landing} />
+                        <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
                         <Route path="/faq" component={FAQ} />
                         <Route path="/tos" component={TOS} />
                         <Route path="/privacy" component={PrivacyPolicy} />
@@ -81,7 +81,7 @@ class App extends Component {
                         }} />
 
                         <Route path="/history" component={HistoryScreen} />
-                        <Route path="/about" component={Landing} />
+                        <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
                         <Route path="/faq" component={FAQ} />
                         <Route path="/privacy" component={PrivacyPolicy} />
                         <Route path="/tos" component={TOS} />
