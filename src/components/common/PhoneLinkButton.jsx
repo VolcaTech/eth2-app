@@ -17,7 +17,7 @@ class PhoneLink extends React.Component {
         const { sendMode } = this.props.sendMode;
         let linkButtonWidth, buttonWidth = 205;
         if (this.props.active === false && sendMode === 'special link') {
-            buttonWidth = 166;
+            buttonWidth = 170;
             linkButtonWidth = 133;
         }
         if (this.props.active === true && sendMode === 'phone number') {
