@@ -75,6 +75,7 @@
     "react-retina-image": "^2.0.5",
     "react-router-dom": "^4.2.2",
     "react-scrollable-anchor": "^0.6.1",
+    "react-slick": "^0.23.1",
     "react-telephone-input": "^4.1.2",
     "react-timer-component": "^1.0.2",
     "redux": "^4.0.0",
@@ -89,13 +90,13 @@
     "web3": "^0.20.1",
     "web3-utils": "^1.0.0-beta.17"
   },
-    "scripts": {
-	"start": "node scripts/start.js",
-      "build": "node scripts/build.js",
-	"test": "node scripts/test.js --env=jsdom",
-	"deploy": "npm run build&&gh-pages -d build",
-	"libphonenumber-metadata": "libphonenumber-generate-metadata metadata.full.json"
-    },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "npm run build&&gh-pages -d build",
+    "libphonenumber-metadata": "libphonenumber-generate-metadata metadata.full.json"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

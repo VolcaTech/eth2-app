@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import getDeepLinkForTrustWallet from './../../services/trustDeepLinkService';
 import ButtonPrimary from '../../components/common/ButtonPrimary';
+import WalletSlider from './WalletSlider'
 import RetinaImage from 'react-retina-image';
 import { Row, Col, Grid } from 'react-bootstrap';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -157,7 +158,7 @@ class NoWalletScreen extends Component {
 const WalletsList = () => {
     return (
         <div>
-            <Row style={styles.row}>
+            {/* <Row style={styles.row}>
                 <div style={styles.supported}>Supported wallets</div>
             </Row>
 
@@ -179,7 +180,8 @@ const WalletsList = () => {
                     <div style={styles.logoText}>Token Pocket</div>
                 </div>
 		
-            </div>
+            </div> */}
+                        <WalletSlider/>
         </div>
     )
 }
