@@ -1,7 +1,7 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import ButtonPrimary from './../common/ButtonPrimary';
-const ETH2PHONE_HOST = 'http://localhost:3000';// 'https://eth2.io';
+const ETH2PHONE_HOST =  'https://eth2.io';
 const shareIcon = require('../../../public/images/share_icon.png');
 
 const styles = {
