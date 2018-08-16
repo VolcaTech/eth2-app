@@ -38,7 +38,7 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" component={Landing} />
                         <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
-                        <Route path="/faq" component={FAQ} />
+                        <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/tos" component={TOS} />
                         <Route path="/privacy" component={PrivacyPolicy} />
                         <Route component={NoWalletScreen} />
@@ -82,7 +82,7 @@ class App extends Component {
 
                         <Route path="/history" component={HistoryScreen} />
                         <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
-                        <Route path="/faq" component={FAQ} />
+                        <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/privacy" component={PrivacyPolicy} />
                         <Route path="/tos" component={TOS} />
                         <Route component={SendTab} />

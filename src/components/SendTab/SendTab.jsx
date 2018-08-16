@@ -77,7 +77,11 @@ const styles = {
         fontFamily: 'SF Display Bold'
     },
     blue: '#0099ff',
-    blueOpacity: '#80ccff'
+    blueOpacity: '#80ccff',
+    hiddenInput: {
+        height: 0,
+        overflow: 'hidden'
+    }
 }
 
 
@@ -239,7 +243,11 @@ class Tab extends Component {
 
 
     _renderForm() {
-        const { sendMode } = this.props.sendMode
+        const { sendMode } = this.props
+        let phoneInputStyle;
+        if (sendMode === 'link') {
+            phoneInputStyle = styles.hiddenInput
+        }
         return (
             <Row>
                 <Col sm={4} smOffset={4}>
@@ -248,12 +256,10 @@ class Tab extends Component {
                         <div style={styles.title}>Send <div style={{ display: 'inline', color: '#999999' }}>Ether</div> to anyone<br />
                             <div style={{ display: 'inline', verticalAlign: 'sub', marginRight: 6 }}>simply by</div><PhoneOrLink active={this.state.phoneOrLinkActive} height={this.state.phoneOrLinkActive === false ? 37.5 : 71} handleClick={this._onPhoneLinkButtonClick.bind(this)} /></div>
                         <div style={styles.container}>
-                            {sendMode === 'phone number' ?
-                                <div>
-                                    <PhoneInput onChange={() => this.setState({ phoneError: false, errorMessage: "" })}
-                                        _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError} />
-                                </div> : ""
-                            }
+                            <div style={phoneInputStyle}>
+                                <PhoneInput onChange={() => this.setState({ phoneError: false, errorMessage: "" })}
+                                    _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError} />
+                            </div>
                             <div style={styles.numberInput}>
                                 <NumberInput
                                     onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: "" })
@@ -269,7 +275,7 @@ class Tab extends Component {
 
                             <div style={styles.sendButton}>
                                 <ButtonPrimary
-                                    handleClick={sendMode === 'phone number' ? this._onSubmit.bind(this) : this._onSpecialLinkSubmit.bind(this)}
+                                    handleClick={sendMode === 'phone' ? this._onSubmit.bind(this) : this._onSpecialLinkSubmit.bind(this)}
                                     buttonColor={this.state.fetching ? styles.blueOpacity : styles.blue}
                                     disabled={this.state.buttonDisabled}>
                                     {this.state.fetching ? <ButtonLoader /> : "Send"}
