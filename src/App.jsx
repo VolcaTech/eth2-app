@@ -43,7 +43,8 @@ class App extends Component {
                         <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/tos" component={TOS} />
                         <Route path="/privacy" component={PrivacyPolicy} />
-                        <Route exact path="/send" component={NoWalletScreen} />			
+                        <Route exact path="/send" component={NoWalletScreen} />
+                        <Route component={NoWalletScreen} />			
                     </Switch>
                 </div>
             </Router>
