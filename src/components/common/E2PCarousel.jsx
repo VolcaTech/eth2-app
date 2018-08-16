@@ -15,10 +15,7 @@ const styles = {
     },
     nextButton: {
         display: 'flex',
-        margin: '0px auto auto',
-        maxWidth: 400,
-        minWidth: 300,
-        width: '78%',
+        marginBottom: 'auto'
     },
     nextButtonIcon: {
         display: 'inline',
@@ -30,6 +27,7 @@ const styles = {
         margin: 'auto',
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
         height: 59
     },
     backButtonIcon: {
@@ -199,19 +197,17 @@ class E2PCarousel extends Component {
                     </div>
                     <div style={styles.nextButtonsRowContainer}>
                         <div style={this.state.nextButtonStyle}>
+                                <div style={styles.buttonRow}>
+                                    <a href='https://info.eth2.io/' className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
+                                        <span style={styles.nextButtonTitle}>About</span>
+                                    </a>
+                                    <a href='https://info.eth2.io/faq'>
+                                        <div className="faq-icon" style={{ width: 59, height: 59 }}>
+                                            <RetinaImage src="https://eth2.io/images/q.png" />
+                                        </div>
+                                    </a>
                             <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                                <div style={{ flex: 1, alignItems: 'flex-start' }}>
-                                    <div style={styles.buttonRow}>
-                                        <a href='https://info.eth2.io/' className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
-                                            <span style={styles.nextButtonTitle}>About</span>
-                                        </a>
-                                        <a href='https://info.eth2.io/faq/'>
-                                            <div className="faq-icon" style={{ width: 59, height: 59 }}>
-                                                <RetinaImage src="https://eth2.io/images/q.png" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+
                                 <div style={{ flex: 1, alignItems: 'flex-end' }}>
                                     <div className="history-button" style={styles.transfersButtonContainer}>
                                         <span style={styles.nextButtonTitle}>Transfers</span>
@@ -220,6 +216,7 @@ class E2PCarousel extends Component {
 
                                 </div>
                             </ButtonNext>
+                            </div>                            
                         </div>
                     </div>
                 </CarouselProvider>
