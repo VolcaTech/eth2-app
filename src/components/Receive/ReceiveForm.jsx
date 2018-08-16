@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withdrawLinkTransfer } from './../../actions/transfer'
 import { Row, Col, Grid } from 'react-bootstrap';
 import * as e2pService from '../../services/eth2phone';
 import CodeInput from './../common/CodeInput';
@@ -9,7 +8,6 @@ import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { getQueryParams, getNetworkNameById } from '../../utils';
-import ConfirmSmsForm from './ConfirmSmsForm';
 import { parse, format, formatNumber, asYouType, isValidNumber } from 'libphonenumber-js';
 // import { isValidPhoneNumber } from 'react-phone-number-input';
 const qs = require('querystring');
@@ -17,38 +15,6 @@ import web3Service from "../../services/web3Service";
 import ConfirmTransfer from './ConfirmTransfer';
 import { getDepositTxHash, getTxHashForStatus } from './utils';
 import WithHistory from './../HistoryScreen/WithHistory';
-
-
-const styles = {
-    container: { alignContent: 'center' },
-    titleContainer: {
-        textAlign: 'center',
-        marginTop: 54,
-        marginBottom: 39
-    },
-    amountContainer: {
-        fontSize: 35,
-        fontFamily: 'SF Display Bold',
-        textAlign: 'center',
-        marginBottom: 38
-    },
-    amountNumber: { color: '#0099ff' },
-    amountSymbol: { color: '#999999' },
-    title: {
-        fontSize: 24,
-        fontFamily: 'SF Display Bold'
-    },
-    numberInput: {
-        width: '78%',
-        margin: 'auto',
-        marginBottom: 21
-    },
-    button: {
-        width: '78%',
-        margin: 'auto'
-    },
-    green: '#2bc64f'
-}
 
 
 class ReceiveScreen extends Component {
@@ -75,29 +41,24 @@ class ReceiveScreen extends Component {
 
         this.state = {
             errorMessage: "",
-            firstLoading: true,
-            fetching: false,
+            fetching: true,
             transfer: null,
-            hasCode: false,
             secretCode,
             privateKey,
-            amount,
-            codeFromUrl: (secretCode && secretCode.length > 10)
+            amount
         };
-
-
     }
 
+    
     async componentDidMount() {
-
         if (this.state.secretCode) {
             this.setState({ fetching: true });
             await this._fetchTransferFromServer();
         }
-        this.setState({ firstLoading: false });
+        this.setState({ fetching: false });
     }
 
-    async _fetchTransferFromServer(code = null, hasCode = true) {
+    async _fetchTransferFromServer() {
         let result;
         try {
             this._checkNetwork();
@@ -105,16 +66,15 @@ class ReceiveScreen extends Component {
             result = await e2pService.fetchTransferDetailsFromServer({
                 phone: this.phoneParams.phone,
                 phoneCode: this.phoneParams.phoneCode,
-                secretCode: code || this.state.secretCode
+                secretCode: this.state.secretCode
             });
 
             if (!result.success) { throw new Error(result.errorMessage || "Server error"); };
             result.transfer.txHash = getTxHashForStatus(result.transfer);
             result.transfer.networkId = this.props.networkId;
+	    
             this.setState({
                 fetching: false,
-                hasCode,
-                firstLoading: false,
                 transfer: result.transfer,
                 transferStatus: result.transfer.status
             });
@@ -143,142 +103,18 @@ class ReceiveScreen extends Component {
         } catch (err) {
             this.setState({ fetching: false, errorMessage: err.message, transfer: null });
         }
-        this.setState({ firstLoading: false });
+        this.setState({ fetching: false });
     }
 
-    async _withdrawWithPK() {
-        let result;
-        try {
-            this._checkNetwork()
-            const transitPrivateKey = this.state.privateKey;
-            const result = await this.props.withdrawLinkTransfer({transitPrivateKey})
-            this.props.history.push(`/transfers/${result.id}`);
-
-        } catch (err) {
-            this.setState({ fetching: false, errorMessage: err.message, transfer: null });
-        }
-        this.setState({ firstLoading: false });
-    }
-
-
+    
     _checkNetwork() {
         if (this.networkId && this.networkId != this.props.networkId) {
             const networkNeeded = getNetworkNameById(this.networkId);
             const currentNetwork = getNetworkNameById(this.props.networkId);
             const msg = `Transfer is for ${networkNeeded} network, but you are on ${currentNetwork} network`;
+	    alert(msg);
             throw new Error(msg);
         }
-    }
-
-    _withoutSecretSubmit() {
-        // // disabling button
-        this.setState({ fetching: true });
-
-        // // sending request for sms-code
-        this._fetchTransferFromServer();
-    }
-
-    _withPKSubmit() {
-        // // disabling button
-        this.setState({ fetching: true });
-
-        // // sending request for sms-code
-        this._withdrawWithPK();
-    }
-
-    _onSecretCodeInputChange({ target }) {
-        let text = target.value;
-        if (text.length > 20) {
-            const words = text.split(" ");
-            const codeCandidates = words.filter(w => w.length === 20);
-            if (codeCandidates.length === 1) {
-                text = codeCandidates[0];
-            }
-        }
-        this.setState({ secretCode: text, errorMessage: null });
-
-        // try fetch transfer if code is right length
-        if (text.length === 20) {
-            this._fetchTransferFromServer(text, false);
-        }
-    }
-
-    _renderPasteCodeForm() {
-        return (
-            <div>
-                <div style={styles.titleContainer}>
-                    <span style={{ ...styles.title, fontSize: window.innerWidth === 320 ? 22 : 24 }}>Claim Ether</span>
-                </div>
-
-                {this.state.transfer && this.state.transfer.amount ?
-                    <div style={styles.amountContainer}>
-                        <span style={styles.amountNumber}>{this.state.transfer.amount} </span><span style={styles.amountSymbol}>ETH</span>
-                    </div> : null
-                }
-
-
-                <div style={styles.numberInput} className={this.state.errorMessage ? "errorInput" : null}>
-                    <CodeInput type="text"
-                        disabled={false}
-                        placeholder="Paste message with code"
-                        error={this.state.errorMessage}
-                        value={this.state.secretCode}
-                        onChange={this._onSecretCodeInputChange.bind(this)} />
-                </div>
-                <div style={styles.numberInput}>
-                    <NumberInput backgroundColor='#f5f5f5' disabled={true} placeholder={this.phoneParams.phoneFormatted} />
-                </div>
-
-                <div style={styles.button}>
-                    <ButtonPrimary
-                        handleClick={this._withoutSecretSubmit.bind(this)}
-                        disabled={this.state.fetching}
-                        buttonColor={styles.green}>
-                        Confirm
-		</ButtonPrimary>
-                </div>
-
-                <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage} />
-            </div>
-        );
-    }
-
-    _renderSpecialLinkForm() {
-        return (
-            <div style={{ flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ height: 250 }}>
-                    <div style={styles.titleContainer}>
-                        <span style={styles.title}>Claim Ether</span>
-                    </div>
-
-                    <div style={styles.amountContainer}>
-                        <span style={styles.amountNumber}>{this.state.amount} </span><span style={styles.amountSymbol}>ETH</span>
-                    </div>
-
-                    <div style={styles.button}>
-                        <ButtonPrimary
-                            handleClick={this._withPKSubmit.bind(this)}
-                            disabled={this.state.fetching}
-                            buttonColor={styles.green}>
-                            Confirm
-		                </ButtonPrimary>
-                    </div>
-
-                    <SpinnerOrError fetching={this.state.fetching} error={this.state.errorMessage} />
-
-                </div>
-            </div>
-        )
-    }
-
-    _renderPhoneForms(props) {
-        return (
-            <div>
-                {this.state.hasCode ?
-                    <ConfirmTransfer {...props} />
-                    : this._renderPasteCodeForm()}
-            </div>
-        )
     }
 
     render() {
@@ -290,20 +126,19 @@ class ReceiveScreen extends Component {
             ...this.phoneParams,
             secretCode: this.state.secretCode,
             transfer,
-            transferStatus: this.state.transferStatus,
-            codeFromUrl: this.state.codeFromUrl
+            transferStatus: this.state.transferStatus
         };
 
-        if (this.state.firstLoading) {
+        if (this.state.fetching) {
             return <Loader text="Getting transfer details..." textLeftMarginOffset={-40} />;
         }
-        withdrawLinkTransfer
+
         return (
             <WithHistory {...this.props}>
                 <Grid>
                     <Row>
                         <Col sm={4} smOffset={4}>
-                            {this.state.privateKey ? this._renderSpecialLinkForm() : this._renderPhoneForms(props)}
+                          <ConfirmTransfer {...props} />
                         </Col>
                     </Row>
                 </Grid>
@@ -313,4 +148,4 @@ class ReceiveScreen extends Component {
 }
 
 
-export default connect(state => ({ networkId: state.web3Data.networkId, receiverAddress: state.web3Data.address }), {withdrawLinkTransfer})(ReceiveScreen);
+export default connect(state => ({ networkId: state.web3Data.networkId, receiverAddress: state.web3Data.address }))(ReceiveScreen);
