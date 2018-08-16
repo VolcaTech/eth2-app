@@ -42,9 +42,12 @@
 }
 
 .header .eth2phone-logo span {
-    letter-spacing: 0;
-    display: inline;
-    color: #2bc64f;
+    display: inline; 
+    font-family: 'SF Display Regular';
+    font-size: 12px; 
+    color: #999999;
+    vertical-align: text-top;
+    margin-left: 5px;
 }
 
 
