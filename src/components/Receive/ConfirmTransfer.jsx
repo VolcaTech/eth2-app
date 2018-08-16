@@ -3,6 +3,7 @@ import ConfirmSmsForm from './ConfirmSmsForm';
 import { SpinnerOrError, Loader } from './../common/Spinner';
 import { TransferScreen } from '../Transfer';
 import ConfirmPhoneScreen from './ConfirmPhoneScreen';
+import ConfirmLinkScreen from './ConfirmLinkScreen';
 
 class ConfirmTransfer extends Component {
     
@@ -22,10 +23,13 @@ class ConfirmTransfer extends Component {
 		<TransferScreen {...this.props}/>
 	    );
 	}
+
 	
         return (
 	    <div>
-	      <ConfirmPhoneScreen {...this.props}/> 	      
+	      { this.props.transitPrivateKey ?
+		  <ConfirmLinkScreen {...this.props}/>  : 
+		  <ConfirmPhoneScreen {...this.props}/>  }	      
 	    </div>
         );
     }

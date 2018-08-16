@@ -26,7 +26,7 @@ class ReceiveScreen extends Component {
         // parse phone params
         let phone = queryParams.phone || queryParams.p;
         const secretCode = (queryParams.code || queryParams.c);
-        const privateKey = queryParams.pk;
+        const transitPrivateKey = queryParams.pk;
         const amount = queryParams.a;
         this.networkId = queryParams.chainId || queryParams.n || "1";
         phone = `+${phone}`;
@@ -37,26 +37,26 @@ class ReceiveScreen extends Component {
             phoneCode: formatter.country_phone_code,
             phoneFormatted: "+" + formatter.country_phone_code + " " + format(phone, 'National')
         };
-
-
+	
         this.state = {
             errorMessage: "",
             fetching: true,
             transfer: null,
             secretCode,
-            privateKey,
+            transitPrivateKey,
             amount
         };
     }
 
     
     async componentDidMount() {
-        if (this.state.secretCode) {
-            this.setState({ fetching: true });
+        if (this.state.secretCode || this.state.transitPrivateKey) {
             await this._fetchTransferFromServer();
-        }
-        this.setState({ fetching: false });
-    }
+        } else {
+	    alert("No secret code or transit private key provided in url!");
+            this.setState({ fetching: false });
+	}
+	}
 
     async _fetchTransferFromServer() {
         let result;
@@ -66,8 +66,11 @@ class ReceiveScreen extends Component {
             result = await e2pService.fetchTransferDetailsFromServer({
                 phone: this.phoneParams.phone,
                 phoneCode: this.phoneParams.phoneCode,
-                secretCode: this.state.secretCode
+                secretCode: this.state.secretCode,
+		transitPrivateKey: this.state.transitPrivateKey
             });
+
+	    console.log({result});
 
             if (!result.success) { throw new Error(result.errorMessage || "Server error"); };
             result.transfer.txHash = getTxHashForStatus(result.transfer);
@@ -88,17 +91,12 @@ class ReceiveScreen extends Component {
                 if (txReceipt.status === '0x0') { // if error
                     result.transfer.status = 'error';
                     result.transfer.isError = true;
-
                 } else {
-                    result.transfer.status = 'deposited';
-                    this.setState({
-                        transferStatus: result.transfer.status,
-                        transfer: result.transfer
-                    });
-                }
-
+		    setTimeout(() => {
+			window.location.reload();
+		    }, 1000);
+		}
             }
-
 
         } catch (err) {
             this.setState({ fetching: false, errorMessage: err.message, transfer: null });
@@ -126,13 +124,22 @@ class ReceiveScreen extends Component {
             ...this.phoneParams,
             secretCode: this.state.secretCode,
             transfer,
-            transferStatus: this.state.transferStatus
+            transferStatus: this.state.transferStatus,
+	    transitPrivateKey: this.state.transitPrivateKey
         };
 
         if (this.state.fetching) {
             return <Loader text="Getting transfer details..." textLeftMarginOffset={-40} />;
         }
 
+	
+	console.log("fetched ");
+	console.log(this.state);
+
+	if (this.state.errorMessage) {
+            return <SpinnerOrError fetching={false} error={this.state.errorMessage} />;
+	}
+	
         return (
             <WithHistory {...this.props}>
                 <Grid>

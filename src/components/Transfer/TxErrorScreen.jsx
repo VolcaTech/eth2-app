@@ -63,7 +63,7 @@ const TxErrorScreen = ({transfer}) => {
 		    
 		    <div style={styles.helpContainer}>
 		      <div className="text">
-			Transaction details on <a href={etherscanLink} className="text">Etherscan</a>
+			Transaction details on <a href={etherscanLink} className="link">Etherscan</a>
 			</div>
 		      </div>
 		    </div>
