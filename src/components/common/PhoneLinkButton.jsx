@@ -14,21 +14,21 @@ const styles = {
 
 class PhoneLink extends React.Component {
     render() {
-        const { sendMode } = this.props.sendMode;
+        const sendMode = this.props.sendMode;
         let linkButtonWidth, buttonWidth = 205;
-        if (this.props.active === false && sendMode === 'special link') {
+        if (this.props.active === false && sendMode === 'link') {
             buttonWidth = 170;
             linkButtonWidth = 133;
         }
-        if (this.props.active === true && sendMode === 'phone number') {
+        if (this.props.active === true && sendMode === 'phone') {
             buttonWidth = 205;
             linkButtonWidth = 166;
         }
-        if (this.props.active === true && sendMode === 'special link') {
+        if (this.props.active === true && sendMode === 'link') {
             buttonWidth = 205;
             linkButtonWidth = 166;
         }
-        sendMode === 'special link' ? 133 : 166;
+        sendMode === 'link' ? 133 : 166;
         return (
             <Button style={{
                 width: buttonWidth,
@@ -58,10 +58,10 @@ class PhoneLink extends React.Component {
                     <div style={{ display: 'flex', height: 30, position: 'sticky' }}>
                         <div style={{
                             display: 'block', color: '#2bc64f',
-                        }}>{sendMode === 'phone number' ? <div style={{ color: '#2bc64f' }}>phone number</div> : <div style={{...styles.linkButton, width: linkButtonWidth}}>special link</div>}</div>
+                        }}>{sendMode === 'phone' ? <div style={{ color: '#2bc64f' }}>phone number</div> : <div style={{...styles.linkButton, width: linkButtonWidth}}>special link</div>}</div>
                         <i className={this.props.active ? 'fa fa-caret-up' : 'fa fa-caret-down'} style={styles.caretIcon}></i>
                     </div>
-                    {this.props.active ? <div onClick={() => { sendMode === "phone number" ? this.props.chooseSendMode('special link') : this.props.chooseSendMode('phone number') }}>{sendMode === 'phone number' ? <div style={{...styles.linkButton, width: linkButtonWidth}}>special link</div> : <div style={{ color: '#2bc64f' }}>phone number</div>}</div> : ""}
+                    {this.props.active ? <div onClick={() => { sendMode === "phone" ? this.props.chooseSendMode('link') : this.props.chooseSendMode('phone') }}>{sendMode === 'phone' ? <div style={{...styles.linkButton, width: linkButtonWidth}}>special link</div> : <div style={{ color: '#2bc64f' }}>phone number</div>}</div> : ""}
                 </div>
             </Button>
         );

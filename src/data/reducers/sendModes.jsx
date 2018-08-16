@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux'
 import {
     CHOOSE_SEND_MODE 
 } from './../../actions/modes'
 
-const sendMode = (state = 'phone number', action) => {
+const sendMode = (state = 'phone', action) => {
     let newState;
   switch (action.type) {
   case CHOOSE_SEND_MODE:
@@ -15,6 +14,4 @@ const sendMode = (state = 'phone number', action) => {
     return newState || state;
 }
 
-export default combineReducers({
-    sendMode
-  })
+export default sendMode;
