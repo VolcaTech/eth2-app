@@ -15,10 +15,7 @@ const styles = {
     },
     nextButton: {
         display: 'flex',
-        margin: '0px auto auto',
-        maxWidth: 400,
-        minWidth: 300,
-        width: '78%',
+        marginBottom: 'auto'
     },
     nextButtonIcon: {
         display: 'inline',
@@ -30,6 +27,7 @@ const styles = {
         margin: 'auto',
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
         height: 59
     },
     backButtonIcon: {
@@ -123,8 +121,8 @@ const styles = {
     },
     backButtonsRowContainer: {
         position: 'fixed',
-	bottom: 35
-    }    
+        bottom: 35
+    }
 }
 
 
@@ -136,7 +134,7 @@ class E2PCarousel extends Component {
             nextButtonStyle: {},
             backButtonStyle: styles.buttonHidden,
             backButtonColor: '#fff',
-            
+
         };
     }
 
@@ -165,13 +163,13 @@ class E2PCarousel extends Component {
             height = Math.max(height, rowsHeight);
         }
 
-	// minimum 550px
-	height = Math.max(height, 400);
+        // minimum 550px
+        height = Math.max(height, 400);
 
-	const backButtonOffset = window.innerWidth / 2 - 50;
+        const backButtonOffset = window.innerWidth / 2 - 50;
 
         return (
-            <div style={{ display: 'flex', flexDirection: 'column'}}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <CarouselProvider
                     naturalSlideWidth={window.innerWidth}
                     naturalSlideHeight={height}
@@ -185,7 +183,7 @@ class E2PCarousel extends Component {
                     <Slider>
                         {Slides}
                     </Slider>
-                    <div style={{...styles.backButtonsRowContainer, left: backButtonOffset}}>
+                    <div style={{ ...styles.backButtonsRowContainer, left: backButtonOffset }}>
                         <div style={this.state.backButtonStyle}>
                             <ButtonBack onClick={this._clickBackButton.bind(this)} >
                                 <div style={styles.buttonRow}>
@@ -196,22 +194,20 @@ class E2PCarousel extends Component {
                                 </div>
                             </ButtonBack>
                         </div>
-		    </div>
-		    <div style={styles.nextButtonsRowContainer}>
+                    </div>
+                    <div style={styles.nextButtonsRowContainer}>
                         <div style={this.state.nextButtonStyle}>
-                            <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
-                                <div style={{ flex: 1, alignItems: 'flex-start' }}>
-                                    <div style={styles.buttonRow}>
-                                        <a href='https://info.eth2.io/' className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
-                                            <span style={styles.nextButtonTitle}>About</span>
-                                        </a>
-                                        <Link to="/faq">					
-                                          <div className="faq-icon" style={{ width: 59, height: 59 }}>					 
+                                <div style={styles.buttonRow}>
+                                    <a href='https://info.eth2.io/' className='history-button no-underline' style={{ ...styles.aboutContainer, color: '#0099ff' }}>
+                                        <span style={styles.nextButtonTitle}>About</span>
+                                    </a>
+                                    <a href='https://info.eth2.io/faq'>
+                                        <div className="faq-icon" style={{ width: 59, height: 59 }}>
                                             <RetinaImage src="https://eth2.io/images/q.png" />
-                                          </div>
-					</Link>
-                                    </div>
-                                </div>
+                                        </div>
+                                    </a>
+                            <ButtonNext onClick={() => this.setState({ currentSlide: 1, backButtonStyle: {}, nextButtonStyle: styles.buttonHidden })} style={styles.nextButton}>
+
                                 <div style={{ flex: 1, alignItems: 'flex-end' }}>
                                     <div className="history-button" style={styles.transfersButtonContainer}>
                                         <span style={styles.nextButtonTitle}>Transfers</span>
@@ -220,6 +216,7 @@ class E2PCarousel extends Component {
 
                                 </div>
                             </ButtonNext>
+                            </div>                            
                         </div>
                     </div>
                 </CarouselProvider>
