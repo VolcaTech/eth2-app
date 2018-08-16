@@ -43,7 +43,7 @@ const CompletedSentScreen = ({transfer}) => {
 	      <div className="title">
 		Receiver claimed <span className="text-blue">{transfer.amount}</span>
 		<span className="text-gray"> ETH</span><br/>
-		with {transfer.verificationType === 'phone' ? formattedPhone : 'special link'}
+		with {transfer.verificationType === 'none' ?  'special link' : formattedPhone }
 	      </div>	      
 	    </div>
 
