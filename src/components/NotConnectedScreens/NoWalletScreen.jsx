@@ -143,7 +143,7 @@ class NoWalletScreen extends Component {
                             </div>
                             <div style={styles.buttonRow}>
                                 <a href="https://metamask.io/" style={{...styles.button, backgroundColor: '#f5a623', borderColor: '#f5a623'}} target="_blank"> Install Metamask </a>
-				<Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
+				<a href="https://info.eth2.io/faq"><RetinaImage src="https://eth2.io/images/q.png" /> </a>
                             </div>
                         </div>
                     )}

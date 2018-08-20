@@ -119,28 +119,28 @@ export const sendSpecialLinkTransfer = ({amount}) => {
 	
 	const state = getState();
 	const networkId = state.web3Data.networkId;	
-    const senderAddress = state.web3Data.address;
-
+	const senderAddress = state.web3Data.address;
+	
 	const { txHash, transitPrivateKey, transferId, transitAddress } = await e2pService.sendLinkTransfer({
 												  amountToPay: amount,
 												  senderAddress});
 	const id = `${transferId}-out`;
 
 	const transfer = {
-        id,
-        verificationType: 'none',        
+            id,
+            verificationType: 'none',        
 	    txHash,
 	    transitPrivateKey,
 	    transferId,
 	    transitAddress: transitAddress.toLowerCase(),
 	    networkId,
 	    senderAddress,
-        status: 'depositing',
+            status: 'depositing',
 	    timestamp: Date.now(),
 	    amount,	    
 	    fee: 0,
 	    direction: 'out'
-    };
+	};
     
 	dispatch(createLinkTransfer(transfer));
 	// subscribe
@@ -199,18 +199,18 @@ export const withdrawLinkTransfer = ({transitPrivateKey}) => {
 	const networkId = state.web3Data.networkId;
 	const receiverAddress = state.web3Data.address;
     
-    const result = await e2pService.withdrawLinkTransfer({
-        transitPrivateKey,
-        receiverAddress
-    })
-
+	const result = await e2pService.withdrawLinkTransfer({
+            transitPrivateKey,
+            receiverAddress
+	});
+	
 	
 	const id = `${result.transferId}-IN`;
-    const txHash = result.txHash
-    const amount = result.amount
-    const transfer = {
-        id,
-        verificationType: 'none',                
+	const txHash = result.txHash;
+	const amount = result.amount;
+	const transfer = {
+            id,
+            verificationType: 'none',                
 	    txHash,
 	    transferId: result.transferId,
 	    status: 'receiving',

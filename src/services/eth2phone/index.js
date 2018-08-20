@@ -5,7 +5,7 @@ import {
     generateKeystoreWithSecret,
     generateTransferId, getSignatureForReceiveAddress, getSignatureForLinkTransfer } from './utils';
 import { sha3 } from 'web3-utils';
-import getWeb3 from './../../utils/getWeb3'
+import getWeb3 from './../../utils/getWeb3';
 const Wallet = require('ethereumjs-wallet');
 
 
@@ -44,13 +44,16 @@ export const sendTransfer = async ({phoneCode, phone, amountToPay, senderAddress
     return { txHash, secretCode, transferId, transitAddress };
 }
 
+const _generateTransferIdForLink = (address) => {
+    return `link-${address}`;
+}
+
 export const sendLinkTransfer = async ({amountToPay, senderAddress}) => {
 
     const wallet = Wallet.generate();
-	const transitAddress = wallet.getChecksumAddressString();
-    const transitPrivateKey = wallet.getPrivateKeyString();
-    const transferId = sha3(transitPrivateKey)
-    console.log(transferId)
+    const transitAddress = wallet.getChecksumAddressString();
+    const transitPrivateKey = wallet.getPrivateKeyString().substring(2);
+    const transferId = _generateTransferIdForLink(transitAddress);
     
     // 3. send deposit to smart contract
     const txHash = await escrowContract.deposit(transitAddress, amountToPay);
@@ -76,31 +79,49 @@ export const sendSmsToPhone = async ({phoneCode, phone, secretCode}) => {
     return result;    
 }
 
-export const fetchTransferDetailsFromServer = ({phoneCode, phone, secretCode}) => {
-    const transferId = generateTransferId(phoneCode, phone, secretCode);
+const _getAddressFromPrivateKey = (privateKey) => {
+   return '0x' + Wallet.fromPrivateKey(
+       new Buffer(privateKey, 'hex')).getAddress().toString('hex');
+}
+
+
+export const fetchTransferDetailsFromServer = ({phoneCode, phone, secretCode=null, transitPrivateKey=null}) => {
+    
+    let transferId;
+
+    // if transfer is with authentication
+    if (secretCode) { 
+	transferId = generateTransferId(phoneCode, phone, secretCode);
+    } else {
+	// if transfer via special link
+	const transitAddress = _getAddressFromPrivateKey(transitPrivateKey);
+	transferId = _generateTransferIdForLink(transitAddress);    	
+    }
+    
     return verificationServer.fetchTransfer(transferId);
 }
 
+
 export const withdrawLinkTransfer = async ({transitPrivateKey, receiverAddress}) => {
-    const transferId = sha3(transitPrivateKey)
+    const transitAddress = _getAddressFromPrivateKey(transitPrivateKey);
+    const transferId = _generateTransferIdForLink(transitAddress);
     
     const { v, r, s } = getSignatureForLinkTransfer({
         address: receiverAddress,
-        transitPrivateKey: transitPrivateKey.substring(2)
-        });
+        transitPrivateKey
+    });
     const result = await verificationServer.confirmLinkTx(
-        transitPrivateKey.substring(2),
+        transitAddress,
         receiverAddress,
         v, r, s);
-        console.log(result)
     
     
-        if (!result.success) {
+    if (!result.success) {
         throw new Error((result.errorMessage || "Server error on withdrawal!"));
-        }
+    }
     
-        
-        return { txHash: result.txHash, amount: result.amount, transferId };
+    
+    return { txHash: result.txHash, amount: result.amount, transferId };
 }
 
 
