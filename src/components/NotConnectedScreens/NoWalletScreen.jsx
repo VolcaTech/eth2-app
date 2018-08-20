@@ -93,45 +93,13 @@ const styles = {
 
 
 class NoWalletScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            disabled: true,
-            deepLink: false
-        };
-    }
-    componentDidMount() {
-        this._getDeepLink();
-    }
-    
-    async _getDeepLink() {
-	var dappUrl = encodeURIComponent(window.location);
-	const host = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url'; // trust wallet deep link
-	// const host = 'https://tokenpocket.github.io/applink?dappUrl'; // Token Poket deep link
-	const deepLink = `${host}=${dappUrl}`;
-        this.setState({ deepLink });
-    }
-
     render() {
-        const disabled = this.state.deepLink ? "" : "disabled";
         return (
             <div>
                 <div style={styles.title}>You need wallet to<br />send or receive ether</div>
                 {window.innerWidth < 769 ?
                     (
-                        <div>
-                            <div style={{ ...styles.instructionsText, textAlign: 'center' }}> We recommend Trust Wallet </div>
-                            <div style={styles.instructionsContainer}>
-                                <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}>How to:</div>
-                                <div style={styles.instructionsText}> 1. Download <div style={styles.instructionsTextBold}>Trust Wallet</div> (button below) </div>
-                                <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
-                                <div style={styles.instructionsText}> 3. Receive Ether (link will be open automatically) </div>
-                            </div>
-                            <div style={styles.buttonRow}>
-                                <a className={`btn btn-primary ${disabled}`} href={this.state.deepLink || "#"} style={styles.button}> Use Trust Wallet </a>
-				<Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
-                            </div>
-                        </div>
+                <WalletsList />          
                     ) :
                     (
                         <div>
@@ -148,7 +116,6 @@ class NoWalletScreen extends Component {
                             </div>
                         </div>
                     )}
-                <WalletsList />
             </div>
         );
     }
