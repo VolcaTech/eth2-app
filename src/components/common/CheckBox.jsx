@@ -11,7 +11,7 @@ class CheckBox extends React.Component {
         return (
             <div style={styles.container}>
                 <Checkbox className="checkbox" onClick={this.props.onSubmit} style={{borderColor: 'red', borderWidth: 1}} readOnly >
-                    <div style={{ width: 225, textAlign: 'center', display: 'inline-block', paddingTop: 1, fontSize: 13, fontFamily: 'SF Display Regular', color: this.props.textColor }}>I understand I am using beta software,
+                    <div style={{ width: 230, textAlign: 'center', display: 'inline-block', fontSize: 14, fontFamily: 'SF Display Regular', color: this.props.textColor }}>I understand I am using beta software,
 at my own risk. <a href="/#/tos" style={styles.blueText}>Learn more</a></div>
                 </Checkbox>
             </div>

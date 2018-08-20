@@ -87,7 +87,7 @@ const styles = {
         borderRadius: 50,
         backgroundColor: '#fff',
         float: 'right',
-        marginTop: 10,
+        marginTop: 8,
         //marginRight: 40,
         width: 127
     },
