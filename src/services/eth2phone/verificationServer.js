@@ -88,10 +88,9 @@ export const confirmTx = (transferId, receiverAddress, v, r, s) => {
     }).then((response) => response.json());
 }
 
-export const confirmLinkTx = (transitPrivateKey, receiverAddress, v, r, s) => {
+export const confirmLinkTx = (transitAddress, receiverAddress, v, r, s) => {
     const serverUrl = urlGetter.getServerUrl();
-    const transitAddress = '0x' + Wallet.fromPrivateKey(
-        new Buffer(transitPrivateKey, 'hex')).getAddress().toString('hex');
+
     const data = {
         transitAddress,
         receiverAddress,

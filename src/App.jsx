@@ -36,12 +36,15 @@ class App extends Component {
                 <div>
                     <NoWalletHeader />
                     <Switch>
-                        <Route exact path="/" component={Landing} />
+                      <Route exact path="/" component={() => {
+			    window.location = 'https://info.eth2.io';
+			}} />
                         <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
                         <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/tos" component={TOS} />
                         <Route path="/privacy" component={PrivacyPolicy} />
-                        <Route component={NoWalletScreen} />
+                        <Route exact path="/send" component={NoWalletScreen} />
+                        <Route component={NoWalletScreen} />			
                     </Switch>
                 </div>
             </Router>
