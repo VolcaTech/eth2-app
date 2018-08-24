@@ -71,48 +71,32 @@ const styles = {
 const wallets = [
     {
         text: "Trust",
-        logo: "https://eth2.io/images/trust.png"
+        logo: "https://eth2.io/images/trust.png",
+        link: "https://trustwalletapp.com"
     },
     {
-        text: "Metamask",
-        logo: "https://eth2.io/images/metamask.png"
+        text: "Opera",
+        logo: "https://eth2.io/images/opera.png",
+        link: "https://www.opera.com/download"
     },
     {
         text: "Toshi",
-        logo: "https://eth2.io/images/toshi.png"
+        logo: "https://eth2.io/images/toshi.png",
+        link: "https://www.toshi.org"
     },
     {
         text: "Token Pocket",
-        logo: "https://eth2.io/images/token_pocket.png"
+        logo: "https://eth2.io/images/token_pocket.png",
+        link: "https://tokenpocket.jp/index_en.html"
     },
     {
         text: "Cipher",
-        logo: "https://eth2.io/images/cipher.png"
+        logo: "https://eth2.io/images/cipher.png",
+        link: "https://www.cipherbrowser.com"
     }
 ]
 
 class WalletSlider extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedWallet: '',
-            disabled: true,
-            deepLink: false
-        };
-    }
-
-    componentDidMount() {
-        this._getDeepLink();
-    }
-
-    async _getDeepLink() {
-        var dappUrl = encodeURIComponent(window.location);
-        const host = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url'; // trust wallet deep link
-        // const host = 'https://tokenpocket.github.io/applink?dappUrl'; // Token Poket deep link
-        const deepLink = `${host}=${dappUrl}`;
-        this.setState({ deepLink });
-    }
-
     _renderNextArrow = () => {
         return (
             <div>
@@ -139,26 +123,13 @@ class WalletSlider extends React.Component {
             margin: 20,
 
         };
-        const disabled = this.state.deepLink ? "" : "disabled";
         return (
             <div style={{ padding: 10 }}>
-                <div>
-                    <div style={{ ...styles.instructionsText, textAlign: 'center' }}> We recommend Trust Wallet </div>
-                    <div style={styles.instructionsContainer}>
-                        <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}>How to:</div>
-                        <div style={styles.instructionsText}> 1. Download <div style={styles.instructionsTextBold}>Trust Wallet</div> (button below) </div>
-                        <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
-                        <div style={styles.instructionsText}> 3. Receive Ether (link will be open automatically) </div>
-                    </div>
-                    <div style={styles.buttonRow}>
-                        <a className={`btn btn-primary ${disabled}`} href={this.state.deepLink || "#"} style={styles.button}> Use Trust Wallet </a>
-                        <Link to="faq"><RetinaImage src="https://eth2.io/images/q.png" /> </Link>
-                    </div>
-                </div>
+                
                 <Slider {...settings}>
                     {wallets.map(wallet => {
                         return (
-                            <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={() => this.setState({ selectedWallet: wallet.text })} selected={wallet.text === this.state.selectedWallet ? true : false} />
+                            <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={this.props.selectWallet} />
                         )
                     })}
                 </Slider>
@@ -169,9 +140,8 @@ class WalletSlider extends React.Component {
 
 const WalletButtonContainer = ({ wallet, selectWallet, selected }) => {
     let containerStyle
-    selected === true ? containerStyle = styles.selectedColor : ''
     return (
-        <div style={containerStyle} onClick={selectWallet} >
+        <div style={containerStyle} onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)}>
             <RetinaImage className="img-responsive" style={styles.logo} src={wallet.logo} />
             <div style={styles.logoText}>{wallet.text}</div>
         </div>
