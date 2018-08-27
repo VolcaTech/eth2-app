@@ -19,3 +19,8 @@
   font-family: "SF Display Regular";
   src: url("SanFranciscoDisplay-Regular.otf");
 }
+
+@font-face {
+    font-family: "SF Display Semibold";
+    src: url("SF-Pro-Display-Semibold.otf");
+  }
