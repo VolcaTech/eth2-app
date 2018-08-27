@@ -72,13 +72,21 @@ const styles = {
     logo: {
         margin: 'auto'
     },
+    howtoTitle: {
+        fontFamily: 'SF Display Bold',
+        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 20
+    },
     instructionsText: {
         fontFamily: "SF Display Regular",
-        fontSize: 14
+        fontSize: 14,
+        marginBottom: 5
     },
     instructionsTextBold: {
         display: 'inline',
-        fontFamily: 'SF Display Bold'
+        fontFamily: "SF Display Bold",
+        fontSize: 14,
     },
     instructionsContainer: {
         width: 300,
@@ -91,11 +99,12 @@ const styles = {
         flexDirection: "column",
         justifyContent: "space-between"
     },
-    anotherWallet : {
+    anotherWallet: {
         textAlign: 'center',
         fontSize: 20,
         fontFamily: 'SF Display Semibold',
-        color: '#979797'
+        color: '#979797',
+        marginTop: 20,
     }
 }
 
@@ -131,6 +140,16 @@ class NoWalletScreen extends Component {
                 walletIcon = "https://eth2.io/images/token_pocket.png";
                 walletURL = "https://tokenpocket.jp/index_en.html";
                 break;
+            case 'toshi':
+                selectedWallet = "Toshi";
+                walletIcon = "https://eth2.io/images/toshi.png";
+                walletURL = "https://www.toshi.org";
+                break;
+            case 'status':
+                selectedWallet = "Status";
+                walletIcon = "https://eth2.io/images/status.png";
+                walletURL = "https://status.im/";
+                break;
             default:
                 selectedWallet = "Trust";
                 walletIcon = "https://eth2.io/images/trust.png";
@@ -144,7 +163,8 @@ class NoWalletScreen extends Component {
             walletURL,
             disabled: true,
             deepLink: false,
-            showCarousel: false
+            showCarousel: false,
+            showInstruction: false
         };
     }
     componentDidMount() {
@@ -171,12 +191,15 @@ class NoWalletScreen extends Component {
                 {window.innerWidth < 769 ?
                     (
                         <div>
-                            <div><RetinaImage src={this.state.walletIcon} style={{ display: 'block', margin: 'auto', width: 128, height: 128 }} /></div>
-                            <div style={styles.title}>You need wallet to<br />send or receive ether</div>
-                            <a href={this.state.deepLink === true ? this.state.deepLink : this.state.walletURL} style={styles.button} target="_blank"> Install {this.state.selectedWallet} </a>
+                            <div><RetinaImage src={this.state.walletIcon} style={{ display: 'block', margin: 'auto', marginTop: 50, width: 128, height: 128 }} /></div>
+                            <div style={{ ...styles.title, marginTop: 10 }}>You need wallet to<br />send or receive ether</div>
+                            <a href={this.state.selectedWallet === 'Trust' ? this.state.deepLink : this.state.walletURL} style={styles.button} target="_blank"> Open {this.state.selectedWallet} </a>
                             {this.state.showCarousel === true ? <WalletSlider selectWallet={this._selectWallet} /> :
                                 <div style={styles.anotherWallet} onClick={() => this.setState({ showCarousel: true })}>Have another wallet?</div>
+
                             }
+                            {this.state.showInstruction === true ? <div onClick={() => this.setState({ showInstruction: false })}><Instructions wallet={this.state.selectedWallet} /></div> : <RetinaImage style={{ display: 'block', margin: 'auto', marginTop: 40 }} src="https://eth2.io/images/q.png" onClick={() => this.setState({ showInstruction: true })} />}
+
                         </div>
                     ) :
                     (
@@ -201,32 +224,13 @@ class NoWalletScreen extends Component {
 }
 
 
-const WalletsList = () => {
+const Instructions = ({ wallet }) => {
     return (
-        <div>
-            {/* <Row style={styles.row}>
-                <div style={styles.supported}>Supported wallets</div>
-            </Row>
-
-            <div style={{...styles.row, maxWidth: 400}}>
-                <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/trust.png" />		  
-                    <div style={styles.logoText}>Trust</div>
-                </div>
-                <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/metamask.png" />		  		  
-                    <div style={styles.logoText}>Metamask</div>
-                </div>
-                <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/toshi.png" />		  		  
-                  <div style={styles.logoText}>Toshi</div>
-                </div>
-                <div style={styles.walletLogoContainer}>
-		  <RetinaImage className="img-responsive" style={styles.logo} src="https://eth2.io/images/token_pocket.png" />		  		  
-                    <div style={styles.logoText}>Token Pocket</div>
-                </div>
-		
-            </div> */}
+        <div style={styles.instructionsContainer}>
+            <div style={styles.howtoTitle}>How to:</div>
+            <div style={styles.instructionsText}> 1. Download/Open <div style={styles.instructionsTextBold}>{wallet}</div> (button above)</div>
+            <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
+            <div style={styles.instructionsText}> 3. Eth2.io will be opened automatically or <div style={styles.instructionsTextBold}>copy&paste</div> the claiming link in the browser and follow simple instructions </div>
         </div>
     )
 }

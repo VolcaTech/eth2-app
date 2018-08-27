@@ -11,61 +11,25 @@ const styles = {
         marginTop: -6
     },
     logo: {
-        margin: 'auto',
-        height: 80,
-        width: 80
+        height: 70,
+        width: 70
     },
-    selectedColor: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'rgba(0, 153, 255, 0.2)',
-        borderRadius: 12
+    logo5: {
+        height: 55,
+        width: 55
     },
-    buttonRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        width: 300,
-        margin: 'auto',
-        marginBottom: 30,
-        justifyContent: 'center'
-    },
-    instructionsContainer: {
-        width: 300,
-        display: "flex",
-        margin: "auto",
-        textAlign: 'left',
-        verticalAlign: "text-top",
-        marginTop: 25,
-        marginBottom: 25,
-        flexDirection: "column",
-        justifyContent: "space-between"
-    },
-    instructionsText: {
-        fontFamily: "SF Display Regular",
-        fontSize: 14
-    },
-    instructionsTextBold: {
-        display: 'inline',
-        fontFamily: 'SF Display Bold'
-    },
-    button: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignContent: 'center',
-        justifyContent: 'center',
-        width: 243,
-        height: 38,
-        borderRadius: 12,
-        marginTop: 'auto',
-        marginBottom: 'auto',
-        backgroundColor: '#0099ff',
-        borderColor: '#0099ff',
-        fontSize: 18,
-        fontFamily: 'SF Display Black',
+    title: {
         textAlign: 'center',
-        textDecoration: 'none',
-        color: 'white'
+        fontFamily: "SF Display Semibold",
+        fontSize: 20,
+        marginBottom: 25,
+        marginTop: 20
     },
+    containerStyle: {
+        
+    },
+    nextArrow: { width: 20, height: 20, position: 'absolute', top: 25, right: 0, textAlign: 'right' },
+    prevArrow: { width: 20, height: 20, float: 'left', top: 25, paddingTop: 26 }
 }
 
 const wallets = [
@@ -93,40 +57,49 @@ const wallets = [
         text: "Cipher",
         logo: "https://eth2.io/images/cipher.png",
         link: "https://www.cipherbrowser.com"
+    },
+    {
+        text: "Status",
+        logo: "https://eth2.io/images/status.png",
+        link: "https://status.im/"
     }
 ]
 
 class WalletSlider extends React.Component {
-    _renderNextArrow = () => {
+    _renderNextArrow = (props) => {
+        const { onClick } = props;
         return (
-            <div>
-                1
-                </div>
+            <div style={window.innerWidth > 320 ? styles.nextArrow : {...styles.nextArrow, top: 16}} onClick={onClick}>
+                <RetinaImage src="https://eth2.io/images/arrowRight.png" />
+            </div>
         )
     }
 
-    _renderPreviousArrow = () => {
+    _renderPreviousArrow = (props) => {
+        const { onClick } = props;
         return (
-            <div>
-                1
-                </div>
+            <div style={window.innerWidth > 320 ? styles.prevArrow : {...styles.prevArrow, paddingTop: 16}} onClick={onClick}>
+                <RetinaImage src="https://eth2.io/images/arrowLeft.png" />
+            </div>
         )
     }
 
     render() {
         const settings = {
             arrows: true,
-
+            nextArrow: <this._renderNextArrow />,
+            prevArrow: <this._renderPreviousArrow />,
             fontSize: 10,
             slidesToShow: 4,
             slidesToScroll: 1,
-            margin: 20,
-
+            marginRight: 20,
+            marginLeft: 20,
         };
         return (
             <div style={{ padding: 10 }}>
-                
-                <Slider {...settings}>
+                <div style={styles.title}>Choose your wallet:</div>
+                <Slider {...settings}
+                >
                     {wallets.map(wallet => {
                         return (
                             <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={this.props.selectWallet} />
@@ -139,11 +112,16 @@ class WalletSlider extends React.Component {
 }
 
 const WalletButtonContainer = ({ wallet, selectWallet, selected }) => {
-    let containerStyle
+    let logoStyle;
+    if (window.innerWidth > 320) {
+        logoStyle = styles.logo
+    } else {
+        logoStyle = styles.logo5
+    }
     return (
-        <div style={containerStyle} onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)}>
-            <RetinaImage className="img-responsive" style={styles.logo} src={wallet.logo} />
-            <div style={styles.logoText}>{wallet.text}</div>
+        <div style={styles.containerStyle} onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)}>
+            <RetinaImage className="img-responsive" style={logoStyle} src={wallet.logo} />
+            {/* <div style={styles.logoText}>{wallet.text}</div> */}
         </div>
     )
 }
