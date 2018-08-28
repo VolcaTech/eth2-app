@@ -26,10 +26,10 @@ const styles = {
         marginTop: 20
     },
     containerStyle: {
-        
+
     },
     nextArrow: { width: 20, height: 20, position: 'absolute', top: 25, right: 0, textAlign: 'right' },
-    prevArrow: { width: 20, height: 20, float: 'left', top: 25, paddingTop: 26 }
+    prevArrow: { width: 19, height: 20, float: 'left', top: 25, paddingTop: 26 }
 }
 
 const wallets = [
@@ -44,7 +44,7 @@ const wallets = [
         link: "https://www.opera.com/download"
     },
     {
-        text: "Toshi",
+        text: "Coinbase Wallet",
         logo: "https://eth2.io/images/toshi.png",
         link: "https://www.toshi.org"
     },
@@ -69,7 +69,7 @@ class WalletSlider extends React.Component {
     _renderNextArrow = (props) => {
         const { onClick } = props;
         return (
-            <div style={window.innerWidth > 320 ? styles.nextArrow : {...styles.nextArrow, top: 16}} onClick={onClick}>
+            <div style={window.innerWidth > 320 ? styles.nextArrow : { ...styles.nextArrow, top: 16 }} onClick={onClick}>
                 <RetinaImage src="https://eth2.io/images/arrowRight.png" />
             </div>
         )
@@ -78,7 +78,7 @@ class WalletSlider extends React.Component {
     _renderPreviousArrow = (props) => {
         const { onClick } = props;
         return (
-            <div style={window.innerWidth > 320 ? styles.prevArrow : {...styles.prevArrow, paddingTop: 16}} onClick={onClick}>
+            <div style={window.innerWidth > 320 ? styles.prevArrow : { ...styles.prevArrow, paddingTop: 16 }} onClick={onClick}>
                 <RetinaImage src="https://eth2.io/images/arrowLeft.png" />
             </div>
         )
@@ -91,9 +91,7 @@ class WalletSlider extends React.Component {
             prevArrow: <this._renderPreviousArrow />,
             fontSize: 10,
             slidesToShow: 4,
-            slidesToScroll: 1,
-            marginRight: 20,
-            marginLeft: 20,
+            slidesToScroll: 4,
         };
         return (
             <div style={{ padding: 10 }}>
@@ -101,9 +99,11 @@ class WalletSlider extends React.Component {
                 <Slider {...settings}
                 >
                     {wallets.map(wallet => {
-                        return (
-                            <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={this.props.selectWallet} />
-                        )
+                        if (wallet.text !== this.props.selectedWallet) {
+                            return (
+                                <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={this.props.selectWallet} />
+                            )
+                        }
                     })}
                 </Slider>
             </div>

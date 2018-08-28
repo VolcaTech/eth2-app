@@ -140,8 +140,8 @@ class NoWalletScreen extends Component {
                 walletIcon = "https://eth2.io/images/token_pocket.png";
                 walletURL = "https://tokenpocket.jp/index_en.html";
                 break;
-            case 'toshi':
-                selectedWallet = "Toshi";
+            case 'coinbase_wallet':
+                selectedWallet = "Coinbase Wallet";
                 walletIcon = "https://eth2.io/images/toshi.png";
                 walletURL = "https://www.toshi.org";
                 break;
@@ -193,12 +193,12 @@ class NoWalletScreen extends Component {
                         <div>
                             <div><RetinaImage src={this.state.walletIcon} style={{ display: 'block', margin: 'auto', marginTop: 50, width: 128, height: 128 }} /></div>
                             <div style={{ ...styles.title, marginTop: 10 }}>You need wallet to<br />send or receive ether</div>
-                            <a href={this.state.selectedWallet === 'Trust' ? this.state.deepLink : this.state.walletURL} style={styles.button} target="_blank"> Open {this.state.selectedWallet} </a>
-                            {this.state.showCarousel === true ? <WalletSlider selectWallet={this._selectWallet} /> :
+                            <a href={this.state.selectedWallet === 'Trust' ? this.state.deepLink : this.state.walletURL} style={styles.button} target="_blank"> Use {this.state.selectedWallet} </a>
+                            {this.state.showCarousel === true ? <WalletSlider selectWallet={this._selectWallet} selectedWallet={this.state.selectedWallet}/> :
                                 <div style={styles.anotherWallet} onClick={() => this.setState({ showCarousel: true })}>Have another wallet?</div>
 
                             }
-                            {this.state.showInstruction === true ? <div onClick={() => this.setState({ showInstruction: false })}><Instructions wallet={this.state.selectedWallet} /></div> : <RetinaImage style={{ display: 'block', margin: 'auto', marginTop: 40 }} src="https://eth2.io/images/q.png" onClick={() => this.setState({ showInstruction: true })} />}
+                            {this.state.showInstruction === true ? <Instructions wallet={this.state.selectedWallet} /> : <RetinaImage style={{ display: 'block', margin: 'auto', marginTop: 40 }} src="https://eth2.io/images/q.png" onClick={() => this.setState({ showInstruction: true })} />}
 
                         </div>
                     ) :
