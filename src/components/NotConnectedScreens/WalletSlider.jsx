@@ -35,7 +35,7 @@ const styles = {
 
     },
     nextArrow: { width: 20, height: 20, position: 'absolute', top: 25, right: 0, textAlign: 'right' },
-    prevArrow: { width: 19, height: 20, float: 'left', top: 25, paddingTop: 26 }
+    prevArrow: { height: 20, float: 'left', top: 25, paddingTop: 26 }
 }
 
 const wallets = [
