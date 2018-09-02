@@ -29,7 +29,7 @@ const styles = {
         height: 29,
         fontFamily: "SF Display Black",
         color: "black",
-        fontSize: 24,
+        fontSize: 30,
         letterSpacing: 1,
         textAlign: 'center',
         marginTop: 9
@@ -37,7 +37,7 @@ const styles = {
     headerLogo2: {
         display: 'inline', 
         fontFamily: 'SF Display Regular',
-        fontSize: 12, 
+        fontSize: 14, 
         color: '#999999',
         verticalAlign: 'text-top',
         marginLeft: 5
@@ -69,16 +69,16 @@ const NoWalletHeader = () => {
                                     window.location.reload();
                                 }
                             }}>
-                                <div className={headerLogoClass}>
+                                <div style={styles.headerLogo1}>
                                     Eth2<div style={styles.headerLogo2}>beta</div></div>
                             </Link>
                         </Col>
-                        <Col style={styles.web3} xs={6}>
+                        {/* <Col style={styles.web3} xs={6}>
                             <div className={headerButtonClass}>
                                 Not connected to Web3
                     <div style={styles.redDot}>&#9679;</div>
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Col>
             </Row>

@@ -43,8 +43,8 @@ const styles = {
         flexDirection: 'column',
         alignContent: 'center',
         justifyContent: 'center',
-        width: 243,
-        height: 38,
+        width: 300,
+        height: 45,
         borderRadius: 12,
         marginTop: 'auto',
         marginBottom: 'auto',
@@ -122,12 +122,12 @@ class NoWalletScreen extends Component {
         switch (walletFromLink) {
             case 'trust':
                 selectedWallet = "Trust";
-                walletIcon = "https://eth2.io/images/trust.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/trust.png";
                 walletURL = "https://trustwalletapp.com";
                 break;
             case 'opera':
                 selectedWallet = "Opera"
-                walletIcon = "https://eth2.io/images/opera.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/opera.png";
                 walletURL = "https://www.opera.com/download";
                 break;
             // case 'portis':
@@ -137,22 +137,22 @@ class NoWalletScreen extends Component {
             //     break;                    
             case 'token_pocket':
                 selectedWallet = "Token Pocket";
-                walletIcon = "https://eth2.io/images/token_pocket.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/token_pocket.png";
                 walletURL = "https://tokenpocket.jp/index_en.html";
                 break;
             case 'coinbase_wallet':
                 selectedWallet = "Coinbase Wallet";
-                walletIcon = "https://eth2.io/images/toshi.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/coinbase_wallet.png";
                 walletURL = "https://www.toshi.org";
                 break;
             case 'status':
                 selectedWallet = "Status";
-                walletIcon = "https://eth2.io/images/status.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/status.png";
                 walletURL = "https://status.im/";
                 break;
             default:
                 selectedWallet = "Trust";
-                walletIcon = "https://eth2.io/images/trust.png";
+                walletIcon = "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/trust.png";
                 walletURL = "https://trustwalletapp.com";
                 break;
         }
@@ -191,7 +191,7 @@ class NoWalletScreen extends Component {
                 {window.innerWidth < 769 ?
                     (
                         <div>
-                            <div><RetinaImage src={this.state.walletIcon} style={{ display: 'block', margin: 'auto', marginTop: 50, width: 128, height: 128 }} /></div>
+                            <div><img src={this.state.walletIcon} style={{ display: 'block', margin: 'auto', borderRadius: 25, WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)', marginTop: 50}} /></div>
                             <div style={{ ...styles.title, marginTop: 10 }}>You need wallet to<br />send or receive ether</div>
                             <a href={this.state.selectedWallet === 'Trust' ? this.state.deepLink : this.state.walletURL} style={styles.button} target="_blank"> Use {this.state.selectedWallet} </a>
                             {this.state.showCarousel === true ? <WalletSlider selectWallet={this._selectWallet} selectedWallet={this.state.selectedWallet}/> :

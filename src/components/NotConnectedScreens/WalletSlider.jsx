@@ -11,12 +11,18 @@ const styles = {
         marginTop: -6
     },
     logo: {
-        height: 70,
-        width: 70
+        height: 60,
+        width: 60,
+        margin: 7,
+        borderRadius: 15,
+        WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)'
     },
     logo5: {
-        height: 55,
-        width: 55
+        height: 45,
+        width: 45,
+        margin: 7,
+        borderRadius: 12.5,
+        WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)'
     },
     title: {
         textAlign: 'center',
@@ -35,32 +41,32 @@ const styles = {
 const wallets = [
     {
         text: "Trust",
-        logo: "https://eth2.io/images/trust.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/trust.png",
         link: "https://trustwalletapp.com"
     },
     {
         text: "Opera",
-        logo: "https://eth2.io/images/opera.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/opera.png",
         link: "https://www.opera.com/download"
     },
     {
         text: "Coinbase Wallet",
-        logo: "https://eth2.io/images/toshi.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/coinbase_wallet.png",
         link: "https://www.toshi.org"
     },
     {
         text: "Token Pocket",
-        logo: "https://eth2.io/images/token_pocket.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/token_pocket.png",
         link: "https://tokenpocket.jp/index_en.html"
     },
     {
         text: "Cipher",
-        logo: "https://eth2.io/images/cipher.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/cipher.png",
         link: "https://www.cipherbrowser.com"
     },
     {
         text: "Status",
-        logo: "https://eth2.io/images/status.png",
+        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/status.png",
         link: "https://status.im/"
     }
 ]
@@ -87,6 +93,7 @@ class WalletSlider extends React.Component {
     render() {
         const settings = {
             arrows: true,
+            padding: 7,
             nextArrow: <this._renderNextArrow />,
             prevArrow: <this._renderPreviousArrow />,
             fontSize: 10,
@@ -119,10 +126,7 @@ const WalletButtonContainer = ({ wallet, selectWallet, selected }) => {
         logoStyle = styles.logo5
     }
     return (
-        <div style={styles.containerStyle} onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)}>
-            <RetinaImage className="img-responsive" style={logoStyle} src={wallet.logo} />
-            {/* <div style={styles.logoText}>{wallet.text}</div> */}
-        </div>
+            <RetinaImage onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)} className="img-responsive" style={logoStyle} src={wallet.logo} />
     )
 }
 
