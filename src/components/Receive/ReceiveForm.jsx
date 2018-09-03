@@ -92,9 +92,11 @@ class ReceiveScreen extends Component {
                     result.transfer.status = 'error';
                     result.transfer.isError = true;
                 } else {
-		    setTimeout(() => {
-			window.location.reload();
-		    }, 1000);
+		    result.transfer.status = 'deposited';
+		    this.setState({
+			transferStatus: result.transfer.status,
+			transfer: result.transfer
+		    });
 		}
             }
 

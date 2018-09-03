@@ -120,7 +120,7 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
             </Col>
 
             <Col style={styles.colVertAlign} xs={4}>
-                <div style={styles.phone}>{transfer.verificationType === 'phone' ? transfer.receiverPhone : 'special link'}</div>
+              <div style={styles.phone}>{transfer.verificationType === 'none' ?  'special link' : transfer.receiverPhone }</div>
             </Col>
 
             <Col style={styles.colVertAlign} xs={5}>
