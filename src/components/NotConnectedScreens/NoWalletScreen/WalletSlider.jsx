@@ -2,6 +2,8 @@ import React from "react";
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Slider from "react-slick";
 import RetinaImage from 'react-retina-image';
+import wallets from './wallets';
+
 
 const styles = {
     logoText: {
@@ -38,38 +40,6 @@ const styles = {
     prevArrow: { height: 20, float: 'left', top: 25, paddingTop: 26 }
 }
 
-const wallets = [
-    {
-        text: "Trust",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/trust.png",
-        link: "https://trustwalletapp.com"
-    },
-    {
-        text: "Opera",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/opera.png",
-        link: "https://www.opera.com/download"
-    },
-    {
-        text: "Coinbase Wallet",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/coinbase_wallet.png",
-        link: "https://www.toshi.org"
-    },
-    {
-        text: "Token Pocket",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/token_pocket.png",
-        link: "https://tokenpocket.jp/index_en.html"
-    },
-    {
-        text: "Cipher",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/cipher.png",
-        link: "https://www.cipherbrowser.com"
-    },
-    {
-        text: "Status",
-        logo: "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/status.png",
-        link: "https://status.im/"
-    }
-]
 
 class WalletSlider extends React.Component {
     _renderNextArrow = (props) => {
@@ -105,12 +75,13 @@ class WalletSlider extends React.Component {
                 <div style={styles.title}>Choose your wallet:</div>
                 <Slider {...settings}
                 >
-                    {wallets.map(wallet => {
-                        if (wallet.text !== this.props.selectedWallet) {
+                  {Object.keys(wallets)
+		      .map(walletId => wallets[walletId])
+		      .filter(wallet => wallet.id !== this.props.selectedWallet.id)
+		      .map(wallet => {
                             return (
-                                <WalletButtonContainer key={wallet.text} wallet={wallet} selectWallet={this.props.selectWallet} />
-                            )
-                        }
+                                <WalletButtonContainer key={wallet.id} wallet={wallet} selectWallet={this.props.selectWallet} />
+                            );
                     })}
                 </Slider>
             </div>
@@ -118,16 +89,19 @@ class WalletSlider extends React.Component {
     }
 }
 
-const WalletButtonContainer = ({ wallet, selectWallet, selected }) => {
+const WalletButtonContainer = ({ wallet, selectWallet }) => {
     let logoStyle;
     if (window.innerWidth > 320) {
-        logoStyle = styles.logo
+        logoStyle = styles.logo;
     } else {
-        logoStyle = styles.logo5
+        logoStyle = styles.logo5;
     }
+
+    const walletIcon = `https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/${wallet.id}.png`;
+    
     return (
-            <RetinaImage onClick={() => selectWallet(wallet.text, wallet.logo, wallet.link)} className="img-responsive" style={logoStyle} src={wallet.logo} />
-    )
+            <RetinaImage onClick={() => selectWallet(wallet.id)} className="img-responsive" style={logoStyle} src={walletIcon} />
+    );
 }
 
 export default WalletSlider;
