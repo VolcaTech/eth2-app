@@ -7,7 +7,7 @@ import styles from './styles';
 import wallets from './wallets';
 import ButtonPrimary from '../../../components/common/ButtonPrimary';
 import WalletSlider from './WalletSlider';
-
+import { getDeviceOS } from '../../../utils';
 
 
 class NoWalletScreen extends Component {
@@ -20,31 +20,53 @@ class NoWalletScreen extends Component {
         // parse url params
         const walletFromLink = (queryParams.wallet || queryParams.w);
 
+	// select Trust Wallet by default
+	selectedWallet = wallets.trust;
+
+	// if there is valid wallet id in url
 	if (walletFromLink && wallets[walletFromLink]) {
-	    selectedWallet = wallets[walletFromLink];
-	} else {
-	    // select Trust Wallet by default
-	    selectedWallet = wallets.trust;
-	}
+	    const wallet = wallets[walletFromLink];
+	    const os = this._getDeviceOS();
+
+	    // if wallet from the url is supported by devices OS
+	    if (wallet.mobile[os] && wallet.mobile[os].support === true) {
+		selectedWallet = wallet;
+	    }	    
+	} 
 	    
         this.state = {
             selectedWallet,
             disabled: true,
-            deepLink: false,
             showCarousel: false,
             showInstruction: false
         };
     }
-    componentDidMount() {
-        this._getDeepLink();
-    }
 
-    async _getDeepLink() {
+    _getDeviceOS() {
+	if (/Android/i.test(navigator.userAgent)) {
+	    return 'android';
+	}
+	
+	if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+	    return 'ios';
+	}
+	
+	return 'other';
+    }
+    
+    _getDeepLink() {
         var dappUrl = encodeURIComponent(window.location);
-        const host = 'https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url'; // trust wallet deep link
-        // const host = 'https://tokenpocket.github.io/applink?dappUrl'; // Token Poket deep link
-        const deepLink = `${host}=${dappUrl}`;
-        this.setState({ deepLink });
+	const wallet = this.state.selectedWallet;
+	const os = getDeviceOS();
+	
+	// if wallet is supported by devices OS
+	if (!(wallet.mobile[os] &&
+	      wallet.mobile[os].support === true &&
+	      wallet.mobile[os].deepLink !== null)) {
+	    return { link: wallet.walletURL, isDeepLink: false };
+	} 
+	
+	return { link: wallet.mobile[os].deepLink(dappUrl), isDeepLink: true };
     }
 
     _selectWallet(walletName) {
@@ -55,14 +77,26 @@ class NoWalletScreen extends Component {
 	});
     }
 
-    _renderForMobile() {
-	
-	const walletIcon = `https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/${this.state.selectedWallet.id}.png`;
+    _renderForMobile() {	
+	const { link, isDeepLink }  = this._getDeepLink();
+
+	// if there is deep link for the wallet for the device OS
+	if (isDeepLink) {
+	    return this._renderWithDeepLink(link);
+	}
+
+	// if there is NO deep link
+	return this._renderWithoutDeepLink(link);
+    }
+
+
+    _renderWithDeepLink(deepLink) {
+	const walletIcon = `https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/${this.state.selectedWallet.id}.png`;	
 	return (
             <div>
               <div><img src={walletIcon} style={styles.largeWalletIcon} /></div>
               <div style={{ ...styles.title, marginTop: 10 }}>You need wallet to<br />send or receive ether</div>
-              <a href={this.state.selectedWallet.name === 'Trust' ? this.state.deepLink : this.state.selectedWallet.walletURL} style={styles.button} target="_blank"> Use {this.state.selectedWallet.name} </a>
+              <a href={deepLink} style={styles.button} target="_blank"> Use {this.state.selectedWallet.name} </a>
               {
 		  this.state.showCarousel === true?
 		      <WalletSlider selectWallet={this._selectWallet.bind(this)} selectedWallet={this.state.selectedWallet}/> :
@@ -79,6 +113,21 @@ class NoWalletScreen extends Component {
         );	
     }
 
+    _renderWithoutDeepLink(link) {
+	const walletIcon = `https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/${this.state.selectedWallet.id}.png`;
+
+	// #TODO add this screen
+	return (
+            <div>
+              <div><img src={walletIcon} style={styles.largeWalletIcon} /></div>
+              <div style={{ ...styles.title, marginTop: 10 }}>How to use<br />{this.state.selectedWallet.name}</div>
+   	      <Instructions wallet={this.state.selectedWallet} />	      
+	      <WalletSlider selectWallet={this._selectWallet.bind(this)} selectedWallet={this.state.selectedWallet}/> 			  
+            </div>
+        );	
+    }
+
+    
     _renderForDesktop() {
 	return(
             <div>

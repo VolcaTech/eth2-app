@@ -58,3 +58,15 @@ export function detectNetwork(web3) {
 }
 
 
+
+export function getDeviceOS() {
+    if (/Android/i.test(navigator.userAgent)) {
+	return 'android';
+    }
+    
+    if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+	return 'ios';
+    }
+    
+    return 'other';
+}

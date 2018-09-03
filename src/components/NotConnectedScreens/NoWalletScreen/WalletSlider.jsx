@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Slider from "react-slick";
 import RetinaImage from 'react-retina-image';
 import wallets from './wallets';
+import { getDeviceOS } from '../../../utils';
 
 
 const styles = {
@@ -58,8 +59,8 @@ class WalletSlider extends React.Component {
                 <RetinaImage src="https://eth2.io/images/arrowLeft.png" />
             </div>
         )
-    }
-
+    }    
+    
     render() {
         const settings = {
             arrows: true,
@@ -70,6 +71,9 @@ class WalletSlider extends React.Component {
             slidesToShow: 4,
             slidesToScroll: 4,
         };
+	
+	const deviceOS = getDeviceOS();
+	
         return (
             <div style={{ padding: 10 }}>
                 <div style={styles.title}>Choose your wallet:</div>
@@ -77,7 +81,11 @@ class WalletSlider extends React.Component {
                 >
                   {Object.keys(wallets)
 		      .map(walletId => wallets[walletId])
-		      .filter(wallet => wallet.id !== this.props.selectedWallet.id)
+		      // .filter(wallet => wallet.id !== this.props.selectedWallet.id)
+		      .filter(wallet => {
+			  // console.log({wallet, deviceOS});
+			  return wallet.mobile[deviceOS] && wallet.mobile[deviceOS].support;
+		      })
 		      .map(wallet => {
                             return (
                                 <WalletButtonContainer key={wallet.id} wallet={wallet} selectWallet={this.props.selectWallet} />
