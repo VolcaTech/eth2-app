@@ -20,14 +20,16 @@ class PhoneLink extends React.Component {
             buttonWidth = 170;
             linkButtonWidth = 133;
         }
-        if (this.props.active === true && sendMode === 'phone') {
-            buttonWidth = 205;
-            linkButtonWidth = 166;
-        }
         if (this.props.active === true && sendMode === 'link') {
             buttonWidth = 205;
             linkButtonWidth = 166;
         }
+        if (this.props.active === true && sendMode === 'phone') {
+            buttonWidth = 205;
+            linkButtonWidth = 166;
+        }
+
+	
         sendMode === 'link' ? 133 : 166;
         return (
             <Button style={{

@@ -1,4 +1,4 @@
-export const CHOOSE_SEND_MODE = 'CHOOSE_SEND_MODE'
+export const CHOOSE_SEND_MODE = 'CHOOSE_SEND_MODE';
 
 export function chooseSendMode (mode) {
     console.log(mode)
