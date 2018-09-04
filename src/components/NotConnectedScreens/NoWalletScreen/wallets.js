@@ -19,9 +19,9 @@ export default {
 	    }
 	}
     },    
-    opera: {
-	id: 'opera',
-	name: 'Opera',
+    opera_beta: {
+	id: 'opera_beta',
+	name: 'Opera Beta',
         walletURL: "https://www.opera.com/download",
 	mobile: {
 	    android: {
