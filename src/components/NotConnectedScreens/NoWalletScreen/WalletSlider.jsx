@@ -21,8 +21,8 @@ const styles = {
         WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)'
     },
     logo5: {
-        height: 45,
-        width: 45,
+        height: 50,
+        width: 50,
         margin: 7,
         borderRadius: 12.5,
         WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)'
@@ -46,7 +46,7 @@ class WalletSlider extends React.Component {
     _renderNextArrow = (props) => {
         const { onClick } = props;
         return (
-            <div style={window.innerWidth > 320 ? styles.nextArrow : { ...styles.nextArrow, top: 16 }} onClick={onClick}>
+            <div style={window.innerWidth > 320 ? styles.nextArrow : { ...styles.nextArrow, top: 20 }} onClick={onClick}>
                 <RetinaImage src="https://eth2.io/images/arrowRight.png" />
             </div>
         )
@@ -55,7 +55,7 @@ class WalletSlider extends React.Component {
     _renderPreviousArrow = (props) => {
         const { onClick } = props;
         return (
-            <div style={window.innerWidth > 320 ? styles.prevArrow : { ...styles.prevArrow, paddingTop: 16 }} onClick={onClick}>
+            <div style={window.innerWidth > 320 ? styles.prevArrow : { ...styles.prevArrow, paddingTop: 20 }} onClick={onClick}>
                 <RetinaImage src="https://eth2.io/images/arrowLeft.png" />
             </div>
         )
