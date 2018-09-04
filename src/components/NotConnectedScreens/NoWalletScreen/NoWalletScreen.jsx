@@ -56,7 +56,7 @@ class NoWalletScreen extends Component {
     
     _getDeepLink() {
         //const dappUrl = encodeURIComponent(window.location);
-        const dappUrl = window.location;
+        const dappUrl = String(window.location);
 	const wallet = this.state.selectedWallet;
 	const os = getDeviceOS();
 	
