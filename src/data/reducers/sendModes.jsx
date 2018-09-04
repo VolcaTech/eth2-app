@@ -1,8 +1,8 @@
 import {
     CHOOSE_SEND_MODE 
-} from './../../actions/modes'
+} from './../../actions/modes';
 
-const sendMode = (state = 'phone', action) => {
+const sendMode = (state = 'link', action) => {
     let newState;
   switch (action.type) {
   case CHOOSE_SEND_MODE:

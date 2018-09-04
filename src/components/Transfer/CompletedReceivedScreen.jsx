@@ -3,6 +3,9 @@ import { getEtherscanLink } from './components';
 import TransferStepsBar from './../common/TransferStepsBar';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import ButtonPrimary from './../../components/common/ButtonPrimary';
+import wallets from '../NotConnectedScreens/NoWalletScreen/wallets';
+import { getCurrentWalletId } from '../../utils';
+import web3Service from './../../services/web3Service';
 
 
 const styles = {
@@ -28,7 +31,22 @@ const CompletedReceivedScreen = ({transfer}) => {
 
     const etherscanLink = getEtherscanLink({txHash: transfer.txHash, networkId: transfer.networkId});    
     const formattedPhone = format(transfer.receiverPhone, 'International');
+    
+    let dappStoreUrl = "https://dapps.trustwalletapp.com/";
+    // get current wallet id
+    const web3 = web3Service.getWeb3();
+    const currentWalletId = getCurrentWalletId(web3);
 
+    // get dapp store url for wallet if it has one
+    if (currentWalletId !== 'other' &&
+	wallets[currentWalletId] &&
+	wallets[currentWalletId].dappStoreUrl) {
+	
+	dappStoreUrl = wallets[currentWalletId].dappStoreUrl;
+    }
+	
+    
+    
     return (
 	<div>
 	  <div style={styles.stepsBar}>
@@ -51,7 +69,7 @@ const CompletedReceivedScreen = ({transfer}) => {
 	      </div>	      
 	    </div>
 	    <div style={styles.buttonContainer}>
-	      <a href="https://dapps.trustwalletapp.com/" className="send-button no-underline">
+	      <a href={dappStoreUrl} className="send-button no-underline">
 		<ButtonPrimary buttonColor="#0099ff" className="landing-send">How to spend</ButtonPrimary>		
 	      </a>
 	    </div>
