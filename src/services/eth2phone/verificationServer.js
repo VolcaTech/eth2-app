@@ -114,8 +114,5 @@ export const confirmLinkTx = (transitAddress, receiverAddress, v, r, s) => {
 export const fetchTransfer = (transferId) => {
     const serverUrl = urlGetter.getServerUrl();
     return fetch(`${serverUrl}/api/v1/transfers/${transferId}`)
-        .then((response) => response.json())
-	.catch(err => {
-	    alert(err);
-	});
+        .then((response) => response.json());
 }
