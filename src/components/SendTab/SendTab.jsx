@@ -19,7 +19,7 @@ import web3Service from './../../services/web3Service';
 const styles = {
     title: {
         width: '90%',
-        height: 100,
+        height: 110,
         display: 'block',
         margin: 'auto',
         fontSize: 24,
@@ -253,7 +253,7 @@ class Tab extends Component {
                 <Col sm={4} smOffset={4}>
 
                     <div>
-                        <div style={styles.title}>Send <div style={{ display: 'inline', color: '#999999' }}>Ether</div> to anyone<br />
+                        <div style={(this.state.phoneOrLinkActive && window.innerWidth < 321) ? {...styles.title, height: 140, width: '98%'} : styles.title}>Send <div style={{ display: 'inline', color: '#999999' }}>Ether</div> to anyone<br />
                             <div style={{ display: 'inline', verticalAlign: 'sub', marginRight: 6 }}>simply by</div><PhoneOrLink active={this.state.phoneOrLinkActive} height={this.state.phoneOrLinkActive === false ? 37.5 : 71} handleClick={this._onPhoneLinkButtonClick.bind(this)} /></div>
                         <div style={styles.container}>
                             <div style={phoneInputStyle}>
