@@ -1,3 +1,8 @@
+const _withoutProtocol = (url) => {
+    return url.replace(/(^\w+:|^)\/\//, '');
+}
+
+
 export default {
     trust: {
         id: 'trust',	
@@ -6,11 +11,11 @@ export default {
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${url}`
+		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${encodeURIComponent(url)}`
 	    },
 	    ios: {
 		support: true,
-		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${url}`
+		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${encodeURIComponent(url)}`
 	    }
 	}
     },    
@@ -21,7 +26,7 @@ export default {
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: (url) =>  `intent://${url}/#Intent;scheme=http;package=com.opera.browser.beta;end`
+		deepLink: (url) =>  `intent://${_withoutProtocol(url)}/#Intent;scheme=http;package=com.opera.browser.beta;end`
 	    },
 	    ios: {
 		support: false,
@@ -36,11 +41,11 @@ export default {
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: url => `https://get.status.im/browse/${url}`
+		deepLink: url => `https://get.status.im/browse/${_withoutProtocol(url)}`
 	    },
 	    ios: {
 		support: true,
-		deepLink: url => `https://get.status.im/browse/${url}`
+		deepLink: url => `https://get.status.im/browse/${_withoutProtocol(url)}`
 	    }
 	}			
     },    
@@ -55,7 +60,7 @@ export default {
 	    },
 	    ios: {
 		support: true,
-		deepLink: (url) =>  `https://tokenpocket.github.io/applink?dappUrl=${url}`
+		deepLink: (url) =>  `https://tokenpocket.github.io/applink?dappUrl=${encodeURIComponent(url)}`
 	    }
 	}	
     },
