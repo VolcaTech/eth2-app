@@ -26,7 +26,7 @@ class NoWalletScreen extends Component {
 	// if there is valid wallet id in url
 	if (walletFromLink && wallets[walletFromLink]) {
 	    const wallet = wallets[walletFromLink];
-	    const os = this._getDeviceOS();
+	    const os = getDeviceOS();
 
 	    // if wallet from the url is supported by devices OS
 	    if (wallet.mobile[os] && wallet.mobile[os].support === true) {
@@ -40,18 +40,6 @@ class NoWalletScreen extends Component {
             showCarousel: false,
             showInstruction: false
         };
-    }
-
-    _getDeviceOS() {
-	if (/Android/i.test(navigator.userAgent)) {
-	    return 'android';
-	}
-	
-	if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-	    return 'ios';
-	}
-	
-	return 'other';
     }
     
     _getDeepLink() {
