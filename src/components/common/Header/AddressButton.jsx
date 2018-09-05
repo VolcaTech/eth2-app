@@ -22,6 +22,7 @@ class e2pAddressButton extends React.Component {
     }
 
     render() {
+        console.log(this.props.networkName)
         return (
             <div className="address-btn">
 
@@ -31,7 +32,7 @@ class e2pAddressButton extends React.Component {
                     color: (this.props.active ? "#fff" : this.props.color),
                     fontFamily: "SF Display Regular"
                 }} onClick={this.props.handleClick}>
-                    <RetinaImage src="https://eth2.io/images/wallet_icon_green.png" style={{width: 12.5, height: 11, verticalAlign: 'initial', marginRight: 5}} />
+                    <RetinaImage src={this.props.networkName === 'Ropsten' ? "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/wallet_icon_orange.png" : "https://raw.githubusercontent.com/Eth2io/eth2-assets/master/images/wallet_icon_green.png"} style={{width: 12.5, height: 11, verticalAlign: 'initial', marginRight: 5}} />
                     <span>{this.shortAddress(this.props.address, 3)}</span>
                     <i className={this.props.active ? 'fa fa-caret-up' : 'fa fa-caret-down'}></i>
                 </Button>

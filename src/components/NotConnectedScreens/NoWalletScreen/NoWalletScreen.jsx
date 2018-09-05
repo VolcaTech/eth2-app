@@ -147,12 +147,13 @@ class NoWalletScreen extends Component {
 
 
 const Instructions = ({ wallet }) => {
+    const walletId = wallet.id
     return (
         <div style={styles.instructionsContainer}>
             <div style={styles.howtoTitle}>How to:</div>
-            <div style={styles.instructionsText}> 1. Download/Open <div style={styles.instructionsTextBold}>{wallet.name}</div> (button above)</div>
+            <div style={styles.instructionsText}> 1. Download/Open <a href={wallets[walletId].walletURL} style={{...styles.instructionsTextBold, color: '#0099ff', textDecoration: 'none'}}>{wallet.name}</a></div>
             <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
-            <div style={styles.instructionsText}> 3. Eth2.io will be opened automatically or <div style={styles.instructionsTextBold}>copy&paste</div> the claiming link in the browser and follow simple instructions </div>
+            <div style={styles.instructionsText}> 3. Open <div style={styles.instructionsTextBold}>the claiming link</div> in a DApp browser and follow simple instructions </div>
         </div>
     )
 }
