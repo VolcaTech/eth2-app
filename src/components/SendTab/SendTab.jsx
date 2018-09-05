@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+import { parse, format, asYouType } from 'libphonenumber-js';
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
+
 import { sendTransfer, sendSpecialLinkTransfer } from '../../actions/transfer';
 import NumberInput from './../common/NumberInput';
 import PhoneInput from './../common/PhoneInput';
 import ButtonPrimary from './../common/ButtonPrimary';
 import PhoneOrLink from './../common/PhoneLinkButton';
 import CheckBox from './../common/CheckBox';
-import { parse, format, asYouType } from 'libphonenumber-js';
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Error, ButtonLoader } from './../common/Spinner';
 import WithHistory from './../HistoryScreen/WithHistory';
 import E2PCarousel from './../common/E2PCarousel';
-import { Row, Col } from 'react-bootstrap';
 import web3Service from './../../services/web3Service';
 
 
@@ -98,7 +99,6 @@ class Tab extends Component {
             numberInputError: false,
             phoneError: false,
             phoneOrLinkActive: false,
-            phoneOrLinkMode: 'phone'
         };
     }
 
@@ -243,7 +243,7 @@ class Tab extends Component {
 
 
     _renderForm() {
-        const { sendMode } = this.props
+        const { sendMode } = this.props;
         let phoneInputStyle;
         if (sendMode === 'link') {
             phoneInputStyle = styles.hiddenInput
@@ -259,7 +259,8 @@ class Tab extends Component {
                             <div style={phoneInputStyle}>
                                 <PhoneInput onChange={() => this.setState({ phoneError: false, errorMessage: "" })}
                                     _ref={(ref) => { this.phoneNumber = ref; }} placeholder="Phone number" error={this.state.phoneError} />
-                            </div>
+                            </div>			    
+			    
                             <div style={styles.numberInput}>
                                 <NumberInput
                                     onChange={({ target }) => (this.setState({ amount: target.value, numberInputError: false, errorMessage: "" })

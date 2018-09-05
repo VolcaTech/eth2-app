@@ -16,7 +16,7 @@ import TOS from './components/tos';
 import PrivacyPolicy from './components/privacy';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
-import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
+import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen/NoWalletScreen';
 import UnsupportedNetwork from './components/NotConnectedScreens/UnsupportedNetwork';
 
 

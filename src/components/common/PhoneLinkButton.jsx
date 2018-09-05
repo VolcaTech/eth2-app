@@ -20,26 +20,25 @@ class PhoneLink extends React.Component {
             buttonWidth = 170;
             linkButtonWidth = 133;
         }
-        if (this.props.active === true && sendMode === 'phone') {
-            buttonWidth = 205;
-            linkButtonWidth = 166;
-        }
         if (this.props.active === true && sendMode === 'link') {
             buttonWidth = 205;
             linkButtonWidth = 166;
         }
+        if (this.props.active === true && sendMode === 'phone') {
+            buttonWidth = 205;
+            linkButtonWidth = 166;
+        }
+
+	
         sendMode === 'link' ? 133 : 166;
         return (
             <Button style={{
                 width: buttonWidth,
                 height: this.props.height,
                 backgroundColor: 'white',
-                padding: 0,
-                paddingTop: 4,
-                paddingLeft: 9,
-                paddingBottom: 4,
                 marginTop: 4,
-                border: '2px solid #f5f5f5',
+                boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
+                WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
                 fontSize: 24,
                 lineHeight: 1,
                 fontFamily: 'SF Display Black',
