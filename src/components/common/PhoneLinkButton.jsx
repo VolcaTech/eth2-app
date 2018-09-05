@@ -58,7 +58,7 @@ class PhoneLink extends React.Component {
                         <i className={this.props.active ? 'fa fa-caret-up' : 'fa fa-caret-down'} style={styles.caretIcon}></i>
                     </div>
                     {this.props.active ? <div onClick={() => { sendMode === "phone" ? this.props.chooseSendMode('link') : this.props.chooseSendMode('phone') }}>{sendMode === 'phone' ? <div style={{...styles.linkButton, width: linkButtonWidth}}>special link</div> : <div style={{ color: '#2bc64f' }}>phone number</div>}</div> : ""}
-                </div>nonenonenonenonenonenonenone
+                </div>
             </Button>
         );
     }
