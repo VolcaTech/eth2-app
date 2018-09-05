@@ -8,7 +8,20 @@ const styles = {
         color: '#0099ff',
         textAlign: 'left',
     },
-    caretIcon: { color: '#000', fontSize: 14, marginLeft: 6, display: 'inline', paddingTop: 4 }
+    caretIcon: { color: '#000', fontSize: 14, marginLeft: 6, display: 'inline', paddingTop: 4 },
+    sendModeButton: {
+        backgroundColor: 'white',
+        marginTop: 4,
+        border: '2px solid rgb(245, 245, 245)',
+        fontSize: 24,
+        lineHeight: 1,
+        fontFamily: 'SF Display Black',
+        textAlign: 'center',
+        borderRadius: 12,
+        verticalAlign: 'top',
+        overflow: 'hidden'
+
+    }
 
 }
 
@@ -30,24 +43,8 @@ class PhoneLink extends React.Component {
         }
 
 	
-        sendMode === 'link' ? 133 : 166;
         return (
-            <Button style={{
-                width: buttonWidth,
-                height: this.props.height,
-                backgroundColor: 'white',
-                marginTop: 4,
-                boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-                WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-                fontSize: 24,
-                lineHeight: 1,
-                fontFamily: 'SF Display Black',
-                textAlign: 'center',
-                borderRadius: 12,
-                verticalAlign: 'top',
-                overflow: 'hidden'
-
-            }}
+            <Button style={this.props.active ? {...styles.sendModeButton, border: 'none', WebkitBoxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)', width: buttonWidth, height: this.props.height} : {...styles.sendModeButton, width: buttonWidth, height: this.props.height, padding: '4px 0px 4px 9px'}}
                 onClick={this.props.handleClick}
             >
                 <div style={{
