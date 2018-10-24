@@ -99,24 +99,6 @@ const DepoisitingScreen = ({transfer}) => {
 	      </div>
 	    </div>
 	    
-	    <div style={styles.instructionsText}>
-	      Receiver will need the link<br/>
-	      below to claim:
-	    </div>
-	    
-	    <div style={styles.buttonContainer}>
-	      <ShareButton transfer={transfer}/>
-	    </div>
-
-	    
-	    <div style={{...styles.subTitleContainer, marginTop: 15}}>
-	      <div className="text">
-		We will not send the link to receiver<br/>
-		for security reasons. <span style={styles.greenBold}> You need to copy<br/>
-		and send the link directly to the receiver</span>
-	      </div>	      
-	    </div>
-
 	    <div style={styles.helpContainer} className="hidden-xs">
 	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
