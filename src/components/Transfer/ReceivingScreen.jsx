@@ -37,7 +37,7 @@ const ReceivingScreen = ({transfer}) => {
 	    <div style={styles.titleContainer}>
 	      <div className="title">
 	      Transaction is processing...<br/>
-	      Receiving <span className="text-blue">{transfer.amount}</span>
+	      Claiming <span className="text-blue">{transfer.amount}</span>
 	      <span className="text-gray"> ETH</span>
 	      </div>	      
 	    </div>

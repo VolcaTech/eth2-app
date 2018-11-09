@@ -53,7 +53,7 @@ const SendButton = () => (
 const TitleBlock = () => (
     <div>
       <div className="title" style={styles.titleContainer}>
-	Send ether to anyone<br/>
+	Send Ether to anyone<br/>
         simply by phone number
       </div>
       <div className="hidden-sm hidden-md hidden-lg">
@@ -62,7 +62,7 @@ const TitleBlock = () => (
 	</div>
       </div>
       <div className="text" style={styles.subTitleContainer}>
-	Eth2Phone lets you send ether to anyone even without ethereum wallet. The receiver will get the special link and be verified using phone number	
+	Eth2Phone lets you send Ether to anyone even without ethereum wallet. The receiver will get the special link and be verified using phone number	
       </div>
     </div>
 )
@@ -101,7 +101,7 @@ const Buttons = () => (
     
 const Form = () => (
       <div className="hidden-xs" style={styles.formContainer}>
-        <div style={styles.formTitle}>Send ether</div>
+        <div style={styles.formTitle}>Send Ether</div>
         <div style={{marginTop: 37, marginBottom: 48}}>
 	  <RetinaImage style={styles.sendLogo} src="https://eth2.io/images/send-logo.png" />
 	</div>

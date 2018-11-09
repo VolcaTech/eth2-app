@@ -58,3 +58,40 @@ export function detectNetwork(web3) {
 }
 
 
+
+export function getDeviceOS() {
+    if (/Android/i.test(navigator.userAgent)) {
+	return 'android';
+    }
+    
+    if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+	return 'ios';
+    }
+    
+    return 'other';
+}
+
+
+export function getCurrentWalletId(web3) {
+    var isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+    if (isOpera) {
+	return 'opera_beta';
+    }
+
+    if  (web3.currentProvider.isTrust) {
+	return 'trust';
+    }
+    
+    if  (web3.currentProvider.isTokenPocket) {
+	return 'token_pocket';
+    }
+    
+    if  (web3.currentProvider.isStatus) {
+	return 'status';
+    }
+    
+    return 'other';
+}
+
+

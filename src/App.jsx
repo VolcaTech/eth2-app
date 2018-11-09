@@ -16,7 +16,7 @@ import TOS from './components/tos';
 import PrivacyPolicy from './components/privacy';
 import escrowContract from './services/eth2phone/escrowContract';
 import { HashRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
-import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen';
+import NoWalletScreen from './components/NotConnectedScreens/NoWalletScreen/NoWalletScreen';
 import UnsupportedNetwork from './components/NotConnectedScreens/UnsupportedNetwork';
 
 
@@ -36,12 +36,15 @@ class App extends Component {
                 <div>
                     <NoWalletHeader />
                     <Switch>
-                        <Route exact path="/" component={Landing} />
-                        <Route path="/about" component={Landing} />
-                        <Route path="/faq" component={FAQ} />
+                      <Route exact path="/" component={() => {
+			    window.location = 'https://info.eth2.io';
+			}} />
+                        <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
+                        <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/tos" component={TOS} />
                         <Route path="/privacy" component={PrivacyPolicy} />
-                        <Route component={NoWalletScreen} />
+                        <Route exact path="/send" component={NoWalletScreen} />
+                        <Route component={NoWalletScreen} />			
                     </Switch>
                 </div>
             </Router>
@@ -81,8 +84,8 @@ class App extends Component {
                         }} />
 
                         <Route path="/history" component={HistoryScreen} />
-                        <Route path="/about" component={Landing} />
-                        <Route path="/faq" component={FAQ} />
+                        <Route path="/about" component={() => window.location = 'https://info.eth2.io/'} />
+                        <Route path="/faq" component={() => window.location = 'https://info.eth2.io/faq/'} />
                         <Route path="/privacy" component={PrivacyPolicy} />
                         <Route path="/tos" component={TOS} />
                         <Route component={SendTab} />

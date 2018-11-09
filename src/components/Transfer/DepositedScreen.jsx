@@ -14,6 +14,7 @@ const styles = {
     subTitleContainer: {
 	width: 320,
 	margin: 'auto',
+	marginTop: 15	
     },
     helpContainer: {
 	marginTop: 27
@@ -29,7 +30,11 @@ const styles = {
 	fontWeight: 700,
 	marginBottom: 20,
 	marginTop: 46
-    }    
+    },
+    greenBold: {
+	color: '#2bc64f',
+	fontFamily: 'SF Display Bold'	
+    }
 }
 
 
@@ -50,27 +55,28 @@ const DepositedScreen = ({transfer}) => {
 	  <div className="text-center">
 	    <div style={styles.titleContainer}>
 	      <div className="title">
-		You've sent <span className="text-blue">{transfer.amount}</span>
+		<span className="text-gray">You deposited </span><span className="text-blue">{transfer.amount}</span>
 		<span className="text-gray"> ETH</span><br/>
-		to {formattedPhone}
+		Receiver will need the link<br/>
+		below to claim:
 	      </div>	      
 	    </div>
 
+	    <div style={styles.buttonContainer}>
+	      <ShareButton transfer={transfer}/>
+	    </div>
+	    
 	    <div style={styles.subTitleContainer}>
 	      <div className="text">
-		You can copy the link with the code below<br/>
-		and share it with the receiver. You can cancel the<br/>
-		transfer later in "Transfers"
+		We will not send the link to receiver<br/>
+		for security reasons. <span style={styles.greenBold}> You need to copy<br/>
+		and send the link directly to the receiver</span>
 	      </div>	      
 	    </div>
 
 	    <div style={styles.helpContainer}>
 	      <div className="text">Transaction details on <a href={etherscanLink} className="link">Etherscan</a> 
 	      </div>	      
-	    </div>
-	    <div style={styles.instructionsText}>Copy link and share with receiver</div>
-	    <div style={styles.buttonContainer}>
-	      <ShareButton transfer={transfer}/>
 	    </div>
 	    
 	  </div>

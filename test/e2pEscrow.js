@@ -234,10 +234,18 @@ contract('e2pEscrow', async (accounts) => {
 
 	it("cannot be withdrawn through verifier without correct signature", async() => {
 	    let transferFrom;
+	    const wrongSignature = sign(VERIFICATION_TRANSIT_PRIVATE_KEY, verificationHash);
+	    const WRONG_VERIFICATION_TRANSIT_PRIVATE_KEY = "c1d65fc0afe6afe5318d400d93de5057c16f3e1b2715d5072f64cf4b1d4ab493";
+	    const wrongV = wrongSignature.v;
+	    const wrongR = '0x' + wrongSignature.r.toString("hex");
+	    const wrongS = '0x' + wrongSignature.s.toString("hex");
+
 	    try {
-		// signature is for receiver address
+		// try withdraw with wrong signature 
 	 	await escrowContract.withdraw(VERIFICATION_TRANSIT_ADDRESS,
-						     senderAddress, v, r, s, {from: senderAddress, gas: 3000000});		
+					      senderAddress, wrongV, wrongR, wrongS, {
+						  from: verifierAddress, gas: 3000000
+					      });		
 	    } catch(err) {}
 
 	    try { 

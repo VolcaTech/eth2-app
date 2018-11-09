@@ -39,15 +39,14 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
         case "sent":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={{ ...styles.statusCell.statusText }}>Sent</div>
+                    <div style={{ ...styles.statusCell.statusText }}>Claimed</div>
                 </div>
             );
             break;
         case "receiving":
             return (
                 <div style={styles.statusCell.container}>
-                    <div style={styles.statusCell.statusText}>Receiving...</div>
-
+                    <div style={styles.statusCell.statusText}>Claiming...</div>
                 </div>
             );
             break;
@@ -55,7 +54,6 @@ const StatusCell = ({ transfer, cancelTransfer }) => {
             return (
                 <div style={styles.statusCell.container}>
                     <div style={{ ...styles.statusCell.statusText, color: '#2bc64f' }}>Received</div>
-
                 </div>
             );
             break;
@@ -122,7 +120,7 @@ const HistoryRow = ({ transfer, cancelTransfer, currentTransferId, address }) =>
             </Col>
 
             <Col style={styles.colVertAlign} xs={4}>
-                <div style={styles.phone}>{transfer.receiverPhone}</div>
+              <div style={styles.phone}>{transfer.verificationType === 'none' ?  'special link' : transfer.receiverPhone }</div>
             </Col>
 
             <Col style={styles.colVertAlign} xs={5}>

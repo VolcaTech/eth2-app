@@ -5,7 +5,7 @@
     
     margin-top: 16px;
     padding-top: 1px;
-    font-size: 15px		       
+    font-size: 16px		       
 }
 
 .address-btn {
@@ -22,7 +22,7 @@
     /* width: 104px; */
     /* height: 28px; */
     border-radius: 6px;
-    font-size: 15px;
+    font-size: 16px;
     padding: 0;
     padding-top: 2px;
     padding-left: 5px;
@@ -36,15 +36,18 @@
 
     width: 55px;
     height: 29px;
-    font-size: 24px;
+    font-size: 30px;
     margin-top: 9px;
     letter-spacing: 0;	        
 }
 
 .header .eth2phone-logo span {
-    letter-spacing: 0;
-    display: inline;
-    color: #2bc64f;
+    display: inline; 
+    font-family: 'SF Display Regular';
+    font-size: 14px; 
+    color: #999999;
+    vertical-align: text-top;
+    margin-left: 5px;
 }
 
 

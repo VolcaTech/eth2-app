@@ -27,6 +27,16 @@ export const updateBalance = () => {
     }
 }
 
+const _setupContract = async (web3, networkId) => {
+    try { 
+	await escrowContract.setup(web3);
+	verificationUrlGetter.setNetwork(networkId);
+    } catch(err) {
+	console.log("Error while setuping contract");
+	console.log(err);
+    }
+}
+
 
 export const setupWeb3 = () => {
     return async (dispatch, getState) => {
@@ -40,14 +50,8 @@ export const setupWeb3 = () => {
 		networkName,
 		networkId
 	    } = web3Details;
-	    
-	    try { 
-		await escrowContract.setup(web3);
-		verificationUrlGetter.setNetwork(networkId);
-	    } catch(err) {
-		console.log("Error while setuping contract");
-		console.log(err);
-	    }
+
+	    await _setupContract(web3, networkId);
 
 	    dispatch(updateWeb3Details(web3Details));
 
@@ -68,29 +72,35 @@ export const setupWeb3 = () => {
 export const setupWeb3ChangeListener = () => {
     return (dispatch, getState) => {
 	const state = getState();
-	const oldAddress = state.web3Data.address;
-	const oldNetworkId = state.web3Data.networkId;
+	let oldAddress = state.web3Data.address;
+	let oldNetworkId = state.web3Data.networkId;
 	const connected = state.web3Data.connected;		
 	const web3 = web3Service.getWeb3();
 	
 	var accountInterval = setInterval(async () => {
 	    if (connected) { 
 		const address = web3.eth.accounts[0];
-		const {networkName, networkId } = detectNetwork(web3);
+		const { networkName, networkId } = detectNetwork(web3);
 		
 		if (oldAddress !== address || oldNetworkId !== networkId) {
 		    let balance = 0;
 		    if (address) {
-			balance = await web3.eth.getBalancePromise(address);
+		    	balance = await web3.eth.getBalancePromise(address);
 		    }
 
+		    await _setupContract(web3, networkId);
+		    
 		    dispatch(updateWeb3Details({
-			balance,
-			address,
-			connected: true,
-			networkName,
-			networkId
-		    }));	    
+		    	balance,
+		    	address,
+		    	connected: true,
+		    	networkName,
+		    	networkId
+		    }));
+		    
+		    oldAddress = address;
+		    oldNetworkId = networkId;
+		
 		}
 	    }
 	}, 2000);					

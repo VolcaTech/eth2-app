@@ -14,7 +14,8 @@ class Eth2PhoneLogo extends React.PureComponent {
         return (
             <Link className="no-underline" to="/" onClick={this._onLogoClick.bind(this)}>
                 <div className="eth2phone-logo">
-                    Eth2<span>Phone</span></div>
+                    Eth2<span>beta</span>
+                    </div>
             </Link>
         );
     }
