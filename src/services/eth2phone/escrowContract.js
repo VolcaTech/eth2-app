@@ -45,7 +45,7 @@ const EscrowContractService = () => {
 	    return null;
 	}	
         const weiAmount = web3.toWei(amount, "ether");
-	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount});
+	return contractWeb3.depositPromise(web3.toHex(pubkey), {from: web3.eth.accounts[0], value: weiAmount,  gas: 110000});
     }
     
     function cancel(transitAddress, contractVersion = 2){	
@@ -60,7 +60,7 @@ const EscrowContractService = () => {
 		Promise.promisifyAll(oldContract, { suffix: "Promise" });	    
 	    return oldContract.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
 	} else {
-	    return contractWeb3.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0]});
+	    return contractWeb3.cancelTransferPromise(transitAddress, {from: web3.eth.accounts[0], gas: 100000});
 	}
     }
 
