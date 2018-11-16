@@ -36,6 +36,22 @@ export default {
 	    }
 	}	
     },
+    imtoken: {
+	id: 'imtoken',
+	name: 'imToken',
+        walletURL: "https://token.im/",
+	dappStoreUrl: "https://dapps.trustwalletapp.com/",	
+	mobile: {
+	    android: {
+		support: true,
+		deepLink: null
+	    },
+	    ios: {
+		support: true,
+		deepLink: null
+	    }
+	}	
+    },    
     status: {
 	id: 'status',
 	name: 'Status',
