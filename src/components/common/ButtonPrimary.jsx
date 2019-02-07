@@ -16,7 +16,8 @@ class e2pButtonPrimary extends React.Component {
 			display: 'block', 
 			color: "#fff",
 			fontSize: this.props.fontSize ? this.props.fontSize : 18,
-			fontFamily: "SF Display Black",                 
+			fontFamily: "SF Display Black",
+			...this.props.style
             }} onClick={this.props.handleClick}>
                 {this.props.children}
             </Button>

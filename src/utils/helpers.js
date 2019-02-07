@@ -76,7 +76,7 @@ export function getCurrentWalletId(web3) {
     var isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
     if (isOpera) {
-	return 'opera_beta';
+	return 'opera';
     }
 
     if  (web3.currentProvider.isTrust) {

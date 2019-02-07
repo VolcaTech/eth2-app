@@ -20,15 +20,15 @@ export default {
 	    }
 	}
     },    
-    opera_beta: {
-	id: 'opera_beta',
-	name: 'Opera Beta',
-        walletURL: "https://www.opera.com/download",
+    opera: {
+	id: 'opera',
+	name: 'Opera',
+        walletURL: "https://play.google.com/store/apps/details?id=com.opera.browser",
 	dappStoreUrl: "https://www.opera.com/dapps-store",	
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: (url) =>  `intent://${_withoutProtocol(url)}/#Intent;scheme=http;package=com.opera.browser.beta;end`
+		deepLink: (url) =>  `intent://${_withoutProtocol(url)}/#Intent;scheme=http;package=com.opera.browser;end`
 	    },
 	    ios: {
 		support: false,
