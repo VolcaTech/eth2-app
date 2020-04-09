@@ -12,23 +12,23 @@ export default {
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${encodeURIComponent(url)}`
+		deepLink: (url) =>  `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
 	    },
 	    ios: {
 		support: true,
-		deepLink: (url) =>  `https://links.trustwalletapp.com/a/key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D?&event=openURL&url=${encodeURIComponent(url)}`
+		deepLink: (url) =>  `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
 	    }
 	}
     },    
-    opera_beta: {
-	id: 'opera_beta',
-	name: 'Opera Beta',
-        walletURL: "https://www.opera.com/download",
+    opera: {
+	id: 'opera',
+	name: 'Opera',
+        walletURL: "https://play.google.com/store/apps/details?id=com.opera.browser",
 	dappStoreUrl: "https://www.opera.com/dapps-store",	
 	mobile: {
 	    android: {
 		support: true,
-		deepLink: (url) =>  `intent://${_withoutProtocol(url)}/#Intent;scheme=http;package=com.opera.browser.beta;end`
+		deepLink: (url) =>  `intent://${_withoutProtocol(url)}/#Intent;scheme=http;package=com.opera.browser;end`
 	    },
 	    ios: {
 		support: false,
@@ -36,6 +36,22 @@ export default {
 	    }
 	}	
     },
+    imtoken: {
+	id: 'imtoken',
+	name: 'imToken',
+        walletURL: "https://token.im/",
+	dappStoreUrl: "https://dapps.trustwalletapp.com/",	
+	mobile: {
+	    android: {
+		support: true,
+		deepLink: null
+	    },
+	    ios: {
+		support: true,
+		deepLink: null
+	    }
+	}	
+    },    
     status: {
 	id: 'status',
 	name: 'Status',

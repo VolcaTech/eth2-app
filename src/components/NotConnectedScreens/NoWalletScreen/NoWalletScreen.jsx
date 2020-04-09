@@ -8,6 +8,7 @@ import wallets from './wallets';
 import ButtonPrimary from '../../../components/common/ButtonPrimary';
 import WalletSlider from './WalletSlider';
 import { getDeviceOS } from '../../../utils';
+import copy from 'copy-to-clipboard';
 
 
 class NoWalletScreen extends Component {
@@ -62,7 +63,6 @@ class NoWalletScreen extends Component {
 	const wallet = wallets[walletName];
         this.setState({
 	    selectedWallet: wallet,
-	    showCarousel: false
 	});
     }
 
@@ -85,19 +85,13 @@ class NoWalletScreen extends Component {
             <div>
               <div><img src={walletIcon} style={styles.largeWalletIcon} /></div>
               <div style={{ ...styles.title, marginTop: 10 }}>You need wallet to<br />send or receive ether</div>
+   	      <Instructions wallet={this.state.selectedWallet} isDeepLink={true} />	      	      
               <a href={deepLink} style={styles.button} target="_blank"> Use {this.state.selectedWallet.name} </a>
               {
 		  this.state.showCarousel === true?
 		      <WalletSlider selectWallet={this._selectWallet.bind(this)} selectedWallet={this.state.selectedWallet}/> :
    	   	      <div style={styles.anotherWallet} onClick={() => this.setState({ showCarousel: true })}>Have another wallet?</div>		      
-  	      }
-			  
-   	      {
-	        this.state.showInstruction === true ?
-   	          <Instructions wallet={this.state.selectedWallet} /> :
-		  <RetinaImage style={{ display: 'block', margin: 'auto', marginTop: 40 }} src="https://eth2.io/images/q.png" onClick={() => this.setState({ showInstruction: true })} />
-  	      }
-		    
+  	      }			     	      		    
             </div>
         );	
     }
@@ -110,7 +104,19 @@ class NoWalletScreen extends Component {
             <div>
               <div><img src={walletIcon} style={styles.largeWalletIcon} /></div>
               <div style={{ ...styles.title, marginTop: 10 }}>How to use<br />{this.state.selectedWallet.name}</div>
-   	      <Instructions wallet={this.state.selectedWallet} />	      
+   	      <Instructions wallet={this.state.selectedWallet} isDeepLink={false}/>
+	      <div style={styles.buttonContainer}>
+		<ButtonPrimary
+		   style={{margin:'auto', width: '80%'}}
+		   handleClick={() => {
+		       //copy current location link to clipboard
+		       copy(window.location.href);
+		       alert("The link is copied to your clipboard.");
+		  }}
+		  textColor='#0078FF'
+		  buttonColor="rgba(0, 153, 255, 0.6)"
+		  className="light-blue-button">Copy Link</ButtonPrimary>
+	      </div> 
 	      <WalletSlider selectWallet={this._selectWallet.bind(this)} selectedWallet={this.state.selectedWallet}/> 			  
             </div>
         );	
@@ -143,20 +149,23 @@ class NoWalletScreen extends Component {
 }
 
 
+const Instructions = ({ wallet, isDeepLink }) => {
+    const walletId = wallet.id;
+    if (wallet.id === 'portis') {
+	return null;
+    }
 
-
-
-const Instructions = ({ wallet }) => {
-    const walletId = wallet.id
     return (
-        <div style={styles.instructionsContainer}>
-            <div style={styles.howtoTitle}>How to:</div>
-            <div style={styles.instructionsText}> 1. Download/Open <a href={wallets[walletId].walletURL} style={{...styles.instructionsTextBold, color: '#0099ff', textDecoration: 'none'}}>{wallet.name}</a></div>
-            <div style={styles.instructionsText}> 2. Create new or import existing wallet </div>
-            <div style={styles.instructionsText}> 3. Open <div style={styles.instructionsTextBold}>the claiming link</div> in a DApp browser and follow simple instructions </div>
-        </div>
+	<div>
+	  <div style={styles.instructionsContainer}>
+	    <div style={styles.instructionsText}> 1. Download  <a href={wallets[walletId].walletURL} style={{ color: '#0099ff', textDecoration: 'none' }}>{wallet.name}</a></div>
+	    {isDeepLink ?
+		<div style={styles.instructionsText}>2. Return here and press the button below:</div> :
+		<div style={styles.instructionsText}>2. Copy&Paste the claiming link in the {wallet.name} DApp browser</div>}
+	  </div>
+	</div>
     )
 }
-
+	  
 
 export default NoWalletScreen;
