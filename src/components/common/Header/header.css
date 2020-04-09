@@ -57,7 +57,7 @@
     background-color: white;
     align-items: center;
     height: 44px;
-    margin-bottom: 10px;    
+ 
 }
 
 
@@ -69,6 +69,8 @@
 
 /* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
+
+
     .header-big .balance {
 	right: 0;
 	margin-top: 26px;
@@ -118,6 +120,7 @@
 
 /* FOR MOBILE */
 @media only screen and (max-width: 767px) {
+
 
     .address-btn {
     }

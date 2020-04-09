@@ -1,6 +1,7 @@
 import React from "react";
 import GotStuck from './../../components/common/GotStuck';
 import Policy from './Policy';
+import './privacy.css';
 
 
 const styles = {
@@ -25,8 +26,8 @@ const styles = {
 class e2pPrivacyPolicy extends React.Component {
     render() {
         return (
-            <div style={styles.container}>
-                <div style={styles.title}>Privacy Policy</div>
+            <div className="privacy-container">
+                <div className="title">Privacy Policy</div>
                 <div style={styles.updated}>Last Updated: May 17, 2018</div>
                 <GotStuck />
                 <div style={styles.policy}><Policy /></div>

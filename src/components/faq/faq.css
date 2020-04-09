@@ -1,11 +1,9 @@
-
-/* FOR MOBILE */
+/* FOR DESKTOP */
 @media only screen and (min-width: 768px) {
 
 
     .faq-container {
 	max-width: 1000px;
-	padding-top: 68px;
 	margin: auto;
     }
 
@@ -32,10 +30,10 @@
  
 }
 
+/* FOR MOBILE */
 @media only screen and (max-width: 767px) {
 
     .faq-logo {
-	padding-top: 50px;
 	margin: auto;
     }
 

@@ -3,16 +3,13 @@ const ServerUrlGetter = () => {
     let serverUrl = null;
     
     function setNetwork(networkId) {
-	switch (networkId) {
-	case '1':
-	    serverUrl = 'https://mainnet.eth2phone.com';
-	    break;
-	case '3':
-	    serverUrl = 'https://ropsten.eth2phone.com';
-	    break;	    
-	default:
-	    serverUrl = null;
-	}
+	    switch (networkId) {
+	    case '1':
+	      serverUrl = 'https://mainnet-eth2.linkdrop.io';
+	      break;
+	    default:
+	      serverUrl = null;
+	    }  
     }
 
     function getServerUrl() {

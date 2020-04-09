@@ -25,8 +25,10 @@ class e2pHeader extends React.Component {
         let headerClass = 'header';
         let balance;
         if (window.location &&
+	    window.location.hash &&
+	    window.location.hash.length > 4 &&
             window.location.hash === '#/about' ||
-            window.location.hash === '#/faq' ||
+            window.location.hash.substring(0, 5) === '#/faq' ||
             window.location.hash === '#/tos'
         ) {
             headerClass += " header-big";

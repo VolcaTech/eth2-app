@@ -89,8 +89,8 @@ class UnsupportedNetwork extends Component {
         return (
             <div>
                 <div style={styles.title}>Network is not supported</div>
-                <div style={{ ...styles.instructionsText, textAlign: 'center' }}> We support Ethereum Main<br />
-                    and Ropsten Test Networks </div>
+                <div style={{ ...styles.instructionsText, textAlign: 'center' }}> We support Ethereum Mainnet
+                     </div>
                 <div style={styles.instructionsContainer}>
                     <div style={{ ...styles.instructionsText, fontFamily: 'SF Display Bold' }}>How to change Network:</div>
                     <div style={styles.instructionsText}> 1. Go to Settings in your wallet app</div>
